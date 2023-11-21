@@ -1,13 +1,16 @@
 import styled from 'styled-components';
 import { fadeIn, fadeOut } from './paymentAnimation';
 
-export const StyledGridContainer = styled.div`
+export const StyledGridContainer = styled.div<{ $px?: string }>`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: 4rem;
+  padding-inline: ${(props) => props.$px || '0'};
 `;
 
-export const StyledFlexContainer = styled.div<{ $justifyContent?: string }>`
+export const StyledFlexContainer = styled.div<{
+  $justifyContent?: string;
+}>`
   display: flex;
   align-items: center;
   justify-content: ${(props) => props.$justifyContent || 'space-between'};
@@ -17,17 +20,24 @@ export const StyledWrapper = styled.div`
   position: relative;
 `;
 
-export const StyledHLine = styled.div`
+export const StyledHLine = styled.div<{ $mBlock?: string }>`
   width: 100%;
   height: 1px;
   background-color: ${({ theme }) => theme.colors.lightGray};
-  margin-block: 1.5rem;
+  margin-block: ${(props) => props.$mBlock || '1.5rem'};
 `;
 
-export const StyledTitle = styled.h1`
+export const StyledTitle = styled.h1<{
+  $mb?: string;
+  $mt?: string;
+  $mx?: string;
+  $px?: string;
+}>`
   font-size: ${({ theme }) => theme.fontSizes.xl};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-  margin-bottom: 1rem;
+  margin-top: ${(props) => props.$mt || '1rem'};
+  margin-bottom: ${(props) => props.$mb || '1rem'};
+  padding-inline: ${(props) => props.$px || '0'};
 `;
 
 export const StyledSubTitle = styled.h2`
@@ -42,19 +52,31 @@ export const StyledLabel = styled.p`
   margin-bottom: 0.5rem;
 `;
 
-export const StyledText = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
+export const StyledText = styled.p<{
+  $fontSize?: string;
+  $fontWeight?: number;
+}>`
+  font-size: ${(props) => props.$fontSize || props.theme.fontSizes.sm};
+  font-weight: ${(props) =>
+    props.$fontWeight || props.theme.fontWeights.regular};
   line-height: 1.5;
 `;
 
-export const StyledButton = styled.button`
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+export const StyledButton = styled.button<{ $variant?: string }>`
+  font-size: ${(props) =>
+    props.$variant === 'primary'
+      ? props.theme.fontSizes.md
+      : props.theme.fontSizes.sm};
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};
-  text-decoration: underline;
+  text-decoration: ${(props) =>
+    props.$variant === 'primary' ? 'none' : 'underline'};
   text-underline-offset: 0.2rem;
-  background-color: transparent;
+  background-color: ${(props) =>
+    props.$variant === 'primary' ? props.theme.colors.primary : 'transparent'};
+  color: ${(props) => (props.$variant === 'primary' ? '#fff' : '#000')};
+  padding: ${(props) => (props.$variant === 'primary' ? '1rem 2rem' : '0')};
   border: none;
+  border-radius: 0.5rem;
   cursor: pointer;
   outline: none;
 `;
@@ -140,4 +162,8 @@ export const StyledInputLabel = styled.label`
   line-height: 1.5;
   user-select: none;
   cursor: pointer;
+`;
+
+export const StyledSpacer = styled.div<{ $height?: string }>`
+  height: ${(props) => props.$height || '2rem'};
 `;
