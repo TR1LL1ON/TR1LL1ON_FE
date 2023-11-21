@@ -10,11 +10,13 @@ import Payment from '../pages/payment/payment';
 
 function Dashboard() {
   return (
-    <Grid>
+    <>
       <Header />
-      <Outlet />
+      <StyledMainContainer>
+        <Outlet />
+      </StyledMainContainer>
       <Footer />
-    </Grid>
+    </>
   );
 }
 
@@ -36,9 +38,7 @@ const MainRouter = () => {
 
 export default MainRouter;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  align-content: center;
-  justify-items: center;
+const StyledMainContainer = styled.div`
+  margin: 0 auto;
+  max-width: 1200px;
 `;
