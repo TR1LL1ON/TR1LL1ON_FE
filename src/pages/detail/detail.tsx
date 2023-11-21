@@ -1,5 +1,5 @@
 const Detail = () => {
-  return <div className="container">Detail</div>;
+  return <div>Detail</div>;
 };
 
 export default Detail;
