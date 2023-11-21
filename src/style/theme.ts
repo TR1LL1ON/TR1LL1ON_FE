@@ -4,7 +4,8 @@ const theme: DefaultTheme = {
   colors: {
     primary: '#de2f5f',
     secondary: '#fff',
-    gray: '#d5d5d5',
+    gray: '#b0b0b0',
+    lightGray: '#d8d8d8',
   },
   fonts: {
     primary: 'Helvetica Neue',
