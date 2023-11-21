@@ -7,7 +7,7 @@ const theme: DefaultTheme = {
     gray: '#d5d5d5',
   },
   fonts: {
-    primary: 'Helvetica Neue',
+    primary: 'Pretendard',
     secondary: 'Helvetica',
   },
   fontSizes: {
