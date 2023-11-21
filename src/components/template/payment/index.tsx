@@ -1,10 +1,13 @@
 import {
   StyledButton,
+  StyledCheckboxInput,
   StyledDropdown,
   StyledDropdownItem,
   StyledDropdownList,
   StyledFlexContainer,
   StyledGridContainer,
+  StyledHLine,
+  StyledInputLabel,
   StyledLabel,
   StyledSubTitle,
   StyledText,
@@ -16,8 +19,8 @@ import { useRef, useState } from 'react';
 import { useClickOutside } from '../../../hooks/useClickOutside';
 
 const PaymentContainer = () => {
-  const [isMenuOpen, setMenuOpen] = useState(true);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(dropdownRef, () => {
@@ -39,6 +42,7 @@ const PaymentContainer = () => {
 
   return (
     <StyledGridContainer>
+      {/* LEFT */}
       <StyledWrapper>
         <StyledTitle>확인 및 결제</StyledTitle>
         <StyledSubTitle>예약 정보</StyledSubTitle>
@@ -52,10 +56,13 @@ const PaymentContainer = () => {
             <StyledButton>수정</StyledButton>
           </StyledWrapper>
         </StyledFlexContainer>
+
+        <StyledHLine />
+
         <StyledSubTitle>결제 수단</StyledSubTitle>
         <StyledDropdown onClick={toggleMenu} ref={dropdownRef}>
           <span>결제 수단을 선택하세요.</span>
-          <div className="icon">
+          <div className={`icon ${isMenuOpen ? 'open' : ''}`}>
             <img src={ArrowDown} alt="arrow-down" />
           </div>
         </StyledDropdown>
@@ -74,7 +81,15 @@ const PaymentContainer = () => {
             </StyledDropdownList>
           )}
         </StyledWrapper>
+
+        <StyledHLine />
+        <StyledInputLabel htmlFor="age">
+          <StyledCheckboxInput type="checkbox" id="age" />
+          본인은 만 14세 이상입니다.
+        </StyledInputLabel>
       </StyledWrapper>
+
+      {/* RIGHT */}
       <StyledWrapper></StyledWrapper>
     </StyledGridContainer>
   );
