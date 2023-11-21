@@ -9,10 +9,15 @@ export const StyledGridContainer = styled.div<{ $px?: string }>`
 `;
 
 export const StyledFlexContainer = styled.div<{
+  $flexDirection?: string;
   $justifyContent?: string;
+  $alignItems?: string;
+  $gap?: string;
 }>`
   display: flex;
-  align-items: center;
+  flex-direction: ${(props) => props.$flexDirection || 'row'};
+  gap: ${(props) => props.$gap || '0'};
+  align-items: ${(props) => props.$alignItems || 'center'};
   justify-content: ${(props) => props.$justifyContent || 'space-between'};
 `;
 
@@ -55,11 +60,13 @@ export const StyledLabel = styled.p`
 export const StyledText = styled.p<{
   $fontSize?: string;
   $fontWeight?: number;
+  $opacity?: number;
 }>`
   font-size: ${(props) => props.$fontSize || props.theme.fontSizes.sm};
   font-weight: ${(props) =>
     props.$fontWeight || props.theme.fontWeights.regular};
   line-height: 1.5;
+  opacity: ${(props) => props.$opacity || 1};
 `;
 
 export const StyledButton = styled.button<{ $variant?: string }>`
@@ -166,4 +173,19 @@ export const StyledInputLabel = styled.label`
 
 export const StyledSpacer = styled.div<{ $height?: string }>`
   height: ${(props) => props.$height || '2rem'};
+`;
+
+export const StyledImageContainer = styled.div`
+  position: relative;
+  width: 124px;
+  height: 106px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+`;
+
+export const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-image: url('https://source.unsplash.com/random');
 `;

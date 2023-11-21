@@ -7,6 +7,8 @@ import {
   StyledFlexContainer,
   StyledGridContainer,
   StyledHLine,
+  StyledImage,
+  StyledImageContainer,
   StyledInputLabel,
   StyledLabel,
   StyledSpacer,
@@ -131,7 +133,48 @@ const PaymentContainer = () => {
         </StyledWrapper>
 
         {/* RIGHT */}
-        <StyledWrapper></StyledWrapper>
+        <StyledWrapper>
+          {/* 타이틀은 없애도 괜찮을 듯 */}
+          <StyledSubTitle>숙소 정보</StyledSubTitle>
+
+          <StyledFlexContainer
+            $flexDirection="column"
+            $alignItems="flex-start"
+            $gap="1rem">
+            <StyledFlexContainer
+              $justifyContent="flex-start"
+              $alignItems="flex-start"
+              $gap="0.5rem">
+              <StyledImageContainer>
+                <StyledImage />
+              </StyledImageContainer>
+              <StyledFlexContainer
+                $flexDirection="column"
+                $alignItems="flex-start">
+                <StyledText $fontSize="0.7rem" $opacity={0.7}>
+                  호텔
+                </StyledText>
+                <StyledText>포시즌스 호텔 서울</StyledText>
+              </StyledFlexContainer>
+            </StyledFlexContainer>
+            <StyledFlexContainer
+              $justifyContent="flex-start"
+              $alignItems="flex-start"
+              $gap="0.5rem">
+              <StyledImageContainer>
+                <StyledImage />
+              </StyledImageContainer>
+              <StyledFlexContainer
+                $flexDirection="column"
+                $alignItems="flex-start">
+                <StyledText $fontSize="0.7rem" $opacity={0.7}>
+                  호텔
+                </StyledText>
+                <StyledText>포시즌스 호텔 서울</StyledText>
+              </StyledFlexContainer>
+            </StyledFlexContainer>
+          </StyledFlexContainer>
+        </StyledWrapper>
       </StyledGridContainer>
     </>
   );
