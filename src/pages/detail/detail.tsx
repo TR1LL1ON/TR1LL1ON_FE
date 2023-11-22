@@ -1,5 +1,7 @@
+import DetailContainer from '../../components/template/detail/DetailContainer';
+
 const Detail = () => {
-  return <div>Detail</div>;
+  return <DetailContainer />;
 };
 
 export default Detail;
