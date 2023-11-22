@@ -12,7 +12,7 @@ import EssentialServiceList from './EssentialServiceList';
 const DetailService = () => {
   return (
     <StyledBorderWrap>
-      <StyledSubText $mt="0rem" $mb="2rem">
+      <StyledSubText $mt="0rem" $mb="2rem" $color="#444">
         숙소 편의시설
       </StyledSubText>
       <StyledServiceWrap
