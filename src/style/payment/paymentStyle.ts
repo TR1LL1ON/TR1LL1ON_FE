@@ -48,10 +48,11 @@ export const StyledTitle = styled.h1<{
   padding-inline: ${(props) => props.$px || '0'};
 `;
 
-export const StyledSubTitle = styled.h2`
+export const StyledSubTitle = styled.h2<{ $mb?: string; $mt?: string }>`
   font-size: ${({ theme }) => theme.fontSizes.md};
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};
-  margin-bottom: 1rem;
+  margin-bottom: ${(props) => props.$mb || '1rem'};
+  margin-top: ${(props) => props.$mt || '1rem'};
 `;
 
 export const StyledLabel = styled.p`
