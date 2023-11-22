@@ -8,16 +8,13 @@ declare module 'styled-components' {
       gray: string;
       lightGray: string;
     };
-    fonts: {
-      primary: string;
-      secondary: string;
-    };
     fontSizes: {
       xs: string;
       sm: string;
       md: string;
       lg: string;
       xl: string;
+      xxl: string;
     };
     fontWeights: {
       light: number;
