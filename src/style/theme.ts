@@ -4,11 +4,8 @@ const theme: DefaultTheme = {
   colors: {
     primary: '#de2f5f',
     secondary: '#fff',
-    gray: '#d5d5d5',
-  },
-  fonts: {
-    primary: 'Pretendard',
-    secondary: 'Helvetica',
+    gray: '#b0b0b0',
+    lightGray: '#d8d8d8',
   },
   fontSizes: {
     xs: '0.75rem',
@@ -16,6 +13,7 @@ const theme: DefaultTheme = {
     md: '1rem',
     lg: '1.25rem',
     xl: '1.5rem',
+    xxl: '2rem',
   },
   fontWeights: {
     light: 300,
