@@ -6,10 +6,7 @@ declare module 'styled-components' {
       primary: string;
       secondary: string;
       gray: string;
-    };
-    fonts: {
-      primary: string;
-      secondary: string;
+      lightGray: string;
     };
     fontSizes: {
       xs: string;
@@ -17,6 +14,7 @@ declare module 'styled-components' {
       md: string;
       lg: string;
       xl: string;
+      xxl: string;
     };
     fontWeights: {
       light: number;
