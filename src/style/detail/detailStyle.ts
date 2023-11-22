@@ -34,6 +34,19 @@ export const StyledServiceInfo = styled(StyledFlexContainer)<{
     font-size: ${(props) => props.theme.fontSizes.lg};
   }
 `;
+
+export const StyledServiceWrap = styled(StyledServiceInfo)`
+  & div.service-col {
+    width: 33%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+  & .service-col > p {
+    font-size: ${(props) => props.theme.fontSizes.md};
+    display: block;
+    flex-shrink: none;
+  }
+`;
 export const StyledSubText = styled.h2<{
   $fontSize?: string;
   $fontWeight?: number;
@@ -114,6 +127,29 @@ export const StyledTextItem = styled(StyledFlexContainer)`
 
 export const SmallButton = styled(Button)`
   width: 10rem;
+`;
+export const SmallButtonBlack = styled(SmallButton)`
+  width: 10rem;
+  color: #444;
+  border: 1px solid #444;
+  background-color: #fff;
+  white-space: nowrap;
+  font-weight: ${(props) => props.theme.fontWeights.medium};
+  font-family: pretendard;
+  transition: background-color 0.3s ease;
+  margin-right:1rem;
+
+  &:hover {
+    background-color: #444;
+    color:#fff;
+
+  &:focus {
+    outline: none;
+  }
+  &:disabled {
+    color: ${(props) => props.theme.colors.gray};
+    background-color: ${(props) => props.theme.colors.lightGray};
+  }
 `;
 
 export const StyledTextRow = styled.p<{

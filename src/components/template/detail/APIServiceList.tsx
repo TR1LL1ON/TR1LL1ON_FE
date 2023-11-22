@@ -1,7 +1,7 @@
 import { LuCar, LuPartyPopper, LuSoup, LuUtensils } from 'react-icons/lu';
 import { FaSwimmingPool } from 'react-icons/fa';
 
-function DetailServiceList() {
+function APIServiceList() {
   return (
     <>
       <p>
@@ -23,4 +23,4 @@ function DetailServiceList() {
   );
 }
 
-export default DetailServiceList;
+export default APIServiceList;

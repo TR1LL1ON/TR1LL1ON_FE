@@ -11,7 +11,7 @@ import {
   StyledFlexContainer,
   StyledSpacer,
 } from '../../../style/payment/paymentStyle';
-import DetailServiceList from './DetailServiceList';
+import APIServiceList from './APIServiceList';
 
 const AccommodationInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +25,7 @@ const AccommodationInfo = () => {
         $flexDirection="row"
         $justifyContent="flex-start"
         $gap="1rem">
-        <DetailServiceList />
+        <APIServiceList />
       </StyledServiceInfo>
 
       <StyledOnClick $color="#444" $borderBottom="none">
