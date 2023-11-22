@@ -1,22 +1,33 @@
 import {
   StyledDropdown,
-  StyledDropdownItem,
   StyledDropdownList,
   StyledSubTitle,
-  StyledText,
   StyledWrapper,
 } from '../../../style/payment/paymentStyle';
 import { useRef, useState } from 'react';
 import { useClickOutside } from '../../../hooks/useClickOutside';
 import ArrowDown from '../../../assets/arrow-down.svg';
+import PaymentOptionItem, {
+  PaymentOptionType,
+  getPayLogo,
+} from './PaymentOptionItem';
+import { paymentOption } from '../../../constants';
 
 const PaymentOptions = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedOption, setSelectedOption] =
+    useState<PaymentOptionType>('kakaopay');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(dropdownRef, () => {
-    if (isMenuOpen) setMenuOpen(false);
+    if (isMenuOpen) {
+      setMenuOpen(false);
+
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 200);
+    }
   });
 
   const toggleMenu = () => {
@@ -36,7 +47,9 @@ const PaymentOptions = () => {
     <>
       <StyledSubTitle>결제 수단</StyledSubTitle>
       <StyledDropdown onClick={toggleMenu} ref={dropdownRef}>
-        <span>결제 수단을 선택하세요.</span>
+        <span className="selected">
+          {getPayLogo(selectedOption)} {paymentOption[selectedOption]}
+        </span>
         <div className={`icon ${isMenuOpen ? 'open' : ''}`}>
           <img src={ArrowDown} alt="arrow-down" />
         </div>
@@ -44,15 +57,22 @@ const PaymentOptions = () => {
       <StyledWrapper>
         {isVisible && (
           <StyledDropdownList $isOpen={isMenuOpen}>
-            <StyledDropdownItem>
-              <StyledText>신용카드</StyledText>
-            </StyledDropdownItem>
-            <StyledDropdownItem>
-              <StyledText>신용카드</StyledText>
-            </StyledDropdownItem>
-            <StyledDropdownItem>
-              <StyledText>신용카드</StyledText>
-            </StyledDropdownItem>
+            <PaymentOptionItem
+              type="kakaopay"
+              setSelectedOption={setSelectedOption}
+            />
+            <PaymentOptionItem
+              type="naverpay"
+              setSelectedOption={setSelectedOption}
+            />
+            <PaymentOptionItem
+              type="card"
+              setSelectedOption={setSelectedOption}
+            />
+            <PaymentOptionItem
+              type="cash"
+              setSelectedOption={setSelectedOption}
+            />
           </StyledDropdownList>
         )}
       </StyledWrapper>

@@ -1,6 +1,5 @@
 import {
   StyledFlexContainer,
-  StyledImage,
   StyledImageContainer,
   StyledText,
 } from '../../../style/payment/paymentStyle';
@@ -17,7 +16,7 @@ const PaymentRoomItem = ({ type, name }: Props) => {
       $alignItems="flex-start"
       $gap="0.5rem">
       <StyledImageContainer>
-        <StyledImage />
+        <img src="https://source.unsplash.com/random" />
       </StyledImageContainer>
       <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
         <StyledText $fontSize="0.7rem" $opacity={0.7}>
