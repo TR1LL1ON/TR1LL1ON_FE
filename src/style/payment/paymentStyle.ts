@@ -108,6 +108,11 @@ export const StyledDropdown = styled.div`
     border: 1px solid ${({ theme }) => theme.colors.lightGray};
   }
 
+  &[aria-expanded='true'] {
+    border: 1px solid ${({ theme }) => theme.colors.lightGray};
+    background-color: ${({ theme }) => theme.colors.lightGray};
+  }
+
   .icon {
     display: flex;
     justify-content: center;

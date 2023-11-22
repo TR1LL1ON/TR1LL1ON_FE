@@ -31,7 +31,7 @@ export const getPayLogo = (type: PaymentOptionType) => {
 
 const PaymentOptionItem = ({ type, setSelectedOption }: Props) => {
   return (
-    <StyledDropdownItem onClick={() => setSelectedOption(type)}>
+    <StyledDropdownItem onClick={() => setSelectedOption(type)} tabIndex={0}>
       <StyledImageContainer $w="2.5rem" $h="2rem">
         {getPayLogo(type)}
       </StyledImageContainer>

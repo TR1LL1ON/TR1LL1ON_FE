@@ -46,7 +46,10 @@ const PaymentOptions = () => {
   return (
     <>
       <StyledSubTitle>결제 수단</StyledSubTitle>
-      <StyledDropdown onClick={toggleMenu} ref={dropdownRef}>
+      <StyledDropdown
+        onClick={toggleMenu}
+        ref={dropdownRef}
+        aria-expanded={isMenuOpen}>
         <span className="selected">
           {getPayLogo(selectedOption)} {paymentOption[selectedOption]}
         </span>
@@ -56,7 +59,10 @@ const PaymentOptions = () => {
       </StyledDropdown>
       <StyledWrapper>
         {isVisible && (
-          <StyledDropdownList $isOpen={isMenuOpen}>
+          <StyledDropdownList
+            $isOpen={isMenuOpen}
+            role="menu"
+            aria-labelledby="payment-options">
             <PaymentOptionItem
               type="kakaopay"
               setSelectedOption={setSelectedOption}
