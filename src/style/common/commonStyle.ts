@@ -40,7 +40,7 @@ export const Button = styled.button<ButtonProps>`
   }
 `;
 
-export const Modal = styled.div`
+export const StyledModal = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -52,9 +52,17 @@ export const Modal = styled.div`
   align-items: center;
 `;
 
-export const ModalContent = styled.div`
+export const StyledModalContent = styled.div<{
+  $width?: string;
+  $heigh?: string;
+}>`
+  display: flex;
+  flex-direction: column;
   background: white;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  width: ${(props) => props.$width || 'auto'};
+  height: ${(props) => props.$heigh || 'auto'};
+  overflow-y: scroll;
 `;
