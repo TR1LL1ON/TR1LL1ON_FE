@@ -8,3 +8,9 @@ export interface JoinData {
 export interface ModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface GuestCount {
+  adults: number;
+  children: number;
+  infants: number;
+}
