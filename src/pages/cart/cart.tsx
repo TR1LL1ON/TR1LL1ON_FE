@@ -1,5 +1,7 @@
+import CartContainer from '../../components/template/cart';
+
 const Cart = () => {
-  return <div>Cart</div>;
+  return <CartContainer />;
 };
 
 export default Cart;
