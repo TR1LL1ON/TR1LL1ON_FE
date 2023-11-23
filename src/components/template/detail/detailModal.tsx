@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import theme from '../../../style/theme';
 import { ModalProps } from '../../../interfaces/interface';
-import { Button } from '../../../style/common/commonStyle';
+import { StyledButton } from '../../../style/common/commonStyle';
 import {
   StyledTitle,
   StyledSubTitle,
@@ -11,13 +11,13 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import Carousel from './carousel';
 
-import bed from '/icon/bed.svg';
-import cart from '/icon/cart.svg';
-import check from '/icon/check.svg';
-import noSmoking from '/icon/noSmoking.svg';
-import person from '/icon/person.svg';
-import rightArrow from '/icon/rightArrow.svg';
-import size from '/icon/size.svg';
+import bed from '../../../../public/icon/bed.svg';
+import cart from '../../../../public/icon/cart.svg';
+import check from '../../../../public/icon/check.svg';
+import noSmoking from '../../../../public/icon/noSmoking.svg';
+import person from '../../../../public/icon/person.svg';
+import rightArrow from '../../../../public/icon/rightArrow.svg';
+import size from '../../../../public/icon/size.svg';
 
 const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
@@ -213,7 +213,8 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
             <button style={{ width: '3rem', height: '3rem' }}>
               <img src={cart} alt="cart" style={{ height: '1.5rem' }} />
             </button>
-            <Button
+            <StyledButton
+              $variant="primary"
               style={{
                 width: '15rem',
                 height: '3rem',
@@ -221,7 +222,7 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
               }}
               onClick={closeModal}>
               예약하기
-            </Button>
+            </StyledButton>
           </StyledFlexContainer>
         </StyledModalFooter>
       </StyledModalContent>
