@@ -48,10 +48,11 @@ export const StyledTitle = styled.h1<{
   padding-inline: ${(props) => props.$px || '0'};
 `;
 
-export const StyledSubTitle = styled.h2`
+export const StyledSubTitle = styled.h2<{ $mb?: string; $mt?: string }>`
   font-size: ${({ theme }) => theme.fontSizes.md};
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};
-  margin-bottom: 1rem;
+  margin-bottom: ${(props) => props.$mb || '1rem'};
+  margin-top: ${(props) => props.$mt || '1rem'};
 `;
 
 export const StyledLabel = styled.p`
@@ -64,12 +65,14 @@ export const StyledText = styled.p<{
   $fontSize?: string;
   $fontWeight?: number;
   $opacity?: number;
+  $color?: string;
 }>`
   font-size: ${(props) => props.$fontSize || props.theme.fontSizes.sm};
   font-weight: ${(props) =>
     props.$fontWeight || props.theme.fontWeights.regular};
   line-height: 1.5;
   opacity: ${(props) => props.$opacity || 1};
+  color: ${(props) => props.$color || ''};
 `;
 
 export const StyledButton = styled.button<{ $variant?: string }>`
@@ -106,6 +109,11 @@ export const StyledDropdown = styled.div`
 
   &:hover {
     border: 1px solid ${({ theme }) => theme.colors.lightGray};
+  }
+
+  &[aria-expanded='true'] {
+    border: 1px solid ${({ theme }) => theme.colors.lightGray};
+    background-color: ${({ theme }) => theme.colors.lightGray};
   }
 
   .icon {
