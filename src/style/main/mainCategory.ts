@@ -6,6 +6,7 @@ export const StyledCategoryContainer = styled.div`
   grid-auto-flow: column;
   grid-auto-columns: minmax(64px, 1fr);
   column-gap: 1rem;
+  margin-block: 0.5rem;
   overflow-x: scroll;
 
   &::-webkit-scrollbar {
