@@ -1,3 +1,4 @@
+import DetailContainer from '../../components/template/detail/DetailContainer';
 import DetailModal from '../../components/template/detail/detailModal';
 import { useState } from 'react';
 
@@ -9,8 +10,7 @@ const Detail = () => {
 
   return (
     <div>
-      Detail
-      <button onClick={handleDetailModal}>상세보기</button>
+      <DetailContainer />;<button onClick={handleDetailModal}>상세보기</button>
       {showDetailModal && <DetailModal setShowModal={setShowDetailModal} />}
     </div>
   );
