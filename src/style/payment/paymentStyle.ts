@@ -65,12 +65,14 @@ export const StyledText = styled.p<{
   $fontSize?: string;
   $fontWeight?: number;
   $opacity?: number;
+  $color?: string;
 }>`
   font-size: ${(props) => props.$fontSize || props.theme.fontSizes.sm};
   font-weight: ${(props) =>
     props.$fontWeight || props.theme.fontWeights.regular};
   line-height: 1.5;
   opacity: ${(props) => props.$opacity || 1};
+  color: ${(props) => props.$color || ''};
 `;
 
 export const StyledButton = styled.button<{ $variant?: string }>`
