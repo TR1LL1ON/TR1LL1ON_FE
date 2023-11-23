@@ -4,8 +4,10 @@ const theme: DefaultTheme = {
   colors: {
     primary: '#de2f5f',
     secondary: '#fff',
+    darkGray: '#616161',
     gray: '#b0b0b0',
     lightGray: '#d8d8d8',
+    blue: '#1948c4',
   },
   fontSizes: {
     xs: '0.75rem',
