@@ -9,6 +9,7 @@ import {
   StyledFlexContainer,
 } from '../../../style/payment/paymentStyle';
 import { v4 as uuidv4 } from 'uuid';
+import Carousel from './carousel';
 
 import bed from '/icon/bed.svg';
 import cart from '/icon/cart.svg';
@@ -43,7 +44,8 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
         $width="40rem"
         $heigh="40rem">
         <StyledModalBody>
-          <StyledTitle $mt="4rem">{roomName}</StyledTitle>
+          <Carousel />
+          <StyledTitle>{roomName}</StyledTitle>
 
           <StyledFlexContainer
             $justifyContent="flex-start"
@@ -56,9 +58,10 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
             <StyledText>
               <img
                 src={rightArrow}
-                alt="bed"
+                alt="rightArrow"
                 style={{
                   marginLeft: '0.1rem',
+                  marginTop: '0.2rem',
                 }}
               />
             </StyledText>
@@ -83,7 +86,7 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
             </StyledModalText>
           </StyledModalFlexContainer>
 
-          <StyledSubTitle $mt="1rem">주요 서비스 및 편의시설</StyledSubTitle>
+          <StyledSubTitle $mt="3rem">주요 서비스 및 편의시설</StyledSubTitle>
 
           <StyledFlexContainer
             $justifyContent="flex-start "
@@ -142,7 +145,7 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
             </StyledFlexContainer>
           </StyledModalFlexContainer>
 
-          <StyledSubTitle $mt="1rem">후기</StyledSubTitle>
+          <StyledSubTitle $mt="3rem">후기</StyledSubTitle>
           <StyledModalFlexContainer
             $justifyContent="flex-stat"
             $alignItems="left"
@@ -151,7 +154,7 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
           </StyledModalFlexContainer>
           <StyledReviewButton>168개 객실후기 보기</StyledReviewButton>
 
-          <StyledSubTitle $mt="1rem">취소 수수료</StyledSubTitle>
+          <StyledSubTitle $mt="3rem">취소 수수료</StyledSubTitle>
           <StyledTable>
             <thead>
               <tr>
@@ -267,7 +270,7 @@ const StyledTh = styled.th`
   padding: 0.5rem;
   background-color: #f2f2f2;
   text-align: start;
-  font-size: ${(props) => props.theme.fontSizes.md};
+  font-size: ${(props) => props.theme.fontSizes.sm};
   font-weight: ${(props) => props.theme.fontWeights.bold};
 `;
 
