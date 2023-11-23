@@ -1,5 +1,5 @@
-import GuestModal from '../../components/layout/modal/GuestModal/guestModal';
 import DetailContainer from '../../components/template/detail/DetailContainer';
+import GuestModal from '../../components/template/detail/GuestModal/guestModal';
 import DetailModal from '../../components/template/detail/detailModal';
 import { useState } from 'react';
 

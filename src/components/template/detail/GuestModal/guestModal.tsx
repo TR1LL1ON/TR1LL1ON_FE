@@ -2,9 +2,11 @@ import { useRef } from 'react';
 import { useClickOutside } from '../../../../hooks/useClickOutside';
 import GuestContent from './guestContent';
 import styled from 'styled-components';
-import { StyledOnClick } from '../../../../style/detail/detailStyle';
-import { StyledFlexContainer } from '../../../../style/payment/paymentStyle';
-import { StyledButton } from '../../../../style/common/commonStyle';
+import {
+  StyledText,
+  StyledTitle,
+} from '../../../../style/payment/paymentStyle';
+import { StyledSubText } from '../../../../style/detail/detailStyle';
 
 interface GuestModalProps {
   onClose: () => void;
@@ -16,17 +18,19 @@ const GuestModal = ({ onClose }: GuestModalProps) => {
     onClose();
   });
 
+  const onSave = (totalGuests: number) => {
+    console.log('총 게스트:', totalGuests, '명');
+  };
+
   return (
     <StyledModalWrapper>
       <StyledModalContent ref={ref}>
         <StyledCloseButton onClick={onClose}>X</StyledCloseButton>
-        <GuestContent />
-        <StyledRowFull $gap="2rem" $justifyContent="space-between">
-          <StyledButton onClick={onClose}>취소</StyledButton>
-          <StyledBlackBtn $variant="primary" $full={false}>
-            저장
-          </StyledBlackBtn>
-        </StyledRowFull>
+        <StyledSubText $color="#444" $fontSize="1.5rem" $textAlign="left">
+          게스트
+        </StyledSubText>
+        <StyledText>이 숙소의 최대 숙박 인원은 n명 입니다.</StyledText>
+        <GuestContent onClose={onClose} onSave={onSave} />
       </StyledModalContent>
     </StyledModalWrapper>
   );
@@ -44,7 +48,6 @@ const StyledModalWrapper = styled.div`
   background: rgba(0, 0, 0, 0.6);
   cursor: pointer;
 `;
-
 const StyledModalContent = styled.div`
   max-width: 1200px;
   position: fixed;
@@ -66,7 +69,6 @@ const StyledModalContent = styled.div`
   background: #fff;
   padding: 2rem;
 `;
-
 const StyledCloseButton = styled.div`
   font-size: ${(props) => props.theme.fontSizes.lg};
   font-weight: ${(props) => props.theme.fontWeights.bold};
@@ -74,22 +76,4 @@ const StyledCloseButton = styled.div`
   right: 0.8rem;
   top: 0.8rem;
   cursor: pointer;
-`;
-
-export const StyledRowFull = styled(StyledFlexContainer)`
-  width: 100%;
-`;
-export const StyledBlackBtn = styled(StyledButton)`
-background-color: #444;
-color:#fff;  
-white-space: nowrap;
-width:auto;
-&:hover {
-  background-color: #333;
-  &:focus {
-    outline: none;
-  }
-  &:disabled {
-    background-color: #eee;
-  }
 `;

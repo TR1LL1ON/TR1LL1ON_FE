@@ -8,10 +8,20 @@ import { StyledSubText } from '../../../../style/detail/detailStyle';
 interface GuestAgeGroupProps {
   text: string;
   subText: string;
+  count: number;
+  onDecrease: () => void;
+  onIncrease: () => void;
 }
-export default function GuestAgeGroup({ text, subText }: GuestAgeGroupProps) {
+
+const guestAgeGroup = ({
+  text,
+  subText,
+  count,
+  onDecrease,
+  onIncrease,
+}: GuestAgeGroupProps) => {
   return (
-    <StyledGuestRow $justifyContent="space-between" $gap="4rem">
+    <StyledGuestRow $justifyContent="space-between" $gap="5rem">
       <StyledTextBox
         $flexDirection="column"
         $alignItems="flex-start"
@@ -22,13 +32,19 @@ export default function GuestAgeGroup({ text, subText }: GuestAgeGroupProps) {
         <StyledTextGray> {subText} </StyledTextGray>
       </StyledTextBox>
       <StyledGuestCount $gap="1rem">
-        <LuMinusCircle />
-        <StyledText>0명</StyledText>
-        <LuPlusCircle />
+        <StyledCountBtn onClick={onDecrease}>
+          <LuMinusCircle />
+        </StyledCountBtn>
+        <StyledText>{count}명</StyledText>
+        <StyledCountBtn onClick={onIncrease}>
+          <LuPlusCircle />
+        </StyledCountBtn>
       </StyledGuestCount>
     </StyledGuestRow>
   );
-}
+};
+
+export default guestAgeGroup;
 
 const StyledGuestRow = styled(StyledFlexContainer)`
   border-bottom: 1px solid #ccc;
@@ -48,4 +64,9 @@ const StyledTextGray = styled(StyledText)`
 const StyledGuestCount = styled(StyledFlexContainer)`
   font-size: ${(props) => props.theme.fontSizes.xl};
   color: #444;
+`;
+const StyledCountBtn = styled.button`
+  font-size: ${(props) => props.theme.fontSizes.xl};
+  color: #444;
+  cursor: pointer;
 `;
