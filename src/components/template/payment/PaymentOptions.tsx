@@ -1,7 +1,10 @@
 import {
+  StyledButton,
   StyledDropdown,
   StyledDropdownList,
+  StyledSpacer,
   StyledSubTitle,
+  StyledText,
   StyledWrapper,
 } from '../../../style/payment/paymentStyle';
 import { useRef, useState } from 'react';
@@ -12,6 +15,7 @@ import PaymentOptionItem, {
   getPayLogo,
 } from './PaymentOptionItem';
 import { paymentOption } from '../../../constants';
+import AddCreditCard from './AddCreditCard';
 
 const PaymentOptions = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -82,6 +86,12 @@ const PaymentOptions = () => {
           </StyledDropdownList>
         )}
       </StyledWrapper>
+      <StyledSpacer $height="0.5rem" />
+      {selectedOption === 'cash' && (
+        <StyledText>예약한 장소에서 현금 결제</StyledText>
+      )}
+      {selectedOption === 'card' && <StyledButton>카드 추가하기</StyledButton>}
+      <AddCreditCard />
     </>
   );
 };
