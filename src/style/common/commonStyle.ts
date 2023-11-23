@@ -28,7 +28,8 @@ export const StyledButton = styled.button<{
   }
 
   &:focus {
-    box-shadow: 0 0 0 3px rgba(222, 47, 95, 0.5);
+    box-shadow: ${(props) =>
+      props.$variant === 'primary' ? '0 0 0 3px rgba(222, 47, 95, 0.5)' : ''};
   }
 
   &:disabled {
