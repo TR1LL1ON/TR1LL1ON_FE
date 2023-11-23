@@ -5,8 +5,10 @@ declare module 'styled-components' {
     colors: {
       primary: string;
       secondary: string;
+      darkGray: string;
       gray: string;
       lightGray: string;
+      blue: string;
     };
     fontSizes: {
       xs: string;
