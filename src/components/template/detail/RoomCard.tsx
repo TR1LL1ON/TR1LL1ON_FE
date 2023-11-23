@@ -8,10 +8,10 @@ import {
   StyledFlexRowGroup,
   StyledImgItem,
   StyledTextItem,
-  SmallButton,
   StyledSubText,
   StyledPriceText,
   StyledTextRow,
+  StyledReservationBtn,
 } from '../../../style/detail/detailStyle';
 import { StyledFlexContainer } from '../../../style/payment/paymentStyle';
 import CartBtn from '../../layout/Button/cartBtn';
@@ -43,7 +43,9 @@ const RoomCard = () => {
             <StyledBrandText>남은객실</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">
               <CartBtn />
-              <SmallButton>예약하기</SmallButton>
+              <StyledReservationBtn $full={false} $variant="primary">
+                예약하기
+              </StyledReservationBtn>
             </StyledFlexContainer>
           </StyledFlexContainer>
         </StyledTextItem>

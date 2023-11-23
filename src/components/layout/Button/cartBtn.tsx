@@ -1,4 +1,3 @@
-import React from 'react';
 import { LuShoppingCart } from 'react-icons/lu';
 import styled from 'styled-components';
 

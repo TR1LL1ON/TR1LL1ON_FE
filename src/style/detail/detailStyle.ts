@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { StyledFlexContainer } from '../payment/paymentStyle';
+import { StyledButton } from '../common/commonStyle';
 
 export const StyledWrap = styled.article`
   position: relative;
@@ -119,8 +120,9 @@ export const StyledTextItem = styled(StyledFlexContainer)`
   }
 `;
 
-export const SmallButton = styled(Button)`
+export const StyledReservationBtn = styled(StyledButton)`
   width: 10rem;
+  padding: 0.6rem 2rem;
 `;
 
 export const StyledTextRow = styled.p<{
