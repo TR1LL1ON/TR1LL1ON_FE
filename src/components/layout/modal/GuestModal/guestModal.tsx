@@ -4,7 +4,7 @@ import GuestContent from './guestContent';
 import styled from 'styled-components';
 import { StyledOnClick } from '../../../../style/detail/detailStyle';
 import { StyledFlexContainer } from '../../../../style/payment/paymentStyle';
-import { Button } from '../../../../style/common/commonStyle';
+import { StyledButton } from '../../../../style/common/commonStyle';
 
 interface GuestModalProps {
   onClose: () => void;
@@ -22,10 +22,10 @@ const GuestModal = ({ onClose }: GuestModalProps) => {
         <StyledCloseButton onClick={onClose}>X</StyledCloseButton>
         <GuestContent />
         <StyledRowFull $gap="2rem" $justifyContent="space-between">
-          <StyledOnClick $color="#444" $borderColor="#444" onClick={onClose}>
-            취소
-          </StyledOnClick>
-          <StyledBlackBtn>저장</StyledBlackBtn>
+          <StyledButton onClick={onClose}>취소</StyledButton>
+          <StyledBlackBtn $variant="primary" $full={false}>
+            저장
+          </StyledBlackBtn>
         </StyledRowFull>
       </StyledModalContent>
     </StyledModalWrapper>
@@ -79,22 +79,17 @@ const StyledCloseButton = styled.div`
 export const StyledRowFull = styled(StyledFlexContainer)`
   width: 100%;
 `;
-export const StyledBlackBtn = styled(Button)`
+export const StyledBlackBtn = styled(StyledButton)`
 background-color: #444;
 color:#fff;  
 white-space: nowrap;
 width:auto;
-font-size: ${(props) => props.theme.fontSizes.md};
-font-weight: ${(props) => props.theme.fontWeights.medium};
-transition: background-color 0.3s ease;
 &:hover {
-opacity:.8;
-
+  background-color: #333;
   &:focus {
     outline: none;
   }
   &:disabled {
-    color: ${(props) => props.theme.colors.gray};
-    background-color: ${(props) => props.theme.colors.lightGray};
+    background-color: #eee;
   }
 `;
