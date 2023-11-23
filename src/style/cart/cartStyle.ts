@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledFlexContainer, StyledText } from '../payment/paymentStyle';
+import { StyledButton, StyledFlexContainer } from '../payment/paymentStyle';
 
 export const StyledCartList = styled(StyledFlexContainer)`
   height: 508px;
@@ -15,8 +15,7 @@ export const StyledCartList = styled(StyledFlexContainer)`
   }
 `;
 
-export const StyledDeleteButton = styled(StyledText)`
+export const StyledDeleteButton = styled(StyledButton)`
   color: ${({ theme }) => theme.colors.blue};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.blue};
   cursor: pointer;
 `;

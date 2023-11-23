@@ -13,7 +13,6 @@ const CartCard = () => {
       style={{
         width: '100%',
         padding: '15px 0',
-        borderBottom: '1px solid #d8d8d8',
       }}
       $alignItems="flex-start"
       $gap="0.75rem">
