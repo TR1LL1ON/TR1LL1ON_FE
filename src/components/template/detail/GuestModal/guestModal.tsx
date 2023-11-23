@@ -2,10 +2,7 @@ import { useRef } from 'react';
 import { useClickOutside } from '../../../../hooks/useClickOutside';
 import GuestContent from './guestContent';
 import styled from 'styled-components';
-import {
-  StyledText,
-  StyledTitle,
-} from '../../../../style/payment/paymentStyle';
+import { StyledText } from '../../../../style/payment/paymentStyle';
 import { StyledSubText } from '../../../../style/detail/detailStyle';
 
 interface GuestModalProps {
