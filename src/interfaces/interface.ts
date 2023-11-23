@@ -10,7 +10,7 @@ export interface ModalProps {
 }
 
 export interface GuestCount {
-  adult: number;
+  adults: number;
   children: number;
   infants: number;
 }
