@@ -12,25 +12,37 @@ export const StyledHeaderContainer = styled(StyledFlexContainer)`
   z-index: 1;
   font-weight: 700;
   background-color: #fff;
-  padding: 0 4rem;
+  padding: 0 20px;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+
+  @media screen and (min-width: 1024px) {
+    padding: 0 4rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
-export const StyledHeaderItemGroup = styled.div`
+export const StyledHeaderGroup = styled.div`
   display: flex;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
-  border-radius: 40px;
+  border-radius: 24px;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export const StyledHeaderButton = styled.button`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   font-size: ${({ theme }) => theme.fontSizes.sm};
   height: 48px;
-  padding-inline: 1rem;
+  padding-inline: 8px;
   border: none;
   cursor: pointer;
   background-color: transparent;
@@ -45,6 +57,15 @@ export const StyledHeaderButton = styled.button`
     border-top-right-radius: inherit;
     border-bottom-right-radius: inherit;
     border-left: none;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  p {
+    padding-inline: 1rem;
   }
 `;
 
