@@ -3,11 +3,14 @@ import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
 import DetailService from './DetailService';
 
-const DetailContainer = () => {
+interface DetailContainerProps {
+  onOpen: (e: React.MouseEvent) => void;
+}
+const DetailContainer = ({ onOpen }: DetailContainerProps) => {
   return (
     <>
       <ImageContainer />
-      <AccommodationInfo />
+      <AccommodationInfo onOpen={onOpen} />
       <RoomCard />
       <DetailService />
     </>

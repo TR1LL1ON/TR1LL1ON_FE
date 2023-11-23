@@ -48,6 +48,7 @@ export const StyledSubText = styled.h2<{
   $color?: string;
   $mt?: string;
   $mb?: string;
+  $textAlign?: string;
 }>`
   font-size: ${(props) => props.$fontSize || props.theme.fontSizes.lg};
   font-weight: ${(props) => props.$fontWeight || props.theme.fontWeights.bold};
@@ -55,6 +56,8 @@ export const StyledSubText = styled.h2<{
   margin-top: ${(props) => props.$mt || '1rem'};
   margin-bottom: ${(props) => props.$mb || '1rem'};
   line-height: 1rem;
+  text-align: ${(props) => props.$textAlign};
+  width: 100%;
 `;
 
 export const StyledBrandText = styled.b`

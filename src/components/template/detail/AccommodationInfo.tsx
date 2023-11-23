@@ -11,8 +11,10 @@ import {
   StyledSpacer,
 } from '../../../style/payment/paymentStyle';
 import APIServiceList from './APIServiceList';
-
-const AccommodationInfo = () => {
+interface AccommodationProp {
+  onOpen: (e: React.MouseEvent) => void;
+}
+const AccommodationInfo = ({ onOpen }: AccommodationProp) => {
   return (
     <StyledWrap>
       <StyledTitle>마리나베이 속초</StyledTitle>
@@ -46,13 +48,14 @@ const AccommodationInfo = () => {
           <StyledFlexContainer
             $flexDirection="column"
             $alignItems="flex-start"
-            $gap=".5rem">
+            $gap=".5rem"
+            onClick={onOpen}>
             <StyledText $fontSize="1rem" $fontWeight={700}>
               게스트
             </StyledText>
             <StyledText $fontSize="1rem"> 성인 n명 / 아동 n명</StyledText>
           </StyledFlexContainer>
-          <StyledOnClick>수정</StyledOnClick>
+          <StyledOnClick onClick={onOpen}>수정</StyledOnClick>
         </StyledSelect>
       </StyledFlexContainer>
     </StyledWrap>
