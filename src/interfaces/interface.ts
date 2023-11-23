@@ -4,3 +4,7 @@ export interface JoinData {
   name: string;
   phone: number;
 }
+
+export interface ModalProps {
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}

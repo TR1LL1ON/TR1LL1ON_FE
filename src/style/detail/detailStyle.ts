@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Button } from '../common/commonStyle';
 import { StyledFlexContainer } from '../payment/paymentStyle';
 
 export const StyledWrap = styled.article`
@@ -146,3 +145,10 @@ export const StyledImgBox = styled.div<{ backgroundImage: string }>`
   ${(props) => `url('${props.backgroundImage}')`}
 `;
 StyledImgBox.shouldForwardProp = (prop) => !['backgroundImage'].includes(prop);
+
+export const StyledGridContainer = styled.div<{ $px?: string }>`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  padding-inline: ${(props) => props.$px || '0'};
+`;

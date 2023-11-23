@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import { fadeIn, fadeOut } from './paymentAnimation';
+import { ReactComponent as kakaoPaymentLogo } from '../../assets/kakaoPay.svg';
+import { ReactComponent as naverPayLogo } from '../../assets/naverPay.svg';
+import { ReactComponent as mastercardLogo } from '../../assets/mastercard.svg';
 
 export const StyledGridContainer = styled.div<{ $px?: string }>`
   display: grid;
@@ -45,10 +48,14 @@ export const StyledTitle = styled.h1<{
   padding-inline: ${(props) => props.$px || '0'};
 `;
 
-export const StyledSubTitle = styled.h2`
+export const StyledSubTitle = styled.h2<{
+  $mt?: string;
+  $mb?: string;
+}>`
   font-size: ${({ theme }) => theme.fontSizes.md};
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};
-  margin-bottom: 1rem;
+  margin-top: ${(props) => props.$mt || '0'};
+  margin-bottom: ${(props) => props.$mb || '1rem'};
 `;
 
 export const StyledLabel = styled.p`
@@ -61,12 +68,14 @@ export const StyledText = styled.p<{
   $fontSize?: string;
   $fontWeight?: number;
   $opacity?: number;
+  $color?: string;
 }>`
   font-size: ${(props) => props.$fontSize || props.theme.fontSizes.sm};
   font-weight: ${(props) =>
     props.$fontWeight || props.theme.fontWeights.regular};
   line-height: 1.5;
   opacity: ${(props) => props.$opacity || 1};
+  color: ${(props) => props.$color || ''};
 `;
 
 export const StyledButton = styled.button<{ $variant?: string }>`
@@ -118,6 +127,12 @@ export const StyledDropdown = styled.div`
       transform: rotate(180deg);
     }
   }
+
+  .selected {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 `;
 
 export const StyledDropdownList = styled.ul<{ $isOpen: boolean }>`
@@ -129,11 +144,15 @@ export const StyledDropdownList = styled.ul<{ $isOpen: boolean }>`
   border: 1px solid ${({ theme }) => theme.colors.gray};
   border-radius: 0.5rem;
   z-index: 1;
+  overflow: hidden;
   animation: ${(props) => (props.$isOpen ? fadeIn : fadeOut)} 0.2s ease-in-out;
   opacity: ${(props) => (props.$isOpen ? 1 : 0)};
 `;
 
 export const StyledDropdownItem = styled.li`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
   padding: 1rem;
   font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -175,17 +194,38 @@ export const StyledSpacer = styled.div<{ $height?: string }>`
   height: ${(props) => props.$height || '2rem'};
 `;
 
-export const StyledImageContainer = styled.div`
+export const StyledImageContainer = styled.div<{
+  $w?: string;
+  $h?: string;
+  $borderR?: string;
+}>`
   position: relative;
-  width: 124px;
-  height: 106px;
-  border-radius: 0.5rem;
+  width: ${(props) => props.$w || '124px'};
+  height: ${(props) => props.$h || '106px'};
+  border-radius: ${(props) => props.$borderR || '0.5rem'};
   overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
-export const StyledImage = styled.img`
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-image: url('https://source.unsplash.com/random');
+export const KakaoPayLogo = styled(kakaoPaymentLogo)`
+  width: 33px;
+  height: 33px;
+  object-fit: cover;
+`;
+
+export const NaverPayLogo = styled(naverPayLogo)`
+  width: 33px;
+  height: 33px;
+  object-fit: cover;
+`;
+
+export const MastercardLogo = styled(mastercardLogo)`
+  width: 33px;
+  height: 33px;
+  object-fit: cover;
 `;
