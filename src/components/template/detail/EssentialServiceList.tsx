@@ -1,6 +1,5 @@
 import { LuTv, LuSiren, LuWifi } from 'react-icons/lu';
 import { PiHandSoapBold, PiFireExtinguisherBold } from 'react-icons/pi';
-import { LiaFireExtinguisherSolid } from 'react-icons/lia';
 
 const EssentialServiceList = () => {
   return (

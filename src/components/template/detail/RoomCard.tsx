@@ -1,4 +1,3 @@
-import React from 'react';
 import { LuUser, LuBedSingle } from 'react-icons/lu';
 
 import {

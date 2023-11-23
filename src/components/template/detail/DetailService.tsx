@@ -1,6 +1,4 @@
-import React from 'react';
 import {
-  SmallButtonBlack,
   StyledBorderWrap,
   StyledServiceWrap,
   StyledSubText,
@@ -18,7 +16,7 @@ const DetailService = () => {
       <StyledServiceWrap
         $flexDirection="row"
         $alignItems="flex-end"
-        $justifyContent="space-between">
+        $justifyContent="space-evenly">
         <StyledFlexContainer
           className="service-col"
           $flexDirection="column"
@@ -33,12 +31,36 @@ const DetailService = () => {
           $gap="1rem">
           <APIServiceList />
         </StyledFlexContainer>
-        <SmallButtonBlack className="service-col">
+        {/*    <SmallButtonBlack className="service-col">
           편의시설 모두 보기
-        </SmallButtonBlack>
+        </SmallButtonBlack> */}
       </StyledServiceWrap>
     </StyledBorderWrap>
   );
 };
 
 export default DetailService;
+
+// 편의시설 버튼 제거 ?
+/* export const SmallButtonBlack = styled(SmallButton)`
+  width: 10rem;
+  color: #444;
+  border: 1px solid #444;
+  background-color: #fff;
+  white-space: nowrap;
+  font-weight: ${(props) => props.theme.fontWeights.medium};
+  transition: background-color 0.3s ease;
+  margin-right:1rem;
+
+  &:hover {
+    background-color: #444;
+    color:#fff;
+
+  &:focus {
+    outline: none;
+  }
+  &:disabled {
+    color: ${(props) => props.theme.colors.gray};
+    background-color: ${(props) => props.theme.colors.lightGray};
+  }
+`; */
