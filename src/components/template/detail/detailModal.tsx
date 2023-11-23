@@ -1,20 +1,22 @@
 import styled from 'styled-components';
 import theme from '../../../style/theme';
 import { ModalProps } from '../../../interfaces/interface';
-import {
-  Button,
-  StyledModal,
-  StyledModalContent,
-} from '../../../style/common/commonStyle';
+import { Button } from '../../../style/common/commonStyle';
 import {
   StyledTitle,
   StyledSubTitle,
   StyledText,
-  StyledLabel,
   StyledFlexContainer,
-  StyledHLine,
 } from '../../../style/payment/paymentStyle';
 import { v4 as uuidv4 } from 'uuid';
+
+import bed from '/icon/bed.svg';
+import cart from '/icon/cart.svg';
+import check from '/icon/check.svg';
+import noSmoking from '/icon/noSmoking.svg';
+import person from '/icon/person.svg';
+import rightArrow from '/icon/rightArrow.svg';
+import size from '/icon/size.svg';
 
 const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
@@ -40,111 +42,185 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
         onClick={(e) => e.stopPropagation()}
         $width="40rem"
         $heigh="40rem">
-        <StyledTitle $mt="4rem">{roomName}</StyledTitle>
-        <StyledLabel>더 노벰버 스테이 인 랜드마크</StyledLabel>
-        <StyledModalFlexContainer>
-          <StyledModalText $color="#808080">
-            <img src="/icon/person.svg" alt="person" />
-            {roomFeature.occupancy}
-          </StyledModalText>
-          <StyledModalText $color="#808080">
-            <img src="/icon/noSmoking.svg" alt="no smoking" />
-            {roomFeature.smoking}
-          </StyledModalText>
-          <StyledModalText $color="#808080" style={{ marginTop: '0.2rem' }}>
-            <img src="/icon/bed.svg" alt="bed" />
-            {roomFeature.bedType}
-          </StyledModalText>
-          <StyledModalText $color="#808080" style={{ marginTop: '0.2rem' }}>
-            <img src="/icon/size.svg" alt="size" />
-            {roomFeature.roomSize}
-          </StyledModalText>
-        </StyledModalFlexContainer>
+        <StyledModalBody>
+          <StyledTitle $mt="4rem">{roomName}</StyledTitle>
 
-        <StyledSubTitle $mt="1rem">주요 서비스 및 편의시설</StyledSubTitle>
-        <StyledFlexContainer
-          $justifyContent="flex-start "
-          $gap="1rem"
-          style={{ marginBottom: '2rem' }}>
-          {amenityArr.map((item) => (
-            <StyledFlexContainer key={uuidv4()} $gap="0.3rem">
-              <img src="/icon/check.svg" alt="check" />
-              <StyledText $color="#808080">{item}</StyledText>
+          <StyledFlexContainer
+            $justifyContent="flex-start"
+            style={{
+              marginBottom: '0.5rem',
+            }}>
+            <StyledText $fontWeight={theme.fontWeights.semiBold}>
+              더 노벰버 스테이 인 랜드마크
+            </StyledText>
+            <StyledText>
+              <img
+                src={rightArrow}
+                alt="bed"
+                style={{
+                  marginLeft: '0.1rem',
+                }}
+              />
+            </StyledText>
+          </StyledFlexContainer>
+
+          <StyledModalFlexContainer>
+            <StyledModalText $color="#808080">
+              <img src={person} alt="person" />
+              {roomFeature.occupancy}
+            </StyledModalText>
+            <StyledModalText $color="#808080">
+              <img src={noSmoking} alt="noSmoking" />
+              {roomFeature.smoking}
+            </StyledModalText>
+            <StyledModalText $color="#808080" style={{ marginTop: '0.2rem' }}>
+              <img src={bed} alt="bed" />
+              {roomFeature.bedType}
+            </StyledModalText>
+            <StyledModalText $color="#808080" style={{ marginTop: '0.2rem' }}>
+              <img src={size} alt="size" />
+              {roomFeature.roomSize}
+            </StyledModalText>
+          </StyledModalFlexContainer>
+
+          <StyledSubTitle $mt="1rem">주요 서비스 및 편의시설</StyledSubTitle>
+
+          <StyledFlexContainer
+            $justifyContent="flex-start "
+            $gap="1rem"
+            style={{ marginBottom: '2rem' }}>
+            {amenityArr.map((item) => (
+              <StyledFlexContainer key={uuidv4()} $gap="0.2rem">
+                <img
+                  src={check}
+                  alt="check"
+                  style={{ marginBottom: '0.3rem' }}
+                />
+                <StyledText $color="#808080">{item}</StyledText>
+              </StyledFlexContainer>
+            ))}
+          </StyledFlexContainer>
+
+          <StyledModalFlexContainer
+            $justifyContent="flex-stat"
+            $alignItems="left"
+            $flexDirection="column">
+            <StyledText
+              $fontSize={theme.fontSizes.sm}
+              $fontWeight={theme.fontWeights.bold}>
+              숙박
+            </StyledText>
+            <StyledText
+              $fontSize={theme.fontSizes.md}
+              $fontWeight={theme.fontWeights.bold}>
+              룸온리
+            </StyledText>
+            <StyledText $fontSize={theme.fontSizes.xs}>
+              체크인 15:00 ~ 체크아웃 12:00
+            </StyledText>
+            <StyledText
+              $fontSize={theme.fontSizes.lg}
+              $fontWeight={theme.fontWeights.bold}
+              style={{ alignSelf: 'flex-end' }}>
+              65,000원
+            </StyledText>
+            <StyledFlexContainer $justifyContent="flex-end">
+              <StyledText
+                $fontSize={theme.fontSizes.xs}
+                $fontWeight={theme.fontWeights.bold}
+                $color="red">
+                취소 및 환불 불가
+              </StyledText>
+              <img
+                src={rightArrow}
+                alt="rightArrow"
+                style={{
+                  marginLeft: '0.1rem',
+                  marginBottom: '0.1rem',
+                }}
+              />
             </StyledFlexContainer>
-          ))}
-        </StyledFlexContainer>
+          </StyledModalFlexContainer>
 
-        <StyledModalFlexContainer
-          $justifyContent="flex-stat"
-          $alignItems="left"
-          $flexDirection="column">
-          <StyledText
-            $fontSize={theme.fontSizes.sm}
-            $fontWeight={theme.fontWeights.bold}>
-            숙박
-          </StyledText>
-          <StyledText
-            $fontSize={theme.fontSizes.md}
-            $fontWeight={theme.fontWeights.bold}>
-            룸온리
-          </StyledText>
-          <StyledText $fontSize={theme.fontSizes.xs}>
-            체크인 15:00 ~ 체크아웃 12:00
-          </StyledText>
+          <StyledSubTitle $mt="1rem">후기</StyledSubTitle>
+          <StyledModalFlexContainer
+            $justifyContent="flex-stat"
+            $alignItems="left"
+            $flexDirection="column">
+            후기
+          </StyledModalFlexContainer>
+          <StyledReviewButton>168개 객실후기 보기</StyledReviewButton>
 
-          <StyledText
-            $fontSize={theme.fontSizes.lg}
-            $fontWeight={theme.fontWeights.bold}
-            style={{ alignSelf: 'flex-end' }}>
-            65,000원
-          </StyledText>
-          <StyledText
-            $fontSize={theme.fontSizes.xs}
-            $fontWeight={theme.fontWeights.bold}
-            style={{ alignSelf: 'flex-end' }}>
-            취소 및 환불 불가
-          </StyledText>
-        </StyledModalFlexContainer>
+          <StyledSubTitle $mt="1rem">취소 수수료</StyledSubTitle>
+          <StyledTable>
+            <thead>
+              <tr>
+                <StyledTh>기간</StyledTh>
+                <StyledTh>취소수수료율</StyledTh>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <StyledTd>11.26 17:00 전까지</StyledTd>
+                <StyledTd>취소 패널티 0%</StyledTd>
+              </tr>
+              <tr>
+                <StyledTd>11.28 17:00 전까지</StyledTd>
+                <StyledTd>취소 패널티 50%</StyledTd>
+              </tr>
+              <tr>
+                <StyledTd>11.30 00:00 전까지</StyledTd>
+                <StyledTd>취소 패널티 100%</StyledTd>
+              </tr>
+              <tr>
+                <StyledTd>체크인 당일 및 No-show</StyledTd>
+                <StyledTd>취소 불가 및 환불 불가</StyledTd>
+              </tr>
+            </tbody>
+          </StyledTable>
+        </StyledModalBody>
 
-        <StyledSubTitle $mt="1rem">후기</StyledSubTitle>
-        <StyledModalFlexContainer
-          $justifyContent="flex-stat"
-          $alignItems="left"
-          $flexDirection="column">
-          후기
-        </StyledModalFlexContainer>
-        <Button>168개 객실후기 보기</Button>
-
-        <StyledSubTitle $mt="1rem">취소 수수료</StyledSubTitle>
-        <StyledTable>
-          <thead>
-            <tr>
-              <StyledTh>기간</StyledTh>
-              <StyledTh>취소수수료율</StyledTh>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <StyledTd>11.26 17:00 전까지</StyledTd>
-              <StyledTd>취소 패널티 0%</StyledTd>
-            </tr>
-            <tr>
-              <StyledTd>11.28 17:00 전까지</StyledTd>
-              <StyledTd>취소 패널티 50%</StyledTd>
-            </tr>
-            <tr>
-              <StyledTd>11.30 00:00 전까지</StyledTd>
-              <StyledTd>취소 패널티 100%</StyledTd>
-            </tr>
-            <tr>
-              <StyledTd>체크인 당일 및 No-show</StyledTd>
-              <StyledTd>취소 불가 및 환불 불가</StyledTd>
-            </tr>
-          </tbody>
-        </StyledTable>
-
-        <StyledModalHLine />
-        <Button onClick={closeModal}>예약하기</Button>
+        <StyledModalFooter>
+          <StyledFlexContainer
+            $alignItems="baseline"
+            $flexDirection="column"
+            style={{ padding: '1rem', height: '5rem' }}>
+            <StyledFlexContainer $gap="0.3rem">
+              <StyledText
+                $fontSize={theme.fontSizes.sm}
+                $fontWeight={theme.fontWeights.bold}>
+                11.29~11.30
+              </StyledText>
+              <StyledText
+                $fontSize={theme.fontSizes.sm}
+                $fontWeight={theme.fontWeights.bold}
+                $color="red">
+                취소 및 환불불가
+              </StyledText>
+            </StyledFlexContainer>
+            <StyledFlexContainer>
+              <StyledText
+                $fontSize={theme.fontSizes.lg}
+                $fontWeight={theme.fontWeights.bold}>
+                55,000원
+              </StyledText>
+            </StyledFlexContainer>
+          </StyledFlexContainer>
+          <StyledFlexContainer style={{ height: '5rem' }}>
+            <button style={{ width: '3rem', height: '3rem' }}>
+              <img src={cart} alt="cart" style={{ height: '1.5rem' }} />
+            </button>
+            <Button
+              style={{
+                width: '15rem',
+                height: '3rem',
+                margin: '0.5rem',
+              }}
+              onClick={closeModal}>
+              예약하기
+            </Button>
+          </StyledFlexContainer>
+        </StyledModalFooter>
       </StyledModalContent>
     </StyledModal>
   );
@@ -166,9 +242,19 @@ const StyledModalFlexContainer = styled(StyledFlexContainer)`
   padding: 1rem;
   margin-bottom: 1rem;
 `;
+const StyledReviewButton = styled.button`
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  width: 100%;
 
-const StyledModalHLine = styled(StyledHLine)`
-  margin-top: auto;
+  padding: 0.7rem;
+  color: #444;
+  font-size: ${(props) => props.theme.fontSizes.md};
+  font-weight: ${(props) => props.theme.fontWeights.bold};
+  border-radius: 0.5rem;
+  &:hover {
+    background-color: #eeeeee;
+  }
 `;
 
 const StyledTable = styled.table`
@@ -190,4 +276,44 @@ const StyledTd = styled.td`
   padding: 0.5rem;
   text-align: left;
   font-size: ${(props) => props.theme.fontSizes.sm};
+`;
+
+const StyledModalBody = styled.div`
+  overflow-y: auto;
+  padding: 2rem;
+`;
+
+const StyledModalFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #ddd;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 4px 0px;
+`;
+
+export const StyledModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StyledModalContent = styled.div<{
+  $width?: string;
+  $heigh?: string;
+}>`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  width: ${(props) => props.$width || 'auto'};
+  height: ${(props) => props.$heigh || 'auto'};
+  max-height: 80vh;
+  overflow-y: auto;
 `;
