@@ -10,6 +10,7 @@ const CartBtn = () => {
 };
 
 export default CartBtn;
+
 export const StyledCartIcon = styled.button`
   cursor: pointer;
   border: 1px solid #ccc;
@@ -21,13 +22,12 @@ export const StyledCartIcon = styled.button`
 
   &:hover {
     background-color: #e6e6e6;
-
+  }
   &:focus {
     outline: none;
   }
   &:disabled {
     color: ${(props) => props.theme.colors.gray};
     background-color: ${(props) => props.theme.colors.lightGray};
-
   }
 `;
