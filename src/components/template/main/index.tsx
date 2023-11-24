@@ -11,8 +11,26 @@ import {
   StyledSalePrice,
 } from '../../../style/main/productCardStyle';
 import { StyledLabel } from '../../../style/payment/paymentStyle';
+import { getProducts } from '../../../api/service';
 
 const ProductCard = () => {
+  // async function fetchProducts() {
+  //   try {
+  //     const accomodationData = {
+  //       checkIn: '2023-12-01', // 체크인 날짜
+  //       checkOut: '2023-12-05', // 체크아웃 날짜
+  //       personNumber: 2, // 인원 수
+  //     };
+
+  //     const res = await getProducts(accomodationData);
+  //     console.log('조회 결과:', res.data);
+  //   } catch (error) {
+  //     console.error('조회 실패:', error);
+  //   }
+  // }
+
+  // fetchProducts();
+
   return (
     <StyledProductCard>
       <StyledThumbnail>

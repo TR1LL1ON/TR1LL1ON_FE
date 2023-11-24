@@ -1,5 +1,5 @@
 import { LuUser, LuBedSingle } from 'react-icons/lu';
-
+import { useState } from 'react';
 import {
   StyledWrap,
   StyledImgBox,
@@ -15,8 +15,13 @@ import {
 } from '../../../style/detail/detailStyle';
 import { StyledFlexContainer } from '../../../style/payment/paymentStyle';
 import CartBtn from '../../layout/Button/cartBtn';
+import DetailModal from './detailModal/detailModal';
 
 const RoomCard = () => {
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const handleDetailModal = () => {
+    setShowDetailModal(true);
+  };
   const imgSrc: string =
     '//a0.muscache.com/im/pictures/fe84676f-e446-45b2-9d35-bcaf5dbc7469.jpg?im_w=720';
   return (
@@ -32,7 +37,12 @@ const RoomCard = () => {
           <div>
             <StyledFlexContainer $flexDirection="row">
               <StyledSubText $color="#444">숙박</StyledSubText>
-              <StyledOnClick>상세보기</StyledOnClick>
+              <StyledOnClick onClick={handleDetailModal}>
+                상세보기
+              </StyledOnClick>
+              {showDetailModal && (
+                <DetailModal setShowModal={setShowDetailModal} />
+              )}
             </StyledFlexContainer>
             <StyledSubText $fontSize="1rem" $mt="0" $mb="0" $fontWeight={400}>
               체크인: 15:00~체크아웃:11:00
