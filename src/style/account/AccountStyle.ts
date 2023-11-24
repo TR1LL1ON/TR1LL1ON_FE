@@ -1,7 +1,13 @@
+import { FieldError } from 'react-hook-form';
 import styled, { css, keyframes } from 'styled-components';
 
 interface IIsSignUp {
   $isSignUp: boolean;
+}
+
+interface IStyledInputProps {
+  error: FieldError | undefined;
+  inputValue: string;
 }
 
 export const StyledModal = styled.div`
@@ -177,13 +183,33 @@ export const StyledForm = styled.form`
   align-items: center;
 `;
 
-export const StyledInput = styled.input`
+export const StyledInput = styled.div<IStyledInputProps>`
   width: 100%;
   margin: 8px 0;
-  padding: 12px 15px;
-  background-color: transparent;
+  color: ${({ error }) => (error ? 'red' : 'green')};
 
-  border: 1px solid #b0b0b0;
-  border-radius: 10px;
-  outline: none;
+  position: relative;
+
+  input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid
+      ${({ inputValue, error }) =>
+        inputValue || error ? (error ? 'red' : 'green') : '#b0b0b0'};
+    border-radius: 10px;
+    outline: none;
+  }
+
+  svg {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+  }
+`;
+
+export const StyledMessage = styled.span`
+  font-size: 0.75rem;
+  padding: 2px 5px;
+  color: red;
 `;
