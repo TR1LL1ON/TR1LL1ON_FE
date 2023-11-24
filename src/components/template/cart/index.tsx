@@ -4,7 +4,6 @@ import {
   StyledTitle,
   StyledWrapper,
 } from '../../../style/payment/paymentStyle';
-import AccountModal from '../../layout/modal/accountModal';
 import CartDetail from './CartDetail';
 import CartList from './CartList';
 import CartListController from './CartListController';
@@ -26,7 +25,6 @@ const CartContainer = () => {
       <StyledButton style={{ width: '100%' }} $variant="primary">
         결제하기
       </StyledButton>
-      <AccountModal />
     </StyledWrapper>
   );
 };

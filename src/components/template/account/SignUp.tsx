@@ -7,13 +7,13 @@ import {
 import * as S from '../../../style/account/AccountStyle';
 import { useForm } from 'react-hook-form';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 
 export interface IIsSignUpProps {
   isSignUp: boolean;
 }
 
-interface IFormValue {
+interface ISignUpFormProps {
   user_id: string;
   name: string;
   email: string;
@@ -27,7 +27,7 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<IFormValue>({ mode: 'onBlur' });
+  } = useForm<ISignUpFormProps>({ mode: 'onBlur' });
 
   const [userId, setUserId] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -45,7 +45,7 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="user_id">아이디</StyledInputLabel>
-          <S.StyledInput>
+          <S.StyledInput error={errors.user_id} inputValue={userId}>
             <input
               id="user_id"
               type="text"
@@ -78,7 +78,7 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="name">이름</StyledInputLabel>
-          <S.StyledInput>
+          <S.StyledInput error={errors.name} inputValue={name}>
             <input
               id="name"
               type="text"
@@ -109,7 +109,7 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="email">이메일</StyledInputLabel>
-          <S.StyledInput>
+          <S.StyledInput error={errors.email} inputValue={email}>
             <input
               id="email"
               type="email"
@@ -146,7 +146,7 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="password">비밀번호</StyledInputLabel>
-          <S.StyledInput>
+          <S.StyledInput error={errors.password} inputValue={password}>
             <input
               id="password"
               type="password"
@@ -187,7 +187,9 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
           <StyledInputLabel htmlFor="password_check">
             비밀번호 확인
           </StyledInputLabel>
-          <S.StyledInput>
+          <S.StyledInput
+            error={errors.password_check}
+            inputValue={passwordCheck}>
             <input
               id="password_check"
               type="password"
