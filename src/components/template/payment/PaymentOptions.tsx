@@ -10,18 +10,16 @@ import {
 import { useRef, useState } from 'react';
 import { useClickOutside } from '../../../hooks/useClickOutside';
 import ArrowDown from '../../../assets/arrow-down.svg';
-import PaymentOptionItem, {
-  PaymentOptionType,
-  getPayLogo,
-} from './PaymentOptionItem';
-import { paymentOption } from '../../../constants';
+import PaymentOptionItem, { getPayLogo } from './PaymentOptionItem';
+import { paymentOption, paymentOptionList } from '../../../constants';
 import AddCreditCard from './AddCreditCard';
+import { useRecoilValue } from 'recoil';
+import { orderState } from '../../../states/atom';
 
 const PaymentOptions = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedOption, setSelectedOption] =
-    useState<PaymentOptionType>('kakaopay');
+  const payment = useRecoilValue(orderState);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(dropdownRef, () => {
@@ -55,7 +53,7 @@ const PaymentOptions = () => {
         ref={dropdownRef}
         aria-expanded={isMenuOpen}>
         <span className="selected">
-          {getPayLogo(selectedOption)} {paymentOption[selectedOption]}
+          {getPayLogo(payment.payment)} {paymentOption[payment.payment]}
         </span>
         <div className={`icon ${isMenuOpen ? 'open' : ''}`}>
           <img src={ArrowDown} alt="arrow-down" />
@@ -67,30 +65,17 @@ const PaymentOptions = () => {
             $isOpen={isMenuOpen}
             role="menu"
             aria-labelledby="payment-options">
-            <PaymentOptionItem
-              type="kakaopay"
-              setSelectedOption={setSelectedOption}
-            />
-            <PaymentOptionItem
-              type="naverpay"
-              setSelectedOption={setSelectedOption}
-            />
-            <PaymentOptionItem
-              type="card"
-              setSelectedOption={setSelectedOption}
-            />
-            <PaymentOptionItem
-              type="cash"
-              setSelectedOption={setSelectedOption}
-            />
+            {paymentOptionList.map((option) => (
+              <PaymentOptionItem key={option} type={option} />
+            ))}
           </StyledDropdownList>
         )}
       </StyledWrapper>
       <StyledSpacer $height="0.5rem" />
-      {selectedOption === 'cash' && (
+      {payment.payment === 'cash' && (
         <StyledText>예약한 장소에서 현금 결제</StyledText>
       )}
-      {selectedOption === 'card' && <StyledButton>카드 추가하기</StyledButton>}
+      {payment.payment === 'card' && <StyledButton>카드 추가하기</StyledButton>}
       <AddCreditCard />
     </>
   );
