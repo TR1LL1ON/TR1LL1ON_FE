@@ -104,39 +104,21 @@ export const postOrders = async (orderData: OrderData) => {
   return res;
 };
 
-// 장바구니 삼품 전체 조회
+// 장바구니 상품 전체 조회
 export const getCarts = async () => {
   const res = await client.get(`carts`);
   return res;
 };
 
-// 장바구니 삼품 추가
+// 장바구니 상품 추가
 export const postCarts = async (productID: string) => {
   const res = await client.post(`carts/${productID}`);
   return res;
 };
 
-// 장바구니 삼품 삭제
+// 장바구니 상품 삭제
 export const deleteCarts = async (cartID: string) => {
   const res = await client.delete(`carts/${cartID}`);
-  return res;
-};
-
-// 숙소 찜 조회
-export const getLikes = async () => {
-  const res = await client.get(`likes`);
-  return res;
-};
-
-// 숙소 찜 누르기
-export const postLikes = async (accomodationID: string) => {
-  const res = await client.post(`likes/${accomodationID}`);
-  return res;
-};
-
-// 숙소 찜 삭제
-export const deleteLikes = async (accomodationID: string) => {
-  const res = await client.delete(`likes/${accomodationID}`);
   return res;
 };
 
@@ -165,6 +147,24 @@ export const putReviews = async (reviewID: string, ReviewData: ReviewData) => {
 // 리뷰삭제
 export const deleteReviews = async (reviewID: string) => {
   const res = await client.delete(`reviews/${reviewID}`);
+  return res;
+};
+
+// 숙소 찜 조회
+export const getLikes = async () => {
+  const res = await client.get(`likes`);
+  return res;
+};
+
+// 숙소 찜 누르기
+export const postLikes = async (accomodationID: string) => {
+  const res = await client.post(`likes/${accomodationID}`);
+  return res;
+};
+
+// 숙소 찜 삭제
+export const deleteLikes = async (accomodationID: string) => {
+  const res = await client.delete(`likes/${accomodationID}`);
   return res;
 };
 

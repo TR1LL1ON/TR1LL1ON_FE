@@ -42,3 +42,9 @@ export interface ReviewData {
   content: string; // 리뷰내용
   score: number; // 평점
 }
+
+export interface SignupRequestBody {
+  name: string;
+  email: string;
+  password: string;
+}
