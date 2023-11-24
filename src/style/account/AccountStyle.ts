@@ -177,13 +177,31 @@ export const StyledForm = styled.form`
   align-items: center;
 `;
 
-export const StyledInput = styled.input`
+export const StyledInput = styled.div`
   width: 100%;
   margin: 8px 0;
-  padding: 12px 15px;
-  background-color: transparent;
+  color: green;
 
-  border: 1px solid #b0b0b0;
-  border-radius: 10px;
-  outline: none;
+  position: relative;
+
+  input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #b0b0b0;
+    border-radius: 10px;
+    outline: none;
+  }
+
+  svg {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+  }
+`;
+
+export const StyledMessage = styled.span`
+  font-size: 0.75rem;
+  padding: 2px 5px;
+  color: red;
 `;

@@ -19,15 +19,19 @@ const SignIn = ({ isSignUp }: ISignInProps) => {
           $flexDirection="column"
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
-          <StyledInputLabel htmlFor="id">아이디</StyledInputLabel>
-          <S.StyledInput type="text" id="id" placeholder="아이디" />
+          <StyledInputLabel htmlFor="login_user_id">아이디</StyledInputLabel>
+          <S.StyledInput>
+            <input id="login_user_id" type="text" placeholder="아이디" />
+          </S.StyledInput>
         </StyledFlexContainer>
         <StyledFlexContainer
           $flexDirection="column"
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
-          <StyledInputLabel htmlFor="password">비밀번호</StyledInputLabel>
-          <S.StyledInput type="password" id="password" placeholder="비밀번호" />
+          <StyledInputLabel htmlFor="login_password">비밀번호</StyledInputLabel>
+          <S.StyledInput>
+            <input id="login_password" type="password" placeholder="비밀번호" />
+          </S.StyledInput>
         </StyledFlexContainer>
         <StyledButton $variant="primary" style={{ width: '100%' }}>
           로그인
