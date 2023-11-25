@@ -16,8 +16,10 @@ import {
 import { StyledFlexContainer } from '../../../style/payment/paymentStyle';
 import CartBtn from '../../layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
-
-const RoomCard = () => {
+interface RoomCardProps {
+  // totalGuestCount: number;
+}
+const RoomCard = ({}: RoomCardProps) => {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const handleDetailModal = () => {
     setShowDetailModal(true);
