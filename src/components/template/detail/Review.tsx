@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import {
   StyledWrap,
   StyledH2Text,
-  StyledSelect,
   StyledTextBox,
 } from '../../../style/detail/detailStyle';
 import styled from 'styled-components';
