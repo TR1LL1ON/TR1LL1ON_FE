@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import {
   StyledBorderWrap,
   StyledServiceWrap,
@@ -7,8 +9,16 @@ import {
 import { StyledFlexContainer } from '../../../style/payment/paymentStyle';
 import APIServiceList from './APIServiceList';
 import EssentialServiceList from './EssentialServiceList';
+import FacilityModal from './FacilityModal';
 
 const DetailService = () => {
+  const [showFacilityModal, setShowFacilityModal] = useState(false);
+
+  const handleFacilityModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log('modal open');
+    setShowFacilityModal(true);
+  };
   return (
     <StyledBorderWrap>
       <StyledH2Text $mt="0rem" $mb="2rem">
@@ -32,9 +42,15 @@ const DetailService = () => {
           $gap="1rem">
           <APIServiceList />
         </StyledFlexContainer>
-        <StyledBorderBtn $variant="primary" className="service-col">
+        <StyledBorderBtn
+          $variant="primary"
+          className="service-col"
+          onClick={handleFacilityModal}>
           편의시설 모두 보기
         </StyledBorderBtn>
+        {showFacilityModal && (
+          <FacilityModal onClose={() => setShowFacilityModal(false)} />
+        )}
       </StyledServiceWrap>
     </StyledBorderWrap>
   );
