@@ -3,7 +3,7 @@ import { useClickOutside } from '../../../../hooks/useClickOutside';
 import GuestContent from './guestContent';
 import styled from 'styled-components';
 import { StyledText } from '../../../../style/payment/paymentStyle';
-import { StyledSubText } from '../../../../style/detail/detailStyle';
+import { StyledH2Text } from '../../../../style/detail/detailStyle';
 
 interface GuestModalProps {
   onClose: () => void;
@@ -23,9 +23,9 @@ const GuestModal = ({ onClose }: GuestModalProps) => {
     <StyledModalWrapper>
       <StyledModalContent ref={ref}>
         <StyledCloseButton onClick={onClose}>X</StyledCloseButton>
-        <StyledSubText $color="#444" $fontSize="1.5rem" $textAlign="left">
+        <StyledH2Text $fontSize="1.5rem" $textAlign="left">
           게스트
-        </StyledSubText>
+        </StyledH2Text>
         <StyledText>이 숙소의 최대 숙박 인원은 n명 입니다.</StyledText>
         <GuestContent onClose={onClose} onSave={onSave} />
       </StyledModalContent>
