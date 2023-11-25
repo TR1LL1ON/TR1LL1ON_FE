@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import { OrderRequest } from '../interfaces/interface';
+import { CardInfoValues } from '../components/template/payment/AddCreditCard';
 
 export const allUserState = atom<string[]>({
   key: 'allUserState',
@@ -14,5 +15,15 @@ export const orderState = atom<OrderRequest>({
     orders: [],
     payment: 'kakaopay',
     total_price: 0,
+  },
+});
+
+export const cardState = atom<CardInfoValues>({
+  key: 'cardState',
+  default: {
+    cardNumber: { first: '', second: '', third: '', fourth: '' },
+    cardPassword: '',
+    cardExpirationMonth: '',
+    cardExpirationYear: '',
   },
 });

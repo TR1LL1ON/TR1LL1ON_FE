@@ -75,8 +75,7 @@ const PaymentOptions = () => {
       {payment.payment === 'cash' && (
         <StyledText>예약한 장소에서 현금 결제</StyledText>
       )}
-      {payment.payment === 'card' && <StyledButton>카드 추가하기</StyledButton>}
-      <AddCreditCard />
+      {payment.payment === 'card' && <AddCreditCard />}
     </>
   );
 };
