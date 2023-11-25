@@ -1,3 +1,4 @@
+import { GuestCount } from '../../../interfaces/interface';
 import {
   StyledOnClick,
   StyledSelect,
@@ -13,8 +14,14 @@ import {
 import APIServiceList from './APIServiceList';
 interface AccommodationProp {
   onOpen: (e: React.MouseEvent) => void;
+  guestCount: GuestCount;
+  totalGuestCount: number;
 }
-const AccommodationInfo = ({ onOpen }: AccommodationProp) => {
+const AccommodationInfo = ({
+  onOpen,
+  guestCount,
+  totalGuestCount,
+}: AccommodationProp) => {
   return (
     <StyledWrap>
       <StyledTitle>마리나베이 속초</StyledTitle>
@@ -53,7 +60,10 @@ const AccommodationInfo = ({ onOpen }: AccommodationProp) => {
             <StyledText $fontSize="1rem" $fontWeight={700}>
               게스트
             </StyledText>
-            <StyledText $fontSize="1rem"> 성인 n명 / 아동 n명</StyledText>
+            <StyledText $fontSize="1rem">
+              성인 {guestCount.adults}명 / 아동 {guestCount.children}명 / 유아
+              {guestCount.infants}명 &nbsp;::&nbsp; 총 {totalGuestCount}명
+            </StyledText>
           </StyledFlexContainer>
           <StyledOnClick onClick={onOpen}>수정</StyledOnClick>
         </StyledSelect>

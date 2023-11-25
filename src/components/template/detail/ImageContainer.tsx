@@ -18,6 +18,7 @@ const ImageContainer: React.FC = () => {
 
 export default ImageContainer;
 export const StyledGridImgWrap = styled.div`
+  margin-top: 4rem;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   grid-gap: 1rem;

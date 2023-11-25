@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { GuestCount } from '../../../../interfaces/interface';
 import GuestAgeGroup from './guestAgeGroup';
 import styled from 'styled-components';
@@ -7,15 +6,22 @@ import { StyledButton } from '../../../../style/common/commonStyle';
 interface GuestContentProps {
   onSave: (totalGuests: number) => void;
   onClose: () => void;
+  guestCount: GuestCount;
+  setGuestCount: React.Dispatch<React.SetStateAction<GuestCount>>;
 }
 
-const GuestContent = ({ onSave, onClose }: GuestContentProps) => {
-  const [guestCount, setGuestCount] = useState<GuestCount>({
+const GuestContent = ({
+  guestCount,
+  setGuestCount,
+  onSave,
+  onClose,
+}: GuestContentProps) => {
+  /*   const [guestCount, setGuestCount] = useState<GuestCount>({
     adults: 0,
     children: 0,
     infants: 0,
   } as GuestCount);
-
+ */
   const updateGuestCount = (type: keyof GuestCount, action: string) => {
     if (action === 'increase') {
       setGuestCount((prevCount) => ({
