@@ -6,6 +6,8 @@ export const allUserState = atom<string[]>({
   default: [],
 });
 
+// 숙소 상세 페이지에서 예약 누를 시, 예약 정보를 담는 state
+// orders: 예약 정보
 export const orderState = atom<OrderRequest>({
   key: 'orderState',
   default: {

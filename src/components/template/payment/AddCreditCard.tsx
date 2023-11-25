@@ -14,15 +14,26 @@ import {
   StyledTitle,
 } from '../../../style/payment/paymentStyle';
 import { useForm } from 'react-hook-form';
+import { useRef } from 'react';
 
 interface CardInfoValues {
-  cardNumber: string;
+  cardNumber: { first: string; second: string; third: string; fourth: string };
   cardExpirationDate: string;
   cardPassword: string;
 }
 
 const AddCreditCard = () => {
-  const { register, handleSubmit } = useForm<CardInfoValues>();
+  const { register, handleSubmit } = useForm<CardInfoValues>({
+    defaultValues: {
+      cardNumber: { first: '', second: '', third: '', fourth: '' },
+      cardExpirationDate: '',
+      cardPassword: '',
+    },
+  });
+
+  const secondInputRef = useRef<HTMLInputElement>(null);
+  const thirdInputRef = useRef<HTMLInputElement>(null);
+  const fourthInputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = (data: CardInfoValues) => {
     console.log(data);
@@ -48,12 +59,39 @@ const AddCreditCard = () => {
         <StyledFlexContainer $gap="0.5rem">
           <StyledPayInput
             type="number"
-            {...register('cardNumber', {
+            {...register('cardNumber.first', {
               required: true,
-              minLength: 16,
-              maxLength: 16,
+              maxLength: 4,
+              minLength: 4,
             })}
-            placeholder="0000 0000 0000 0000"
+            placeholder="0000"
+          />
+          <StyledPayInput
+            type="number"
+            {...register('cardNumber.second', {
+              required: true,
+              maxLength: 4,
+              minLength: 4,
+            })}
+            placeholder="0000"
+          />
+          <StyledPayInput
+            type="number"
+            {...register('cardNumber.third', {
+              required: true,
+              maxLength: 4,
+              minLength: 4,
+            })}
+            placeholder="0000"
+          />
+          <StyledPayInput
+            type="number"
+            {...register('cardNumber.fourth', {
+              required: true,
+              maxLength: 4,
+              minLength: 4,
+            })}
+            placeholder="0000"
           />
         </StyledFlexContainer>
         <StyledSubTitle $mb="0.5rem">만료일</StyledSubTitle>
