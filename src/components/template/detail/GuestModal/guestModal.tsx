@@ -1,14 +1,8 @@
-import { useRef } from 'react';
-import { useClickOutside } from '../../../../hooks/useClickOutside';
 import GuestContent from './guestContent';
 import { StyledText } from '../../../../style/payment/paymentStyle';
 import { StyledH2Text } from '../../../../style/detail/detailStyle';
 import { GuestCount } from '../../../../interfaces/interface';
-import {
-  StyledCloseButton,
-  StyledModalContent,
-  StyledModalWrapper,
-} from '../../../../style/detail/commonModalStyles';
+import ModalContainer from '../../../layout/modal/ModalContainer';
 
 interface GuestModalProps {
   onClose: () => void;
@@ -23,31 +17,24 @@ const GuestModal = ({
   guestCount,
   setGuestCount,
 }: GuestModalProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  useClickOutside(ref, () => {
-    onClose();
-  });
   const handleSave = (totalGuests: number) => {
     console.log('총 게스트:', totalGuests, '명');
     onSave(totalGuests); // 상위 컴포넌트 handleSaveGuestCount 호출
   };
 
   return (
-    <StyledModalWrapper>
-      <StyledModalContent ref={ref}>
-        <StyledCloseButton onClick={onClose}>X</StyledCloseButton>
-        <StyledH2Text $fontSize="1.5rem" $textAlign="left">
-          게스트
-        </StyledH2Text>
-        <StyledText>이 숙소의 최대 숙박 인원은 n명 입니다.</StyledText>
-        <GuestContent
-          guestCount={guestCount}
-          setGuestCount={setGuestCount}
-          onClose={onClose}
-          onSave={handleSave}
-        />
-      </StyledModalContent>
-    </StyledModalWrapper>
+    <ModalContainer onClose={onClose}>
+      <StyledH2Text $fontSize="1.5rem" $textAlign="left">
+        게스트
+      </StyledH2Text>
+      <StyledText>이 숙소의 최대 숙박 인원은 n명 입니다.</StyledText>
+      <GuestContent
+        guestCount={guestCount}
+        setGuestCount={setGuestCount}
+        onClose={onClose}
+        onSave={handleSave}
+      />
+    </ModalContainer>
   );
 };
 
