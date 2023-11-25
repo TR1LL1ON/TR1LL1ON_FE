@@ -1,23 +1,20 @@
 import styled from 'styled-components';
-import theme from '../../../style/theme';
-import { ModalProps } from '../../../interfaces/interface';
-import { StyledButton } from '../../../style/common/commonStyle';
+import theme from '../../../../style/theme';
+import { ModalProps } from '../../../../interfaces/interface';
+import { StyledButton } from '../../../../style/common/commonStyle';
 import {
   StyledTitle,
   StyledSubTitle,
   StyledText,
   StyledFlexContainer,
-} from '../../../style/payment/paymentStyle';
+} from '../../../../style/payment/paymentStyle';
 import { v4 as uuidv4 } from 'uuid';
 import Carousel from './carousel';
-
-import bed from '../../../../public/icon/bed.svg';
-import cart from '../../../../public/icon/cart.svg';
-import check from '../../../../public/icon/check.svg';
-import noSmoking from '../../../../public/icon/noSmoking.svg';
-import person from '../../../../public/icon/person.svg';
-import rightArrow from '../../../../public/icon/rightArrow.svg';
-import size from '../../../../public/icon/size.svg';
+import { MdKeyboardArrowRight, MdArrowForwardIos } from 'react-icons/md';
+import { LuUser, LuBedSingle, LuCheck } from 'react-icons/lu';
+import { IoLogoNoSmoking } from 'react-icons/io';
+import { SlSizeFullscreen } from 'react-icons/sl';
+import CartBtn from '../../../layout/Button/cartBtn';
 
 const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
@@ -56,11 +53,8 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
               더 노벰버 스테이 인 랜드마크
             </StyledText>
             <StyledText>
-              <img
-                src={rightArrow}
-                alt="rightArrow"
+              <MdArrowForwardIos
                 style={{
-                  marginLeft: '0.1rem',
                   marginTop: '0.2rem',
                 }}
               />
@@ -69,19 +63,19 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
 
           <StyledModalFlexContainer>
             <StyledModalText $color="#808080">
-              <img src={person} alt="person" />
+              <LuUser />
               {roomFeature.occupancy}
             </StyledModalText>
             <StyledModalText $color="#808080">
-              <img src={noSmoking} alt="noSmoking" />
+              <IoLogoNoSmoking />
               {roomFeature.smoking}
             </StyledModalText>
             <StyledModalText $color="#808080" style={{ marginTop: '0.2rem' }}>
-              <img src={bed} alt="bed" />
+              <LuBedSingle />
               {roomFeature.bedType}
             </StyledModalText>
             <StyledModalText $color="#808080" style={{ marginTop: '0.2rem' }}>
-              <img src={size} alt="size" />
+              <SlSizeFullscreen />
               {roomFeature.roomSize}
             </StyledModalText>
           </StyledModalFlexContainer>
@@ -94,11 +88,7 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
             style={{ marginBottom: '2rem' }}>
             {amenityArr.map((item) => (
               <StyledFlexContainer key={uuidv4()} $gap="0.2rem">
-                <img
-                  src={check}
-                  alt="check"
-                  style={{ marginBottom: '0.3rem' }}
-                />
+                <LuCheck />
                 <StyledText $color="#808080">{item}</StyledText>
               </StyledFlexContainer>
             ))}
@@ -134,14 +124,7 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
                 $color="red">
                 취소 및 환불 불가
               </StyledText>
-              <img
-                src={rightArrow}
-                alt="rightArrow"
-                style={{
-                  marginLeft: '0.1rem',
-                  marginBottom: '0.1rem',
-                }}
-              />
+              <MdKeyboardArrowRight />
             </StyledFlexContainer>
           </StyledModalFlexContainer>
 
@@ -210,14 +193,11 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
             </StyledFlexContainer>
           </StyledFlexContainer>
           <StyledFlexContainer style={{ height: '5rem' }}>
-            <button style={{ width: '3rem', height: '3rem' }}>
-              <img src={cart} alt="cart" style={{ height: '1.5rem' }} />
-            </button>
+            <CartBtn />
             <StyledButton
               $variant="primary"
               style={{
                 width: '15rem',
-                height: '3rem',
                 margin: '0.5rem',
               }}
               onClick={closeModal}>
@@ -304,6 +284,7 @@ export const StyledModal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 `;
 
 export const StyledModalContent = styled.div<{
