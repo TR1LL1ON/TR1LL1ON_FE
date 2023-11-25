@@ -16,8 +16,7 @@ const DetailContainer = ({}: DetailContainerProps) => {
   const [showGuestModal, setShowGuestModal] = useState(false);
   const handleGuestModal = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // setShowGuestModal(true);
-    setShowGuestModal(!showGuestModal);
+    setShowGuestModal(true);
   };
   const handleSaveGuestCount = (newGuestCount: number) => {
     setTotalGuestCount(newGuestCount); //게스트 수 상태 업데이트
