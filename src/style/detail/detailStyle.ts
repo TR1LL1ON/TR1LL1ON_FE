@@ -16,6 +16,20 @@ export const StyledBorderWrap = styled(StyledWrap)`
   border-top: 1px solid ${({ theme }) => theme.colors.gray};
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
 `;
+
+export const StyledTextBox = styled.div`
+  padding: 1rem;
+`;
+export const StyledIconBox = styled(StyledFlexContainer)<{
+  $fontSize?: string;
+  $fontWeight?: number;
+  $cursor?: string;
+}>`
+  padding: 1rem;
+  font-size: ${(props) => props.$fontSize || props.theme.fontSizes.xl};
+  font-weight: ${(props) => props.$fontWeight || props.theme.fontWeights.bold};
+  cursor: ${(props) => props.$cursor ||"default"};
+`;
 export const StyledServiceInfo = styled(StyledFlexContainer)<{
   $fontSize?: string;
   $fontWeight?: number;
