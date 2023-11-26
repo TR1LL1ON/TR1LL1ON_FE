@@ -30,7 +30,7 @@ const guestAgeGroup = ({
         <StyledTextGray> {subText} </StyledTextGray>
       </StyledTextBox>
       <StyledGuestCount $gap="1rem">
-        <StyledCountBtn onClick={onDecrease}>
+        <StyledCountBtn onClick={onDecrease} disabled={count === 0}>
           <LuMinusCircle />
         </StyledCountBtn>
         <StyledText>{count}명</StyledText>
@@ -67,4 +67,9 @@ const StyledCountBtn = styled.button`
   font-size: ${(props) => props.theme.fontSizes.xl};
   color: #444;
   cursor: pointer;
+  background: transparent;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
