@@ -8,6 +8,7 @@ export const StyledWrap = styled.article`
   font-size: ${(props) => props.theme.fontSizes.md};
   line-height: 2.2rem;
   margin: 0 0 2.5rem;
+  overflow-x: hidden;
   font-family: 'Pretendard', system-ui, Avenir, Helvetica, Arial, sans-serif;
 `;
 
@@ -15,6 +16,27 @@ export const StyledBorderWrap = styled(StyledWrap)`
   padding: 2.5rem 0;
   border-top: 1px solid ${({ theme }) => theme.colors.gray};
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
+`;
+
+export const StyledTextBox = styled.div<{
+  $padding?: string;
+  $fontSize?: string;
+  $fontWeight?: number;
+}>`
+  padding: ${(props) => props.$padding || '1rem'};
+  font-size: ${(props) => props.$fontSize || props.theme.fontSizes.md};
+  font-weight: ${(props) =>
+    props.$fontWeight || props.theme.fontWeights.regular};
+`;
+export const StyledIconBox = styled(StyledFlexContainer)<{
+  $fontSize?: string;
+  $fontWeight?: number;
+  $cursor?: string;
+}>`
+  padding: 1rem;
+  font-size: ${(props) => props.$fontSize || props.theme.fontSizes.xl};
+  font-weight: ${(props) => props.$fontWeight || props.theme.fontWeights.bold};
+  cursor: ${(props) => props.$cursor || 'default'};
 `;
 export const StyledServiceInfo = styled(StyledFlexContainer)<{
   $fontSize?: string;

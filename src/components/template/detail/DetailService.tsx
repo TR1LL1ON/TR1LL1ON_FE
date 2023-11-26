@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import {
   StyledBorderWrap,
   StyledServiceWrap,
@@ -16,7 +15,6 @@ const DetailService = () => {
 
   const handleFacilityModal = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log('modal open');
     setShowFacilityModal(true);
   };
   return (
