@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { GuestCount } from '../../../interfaces/interface';
 import {
   StyledOnClick,
@@ -12,6 +13,9 @@ import {
   StyledSpacer,
 } from '../../../style/payment/paymentStyle';
 import APIServiceList from './APIServiceList';
+import { Moment } from 'moment';
+import CalenderModal from '../../layout/modal/calenderModal';
+
 interface AccommodationProp {
   onOpen: (e: React.MouseEvent) => void;
   guestCount: GuestCount;
@@ -22,6 +26,24 @@ const AccommodationInfo = ({
   guestCount,
   totalGuestCount,
 }: AccommodationProp) => {
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const handleCalendarModal = () => {
+    setShowCalendarModal(true);
+  };
+
+  const [dateInfo, setDateInfo] = useState({
+    startDate: null as Moment | null,
+    endDate: null as Moment | null,
+    nights: 0,
+  });
+  const handleSaveDateInfo = (savedDateInfo: {
+    startDate: Moment | null;
+    endDate: Moment | null;
+    nights: number;
+  }) => {
+    setDateInfo(savedDateInfo);
+  };
+
   return (
     <StyledWrap>
       <StyledTitle>마리나베이 속초</StyledTitle>
@@ -46,9 +68,25 @@ const AccommodationInfo = ({
             <StyledText $fontSize="1rem" $fontWeight={700}>
               날짜
             </StyledText>
-            <StyledText $fontSize="1rem"> 2023.11.12~11.13 / 1박</StyledText>
+            {dateInfo.startDate && dateInfo.endDate ? (
+              <StyledText $fontSize="1rem">
+                {`${dateInfo.startDate.format(
+                  'YY.MM.DD',
+                )} ~ ${dateInfo.endDate.format('YY.MM.DD')} / ${
+                  dateInfo.nights
+                }박`}
+              </StyledText>
+            ) : (
+              <StyledText $fontSize="1rem">날짜를 선택해주세요.</StyledText>
+            )}
           </StyledFlexContainer>
-          <StyledOnClick>수정</StyledOnClick>
+          <StyledOnClick onClick={handleCalendarModal}>수정</StyledOnClick>
+          {showCalendarModal && (
+            <CalenderModal
+              setShowModal={setShowCalendarModal}
+              onSave={handleSaveDateInfo}
+            />
+          )}
         </StyledSelect>
 
         <StyledSelect>
