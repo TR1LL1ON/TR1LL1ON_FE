@@ -1,4 +1,5 @@
-import ImageContainer from './ImageContainer';
+// import ImageContainer from './ImageContainer';
+import DetailImageContainer from './DetailImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
 import DetailService from './DetailService';
@@ -26,7 +27,8 @@ const DetailContainer = ({}: DetailContainerProps) => {
 
   return (
     <>
-      <ImageContainer />
+      {/* <ImageContainer />  기존 */}
+      <DetailImageContainer /> {/* 슬라이드 */}
       <AccommodationInfo
         onOpen={handleGuestModal}
         guestCount={guestCount}
