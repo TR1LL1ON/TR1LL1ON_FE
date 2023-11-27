@@ -48,3 +48,42 @@ export interface SignupRequestBody {
   email: string;
   password: string;
 }
+
+export interface AccommodationImage {
+  image_url: string;
+}
+
+export interface Room {
+  room_id: number;
+  room_name: string;
+  check_in: string;
+  check_out: string;
+  count: number;
+  // Add other properties of the room here if needed
+}
+
+export interface AccommodationData {
+  accomodation_id: string;
+  address: string;
+  address_code: string;
+  breakfest: boolean;
+  category: string;
+  check_in: string;
+  check_out: string;
+  cooking: boolean;
+  image: AccommodationImage[];
+  latitude: string;
+  longitude: string;
+  name: string;
+  parking: boolean;
+  party: boolean;
+  person_number: number;
+  rooms: Room[];
+  score: number;
+  swimming_pool: boolean;
+}
+
+export interface AccommodationResponse {
+  accomodationID: string;
+  accomodationData: AccommodationData;
+}

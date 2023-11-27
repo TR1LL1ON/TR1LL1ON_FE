@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { CONTENT_TYPE, SERVER_URL } from '@/constant';
+import { CONTENT_TYPE, SERVER_URL } from '../constant';
 import {
   OrderRequest,
   AccomodationData,
   ReviewData,
-} from '@/interfaces/interface';
+  AccommodationResponse,
+} from '../interfaces/interface';
 
 const client = axios.create({
   baseURL: SERVER_URL,
@@ -85,8 +86,10 @@ export const getProductsCategoryRegion = async (
 
 // 개별 상품조회
 export const postAccomodation = async (accomodationID: string) => {
-  const res = await client.post(`products/${accomodationID}/`);
-  return res;
+  const res = await client.post<AccommodationResponse>(
+    `products/${accomodationID}/`,
+  );
+  return res.data;
 };
 
 // 개별 상품 상세페이지 조회
