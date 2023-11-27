@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   StyledHeaderButton,
@@ -16,10 +16,16 @@ import HeaderModal from '@/components/layout/modal/HeaderModal';
 import AccountModal from '@/components/layout/modal/accountModal';
 
 import { StyledText, StyledTitle } from '@/style/payment/paymentStyle';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 const Header = () => {
+  const headerModalRef = useRef<HTMLDivElement | null>(null);
   const [isHeaderModalOpen, setIsHeaderModalOpen] = useState<boolean>(false);
   const [isAccountModalOpen, setIsAccountModalOpen] = useState<boolean>(false);
+
+  useClickOutside(headerModalRef, () => {
+    setIsHeaderModalOpen(false);
+  });
 
   const handleHeaderModal = (): void => {
     setIsHeaderModalOpen(!isHeaderModalOpen);
@@ -47,6 +53,7 @@ const Header = () => {
       </StyledHeaderGroup>
 
       <StyledHeaderGroup
+        ref={headerModalRef}
         onClick={handleHeaderModal}
         style={{
           padding: '8px 8px 8px 14px',
