@@ -1,6 +1,6 @@
-import { SignupRequestBody } from './../interfaces/interface';
+import { SignupRequestBody } from '@/interfaces/interface';
 import { rest } from 'msw';
-import { SERVER_URL } from '../constant';
+import { SERVER_URL } from '@/constant';
 
 export const handlers = [
   // 회원가입
@@ -29,12 +29,12 @@ export const handlers = [
   }),
 
   // 로그아웃
-  rest.get(`${SERVER_URL}/logout`, (req, res, ctx) => {
+  rest.get(`${SERVER_URL}/logout`, (_, res, ctx) => {
     return res(ctx.status(200), ctx.json({ message: 'Logout successful' }));
   }),
 
   // 전체 숙소조회(비로그인) <=> 개인화 숙소조회(로그인)
-  rest.get(`${SERVER_URL}/products`, (req, res, ctx) => {
+  rest.get(`${SERVER_URL}/products`, (_, res, ctx) => {
     const products = [
       // 더미 데이터
       {
@@ -136,7 +136,7 @@ export const handlers = [
         .split('T')[0], // 내일 날짜
       person_number: 2,
       score: 4.5,
-      image: [{ image_url: 'http://example.com/room.jpg' }],
+      image: [{ image_url: 'https://source.unsplash.com/random/800x600' }],
       rooms: [
         {
           room_id: 1,
@@ -150,7 +150,7 @@ export const handlers = [
           bed_type: '더블',
           bed_number: 1,
           is_sold: false,
-          image_url: 'http://example.com/room1.jpg',
+          image_url: 'https://source.unsplash.com/random/800x600',
         },
       ],
       swimming_pool: true,
@@ -233,7 +233,7 @@ export const handlers = [
   }),
 
   // 장바구니 상품 전체 조회
-  rest.get(`${SERVER_URL}/carts`, (req, res, ctx) => {
+  rest.get(`${SERVER_URL}/carts`, (_, res, ctx) => {
     const cartData = {
       // 더미 데이터
       items: [
@@ -275,7 +275,7 @@ export const handlers = [
   }),
 
   // 내 리뷰 조회
-  rest.get(`${SERVER_URL}/reviews`, (req, res, ctx) => {
+  rest.get(`${SERVER_URL}/reviews`, (_, res, ctx) => {
     const reviewData = {
       reviews: [
         {
@@ -327,7 +327,7 @@ export const handlers = [
   }),
 
   // 숙소 찜 조회
-  rest.get(`${SERVER_URL}/likes`, (req, res, ctx) => {
+  rest.get(`${SERVER_URL}/likes`, (_, res, ctx) => {
     return res(ctx.status(200), ctx.json({ likes: [] }));
   }),
 

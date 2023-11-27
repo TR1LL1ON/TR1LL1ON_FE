@@ -9,8 +9,8 @@ import {
   StyledDiscount,
   StyledOriginalPrice,
   StyledSalePrice,
-} from '../../../style/main/productCardStyle';
-import { StyledLabel } from '../../../style/payment/paymentStyle';
+} from '@/style/main/productCardStyle';
+import { StyledLabel } from '@/style/payment/paymentStyle';
 
 const WishCard = () => {
   return (

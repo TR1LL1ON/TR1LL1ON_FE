@@ -1,4 +1,4 @@
-import DetailContainer from '../../components/template/detail/DetailContainer';
+import DetailContainer from '@/components/template/detail/DetailContainer';
 
 const Detail = () => {
   return (

@@ -3,7 +3,7 @@ import {
   StyledHLine,
   StyledTitle,
   StyledWrapper,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import CartDetail from './CartDetail';
 import CartList from './CartList';
 import CartListController from './CartListController';

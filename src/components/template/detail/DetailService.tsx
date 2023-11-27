@@ -4,8 +4,8 @@ import {
   StyledServiceWrap,
   StyledH2Text,
   StyledBorderBtn,
-} from '../../../style/detail/detailStyle';
-import { StyledFlexContainer } from '../../../style/payment/paymentStyle';
+} from '@/style/detail/detailStyle';
+import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import APIServiceList from './APIServiceList';
 import EssentialServiceList from './EssentialServiceList';
 import FacilityModal from './FacilityModal';

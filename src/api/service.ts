@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { CONTENT_TYPE, SERVER_URL } from '../constant';
 import {
-  OrderData,
+  OrderRequest,
   AccomodationData,
   ReviewData,
+  AccommodationResponse,
 } from '../interfaces/interface';
 
 const client = axios.create({
@@ -85,8 +86,10 @@ export const getProductsCategoryRegion = async (
 
 // 개별 상품조회
 export const postAccomodation = async (accomodationID: string) => {
-  const res = await client.post(`products/${accomodationID}/`);
-  return res;
+  const res = await client.post<AccommodationResponse>(
+    `products/${accomodationID}/`,
+  );
+  return res.data;
 };
 
 // 개별 상품 상세페이지 조회
@@ -99,7 +102,7 @@ export const postAccomodationProduct = async (
 };
 
 // 상품 주문하기
-export const postOrders = async (orderData: OrderData) => {
+export const postOrders = async (orderData: OrderRequest) => {
   const res = await client.post(`orders`, orderData);
   return res;
 };

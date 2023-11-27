@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
-import { handleCopyClipBoard } from '../../../util/clipboard';
+import { handleCopyClipBoard } from '@/util/clipboard';
 import { useState } from 'react';
-import { GuestCount } from '../../../interfaces/interface';
+import { GuestCount } from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
 import APIServiceList from './APIServiceList';
 
@@ -12,15 +12,15 @@ import {
   StyledServiceInfo,
   StyledTextBox,
   StyledWrap,
-} from '../../../style/detail/detailStyle';
+} from '@/style/detail/detailStyle';
 import {
   StyledTitle,
   StyledText,
   StyledFlexContainer,
   StyledSpacer,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import { Moment } from 'moment';
-import CalenderModal from '../../layout/modal/calenderModal';
+import CalenderModal from '@/components/layout/modal/calenderModal';
 
 interface AccommodationProp {
   onOpen: (e: React.MouseEvent) => void;

@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import { LuPlusCircle, LuMinusCircle } from 'react-icons/lu';
-import {
-  StyledFlexContainer,
-  StyledText,
-} from '../../../../style/payment/paymentStyle';
-import { StyledH2Text } from '../../../../style/detail/detailStyle';
+import { StyledFlexContainer, StyledText } from '@/style/payment/paymentStyle';
+import { StyledH2Text } from '@/style/detail/detailStyle';
 interface GuestAgeGroupProps {
   text: string;
   subText: string;

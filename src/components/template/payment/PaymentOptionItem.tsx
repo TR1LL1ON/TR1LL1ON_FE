@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
-import { paymentOption } from '../../../constants';
+import { paymentOption } from '@/constants';
 import {
   KakaoPayLogo,
   NaverPayLogo,
@@ -7,13 +6,14 @@ import {
   StyledDropdownItem,
   StyledText,
   StyledImageContainer,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
+import { useRecoilState } from 'recoil';
+import { orderState } from '../../../states/atom';
 
 export type PaymentOptionType = 'kakaopay' | 'naverpay' | 'card' | 'cash';
 
 interface Props {
   type: PaymentOptionType;
-  setSelectedOption: Dispatch<SetStateAction<PaymentOptionType>>;
 }
 
 export const getPayLogo = (type: PaymentOptionType) => {
@@ -29,9 +29,13 @@ export const getPayLogo = (type: PaymentOptionType) => {
   }
 };
 
-const PaymentOptionItem = ({ type, setSelectedOption }: Props) => {
+const PaymentOptionItem = ({ type }: Props) => {
+  const [payment, setPayment] = useRecoilState(orderState);
+
   return (
-    <StyledDropdownItem onClick={() => setSelectedOption(type)} tabIndex={0}>
+    <StyledDropdownItem
+      onClick={() => setPayment({ ...payment, payment: type })}
+      tabIndex={0}>
       <StyledImageContainer $w="2.5rem" $h="2rem">
         {getPayLogo(type)}
       </StyledImageContainer>

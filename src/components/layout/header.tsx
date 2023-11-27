@@ -8,12 +8,14 @@ import {
   StyledSearchContainer,
   StyledSearchIcon,
   StyledVLine,
-} from '../../style/header/headerStyle';
-import { StyledText, StyledTitle } from '../../style/payment/paymentStyle';
+} from '@/style/header/headerStyle';
+
 import { AiOutlineMenu } from 'react-icons/ai';
 import { BiSolidUserCircle } from 'react-icons/bi';
-import HeaderModal from './modal/HeaderModal';
-import AccountModal from './modal/accountModal';
+import HeaderModal from '@/components/layout/modal/HeaderModal';
+import AccountModal from '@/components/layout/modal/accountModal';
+
+import { StyledText, StyledTitle } from '@/style/payment/paymentStyle';
 
 const Header = () => {
   const [isHeaderModalOpen, setIsHeaderModalOpen] = useState<boolean>(false);

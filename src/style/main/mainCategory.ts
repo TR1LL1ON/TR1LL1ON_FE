@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledText } from '../payment/paymentStyle';
+import { StyledText } from '@/style/payment/paymentStyle';
 
 export const StyledCategoryContainer = styled.div`
   display: grid;

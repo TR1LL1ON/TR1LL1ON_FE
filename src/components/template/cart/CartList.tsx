@@ -1,4 +1,4 @@
-import { StyledCartList } from '../../../style/cart/cartStyle';
+import { StyledCartList } from '@/style/cart/cartStyle';
 import CartCard from './CartCard';
 
 const CartList = () => {

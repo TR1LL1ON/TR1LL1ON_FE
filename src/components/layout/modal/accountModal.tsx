@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import * as S from '../../../style/account/AccountStyle';
-import AccountContainer from '../../template/account';
+import * as S from '@/style/account/AccountStyle';
+import AccountContainer from '@/components/template/account';
 
 interface IAccountModalProps {
   setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
