@@ -7,6 +7,7 @@ import GuestModal from './GuestModal/guestModal';
 import { useState } from 'react';
 import { GuestCount } from '@/interfaces/interface';
 import Review from './Review';
+import Map from './Map';
 interface DetailContainerProps {}
 const DetailContainer = ({}: DetailContainerProps) => {
   const [guestCount, setGuestCount] = useState<GuestCount>({
@@ -44,6 +45,7 @@ const DetailContainer = ({}: DetailContainerProps) => {
       )}
       <RoomCard />
       <DetailService />
+      <Map lat={37.5649867} lng={126.985575} />
       <Review />
     </>
   );
