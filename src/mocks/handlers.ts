@@ -136,7 +136,28 @@ export const handlers = [
         .split('T')[0], // 내일 날짜
       person_number: 2,
       score: 4.5,
-      image: [{ image_url: 'https://source.unsplash.com/random/800x600' }],
+      image: [
+        {
+          image_url:
+            'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/cc3a98b7-d83e-4684-bb03-2b2ce6dd480d.jpeg?im_w=720',
+        },
+        {
+          image_url:
+            'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/bca57cdc-bc62-4366-91e9-03ba6c4059ee.jpeg?im_w=720',
+        },
+        {
+          image_url:
+            'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/bf91b1f5-1942-4ecd-95b0-328bb617c47e.jpeg?im_w=720',
+        },
+        {
+          image_url:
+            'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/a100b178-2ec2-45a8-a9e8-9d3b4dd5c777.jpeg?im_w=720',
+        },
+        {
+          image_url:
+            'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/94b5ed5b-508e-4500-b842-d51e71993e5e.jpeg?im_w=720',
+        },
+      ],
       rooms: [
         {
           room_id: 1,
