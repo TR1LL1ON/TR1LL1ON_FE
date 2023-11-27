@@ -150,14 +150,44 @@ export const handlers = [
           bed_type: '더블',
           bed_number: 1,
           is_sold: false,
-          image_url: 'http://example.com/room1.jpg',
+          // image_url: 'http://example.com/room1.jpg',
+          facility: {
+            can_cook: false,
+            has_air_conditioner: false,
+            has_bath: true,
+            has_cable: true,
+            has_hair_dryer: true,
+            has_internet: false,
+            has_pc: false,
+            has_refrigerator: true,
+            has_sofa: true,
+            has_tv: false,
+            has_table: true,
+            has_toiletries: true,
+          },
+          image: [
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
+            },
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
+            },
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
+            },
+          ],
         },
       ],
-      swimming_pool: true,
-      breakfest: true,
-      party: false,
-      parking: true,
-      cooking: false,
+      facility: {
+        has_beauty: true,
+        has_cooking: false,
+        has_sauna: true,
+        has_parking: true,
+        has_sports: true,
+      },
       latitude: '37.5665',
       longitude: '126.9780',
     };
