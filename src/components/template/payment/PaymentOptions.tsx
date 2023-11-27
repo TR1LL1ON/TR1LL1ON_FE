@@ -14,12 +14,16 @@ import ArrowDown from '@/assets/arrow-down.svg';
 import AddCreditCard from './AddCreditCard';
 import { useRecoilValue } from 'recoil';
 import { orderState } from '../../../states/atom';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import useFakeLoading from '@/hooks/useFakeLoading';
 
 const PaymentOptions = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const payment = useRecoilValue(orderState);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const { isLoading } = useFakeLoading([payment.payment]);
 
   useClickOutside(dropdownRef, () => {
     if (isMenuOpen) {
@@ -46,6 +50,7 @@ const PaymentOptions = () => {
 
   return (
     <>
+      {isLoading && <LoadingSpinner />}
       <StyledSubTitle>결제 수단</StyledSubTitle>
       <StyledDropdown
         onClick={toggleMenu}
