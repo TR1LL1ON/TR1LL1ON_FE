@@ -4,9 +4,13 @@ import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
 import DetailService from './DetailService';
 import GuestModal from './GuestModal/guestModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GuestCount } from '@/interfaces/interface';
 import Review from './Review';
+
+import { postAccomodation } from '@/api/service';
+import useGetQuery from '@/hooks/useGetQuery';
+
 interface DetailContainerProps {}
 const DetailContainer = ({}: DetailContainerProps) => {
   const [guestCount, setGuestCount] = useState<GuestCount>({
@@ -25,6 +29,23 @@ const DetailContainer = ({}: DetailContainerProps) => {
     setShowGuestModal(false);
   };
 
+  const accomodationID = useGetQuery('accomodationID');
+  console.log(accomodationID);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (accomodationID) {
+        try {
+          const res = await postAccomodation(accomodationID);
+          console.log(res);
+        } catch (err) {
+          console.log('에러');
+        }
+      }
+    };
+
+    fetchData();
+  }, []); // accomodationID가 변경될 때마다 fetchData를 다시 실행
   return (
     <>
       {/* <ImageContainer />  기존 */}

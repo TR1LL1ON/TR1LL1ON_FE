@@ -36,28 +36,16 @@ const Carousel: React.FC = () => {
     <Container>
       <Slider {...settings}>
         <a>
-          <img
-            src="https://yaimg.yanolja.com/v5/2022/09/09/11/1280/631b27f6dfbe90.43462893.jpg"
-            alt="1"
-          />
+          <img src="https://source.unsplash.com/random" alt="1" />
         </a>
         <a>
-          <img
-            src="https://yaimg.yanolja.com/v5/2022/09/09/11/1280/631b27f78a0713.91573788.jpg"
-            alt="2"
-          />
+          <img src="https://source.unsplash.com/random" alt="2" />
         </a>
         <a>
-          <img
-            src="https://yaimg.yanolja.com/v5/2022/09/09/11/1280/631b27f830a5b2.97267906.jpg"
-            alt="3"
-          />
+          <img src="https://source.unsplash.com/random" alt="3" />
         </a>
         <a>
-          <img
-            src="https://yaimg.yanolja.com/v5/2022/09/09/11/1280/631b27ff3008b6.38293463.jpg"
-            alt="4"
-          />
+          <img src="https://source.unsplash.com/random" alt="4" />
         </a>
       </Slider>
     </Container>
@@ -93,6 +81,8 @@ type settingsType = {
 const Container = styled.div`
   .slick-slide img {
     width: 100%;
+    height: 20rem; /* 고정 높이 */
+    object-fit: cover;
   }
   .slick-dots {
     bottom: 10px;
