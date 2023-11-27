@@ -1,5 +1,7 @@
+import MypageContainer from '../../components/template/mypage';
+
 const Mypage = () => {
-  return <div>Mypage</div>;
+  return <MypageContainer />;
 };
 
 export default Mypage;
