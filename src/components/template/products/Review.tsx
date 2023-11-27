@@ -2,7 +2,7 @@ import {
   StyledWrap,
   StyledH2Text,
   StyledTextBox,
-} from '@/style/detail/detailStyle';
+} from '@/style/products/productsStyle';
 import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 
