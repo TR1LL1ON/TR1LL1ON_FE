@@ -1,4 +1,4 @@
-import PaymentContainer from '../../components/template/payment';
+import PaymentContainer from '@/components/template/payment';
 
 const Payment = () => {
   return <PaymentContainer />;

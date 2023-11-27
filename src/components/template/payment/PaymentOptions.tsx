@@ -6,12 +6,12 @@ import {
   StyledSubTitle,
   StyledText,
   StyledWrapper,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import { useRef, useState } from 'react';
-import { useClickOutside } from '../../../hooks/useClickOutside';
-import ArrowDown from '../../../assets/arrow-down.svg';
 import PaymentOptionItem, { getPayLogo } from './PaymentOptionItem';
-import { paymentOption, paymentOptionList } from '../../../constants';
+import { paymentOption, paymentOptionList } from '@/constants';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import ArrowDown from '@/assets/arrow-down.svg';
 import AddCreditCard from './AddCreditCard';
 import { useRecoilValue } from 'recoil';
 import { orderState } from '../../../states/atom';

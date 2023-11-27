@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { CONTENT_TYPE, SERVER_URL } from '../constant';
+import { CONTENT_TYPE, SERVER_URL } from '@/constant';
 import {
   OrderRequest,
   AccomodationData,
   ReviewData,
-} from '../interfaces/interface';
+} from '@/interfaces/interface';
 
 const client = axios.create({
   baseURL: SERVER_URL,

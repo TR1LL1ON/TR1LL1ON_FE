@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import { LuPlusCircle, LuMinusCircle } from 'react-icons/lu';
-import {
-  StyledFlexContainer,
-  StyledText,
-} from '../../../../style/payment/paymentStyle';
-import { StyledSubText } from '../../../../style/detail/detailStyle';
+import { StyledFlexContainer, StyledText } from '@/style/payment/paymentStyle';
+import { StyledH2Text } from '@/style/detail/detailStyle';
 interface GuestAgeGroupProps {
   text: string;
   subText: string;
@@ -26,13 +23,11 @@ const guestAgeGroup = ({
         $flexDirection="column"
         $alignItems="flex-start"
         $gap=".8rem">
-        <StyledSubText $color="#444" $mb="0">
-          {text}
-        </StyledSubText>
+        <StyledH2Text $mb="0">{text}</StyledH2Text>
         <StyledTextGray> {subText} </StyledTextGray>
       </StyledTextBox>
       <StyledGuestCount $gap="1rem">
-        <StyledCountBtn onClick={onDecrease}>
+        <StyledCountBtn onClick={onDecrease} disabled={count === 0}>
           <LuMinusCircle />
         </StyledCountBtn>
         <StyledText>{count}명</StyledText>
@@ -69,4 +64,9 @@ const StyledCountBtn = styled.button`
   font-size: ${(props) => props.theme.fontSizes.xl};
   color: #444;
   cursor: pointer;
+  background: transparent;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;

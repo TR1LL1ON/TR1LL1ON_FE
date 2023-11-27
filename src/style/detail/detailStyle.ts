@@ -1,12 +1,15 @@
 import styled from 'styled-components';
-import { StyledFlexContainer } from '../payment/paymentStyle';
-import { StyledButton } from '../common/commonStyle';
+import { StyledFlexContainer } from '@/style/payment/paymentStyle';
+
+import { StyledButton } from '@/style/common/commonStyle';
+import { StyledBlackBtn } from '@/components/template/detail/GuestModal/guestContent';
 
 export const StyledWrap = styled.article`
   position: relative;
   font-size: ${(props) => props.theme.fontSizes.md};
   line-height: 2.2rem;
   margin: 0 0 2.5rem;
+  overflow-x: hidden;
   font-family: 'Pretendard', system-ui, Avenir, Helvetica, Arial, sans-serif;
 `;
 
@@ -14,6 +17,27 @@ export const StyledBorderWrap = styled(StyledWrap)`
   padding: 2.5rem 0;
   border-top: 1px solid ${({ theme }) => theme.colors.gray};
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
+`;
+
+export const StyledTextBox = styled.div<{
+  $padding?: string;
+  $fontSize?: string;
+  $fontWeight?: number;
+}>`
+  padding: ${(props) => props.$padding || '1rem'};
+  font-size: ${(props) => props.$fontSize || props.theme.fontSizes.md};
+  font-weight: ${(props) =>
+    props.$fontWeight || props.theme.fontWeights.regular};
+`;
+export const StyledIconBox = styled(StyledFlexContainer)<{
+  $fontSize?: string;
+  $fontWeight?: number;
+  $cursor?: string;
+}>`
+  padding: 1rem;
+  font-size: ${(props) => props.$fontSize || props.theme.fontSizes.xl};
+  font-weight: ${(props) => props.$fontWeight || props.theme.fontWeights.bold};
+  cursor: ${(props) => props.$cursor || 'default'};
 `;
 export const StyledServiceInfo = styled(StyledFlexContainer)<{
   $fontSize?: string;
@@ -36,13 +60,14 @@ export const StyledServiceInfo = styled(StyledFlexContainer)<{
 `;
 
 export const StyledServiceWrap = styled(StyledServiceInfo)`
+  padding: 1rem;
   & .service-col > p {
     font-size: ${(props) => props.theme.fontSizes.md};
     display: block;
     flex-shrink: none;
   }
 `;
-export const StyledSubText = styled.h2<{
+export const StyledH2Text = styled.h2<{
   $fontSize?: string;
   $fontWeight?: number;
   $color?: string;
@@ -52,7 +77,7 @@ export const StyledSubText = styled.h2<{
 }>`
   font-size: ${(props) => props.$fontSize || props.theme.fontSizes.lg};
   font-weight: ${(props) => props.$fontWeight || props.theme.fontWeights.bold};
-  color: ${(props) => props.$color || props.theme.colors.darkGray};
+  color: ${(props) => props.$color || '#444'};
   margin-top: ${(props) => props.$mt || '1rem'};
   margin-bottom: ${(props) => props.$mb || '1rem'};
   line-height: 1rem;
@@ -126,6 +151,18 @@ export const StyledTextItem = styled(StyledFlexContainer)`
 export const StyledReservationBtn = styled(StyledButton)`
   width: 10rem;
   padding: 0.6rem 2rem;
+`;
+
+export const StyledBorderBtn = styled(StyledBlackBtn)`
+  background-color: transparent;
+  color: #444;
+  border: 1px solid #444;
+  padding: 0.6rem 2rem;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #444;
+    color: #fff;
+  }
 `;
 
 export const StyledTextRow = styled.p<{

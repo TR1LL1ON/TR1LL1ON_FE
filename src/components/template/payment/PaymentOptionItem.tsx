@@ -1,4 +1,4 @@
-import { paymentOption } from '../../../constants';
+import { paymentOption } from '@/constants';
 import {
   KakaoPayLogo,
   NaverPayLogo,
@@ -6,7 +6,7 @@ import {
   StyledDropdownItem,
   StyledText,
   StyledImageContainer,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import { useRecoilState } from 'recoil';
 import { orderState } from '../../../states/atom';
 

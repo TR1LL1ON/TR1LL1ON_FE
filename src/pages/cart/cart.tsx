@@ -1,4 +1,4 @@
-import CartContainer from '../../components/template/cart';
+import CartContainer from '@/components/template/cart';
 
 const Cart = () => {
   return <CartContainer />;
