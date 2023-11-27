@@ -1,9 +1,22 @@
+import { useRef } from 'react';
 import * as S from '../../../style/account/AccountStyle';
 import AccountContainer from '../../template/account';
 
-const AccountModal = () => {
+interface IAccountModalProps {
+  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const AccountModal = ({ setIsAccountModalOpen }: IAccountModalProps) => {
+  const accountModalRef = useRef<HTMLDivElement | null>(null);
+
+  const AccountModalOutSideClose = (e: any): void => {
+    if (accountModalRef.current === e.target) {
+      setIsAccountModalOpen(false);
+    }
+  };
+
   return (
-    <S.StyledModal>
+    <S.StyledModal ref={accountModalRef} onClick={AccountModalOutSideClose}>
       <AccountContainer />
     </S.StyledModal>
   );
