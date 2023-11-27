@@ -1,16 +1,16 @@
-import DetailImageContainer from './DetailImageContainer';
+import ImageContainer from './ImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
-import DetailService from './DetailService';
+import ProductsFacility from './ProductsFacility';
 import GuestModal from './GuestModal/guestModal';
 import { useState } from 'react';
 import { GuestCount } from '@/interfaces/interface';
 import Review from './Review';
 
-interface DetailContainerProps {
+interface ProductsContainerProps {
   accomodationID: string;
 }
-const DetailContainer = ({ accomodationID }: DetailContainerProps) => {
+const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
   console.log(accomodationID);
   const [guestCount, setGuestCount] = useState<GuestCount>({
     adults: 0,
@@ -30,7 +30,7 @@ const DetailContainer = ({ accomodationID }: DetailContainerProps) => {
 
   return (
     <>
-      <DetailImageContainer />
+      <ImageContainer />
       <AccommodationInfo
         onOpen={handleGuestModal}
         guestCount={guestCount}
@@ -45,10 +45,10 @@ const DetailContainer = ({ accomodationID }: DetailContainerProps) => {
         />
       )}
       <RoomCard accomodationID={accomodationID} />
-      <DetailService />
+      <ProductsFacility />
       <Review />
     </>
   );
 };
 
-export default DetailContainer;
+export default ProductsContainer;

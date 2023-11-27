@@ -1,7 +1,7 @@
 import { LuTv, LuSiren, LuWifi } from 'react-icons/lu';
 import { PiHandSoapBold, PiFireExtinguisherBold } from 'react-icons/pi';
 
-const EssentialServiceList = () => {
+const RoomsFacilityList = () => {
   return (
     <>
       <p>
@@ -23,4 +23,4 @@ const EssentialServiceList = () => {
   );
 };
 
-export default EssentialServiceList;
+export default RoomsFacilityList;

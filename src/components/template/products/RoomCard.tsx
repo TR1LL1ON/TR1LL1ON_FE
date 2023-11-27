@@ -12,7 +12,7 @@ import {
   StyledPriceText,
   StyledTextRow,
   StyledReservationBtn,
-} from '@/style/detail/detailStyle';
+} from '@/style/products/productsStyle';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
