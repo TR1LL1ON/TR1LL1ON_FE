@@ -10,7 +10,6 @@ import {
   StyledHLine,
   StyledSubTitle,
   StyledText,
-  StyledTitle,
 } from '@/style/payment/paymentStyle';
 import { useForm } from 'react-hook-form';
 import { ChangeEvent } from 'react';

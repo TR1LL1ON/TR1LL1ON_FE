@@ -1,5 +1,4 @@
 import {
-  StyledButton,
   StyledDropdown,
   StyledDropdownList,
   StyledSpacer,
