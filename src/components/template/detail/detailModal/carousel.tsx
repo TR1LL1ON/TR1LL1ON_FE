@@ -4,7 +4,11 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
 
-const Carousel: React.FC = () => {
+interface CarouselProps {
+  imageUrls: string[];
+}
+
+const Carousel: React.FC<CarouselProps> = ({ imageUrls }) => {
   const settings: settingsType = {
     dots: true, // 개수 표시 점
     infinite: true, // 무한 캐러셀
@@ -35,18 +39,11 @@ const Carousel: React.FC = () => {
   return (
     <Container>
       <Slider {...settings}>
-        <a>
-          <img src="https://source.unsplash.com/random" alt="1" />
-        </a>
-        <a>
-          <img src="https://source.unsplash.com/random" alt="2" />
-        </a>
-        <a>
-          <img src="https://source.unsplash.com/random" alt="3" />
-        </a>
-        <a>
-          <img src="https://source.unsplash.com/random" alt="4" />
-        </a>
+        {imageUrls.map((url, index) => (
+          <a key={index}>
+            <img src={url} alt={`Slide ${index + 1}`} />
+          </a>
+        ))}
       </Slider>
     </Container>
   );
@@ -81,8 +78,9 @@ type settingsType = {
 const Container = styled.div`
   .slick-slide img {
     width: 100%;
-    height: 20rem; /* 고정 높이 */
+    height: auto;
     object-fit: cover;
+    object-position: center;
   }
   .slick-dots {
     bottom: 10px;

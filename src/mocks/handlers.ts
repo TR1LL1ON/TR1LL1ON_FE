@@ -240,7 +240,7 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ accomodationID, accomodationData }));
   }),
 
-  // 개별 상품 상세페이지 조회
+  // 개별 상품 상세페이지 조회(필요없음)
   rest.post(
     `${SERVER_URL}/products/:accomodationID/:productID`,
     (req, res, ctx) => {
