@@ -16,7 +16,7 @@ const ReservationList = () => {
           fontFamily:
             'Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif',
           overflowY: 'auto',
-          height: '40vh',
+          height: '30vh',
         }}>
         <ReservationCard />
         <ReservationCard />
