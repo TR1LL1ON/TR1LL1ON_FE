@@ -7,7 +7,7 @@ const Detail = () => {
 
   return (
     <div>
-      <DetailContainer accomodationID={accomodationID} />
+      {accomodationID && <DetailContainer accomodationID={accomodationID} />}
     </div>
   );
 };
