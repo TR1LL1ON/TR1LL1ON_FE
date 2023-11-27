@@ -1,9 +1,9 @@
-import { StyledDeleteButton } from '../../../style/cart/cartStyle';
+import { StyledDeleteButton } from '@/style/cart/cartStyle';
 import {
   StyledCheckboxInput,
   StyledFlexContainer,
   StyledText,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 
 const CartListController = () => {
   return (

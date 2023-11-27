@@ -4,7 +4,7 @@ import {
   StyledPaymentModal,
   StyledRadioInput,
   StyledRadioLabel,
-} from '../../../style/payment/paymentModal';
+} from '@/style/payment/paymentModal';
 import {
   MastercardLogo,
   StyledFlexContainer,
@@ -12,7 +12,7 @@ import {
   StyledSubTitle,
   StyledText,
   StyledTitle,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import { useForm } from 'react-hook-form';
 
 interface CardInfoValues {

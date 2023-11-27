@@ -5,7 +5,7 @@ import {
   StyledSpacer,
   StyledTitle,
   StyledWrapper,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import PaymentDetail from './PaymentDetail';
 import PaymentOptions from './PaymentOptions';
 import PaymentReservations from './PaymentReservations';

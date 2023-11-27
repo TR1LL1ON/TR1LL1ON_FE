@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { StyledFlexContainer } from '../payment/paymentStyle';
-import { ReactComponent as SearchIcon } from '../../assets/searchIcon.svg';
+import { StyledFlexContainer } from '@/style/payment/paymentStyle';
+import { ReactComponent as SearchIcon } from '@/assets/searchIcon.svg';
 
 export const StyledHeaderContainer = styled(StyledFlexContainer)`
   position: sticky;

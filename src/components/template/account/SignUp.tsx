@@ -3,8 +3,8 @@ import {
   StyledInputLabel,
   StyledTitle,
   StyledButton,
-} from '../../../style/payment/paymentStyle';
-import * as S from '../../../style/account/AccountStyle';
+} from '@/style/payment/paymentStyle';
+import * as S from '@/style/account/AccountStyle';
 import { useForm } from 'react-hook-form';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import { useState } from 'react';

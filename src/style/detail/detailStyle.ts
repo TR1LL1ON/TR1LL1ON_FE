@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { StyledFlexContainer } from '../payment/paymentStyle';
-import { StyledButton } from '../common/commonStyle';
-import { StyledBlackBtn } from '../../components/template/detail/GuestModal/guestContent';
+import { StyledFlexContainer } from '@/style/payment/paymentStyle';
+
+import { StyledButton } from '@/style/common/commonStyle';
+import { StyledBlackBtn } from '@/components/template/detail/GuestModal/guestContent';
 
 export const StyledWrap = styled.article`
   position: relative;

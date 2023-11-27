@@ -1,5 +1,5 @@
-import { StyledH2Text } from '../../../style/detail/detailStyle';
-import ModalContainer from '../../layout/modal/ModalContainer';
+import { StyledH2Text } from '@/style/detail/detailStyle';
+import ModalContainer from '@/components/layout/modal/ModalContainer';
 
 interface ImageModalProps {
   imgSrc: string;

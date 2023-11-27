@@ -3,7 +3,7 @@ import {
   StyledHLine,
   StyledSubTitle,
   StyledText,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 
 const CartDetail = () => {
   return (

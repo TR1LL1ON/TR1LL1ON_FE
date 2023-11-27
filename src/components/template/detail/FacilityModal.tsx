@@ -1,5 +1,5 @@
-import { StyledH2Text } from '../../../style/detail/detailStyle';
-import ModalContainer from '../../layout/modal/ModalContainer';
+import { StyledH2Text } from '@/style/detail/detailStyle';
+import ModalContainer from '@/components/layout/modal/ModalContainer';
 import APIServiceList from './APIServiceList';
 import EssentialServiceList from './EssentialServiceList';
 import styled from 'styled-components';

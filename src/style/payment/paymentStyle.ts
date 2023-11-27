@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { fadeIn, fadeOut } from './paymentAnimation';
-import { ReactComponent as kakaoPaymentLogo } from '../../assets/kakaoPay.svg';
-import { ReactComponent as naverPayLogo } from '../../assets/naverPay.svg';
-import { ReactComponent as mastercardLogo } from '../../assets/mastercard.svg';
+import { ReactComponent as kakaoPaymentLogo } from '@/assets/kakaoPay.svg';
+import { ReactComponent as naverPayLogo } from '@/assets/naverPay.svg';
+import { ReactComponent as mastercardLogo } from '@/assets/mastercard.svg';
 
 export const StyledGridContainer = styled.div<{ $px?: string }>`
   display: grid;

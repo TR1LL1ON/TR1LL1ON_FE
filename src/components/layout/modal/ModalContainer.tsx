@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useClickOutside } from '../../../hooks/useClickOutside';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 interface ModalContainerProps {
   children: React.ReactNode;

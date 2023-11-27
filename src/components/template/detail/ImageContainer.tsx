@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { StyledImgBox } from '../../../style/detail/detailStyle';
+import { StyledImgBox } from '@/style/detail/detailStyle';
 import ImageModal from './ImageModal';
 
 const ImageContainer: React.FC = () => {

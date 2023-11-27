@@ -6,8 +6,8 @@ import {
   StyledSearchContainer,
   StyledSearchIcon,
   StyledVLine,
-} from '../../style/header/headerStyle';
-import { StyledText, StyledTitle } from '../../style/payment/paymentStyle';
+} from '@/style/header/headerStyle';
+import { StyledText, StyledTitle } from '@/style/payment/paymentStyle';
 
 const Header = () => {
   return (

@@ -1,5 +1,5 @@
-import * as S from '../../../style/account/AccountStyle';
-import AccountContainer from '../../template/account';
+import * as S from '@/style/account/AccountStyle';
+import AccountContainer from '@/components/template/account';
 
 const AccountModal = () => {
   return (

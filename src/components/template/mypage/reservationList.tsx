@@ -1,7 +1,4 @@
-import {
-  StyledSubTitle,
-  StyledWrapper,
-} from '../../../style/payment/paymentStyle';
+import { StyledSubTitle, StyledWrapper } from '@/style/payment/paymentStyle';
 
 import ReservationCard from './reservationCard';
 
