@@ -1,9 +1,17 @@
 import { LuShoppingCart } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
 
 const CartBtn = () => {
+  const navigate = useNavigate();
+
+  const handleCartBtnClick = () => {
+    navigate(`/cart`);
+  };
+
   return (
-    <StyledCartIcon>
+    <StyledCartIcon onClick={handleCartBtnClick}>
       <LuShoppingCart />
     </StyledCartIcon>
   );

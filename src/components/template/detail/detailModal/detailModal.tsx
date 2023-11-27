@@ -15,11 +15,17 @@ import { LuUser, LuBedSingle, LuCheck } from 'react-icons/lu';
 import { IoLogoNoSmoking } from 'react-icons/io';
 import { SlSizeFullscreen } from 'react-icons/sl';
 import CartBtn from '@/components/layout/Button/cartBtn';
+import { useNavigate } from 'react-router-dom';
 
 const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
   const closeModal = () => {
     setShowModal(false);
+  };
+  const navigate = useNavigate();
+
+  const handleReservationClick = () => {
+    navigate(`/payment`);
   };
 
   const roomName: string = '더블 스탠다드룸';
@@ -200,7 +206,7 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
                 width: '15rem',
                 margin: '0.5rem',
               }}
-              onClick={closeModal}>
+              onClick={handleReservationClick}>
               예약하기
             </StyledButton>
           </StyledFlexContainer>
