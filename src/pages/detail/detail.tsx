@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 
 const Detail = () => {
   const { accomodationID } = useParams<{ accomodationID: string }>();
-  console.log(accomodationID);
 
   return (
     <div>
