@@ -35,7 +35,7 @@ const ProductCard = ({ accomodationID }: { accomodationID: string }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/detail/${accomodationID}`);
+    navigate(`/products/${accomodationID}`);
   };
 
   return (

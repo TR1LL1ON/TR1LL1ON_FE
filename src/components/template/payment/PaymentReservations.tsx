@@ -1,3 +1,4 @@
+import useReservations from '@/hooks/useReservations';
 import {
   StyledButton,
   StyledFlexContainer,
@@ -9,14 +10,35 @@ import {
 } from '@/style/payment/paymentStyle';
 
 const PaymentReservations = () => {
+  // recoil로 받아온 ids
+  // const accommodationIds = ['1', '2'];
+  const reservations = useReservations(['1', '2']);
+
   return (
     <>
       <StyledSubTitle>예약 정보</StyledSubTitle>
       <StyledLabel>날짜</StyledLabel>
       <StyledFlexContainer>
         <StyledWrapper>
-          <StyledText>포시즌스 호텔 서울 11.12 - 11.13</StyledText>
-          <StyledText>시그니엘 서울 11.13 - 11.14</StyledText>
+          {reservations.map((reservation, index) => {
+            const { data, isLoading, error } = reservation;
+
+            if (isLoading) {
+              return <div key={index}>Loading...</div>;
+            }
+            if (error) {
+              return <div key={index}>Error: {error.message}</div>;
+            }
+            return (
+              <StyledFlexContainer $gap="0.5rem" key={index}>
+                <StyledText>{data?.accomodationData.name}</StyledText>
+                <StyledText $fontWeight={600}>
+                  {data?.accomodationData.check_in} -{' '}
+                  {data?.accomodationData.check_out}
+                </StyledText>
+              </StyledFlexContainer>
+            );
+          })}
         </StyledWrapper>
         <StyledWrapper>
           <StyledButton>수정</StyledButton>

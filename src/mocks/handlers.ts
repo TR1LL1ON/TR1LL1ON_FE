@@ -136,7 +136,7 @@ export const handlers = [
         .split('T')[0], // 내일 날짜
       person_number: 2,
       score: 4.5,
-      image: [{ image_url: 'http://example.com/room.jpg' }],
+      image: [{ image_url: 'https://source.unsplash.com/random/800x600' }],
       rooms: [
         {
           room_id: 1,
@@ -165,20 +165,8 @@ export const handlers = [
             has_table: true,
             has_toiletries: true,
           },
-          image: [
-            {
-              image_url:
-                'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
-            },
-            {
-              image_url:
-                'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
-            },
-            {
-              image_url:
-                'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
-            },
-          ],
+          image: [{ image_url: 'https://source.unsplash.com/random/800x600' }],
+          sold: true,
         },
       ],
       facility: {

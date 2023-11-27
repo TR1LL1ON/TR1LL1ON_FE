@@ -1,3 +1,4 @@
+import { AccommodationData } from '@/interfaces/interface';
 import {
   StyledFlexContainer,
   StyledImageContainer,
@@ -5,22 +6,23 @@ import {
 } from '@/style/payment/paymentStyle';
 
 interface Props {
-  type: string;
-  name: string;
+  accommodationData: AccommodationData;
 }
 
-const PaymentRoomItem = ({ type, name }: Props) => {
+const PaymentRoomItem = ({ accommodationData }: Props) => {
+  const { name, category } = accommodationData;
+
   return (
     <StyledFlexContainer
       $justifyContent="flex-start"
       $alignItems="flex-start"
       $gap="0.5rem">
       <StyledImageContainer>
-        <img src="https://source.unsplash.com/random" />
+        <img src={accommodationData.image[0].image_url} />
       </StyledImageContainer>
       <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
         <StyledText $fontSize="0.7rem" $opacity={0.7}>
-          {type}
+          {category}
         </StyledText>
         <StyledText>{name}</StyledText>
       </StyledFlexContainer>
