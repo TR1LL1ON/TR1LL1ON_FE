@@ -1,41 +1,57 @@
 import GuestContent from './guestContent';
-import { StyledText } from '@/style/payment/paymentStyle';
-import { StyledH2Text } from '@/style/detail/detailStyle';
-import { GuestCount } from '@/interfaces/interface';
+import {
+  StyledButton,
+  StyledFlexContainer,
+  StyledText,
+} from '@/style/payment/paymentStyle';
+import { StyledH2Text, StyledBlackBtn } from '@/style/detail/detailStyle';
+import styled from 'styled-components';
 import ModalContainer from '@/components/layout/modal/ModalContainer';
+import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
+import { guestCountState, totalGuestCountState } from '../../../../states/atom';
 
 interface GuestModalProps {
   onClose: () => void;
-  onSave: (totalGuests: number) => void;
-  guestCount: GuestCount;
-  setGuestCount: React.Dispatch<React.SetStateAction<GuestCount>>;
 }
 
-const GuestModal = ({
-  onClose,
-  onSave,
-  guestCount,
-  setGuestCount,
-}: GuestModalProps) => {
-  const handleSave = (totalGuests: number) => {
-    console.log('총 게스트:', totalGuests, '명');
-    onSave(totalGuests); // 상위 컴포넌트 handleSaveGuestCount 호출
+const GuestModal = ({ onClose }: GuestModalProps) => {
+  // const [guestCount, setGuestCount] = useRecoilState(guestCountState);
+  const guestCount = useRecoilValue(guestCountState);
+  const setTotalGuestCount = useSetRecoilState(totalGuestCountState);
+  const handleSave = () => {
+    const totalGuests =
+      guestCount.adults + guestCount.children + guestCount.infants;
+    // console.log('총 게스트:', totalGuests, '명');
+    setTotalGuestCount(totalGuests);
+    onClose();
   };
 
+  useEffect(() => {
+    const totalGuests =
+      guestCount.adults + guestCount.children + guestCount.infants;
+    setTotalGuestCount(totalGuests);
+  }, [guestCount, setTotalGuestCount]);
   return (
     <ModalContainer onClose={onClose}>
       <StyledH2Text $fontSize="1.5rem" $textAlign="left">
         게스트
       </StyledH2Text>
       <StyledText>이 숙소의 최대 숙박 인원은 n명 입니다.</StyledText>
-      <GuestContent
-        guestCount={guestCount}
-        setGuestCount={setGuestCount}
-        onClose={onClose}
-        onSave={handleSave}
-      />
+      <GuestContent />
+      <StyledRowFull $gap="2rem" $justifyContent="space-between">
+        <StyledButton onClick={onClose}>취소</StyledButton>
+        <StyledBlackBtn $variant="primary" $full={false} onClick={handleSave}>
+          저장
+        </StyledBlackBtn>
+      </StyledRowFull>
     </ModalContainer>
   );
 };
 
 export default GuestModal;
+
+export const StyledRowFull = styled(StyledFlexContainer)`
+  width: 100%;
+`;

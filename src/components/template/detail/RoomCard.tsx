@@ -17,11 +17,15 @@ import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { totalGuestCountState } from '@/states/atom';
 interface RoomCardProps {
   // totalGuestCount: number;
 }
 const RoomCard = ({}: RoomCardProps) => {
   const navigate = useNavigate();
+  const totalGuestCount = useRecoilValue(totalGuestCountState);
+  console.log('총 인원수', totalGuestCount);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const handleDetailModal = () => {
     setShowDetailModal(true);
