@@ -1,5 +1,7 @@
+import PaymentContainer from '@/components/template/payment';
+
 const Payment = () => {
-  return <div>Payment</div>;
+  return <PaymentContainer />;
 };
 
 export default Payment;
