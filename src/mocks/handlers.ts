@@ -136,7 +136,7 @@ export const handlers = [
         .split('T')[0], // 내일 날짜
       person_number: 2,
       score: 4.5,
-      image: [{ image_url: 'http://example.com/room.jpg' }],
+      image: [{ image_url: 'https://source.unsplash.com/random/800x600' }],
       rooms: [
         {
           room_id: 1,
@@ -150,7 +150,7 @@ export const handlers = [
           bed_type: '더블',
           bed_number: 1,
           is_sold: false,
-          image_url: 'http://example.com/room1.jpg',
+          image_url: 'https://source.unsplash.com/random/800x600',
         },
       ],
       swimming_pool: true,
