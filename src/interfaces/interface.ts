@@ -61,28 +61,48 @@ export interface Room {
   count: number;
   // Add other properties of the room here if needed
 }
-
 export interface AccommodationData {
   accomodation_id: string;
+  name: string;
   address: string;
   address_code: string;
-  breakfest: boolean;
   category: string;
   check_in: string;
   check_out: string;
-  cooking: boolean;
+  person_number: number;
+  score: number;
   image: AccommodationImage[];
+  rooms: Room[];
+  facility: Facility;
   latitude: string;
   longitude: string;
-  name: string;
+  /*   breakfest: boolean;
+  cooking: boolean;
   parking: boolean;
   party: boolean;
-  person_number: number;
-  rooms: Room[];
-  score: number;
-  swimming_pool: boolean;
+  swimming_pool: boolean; */
 }
-
+export interface Facility {
+  has_beauty: boolean;
+  has_cooking: boolean;
+  has_sauna: boolean;
+  has_parking: boolean;
+  has_sports: boolean;
+}
+export interface RoomFacility {
+  can_cook: boolean;
+  has_air_conditioner: boolean;
+  has_bath: boolean;
+  has_cable: boolean;
+  has_hair_dryer: boolean;
+  has_internet: boolean;
+  has_pc: boolean;
+  has_refrigerator: boolean;
+  has_sofa: boolean;
+  has_tv: boolean;
+  has_table: boolean;
+  has_toiletries: boolean;
+}
 export interface AccommodationResponse {
   accomodationID: string;
   accomodationData: AccommodationData;
