@@ -3,14 +3,14 @@ import {
   StyledPaymentModal,
   StyledRadioInput,
   StyledRadioLabel,
-} from '../../../style/payment/paymentModal';
+} from '@/style/payment/paymentModal';
 import {
   MastercardLogo,
   StyledFlexContainer,
   StyledHLine,
   StyledSubTitle,
   StyledText,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import { useForm } from 'react-hook-form';
 import { ChangeEvent } from 'react';
 import { StyledButton } from '../../../style/common/commonStyle';

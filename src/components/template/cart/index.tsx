@@ -3,10 +3,17 @@ import {
   StyledHLine,
   StyledTitle,
   StyledWrapper,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import CartDetail from './CartDetail';
 import CartList from './CartList';
 import CartListController from './CartListController';
+
+export interface IFormValue {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
 
 const CartContainer = () => {
   return (

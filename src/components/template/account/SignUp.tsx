@@ -3,22 +3,15 @@ import {
   StyledInputLabel,
   StyledTitle,
   StyledButton,
-} from '../../../style/payment/paymentStyle';
-import * as S from '../../../style/account/AccountStyle';
+} from '@/style/payment/paymentStyle';
+import * as S from '@/style/account/AccountStyle';
 import { useForm } from 'react-hook-form';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import { useState } from 'react';
+import { IFormValue } from '../cart';
 
 export interface IIsSignUpProps {
   isSignUp: boolean;
-}
-
-interface ISignUpFormProps {
-  user_id: string;
-  name: string;
-  email: string;
-  password: string;
-  password_check: string;
 }
 
 const SignUp = ({ isSignUp }: IIsSignUpProps) => {
@@ -27,52 +20,19 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<ISignUpFormProps>({ mode: 'onBlur' });
+  } = useForm<IFormValue>({ mode: 'onBlur' });
 
-  const [userId, setUserId] = useState<string>('');
-  const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [passwordCheck, setPasswordCheck] = useState<string>('');
+  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
 
   return (
     <S.StyledSignUpContainer $isSignUp={isSignUp}>
       <S.StyledForm
         onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
         <StyledTitle>회원가입</StyledTitle>
-        <StyledFlexContainer
-          $flexDirection="column"
-          $alignItems="flex-start"
-          style={{ width: '100%' }}>
-          <StyledInputLabel htmlFor="user_id">아이디</StyledInputLabel>
-          <S.StyledInput error={errors.user_id} inputValue={userId}>
-            <input
-              id="user_id"
-              type="text"
-              placeholder="ID"
-              {...register('user_id', {
-                required: '아이디를 입력해주세요.',
-                onBlur(event) {
-                  setUserId(event.target.value);
-                },
-              })}
-            />
-            {userId || errors.user_id ? (
-              errors.user_id ? (
-                <AiOutlineInfoCircle />
-              ) : (
-                <AiOutlineCheckCircle />
-              )
-            ) : (
-              ''
-            )}
-          </S.StyledInput>
-          {errors.user_id && (
-            <S.StyledMessage role="alert">
-              {errors.user_id.message}
-            </S.StyledMessage>
-          )}
-        </StyledFlexContainer>
+
         <StyledFlexContainer
           $flexDirection="column"
           $alignItems="flex-start"
@@ -184,17 +144,17 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
           $flexDirection="column"
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
-          <StyledInputLabel htmlFor="password_check">
+          <StyledInputLabel htmlFor="passwordConfirm">
             비밀번호 확인
           </StyledInputLabel>
           <S.StyledInput
-            error={errors.password_check}
-            inputValue={passwordCheck}>
+            error={errors.passwordConfirm}
+            inputValue={passwordConfirm}>
             <input
-              id="password_check"
+              id="passwordConfirm"
               type="password"
               placeholder="비밀번호 확인"
-              {...register('password_check', {
+              {...register('passwordConfirm', {
                 required: '비밀번호를 다시 입력해주세요.',
                 validate: {
                   check: (value) => {
@@ -204,12 +164,12 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
                   },
                 },
                 onBlur(event) {
-                  setPasswordCheck(event.target.value);
+                  setPasswordConfirm(event.target.value);
                 },
               })}
             />
-            {passwordCheck || errors.password_check ? (
-              errors.password_check ? (
+            {passwordConfirm || errors.passwordConfirm ? (
+              errors.passwordConfirm ? (
                 <AiOutlineInfoCircle />
               ) : (
                 <AiOutlineCheckCircle />
@@ -218,8 +178,8 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
               ''
             )}
           </S.StyledInput>
-          {errors.password_check && (
-            <S.StyledMessage>{errors.password_check.message}</S.StyledMessage>
+          {errors.passwordConfirm && (
+            <S.StyledMessage>{errors.passwordConfirm.message}</S.StyledMessage>
           )}
         </StyledFlexContainer>
         <StyledButton $variant="primary" style={{ width: '100%' }}>
