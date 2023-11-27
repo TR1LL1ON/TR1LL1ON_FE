@@ -17,6 +17,7 @@ export const StyledGridContainer = styled.div`
 export const StyledProductCard = styled.div`
   width: 100%;
   min-width: 250px;
+  cursor: pointer;
 `;
 
 export const StyledThumbnail = styled.div`
