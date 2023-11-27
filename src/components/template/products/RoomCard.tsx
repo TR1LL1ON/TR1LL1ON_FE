@@ -16,24 +16,21 @@ import {
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Room } from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
 interface RoomCardProps {
   roomData: Room;
+  accomodationID: string;
   // totalGuestCount: number;
 }
 
-const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
+const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
   const imageUrls = roomData.image.map((item) => item.image_url);
 
-  const navigate = useNavigate();
   const [showDetailModal, setShowDetailModal] = useState(false);
   const handleDetailModal = () => {
     setShowDetailModal(true);
-  };
-  const handleReservationClick = () => {
-    navigate(`/payment`);
   };
 
   return (
