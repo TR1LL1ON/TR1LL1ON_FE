@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { OrderRequest } from '../interfaces/interface';
+import { Order, OrderRequest } from '../interfaces/interface';
 import { CardInfoValues } from '../components/template/payment/AddCreditCard';
 
 export const allUserState = atom<string[]>({
@@ -26,5 +26,17 @@ export const cardState = atom<CardInfoValues>({
     cardExpirationMonth: '',
     cardExpirationYear: '',
     isSaveCard: false,
+  },
+});
+
+// 숙소 상세 페이지에서 예약하기 누르면, 예약 정보를 담는 state
+export const reservationState = atom<Order>({
+  key: 'reservationState',
+  default: {
+    check_in: '',
+    check_out: '',
+    person_number: 0,
+    price: 0,
+    product_id: 0,
   },
 });
