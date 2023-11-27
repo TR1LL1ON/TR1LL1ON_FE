@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '../../../util/clipboard';
+import { useState } from 'react';
 import { GuestCount } from '../../../interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
 import APIServiceList from './APIServiceList';
@@ -18,6 +19,8 @@ import {
   StyledFlexContainer,
   StyledSpacer,
 } from '../../../style/payment/paymentStyle';
+import { Moment } from 'moment';
+import CalenderModal from '../../layout/modal/calenderModal';
 
 interface AccommodationProp {
   onOpen: (e: React.MouseEvent) => void;
@@ -37,6 +40,24 @@ const AccommodationInfo = ({
     console.log(handleCopyClipBoard);
     handleCopyClipBoard(`${baseUrl}${location.pathname}`);
   };
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const handleCalendarModal = () => {
+    setShowCalendarModal(true);
+  };
+
+  const [dateInfo, setDateInfo] = useState({
+    startDate: null as Moment | null,
+    endDate: null as Moment | null,
+    nights: 0,
+  });
+  const handleSaveDateInfo = (savedDateInfo: {
+    startDate: Moment | null;
+    endDate: Moment | null;
+    nights: number;
+  }) => {
+    setDateInfo(savedDateInfo);
+  };
+
   return (
     <StyledWrap>
       <StyledTextBox>
@@ -70,9 +91,25 @@ const AccommodationInfo = ({
             <StyledText $fontSize="1rem" $fontWeight={700}>
               날짜
             </StyledText>
-            <StyledText $fontSize="1rem"> 2023.11.12~11.13 / 1박</StyledText>
+            {dateInfo.startDate && dateInfo.endDate ? (
+              <StyledText $fontSize="1rem">
+                {`${dateInfo.startDate.format(
+                  'YY.MM.DD',
+                )} ~ ${dateInfo.endDate.format('YY.MM.DD')} / ${
+                  dateInfo.nights
+                }박`}
+              </StyledText>
+            ) : (
+              <StyledText $fontSize="1rem">날짜를 선택해주세요.</StyledText>
+            )}
           </StyledFlexContainer>
-          <StyledOnClick>수정</StyledOnClick>
+          <StyledOnClick onClick={handleCalendarModal}>수정</StyledOnClick>
+          {showCalendarModal && (
+            <CalenderModal
+              setShowModal={setShowCalendarModal}
+              onSave={handleSaveDateInfo}
+            />
+          )}
         </StyledSelect>
 
         <StyledSelect>
