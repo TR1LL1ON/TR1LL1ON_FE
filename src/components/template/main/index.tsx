@@ -9,12 +9,12 @@ import {
   StyledDiscount,
   StyledOriginalPrice,
   StyledSalePrice,
-} from '../../../style/main/productCardStyle';
-import { StyledLabel } from '../../../style/payment/paymentStyle';
-import { Link, useNavigate } from 'react-router-dom';
-// import { getProducts } from '../../../api/service';
+} from '@/style/main/productCardStyle';
+import { StyledLabel } from '@/style/payment/paymentStyle';
+import { useNavigate } from 'react-router-dom';
+// import { getProducts } from '@api/service';
 
-const ProductCard = ({ productId }: { productId: string }) => {
+const ProductCard = ({ accomodationID }: { accomodationID: string }) => {
   // async function fetchProducts() {
   //   try {
   //     const accomodationData = {
@@ -35,7 +35,7 @@ const ProductCard = ({ productId }: { productId: string }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/detail/${productId}`);
+    navigate(`/detail/${accomodationID}`);
   };
 
   return (
@@ -60,10 +60,10 @@ const MainContainer = () => {
   return (
     <>
       <StyledGridContainer>
-        <ProductCard productId="1" />
-        <ProductCard productId="2" />
-        <ProductCard productId="3" />
-        <ProductCard productId="4" />
+        <ProductCard accomodationID="1" />
+        <ProductCard accomodationID="2" />
+        <ProductCard accomodationID="3" />
+        <ProductCard accomodationID="4" />
       </StyledGridContainer>
     </>
   );

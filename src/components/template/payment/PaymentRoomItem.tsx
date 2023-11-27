@@ -2,7 +2,7 @@ import {
   StyledFlexContainer,
   StyledImageContainer,
   StyledText,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 
 interface Props {
   type: string;

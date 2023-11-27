@@ -6,7 +6,7 @@ import {
   StyledSubTitle,
   StyledText,
   StyledWrapper,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 
 const PaymentReservations = () => {
   return (

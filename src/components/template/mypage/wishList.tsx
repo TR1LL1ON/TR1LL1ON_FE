@@ -1,8 +1,5 @@
-import { StyledGridContainer } from '../../../style/main/productCardStyle';
-import {
-  StyledSubTitle,
-  StyledWrapper,
-} from '../../../style/payment/paymentStyle';
+import { StyledGridContainer } from '@/style/main/productCardStyle';
+import { StyledSubTitle, StyledWrapper } from '@/style/payment/paymentStyle';
 
 import WishCard from './wishCard';
 

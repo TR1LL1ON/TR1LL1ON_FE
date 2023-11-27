@@ -1,7 +1,7 @@
 import {
   StyledCheckboxInput,
   StyledInputLabel,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 
 const PaymentTerms = () => {
   return (

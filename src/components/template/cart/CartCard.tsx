@@ -1,11 +1,11 @@
-import { StyledDeleteButton } from '../../../style/cart/cartStyle';
+import { StyledDeleteButton } from '@/style/cart/cartStyle';
 import {
   StyledCheckboxInput,
   StyledFlexContainer,
   StyledImageContainer,
   StyledText,
   StyledWrapper,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 
 const CartCard = () => {
   return (

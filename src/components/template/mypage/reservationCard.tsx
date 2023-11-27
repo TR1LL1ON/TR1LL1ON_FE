@@ -3,8 +3,7 @@ import {
   StyledImageContainer,
   StyledText,
   StyledHLine,
-} from '../../../style/payment/paymentStyle';
-
+} from '@/style/payment/paymentStyle';
 
 const ReservationCard = () => {
   return (
@@ -37,7 +36,6 @@ const ReservationCard = () => {
           </StyledText>
           <StyledFlexContainer style={{ width: '100%' }}>
             <StyledText $fontWeight={700}>리한셀렉트 경주</StyledText>
- 
           </StyledFlexContainer>
           <StyledText $fontSize="0.75rem">더블 스탠다드룸 | 2인</StyledText>
           <StyledText $fontSize="0.75rem">
@@ -56,5 +54,4 @@ const ReservationCard = () => {
   );
 };
 
-export default ReservationCard
-;
+export default ReservationCard;

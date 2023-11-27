@@ -1,20 +1,20 @@
 import styled from 'styled-components';
-import theme from '../../../../style/theme';
-import { ModalProps } from '../../../../interfaces/interface';
-import { StyledButton } from '../../../../style/common/commonStyle';
+import theme from '@/style/theme';
+import { ModalProps } from '@/interfaces/interface';
+import { StyledButton } from '@/style/common/commonStyle';
 import {
   StyledTitle,
   StyledSubTitle,
   StyledText,
   StyledFlexContainer,
-} from '../../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import { v4 as uuidv4 } from 'uuid';
 import Carousel from './carousel';
 import { MdKeyboardArrowRight, MdArrowForwardIos } from 'react-icons/md';
 import { LuUser, LuBedSingle, LuCheck } from 'react-icons/lu';
 import { IoLogoNoSmoking } from 'react-icons/io';
 import { SlSizeFullscreen } from 'react-icons/sl';
-import CartBtn from '../../../layout/Button/cartBtn';
+import CartBtn from '@/components/layout/Button/cartBtn';
 
 const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
   // 모달 밖 영역 클릭 시 모달 닫기

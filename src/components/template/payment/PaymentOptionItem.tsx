@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { paymentOption } from '../../../constants';
+import { paymentOption } from '@/constants';
 import {
   KakaoPayLogo,
   NaverPayLogo,
@@ -7,7 +7,7 @@ import {
   StyledDropdownItem,
   StyledText,
   StyledImageContainer,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 
 export type PaymentOptionType = 'kakaopay' | 'naverpay' | 'card' | 'cash';
 

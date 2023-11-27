@@ -1,8 +1,8 @@
 import GuestContent from './guestContent';
-import { StyledText } from '../../../../style/payment/paymentStyle';
-import { StyledH2Text } from '../../../../style/detail/detailStyle';
-import { GuestCount } from '../../../../interfaces/interface';
-import ModalContainer from '../../../layout/modal/ModalContainer';
+import { StyledText } from '@/style/payment/paymentStyle';
+import { StyledH2Text } from '@/style/detail/detailStyle';
+import { GuestCount } from '@/interfaces/interface';
+import ModalContainer from '@/components/layout/modal/ModalContainer';
 
 interface GuestModalProps {
   onClose: () => void;

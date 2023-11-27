@@ -2,9 +2,9 @@ import {
   StyledWrap,
   StyledH2Text,
   StyledTextBox,
-} from '../../../style/detail/detailStyle';
+} from '@/style/detail/detailStyle';
 import styled from 'styled-components';
-import { StyledFlexContainer } from '../../../style/payment/paymentStyle';
+import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 
 const Review = () => {
   return (

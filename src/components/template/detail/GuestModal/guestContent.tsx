@@ -1,8 +1,8 @@
-import { GuestCount } from '../../../../interfaces/interface';
+import { GuestCount } from '@/interfaces/interface';
 import GuestAgeGroup from './guestAgeGroup';
 import styled from 'styled-components';
-import { StyledFlexContainer } from '../../../../style/payment/paymentStyle';
-import { StyledButton } from '../../../../style/common/commonStyle';
+import { StyledFlexContainer } from '@/style/payment/paymentStyle';
+import { StyledButton } from '@/style/common/commonStyle';
 interface GuestContentProps {
   onSave: (totalGuests: number) => void;
   onClose: () => void;
@@ -86,20 +86,23 @@ export default GuestContent;
 const StyledGuestContentWrap = styled(StyledFlexContainer)`
   border-radius: 1rem;
 `;
+
 export const StyledRowFull = styled(StyledFlexContainer)`
   width: 100%;
 `;
+
 export const StyledBlackBtn = styled(StyledButton)`
-background-color: #444;
-color:#fff;  
-white-space: nowrap;
-width:auto;
-&:hover {
-  background-color: #333;
-  &:focus {
-    outline: none;
-  }
-  &:disabled {
-    background-color: #eee;
+  background-color: #444;
+  color: #fff;
+  white-space: nowrap;
+  width: auto;
+  &:hover {
+    background-color: #333;
+    &:focus {
+      outline: none;
+    }
+    &:disabled {
+      background-color: #eee;
+    }
   }
 `;

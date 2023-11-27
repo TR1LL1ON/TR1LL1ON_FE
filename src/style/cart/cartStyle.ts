@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { StyledButton, StyledFlexContainer } from '../payment/paymentStyle';
+import {
+  StyledButton,
+  StyledFlexContainer,
+} from '@/style/payment/paymentStyle';
 
 export const StyledCartList = styled(StyledFlexContainer)`
   height: 508px;

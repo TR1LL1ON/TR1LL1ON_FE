@@ -3,7 +3,7 @@ import {
   StyledCategoryButton,
   StyledCategoryContainer,
   StyledCategoryText,
-} from '../../../../style/main/mainCategory';
+} from '@/style/main/mainCategory';
 import { categoryList, iconMap } from './categoryList';
 
 const MainCategory = () => {

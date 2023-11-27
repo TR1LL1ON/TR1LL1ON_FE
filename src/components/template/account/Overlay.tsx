@@ -2,8 +2,8 @@ import {
   StyledTitle,
   StyledButton,
   StyledText,
-} from '../../../style/payment/paymentStyle';
-import * as S from '../../../style/account/AccountStyle';
+} from '@/style/payment/paymentStyle';
+import * as S from '@/style/account/AccountStyle';
 
 interface IOverlayProps {
   isSignUp: boolean;

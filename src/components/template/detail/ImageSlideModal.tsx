@@ -1,4 +1,4 @@
-import ModalContainer from '../../layout/modal/ModalContainer';
+import ModalContainer from '@/components/layout/modal/ModalContainer';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 import styled from 'styled-components';

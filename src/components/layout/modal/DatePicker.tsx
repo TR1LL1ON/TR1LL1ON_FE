@@ -5,7 +5,7 @@ import { DateRangePicker, FocusedInputShape } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import { Moment } from 'moment';
 import 'moment/locale/ko';
-import { StyledButton } from '../../../style/common/commonStyle';
+import { StyledButton } from '@/style/common/commonStyle';
 
 interface DatePickerProps {
   setNights: React.Dispatch<React.SetStateAction<number>>;

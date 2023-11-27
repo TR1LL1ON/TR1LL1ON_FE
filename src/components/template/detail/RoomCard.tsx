@@ -12,9 +12,9 @@ import {
   StyledPriceText,
   StyledTextRow,
   StyledReservationBtn,
-} from '../../../style/detail/detailStyle';
-import { StyledFlexContainer } from '../../../style/payment/paymentStyle';
-import CartBtn from '../../layout/Button/cartBtn';
+} from '@/style/detail/detailStyle';
+import { StyledFlexContainer } from '@/style/payment/paymentStyle';
+import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
 interface RoomCardProps {
   // totalGuestCount: number;

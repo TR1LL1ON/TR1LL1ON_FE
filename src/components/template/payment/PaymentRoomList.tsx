@@ -1,7 +1,7 @@
 import {
   StyledFlexContainer,
   StyledSubTitle,
-} from '../../../style/payment/paymentStyle';
+} from '@/style/payment/paymentStyle';
 import PaymentRoomItem from './PaymentRoomItem';
 
 const PaymentRoomList = () => {
