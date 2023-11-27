@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CONTENT_TYPE, SERVER_URL } from '../constant';
 import {
-  OrderData,
+  OrderRequest,
   AccomodationData,
   ReviewData,
 } from '../interfaces/interface';
@@ -99,7 +99,7 @@ export const postAccomodationProduct = async (
 };
 
 // 상품 주문하기
-export const postOrders = async (orderData: OrderData) => {
+export const postOrders = async (orderData: OrderRequest) => {
   const res = await client.post(`orders`, orderData);
   return res;
 };
