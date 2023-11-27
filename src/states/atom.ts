@@ -42,18 +42,14 @@ export const reservationState = atom<Order>({
   },
 });
 
-// 인원 증감 버튼 누를 시, 변경된 개별 인원 수 담는 state
+// 인원 증감 버튼 누를 시, 변경된 개별 인원수 담는 state
+// totals: 게스트 모달에서 저장 버튼 클릭 시, 총 인원수 담는 state
 export const guestCountState = atom<GuestCount>({
   key: 'guestCountState',
   default: {
     adults: 0,
     children: 0,
     infants: 0,
+    totals: 0,
   },
-});
-
-// 게스트 모달에서 저장 버튼 클릭 시, 총 인원 수 담는 state
-export const totalGuestCountState = atom<number>({
-  key: 'totalGuestCountState',
-  default: 0,
 });

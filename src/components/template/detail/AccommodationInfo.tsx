@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
 import APIServiceList from './APIServiceList';
 import { useRecoilValue } from 'recoil';
-import { guestCountState, totalGuestCountState } from '@/states/atom';
+import { guestCountState } from '@/states/atom';
 import {
   StyledIconBox,
   StyledOnClick,
@@ -30,7 +30,6 @@ const AccommodationInfo = ({}: AccommodationProp) => {
   const baseUrl = window.location.origin;
   // console.log(location);
   const guestCount = useRecoilValue(guestCountState);
-  const totalGuestCount = useRecoilValue(totalGuestCountState);
 
   const handleShareClick = () => {
     console.log(handleCopyClipBoard);
@@ -124,11 +123,12 @@ const AccommodationInfo = ({}: AccommodationProp) => {
             <StyledText $fontSize="1rem" $fontWeight={700}>
               게스트
             </StyledText>
+
             <StyledText $fontSize="1rem">
               성인 {guestCount.adults}명 / 아동 {guestCount.children}명 /
               유아&nbsp;
               {guestCount.infants}명 &nbsp;: &nbsp;
-              <StyledBold $fontWeight={700}>총 {totalGuestCount}명</StyledBold>
+              <StyledBold $fontWeight={700}>총{guestCount.totals}명</StyledBold>
             </StyledText>
           </StyledFlexContainer>
           <StyledOnClick onClick={handleGuestModal}>수정</StyledOnClick>

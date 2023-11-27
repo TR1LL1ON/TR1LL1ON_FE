@@ -13,6 +13,7 @@ export interface GuestCount {
   adults: number;
   children: number;
   infants: number;
+  totals: number;
 }
 
 export interface Order {

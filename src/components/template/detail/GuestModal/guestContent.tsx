@@ -8,18 +8,24 @@ import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 const GuestContent = () => {
   const [guestCount, setGuestCount] = useRecoilState(guestCountState);
 
-  const updateGuestCount = (type: keyof GuestCount, action: string) => {
-    if (action === 'increase') {
-      setGuestCount((prevCount) => ({
-        ...prevCount,
-        [type]: prevCount[type] + 1,
-      }));
-    } else if (action === 'decrease' && guestCount[type] > 0) {
-      setGuestCount((prevCount) => ({
-        ...prevCount,
-        [type]: prevCount[type] - 1,
-      }));
-    }
+  const updateGuestCount = (
+    type: keyof Omit<GuestCount, 'totals'>,
+    isAdding: boolean,
+  ) => {
+    setGuestCount((prevGuestCount) => {
+      const updatedCount = isAdding
+        ? prevGuestCount[type] + 1
+        : prevGuestCount[type] - 1;
+      const updatedTotals = isAdding
+        ? prevGuestCount.totals + 1
+        : prevGuestCount.totals - 1;
+
+      return {
+        ...prevGuestCount,
+        [type]: updatedCount < 0 ? 0 : updatedCount,
+        totals: updatedTotals < 0 ? 0 : updatedTotals,
+      };
+    });
   };
 
   return (
@@ -28,22 +34,22 @@ const GuestContent = () => {
         text={'성인'}
         subText={'13세이상'}
         count={guestCount.adults}
-        onIncrease={() => updateGuestCount('adults', 'increase')}
-        onDecrease={() => updateGuestCount('adults', 'decrease')}
+        onIncrease={() => updateGuestCount('adults', true)}
+        onDecrease={() => updateGuestCount('adults', false)}
       />
       <GuestAgeGroup
         text={'아동'}
         subText={'2-12세'}
         count={guestCount.children}
-        onIncrease={() => updateGuestCount('children', 'increase')}
-        onDecrease={() => updateGuestCount('children', 'decrease')}
+        onIncrease={() => updateGuestCount('children', true)}
+        onDecrease={() => updateGuestCount('children', false)}
       />
       <GuestAgeGroup
         text={'유아'}
         subText={'2세 미만'}
         count={guestCount.infants}
-        onIncrease={() => updateGuestCount('infants', 'increase')}
-        onDecrease={() => updateGuestCount('infants', 'decrease')}
+        onIncrease={() => updateGuestCount('infants', true)}
+        onDecrease={() => updateGuestCount('infants', false)}
       />
     </StyledGuestContentWrap>
   );

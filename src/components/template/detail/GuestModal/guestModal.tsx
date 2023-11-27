@@ -7,32 +7,25 @@ import {
 import { StyledH2Text, StyledBlackBtn } from '@/style/detail/detailStyle';
 import styled from 'styled-components';
 import ModalContainer from '@/components/layout/modal/ModalContainer';
-import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import { useSetRecoilState } from 'recoil';
-import { guestCountState, totalGuestCountState } from '../../../../states/atom';
+import { useRecoilState } from 'recoil';
+import { guestCountState } from '../../../../states/atom';
 
 interface GuestModalProps {
   onClose: () => void;
 }
 
 const GuestModal = ({ onClose }: GuestModalProps) => {
-  // const [guestCount, setGuestCount] = useRecoilState(guestCountState);
-  const guestCount = useRecoilValue(guestCountState);
-  const setTotalGuestCount = useSetRecoilState(totalGuestCountState);
+  const [guestCount, setGuestCount] = useRecoilState(guestCountState);
+
   const handleSave = () => {
-    const totalGuests =
-      guestCount.adults + guestCount.children + guestCount.infants;
-    // console.log('총 게스트:', totalGuests, '명');
-    setTotalGuestCount(totalGuests);
+    setGuestCount((prevCount) => ({
+      ...prevCount,
+      totals: prevCount.adults + prevCount.children + prevCount.infants,
+    }));
+    console.log('총 게스트:', guestCount.totals, '명');
     onClose();
   };
 
-  useEffect(() => {
-    const totalGuests =
-      guestCount.adults + guestCount.children + guestCount.infants;
-    setTotalGuestCount(totalGuests);
-  }, [guestCount, setTotalGuestCount]);
   return (
     <ModalContainer onClose={onClose}>
       <StyledH2Text $fontSize="1.5rem" $textAlign="left">

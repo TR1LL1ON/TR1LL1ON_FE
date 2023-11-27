@@ -164,6 +164,7 @@ export const StyledBlackBtn = styled(StyledButton)`
   color: #fff;
   white-space: nowrap;
   width: auto;
+  padding: 0.6rem 2rem;
   &:hover {
     background-color: #333;
     &:disabled {
@@ -176,7 +177,6 @@ export const StyledBorderBtn = styled(StyledBlackBtn)`
   background-color: transparent;
   color: #444;
   border: 1px solid #444;
-  padding: 0.6rem 2rem;
   transition: background-color 0.3s;
   &:hover {
     background-color: #444;
