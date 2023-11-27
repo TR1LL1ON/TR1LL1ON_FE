@@ -9,14 +9,10 @@ import * as S from '@/style/account/AccountStyle';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
+import { IFormValue } from '../cart';
 
 interface ISignInProps {
   isSignUp: boolean;
-}
-
-interface ISignInFormProps {
-  login_user_id: string;
-  login_password: string;
 }
 
 const SignIn = ({ isSignUp }: ISignInProps) => {
@@ -24,9 +20,9 @@ const SignIn = ({ isSignUp }: ISignInProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ISignInFormProps>({ mode: 'onBlur' });
-  const [loginUserId, setLoginUserId] = useState<string>('');
-  const [loginPassword, setLoginPassword] = useState<string>('');
+  } = useForm<Pick<IFormValue, 'email' | 'password'>>({ mode: 'onBlur' });
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   return (
     <S.StyledSignInContainer $isSignUp={isSignUp}>
@@ -37,21 +33,26 @@ const SignIn = ({ isSignUp }: ISignInProps) => {
           $flexDirection="column"
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
-          <StyledInputLabel htmlFor="login_user_id">아이디</StyledInputLabel>
-          <S.StyledInput error={errors.login_user_id} inputValue={loginUserId}>
+          <StyledInputLabel htmlFor="login_email">이메일</StyledInputLabel>
+          <S.StyledInput error={errors.email} inputValue={email}>
             <input
-              id="login_user_id"
+              id="login_email"
               type="text"
-              placeholder="아이디"
-              {...register('login_user_id', {
-                required: '아이디를 입력해주세요.',
+              placeholder="이메일"
+              {...register('email', {
+                required: '이메일을 입력해주세요.',
+                pattern: {
+                  value:
+                    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
+                  message: '이메일 형식에 맞지 않습니다.',
+                },
                 onBlur(event) {
-                  setLoginUserId(event.target.value);
+                  setEmail(event.target.value);
                 },
               })}
             />
-            {loginUserId || errors.login_user_id ? (
-              errors.login_user_id ? (
+            {email || errors.email ? (
+              errors.email ? (
                 <AiOutlineInfoCircle />
               ) : (
                 <AiOutlineCheckCircle />
@@ -60,9 +61,9 @@ const SignIn = ({ isSignUp }: ISignInProps) => {
               ''
             )}
           </S.StyledInput>
-          {errors.login_user_id && (
+          {errors.email && (
             <S.StyledMessage role="alert">
-              {errors.login_user_id.message}
+              {errors.email.message}
             </S.StyledMessage>
           )}
         </StyledFlexContainer>
@@ -71,14 +72,12 @@ const SignIn = ({ isSignUp }: ISignInProps) => {
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
           <StyledInputLabel htmlFor="login_password">비밀번호</StyledInputLabel>
-          <S.StyledInput
-            error={errors.login_password}
-            inputValue={loginPassword}>
+          <S.StyledInput error={errors.password} inputValue={password}>
             <input
               id="login_password"
               type="password"
               placeholder="비밀번호"
-              {...register('login_password', {
+              {...register('password', {
                 required: '비밀번호를 입력해주세요.',
                 minLength: {
                   value: 8,
@@ -89,12 +88,12 @@ const SignIn = ({ isSignUp }: ISignInProps) => {
                   message: '8자리 ~ 20자리 이내로 입력해주세요.',
                 },
                 onBlur(event) {
-                  setLoginPassword(event.target.value);
+                  setPassword(event.target.value);
                 },
               })}
             />
-            {loginPassword || errors.login_password ? (
-              errors.login_password ? (
+            {password || errors.password ? (
+              errors.password ? (
                 <AiOutlineInfoCircle />
               ) : (
                 <AiOutlineCheckCircle />
@@ -103,8 +102,8 @@ const SignIn = ({ isSignUp }: ISignInProps) => {
               ''
             )}
           </S.StyledInput>
-          {errors.login_password && (
-            <S.StyledMessage>{errors.login_password.message}</S.StyledMessage>
+          {errors.password && (
+            <S.StyledMessage>{errors.password.message}</S.StyledMessage>
           )}
         </StyledFlexContainer>
         <StyledButton $variant="primary" style={{ width: '100%' }}>
