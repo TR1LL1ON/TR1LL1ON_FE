@@ -12,11 +12,11 @@ import {
   StyledPriceText,
   StyledTextRow,
   StyledReservationBtn,
-} from '@/style/detail/detailStyle';
+} from '@/style/products/productsStyle';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Room } from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
 interface RoomCardProps {
@@ -74,12 +74,11 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
             <StyledBrandText>{`남은객실 ${roomData.count}`}</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">
               <CartBtn />
-              <StyledReservationBtn
-                $full={false}
-                $variant="primary"
-                onClick={handleReservationClick}>
-                예약하기
-              </StyledReservationBtn>
+              <Link to={`/payment/${accomodationID}`}>
+                <StyledReservationBtn $full={false} $variant="primary">
+                  예약하기
+                </StyledReservationBtn>
+              </Link>
             </StyledFlexContainer>
           </StyledFlexContainer>
         </StyledTextItem>

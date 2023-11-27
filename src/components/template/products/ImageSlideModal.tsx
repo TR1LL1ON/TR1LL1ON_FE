@@ -22,11 +22,11 @@ const ImageSlideModal = ({
     <ModalContainer onClose={onClose}>
       <StyledImgModal>
         <StyledArrowBtn className="prev" onClick={onPrev}>
-          <IoIosArrowBack ClassName="icon" />
+          <IoIosArrowBack className="icon" />
         </StyledArrowBtn>
         <img src={images[selectedIndex]} alt="숙소 이미지" />
         <StyledArrowBtn className="next" onClick={onNext}>
-          <IoIosArrowForward ClassName="icon" />
+          <IoIosArrowForward className="icon" />
         </StyledArrowBtn>
         <StyledPhotoIndex>
           {selectedIndex + 1} / {images.length}
