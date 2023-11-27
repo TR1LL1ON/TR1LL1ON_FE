@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
 import { useState } from 'react';
-import { GuestCount } from '@/interfaces/interface';
+import { AccommodationData, GuestCount } from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
 
 import {
@@ -26,11 +26,13 @@ interface AccommodationProp {
   onOpen: (e: React.MouseEvent) => void;
   guestCount: GuestCount;
   totalGuestCount: number;
+  infoData: AccommodationData;
 }
 const AccommodationInfo = ({
   onOpen,
   guestCount,
   totalGuestCount,
+  infoData,
 }: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
@@ -62,7 +64,7 @@ const AccommodationInfo = ({
     <StyledWrap>
       <StyledTextBox>
         <StyledFlexContainer>
-          <StyledTitle>마리나베이 속초</StyledTitle>
+          {infoData && <StyledTitle>{infoData.name}</StyledTitle>}
           <StyledIconBox $cursor="pointer" $gap="1rem">
             {/* 비로그인시 로그인페이지로 리다이렉트, 로그인시 찜목록 저장/GoHeartFill로 변경 */}
             <GoHeart onClick={() => alert('찜하기 미구현..😅')} />
@@ -70,7 +72,7 @@ const AccommodationInfo = ({
             <GoShareAndroid onClick={handleShareClick} />
           </StyledIconBox>
         </StyledFlexContainer>
-        <StyledText>강원특별자치도 강릉시 주문진읍 해안로 2005 </StyledText>
+        {infoData && <StyledText>{infoData.address} </StyledText>}
         <StyledServiceInfo
           $flexDirection="row"
           $justifyContent="flex-start"
