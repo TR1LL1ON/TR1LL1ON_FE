@@ -1,4 +1,3 @@
-// import ImageContainer from './ImageContainer';
 import DetailImageContainer from './DetailImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
@@ -7,8 +6,12 @@ import GuestModal from './GuestModal/guestModal';
 import { useState } from 'react';
 import { GuestCount } from '@/interfaces/interface';
 import Review from './Review';
-interface DetailContainerProps {}
-const DetailContainer = ({}: DetailContainerProps) => {
+
+interface DetailContainerProps {
+  accomodationID: string;
+}
+const DetailContainer = ({ accomodationID }: DetailContainerProps) => {
+  console.log(accomodationID);
   const [guestCount, setGuestCount] = useState<GuestCount>({
     adults: 0,
     children: 0,
@@ -27,8 +30,7 @@ const DetailContainer = ({}: DetailContainerProps) => {
 
   return (
     <>
-      {/* <ImageContainer />  기존 */}
-      <DetailImageContainer /> {/* 슬라이드 */}
+      <DetailImageContainer />
       <AccommodationInfo
         onOpen={handleGuestModal}
         guestCount={guestCount}
@@ -42,7 +44,7 @@ const DetailContainer = ({}: DetailContainerProps) => {
           onSave={handleSaveGuestCount}
         />
       )}
-      <RoomCard />
+      <RoomCard accomodationID={accomodationID} />
       <DetailService />
       <Review />
     </>
