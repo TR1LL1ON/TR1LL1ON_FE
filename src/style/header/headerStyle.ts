@@ -14,9 +14,15 @@ export const StyledHeaderContainer = styled(StyledFlexContainer)`
   background-color: #fff;
   padding: 0 20px;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
 
   @media screen and (min-width: 1024px) {
     padding: 0 4rem;
+  }
+
+  &[aria-expanded='true'] {
+    transform: translateY(-5rem);
+    opacity: 0;
   }
 
   a {
@@ -26,6 +32,7 @@ export const StyledHeaderContainer = styled(StyledFlexContainer)`
 `;
 
 export const StyledHeaderGroup = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};

@@ -17,11 +17,13 @@ import AccountModal from '@/components/layout/modal/accountModal';
 
 import { StyledText, StyledTitle } from '@/style/payment/paymentStyle';
 import { useClickOutside } from '@/hooks/useClickOutside';
+import RegionList from '../template/main/region';
 
 const Header = () => {
   const headerModalRef = useRef<HTMLDivElement | null>(null);
   const [isHeaderModalOpen, setIsHeaderModalOpen] = useState<boolean>(false);
   const [isAccountModalOpen, setIsAccountModalOpen] = useState<boolean>(false);
+  const [isRegionModalOpen, setIsRegionModalOpen] = useState<boolean>(false);
 
   useClickOutside(headerModalRef, () => {
     setIsHeaderModalOpen(false);
@@ -32,7 +34,7 @@ const Header = () => {
   };
 
   return (
-    <StyledHeaderContainer>
+    <StyledHeaderContainer aria-expanded={isRegionModalOpen}>
       {isAccountModalOpen && (
         <AccountModal setIsAccountModalOpen={setIsAccountModalOpen} />
       )}
@@ -44,13 +46,15 @@ const Header = () => {
           <StyledText>내 주변</StyledText>
         </StyledHeaderButton>
         <StyledVLine />
-        <StyledHeaderButton>
+        <StyledHeaderButton
+          onClick={() => setIsRegionModalOpen(!isRegionModalOpen)}>
           <StyledText>지역으로 찾기</StyledText>
           <StyledSearchContainer>
             <StyledSearchIcon />
           </StyledSearchContainer>
         </StyledHeaderButton>
       </StyledHeaderGroup>
+      {isRegionModalOpen && <RegionList />}
 
       <StyledHeaderGroup
         ref={headerModalRef}
