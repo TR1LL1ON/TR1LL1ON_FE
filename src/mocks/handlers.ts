@@ -3,6 +3,7 @@ import { rest } from 'msw';
 import { SERVER_URL } from '@/constant';
 
 export const handlers = [
+
   // 회원가입
   rest.post(`${SERVER_URL}/auth/signup`, (req, res, ctx) => {
     const { name, email, password } = req.body as SignupRequestBody;

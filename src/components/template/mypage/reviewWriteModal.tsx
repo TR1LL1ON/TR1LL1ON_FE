@@ -80,6 +80,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
                     name="rating"
                     value={ratingValue}
                     onClick={() => setRating(ratingValue)}
+                    style={{ display: 'none' }}
                   />
                   <FaStar
                     className="star"
