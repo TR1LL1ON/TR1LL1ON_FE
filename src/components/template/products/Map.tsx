@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-import { StyledH2Text } from '@/style/detail/detailStyle';
+import { StyledH2Text } from '@/style/products/productsStyle';
 
 interface MapProps {
   lat: number;
@@ -40,7 +40,7 @@ const Map: React.FC<MapProps> = ({ lat, lng }) => {
   }, []);
 
   return (
-    <>
+    <div style={{ marginBottom: '2.5rem' }}>
       <StyledH2Text $mt="0rem" $mb="2rem">
         숙소 위치
       </StyledH2Text>
@@ -57,7 +57,7 @@ const Map: React.FC<MapProps> = ({ lat, lng }) => {
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 

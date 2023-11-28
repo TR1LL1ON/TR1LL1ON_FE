@@ -3,7 +3,6 @@ import { handleCopyClipBoard } from '@/util/clipboard';
 import { useState } from 'react';
 import { GuestCount } from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
-import APIServiceList from './APIServiceList';
 
 import {
   StyledIconBox,
@@ -12,7 +11,7 @@ import {
   StyledServiceInfo,
   StyledTextBox,
   StyledWrap,
-} from '@/style/detail/detailStyle';
+} from '@/style/products/productsStyle';
 import {
   StyledTitle,
   StyledText,
@@ -22,6 +21,7 @@ import {
 import CalenderModal from '@/components/layout/modal/calenderModal';
 import { useRecoilValue } from 'recoil';
 import { dateRangeState } from '@/states/atom';
+import ProductsFacilityList from './ProductsFacilityList';
 
 interface AccommodationProp {
   onOpen: (e: React.MouseEvent) => void;
@@ -65,7 +65,7 @@ const AccommodationInfo = ({
           $flexDirection="row"
           $justifyContent="flex-start"
           $gap="1rem">
-          <APIServiceList />
+          <ProductsFacilityList />
         </StyledServiceInfo>
         <StyledOnClick $color="#444" $borderBottom="none">
           ★4.50 후기 0개

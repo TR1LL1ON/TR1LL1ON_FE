@@ -1,7 +1,7 @@
-import { StyledH2Text } from '@/style/detail/detailStyle';
+import { StyledH2Text } from '@/style/products/productsStyle';
 import ModalContainer from '@/components/layout/modal/ModalContainer';
-import APIServiceList from './APIServiceList';
-import EssentialServiceList from './EssentialServiceList';
+import ProductsFacilityList from './ProductsFacilityList';
+import RoomsFacilityList from './RoomsFacilityList';
 import styled from 'styled-components';
 
 interface FacilityModalProps {
@@ -13,11 +13,11 @@ const FacilityModal = ({ onClose }: FacilityModalProps) => {
     <ModalContainer onClose={onClose}>
       <StyledFacilityModal>
         <StyledH2Text $mb="1rem">숙소 편의시설</StyledH2Text>
-        <APIServiceList />
+        <ProductsFacilityList />
         <StyledH2Text $mt="2rem" $mb="1rem">
           객실 편의시설
         </StyledH2Text>
-        <EssentialServiceList />
+        <RoomsFacilityList />
       </StyledFacilityModal>
     </ModalContainer>
   );
