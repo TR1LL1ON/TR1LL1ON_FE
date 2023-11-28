@@ -87,3 +87,14 @@ export interface AccommodationResponse {
   accomodationID: string;
   accomodationData: AccommodationData;
 }
+
+export interface Cart {
+  accomodation_name: string;
+  accomodation_address: string;
+  accomodation_category: string;
+  product_name: string;
+  check_in: string;
+  check_out: string;
+  person_number: number;
+  price: number;
+}
