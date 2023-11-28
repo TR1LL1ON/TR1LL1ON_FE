@@ -392,18 +392,39 @@ export const handlers = [
 
   // 리뷰 작성
   rest.post(`${SERVER_URL}/reviews`, (req, res, ctx) => {
-    const reviewData = req.body; // 요청 바디에서 리뷰 데이터 추출
+    const { reviewID } = req.params;
+
+    const reviewData = {
+      created_at: '2023-11-21',
+      user_name: 'test',
+      order_item_id: 1,
+      order_id: 1,
+      review_id: 1,
+      accomdation_id: 1,
+      content: '좋은 숙소입니다.',
+      score: 4.5,
+    };
 
     return res(
       ctx.status(200),
-      ctx.json({ message: 'Review posted', reviewData }),
+      ctx.json({ message: 'Review posted', reviewID, reviewData }),
     );
   }),
 
   // 리뷰 수정
   rest.put(`${SERVER_URL}/reviews/:reviewID`, (req, res, ctx) => {
     const { reviewID } = req.params;
-    const reviewData = req.body; // 요청 바디에서 리뷰 데이터 추출
+
+    const reviewData = {
+      created_at: '2023-11-21',
+      user_name: 'test',
+      order_item_id: 1,
+      order_id: 1,
+      review_id: 1,
+      accomdation_id: 1,
+      content: '좋은 숙소입니다.',
+      score: 4.5,
+    };
 
     return res(
       ctx.status(200),
