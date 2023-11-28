@@ -9,12 +9,14 @@ import { useForm } from 'react-hook-form';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import { useState } from 'react';
 import { IFormValue } from '../cart';
+import { postSignUp } from '@/api/service';
 
 export interface IIsSignUpProps {
   isSignUp: boolean;
+  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SignUp = ({ isSignUp }: IIsSignUpProps) => {
+const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
   const {
     register,
     handleSubmit,
@@ -27,10 +29,18 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
 
+  const handleSignUp = async () => {
+    try {
+      await postSignUp(email, name, password);
+      setIsAccountModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <S.StyledSignUpContainer $isSignUp={isSignUp}>
-      <S.StyledForm
-        onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
+      <S.StyledForm onSubmit={handleSubmit(handleSignUp)}>
         <StyledTitle>회원가입</StyledTitle>
 
         <StyledFlexContainer
@@ -113,13 +123,9 @@ const SignUp = ({ isSignUp }: IIsSignUpProps) => {
               placeholder="비밀번호"
               {...register('password', {
                 required: '비밀번호를 입력해주세요.',
-                minLength: {
-                  value: 8,
-                  message: '8자리 ~ 20자리 이내로 입력해주세요.',
-                },
                 maxLength: {
                   value: 20,
-                  message: '8자리 ~ 20자리 이내로 입력해주세요.',
+                  message: '20자리 이내로 입력해주세요.',
                 },
                 onBlur(event) {
                   setPassword(event.target.value);

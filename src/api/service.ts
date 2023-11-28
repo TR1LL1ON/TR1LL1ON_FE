@@ -16,13 +16,13 @@ const client = axios.create({
 
 // 회원가입
 export const postSignUp = async (
-  name: string,
   email: string,
+  name: string,
   password: string,
 ) => {
   const res = await client.post('auth/signup', {
-    name: name,
     email: email,
+    name: name,
     password: password,
   });
   return res;
