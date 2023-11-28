@@ -18,8 +18,9 @@ import {
   StyledFlexContainer,
   StyledSpacer,
 } from '@/style/payment/paymentStyle';
-import { Moment } from 'moment';
 import CalenderModal from '@/components/layout/modal/calenderModal';
+import { useRecoilValue } from 'recoil';
+import { dateRangeState } from '@/states/atom';
 import ProductsFacilityList from './ProductsFacilityList';
 
 interface AccommodationProp {
@@ -44,19 +45,8 @@ const AccommodationInfo = ({
   const handleCalendarModal = () => {
     setShowCalendarModal(true);
   };
-
-  const [dateInfo, setDateInfo] = useState({
-    startDate: null as Moment | null,
-    endDate: null as Moment | null,
-    nights: 0,
-  });
-  const handleSaveDateInfo = (savedDateInfo: {
-    startDate: Moment | null;
-    endDate: Moment | null;
-    nights: number;
-  }) => {
-    setDateInfo(savedDateInfo);
-  };
+  const { startDate, endDate } = useRecoilValue(dateRangeState);
+  const [nights, setNights] = useState(0);
 
   return (
     <StyledWrap>
@@ -91,13 +81,13 @@ const AccommodationInfo = ({
             <StyledText $fontSize="1rem" $fontWeight={700}>
               날짜
             </StyledText>
-            {dateInfo.startDate && dateInfo.endDate ? (
+            {startDate && endDate ? (
               <StyledText $fontSize="1rem">
-                {`${dateInfo.startDate.format(
+                {`${startDate.format('YY.MM.DD')} ~ ${endDate.format(
                   'YY.MM.DD',
-                )} ~ ${dateInfo.endDate.format('YY.MM.DD')} / ${
-                  dateInfo.nights
-                }박`}
+                )} / 
+            ${nights}박
+                  `}
               </StyledText>
             ) : (
               <StyledText $fontSize="1rem">날짜를 선택해주세요.</StyledText>
@@ -107,7 +97,8 @@ const AccommodationInfo = ({
           {showCalendarModal && (
             <CalenderModal
               setShowModal={setShowCalendarModal}
-              onSave={handleSaveDateInfo}
+              nights={nights}
+              setNights={setNights}
             />
           )}
         </StyledSelect>
