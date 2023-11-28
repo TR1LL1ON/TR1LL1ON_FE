@@ -3,8 +3,9 @@ import { StyledRegionContainer } from './Region.style';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { REGION_CODE } from '@/constants';
 import { StyledButton } from '@/style/common/commonStyle';
+import { forwardRef } from 'react';
 
-const RegionList = () => {
+const RegionList = forwardRef<HTMLDivElement>((_, ref) => {
   const navigation = useNavigate();
   const location = useLocation();
 
@@ -15,7 +16,7 @@ const RegionList = () => {
   };
 
   return createPortal(
-    <StyledRegionContainer>
+    <StyledRegionContainer ref={ref}>
       {Object.entries(REGION_CODE).map((code, index) => {
         const [name, rcode] = code;
         return (
@@ -29,6 +30,6 @@ const RegionList = () => {
     </StyledRegionContainer>,
     document.body,
   );
-};
+});
 
 export default RegionList;
