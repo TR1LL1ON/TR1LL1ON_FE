@@ -13,7 +13,7 @@ import {
 import { StyledLabel } from '@/style/payment/paymentStyle';
 import { useNavigate } from 'react-router-dom';
 import { postLogin, postSignUp } from '@/api/service';
-import { useEffect } from 'react';
+
 // import { getProducts } from '@api/service';
 
 const ProductCard = ({ accomodationID }: { accomodationID: string }) => {
