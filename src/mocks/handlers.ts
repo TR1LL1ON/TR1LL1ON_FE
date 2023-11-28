@@ -5,13 +5,13 @@ import { SERVER_URL } from '@/constant';
 export const handlers = [
   // 회원가입
   rest.post(`${SERVER_URL}/auth/signup`, (req, res, ctx) => {
-    const { name, email, password } = req.body as SignupRequestBody;
+    const { email, name, password } = req.body as SignupRequestBody;
 
     return res(
       ctx.status(200),
       ctx.json({
         message: 'Signup successful',
-        user: { name, email, password },
+        user: { email, name, password },
       }),
     );
   }),
@@ -333,15 +333,19 @@ export const handlers = [
       // 더미 데이터
       items: [
         {
-          accomodation_name: '신라호텔',
-          accomodation_address: '제주특별자치도 서귀포시 중문관광로72번길 75',
-          accomodation_category: 'B02010100',
-          product_name: '더블 스탠다드룸',
-          check_in: '2023-11-21',
-          check_out: '2023-11-22',
-          person_number: 2,
+          cartItemId: 2,
+          accommodationId: 1,
+          accomodationName: '신라호텔',
+          accomodationAddress: '제주특별자치도 서귀포시 중문관광로72번길 75',
+          accomodationCategory: 'B02010100',
+          productId: 1,
+          productName: '더블 스탠다드룸',
+          checkIn: '2023-11-21',
+          checkOut: '2023-11-22',
+          personNumber: 2,
           price: 20000,
         },
+
         // 더 많은 장바구니 아이템 추가 가능
       ],
     };

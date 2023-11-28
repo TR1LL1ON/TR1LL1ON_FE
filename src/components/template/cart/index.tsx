@@ -20,6 +20,7 @@ export interface IFormValue {
 
 const CartContainer = () => {
   const [cartsData, setCartsData] = useState<Cart[]>([]);
+  const [checkedCartsData, setCheckedCartsData] = useState<Cart[]>([]);
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -44,7 +45,11 @@ const CartContainer = () => {
       <StyledTitle $mt="1.5rem">장바구니</StyledTitle>
       <CartListController />
       <StyledHLine $mBlock="1rem" />
-      <CartList cartsData={cartsData} />
+      <CartList
+        cartsData={cartsData}
+        checkedCartsData={checkedCartsData}
+        setCheckedCartsData={setCheckedCartsData}
+      />
       <StyledHLine $mBlock="1rem" />
       <CartDetail />
       <StyledButton style={{ width: '100%' }} $variant="primary">

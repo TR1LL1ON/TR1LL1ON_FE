@@ -17,7 +17,7 @@ const AccountModal = ({ setIsAccountModalOpen }: IAccountModalProps) => {
 
   return (
     <S.StyledModal ref={accountModalRef} onClick={AccountModalOutSideClose}>
-      <AccountContainer />
+      <AccountContainer setIsAccountModalOpen={setIsAccountModalOpen} />
     </S.StyledModal>
   );
 };

@@ -4,13 +4,24 @@ import { Cart } from '@/interfaces/interface';
 
 interface ICartListProps {
   cartsData: Cart[];
+  checkedCartsData: Cart[];
+  setCheckedCartsData: React.Dispatch<React.SetStateAction<Cart[]>>;
 }
 
-const CartList = ({ cartsData }: ICartListProps) => {
+const CartList = ({
+  cartsData,
+  checkedCartsData,
+  setCheckedCartsData,
+}: ICartListProps) => {
   return (
     <StyledCartList $flexDirection="column" $justifyContent="flex-start">
       {cartsData.map((cart, index) => (
-        <CartCard cartData={cart} key={index} />
+        <CartCard
+          cartData={cart}
+          key={index}
+          checkedCartsData={checkedCartsData}
+          setCheckedCartsData={setCheckedCartsData}
+        />
       ))}
     </StyledCartList>
   );

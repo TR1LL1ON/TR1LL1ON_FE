@@ -122,12 +122,15 @@ export interface AccommodationResponse {
 }
 
 export interface Cart {
-  accomodation_name: string;
-  accomodation_address: string;
-  accomodation_category: string;
-  product_name: string;
-  check_in: string;
-  check_out: string;
-  person_number: number;
+  cartItemId: number;
+  accommodationId: number;
+  accomodationName: string;
+  accomodationAddress: string;
+  accomodationCategory: string;
+  productId: number;
+  productName: string;
+  checkIn: string;
+  checkOut: string;
+  personNumber: number;
   price: number;
 }
