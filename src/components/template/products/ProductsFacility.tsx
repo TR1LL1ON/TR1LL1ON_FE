@@ -4,13 +4,13 @@ import {
   StyledServiceWrap,
   StyledH2Text,
   StyledBorderBtn,
-} from '@/style/detail/detailStyle';
+} from '@/style/products/productsStyle';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
-import APIServiceList from './APIServiceList';
-import EssentialServiceList from './EssentialServiceList';
+import ProductsFacilityList from './ProductsFacilityList';
+import RoomsFacilityList from './RoomsFacilityList';
 import FacilityModal from './FacilityModal';
 
-const DetailService = () => {
+const ProductsFacility = () => {
   const [showFacilityModal, setShowFacilityModal] = useState(false);
 
   const handleFacilityModal = (e: React.MouseEvent) => {
@@ -31,14 +31,14 @@ const DetailService = () => {
           $flexDirection="column"
           $alignItems="flex-start"
           $gap="1rem">
-          <EssentialServiceList />
+          <RoomsFacilityList />
         </StyledFlexContainer>
         <StyledFlexContainer
           className="service-col"
           $flexDirection="column"
           $alignItems="flex-start"
           $gap="1rem">
-          <APIServiceList />
+          <ProductsFacilityList />
         </StyledFlexContainer>
         <StyledBorderBtn
           $variant="primary"
@@ -54,4 +54,4 @@ const DetailService = () => {
   );
 };
 
-export default DetailService;
+export default ProductsFacility;

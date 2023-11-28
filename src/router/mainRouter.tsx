@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Cart from '@/pages/cart/cart';
-import Detail from '@/pages/detail/detail';
+import Products from '@/pages/products/products';
 import Main from '@/pages/main/main';
 import Mypage from '@/pages/mypage/mypage';
 import Payment from '@/pages/payment/payment';
@@ -27,7 +27,7 @@ const MainRouter = () => {
       <Routes>
         <Route path="/" element={<Dashboard />}>
           <Route index element={<Main />} />
-          <Route path="/detail/:accomodationID" element={<Detail />} />
+          <Route path="/products/:accomodationID" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
           <Route
             path="/payment"

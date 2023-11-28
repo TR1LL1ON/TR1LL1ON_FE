@@ -84,7 +84,7 @@ export const getProductsCategoryRegion = async (
   return res;
 };
 
-// 개별 상품조회
+// 개별 상품조회(숙소전체)
 export const postAccomodation = async (accomodationID: string) => {
   const res = await client.post<AccommodationResponse>(
     `products/${accomodationID}/`,
