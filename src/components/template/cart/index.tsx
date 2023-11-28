@@ -7,6 +7,9 @@ import {
 import CartDetail from './CartDetail';
 import CartList from './CartList';
 import CartListController from './CartListController';
+import { useEffect, useState } from 'react';
+import { Cart } from '@/interfaces/interface';
+import { getCarts } from '@/api/service';
 
 export interface IFormValue {
   name: string;
@@ -16,6 +19,21 @@ export interface IFormValue {
 }
 
 const CartContainer = () => {
+  const [cartsData, setCartsData] = useState<Cart[]>([]);
+
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      try {
+        const res = await getCarts();
+        setCartsData(res.data.items);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <StyledWrapper
       style={{
@@ -26,7 +44,7 @@ const CartContainer = () => {
       <StyledTitle $mt="1.5rem">장바구니</StyledTitle>
       <CartListController />
       <StyledHLine $mBlock="1rem" />
-      <CartList />
+      <CartList cartsData={cartsData} />
       <StyledHLine $mBlock="1rem" />
       <CartDetail />
       <StyledButton style={{ width: '100%' }} $variant="primary">

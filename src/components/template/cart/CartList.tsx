@@ -1,13 +1,17 @@
 import { StyledCartList } from '@/style/cart/cartStyle';
 import CartCard from './CartCard';
+import { Cart } from '@/interfaces/interface';
 
-const CartList = () => {
+interface ICartListProps {
+  cartsData: Cart[];
+}
+
+const CartList = ({ cartsData }: ICartListProps) => {
   return (
     <StyledCartList $flexDirection="column" $justifyContent="flex-start">
-      <CartCard />
-      <CartCard />
-      <CartCard />
-      <CartCard />
+      {cartsData.map((cart, index) => (
+        <CartCard cartData={cart} key={index} />
+      ))}
     </StyledCartList>
   );
 };
