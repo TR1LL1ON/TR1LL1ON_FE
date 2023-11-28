@@ -10,6 +10,7 @@ const AccountContainer = () => {
   const handleToggle = (): void => {
     setIsSignUp(!isSignUp);
   };
+
   return (
     <S.StyledContainer>
       <SignUp isSignUp={isSignUp} />
