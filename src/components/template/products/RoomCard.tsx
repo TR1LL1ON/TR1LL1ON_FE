@@ -2,7 +2,6 @@ import { LuUser, LuBedSingle } from 'react-icons/lu';
 import { useState } from 'react';
 import {
   StyledWrap,
-  StyledImgBox,
   StyledBrandText,
   StyledOnClick,
   StyledFlexRowGroup,
