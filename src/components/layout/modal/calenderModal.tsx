@@ -1,34 +1,18 @@
 import styled from 'styled-components';
 import DatePicker from './DatePicker';
-import { useState } from 'react';
-import { Moment } from 'moment';
 
 interface CalenderModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  onSave: (dates: {
-    startDate: Moment | null;
-    endDate: Moment | null;
-    nights: number;
-  }) => void;
+  nights: number;
+  setNights: React.Dispatch<React.SetStateAction<number>>;
 }
 const CalenderModal: React.FC<CalenderModalProps> = ({
   setShowModal,
-  onSave,
+  nights,
+  setNights,
 }) => {
   const closeModal = () => {
     setShowModal(false);
-  };
-  const [nights, setNights] = useState(0);
-
-  const handleSaveDates = (
-    startDate: Moment | null,
-    endDate: Moment | null,
-  ) => {
-    onSave({
-      startDate,
-      endDate,
-      nights,
-    });
   };
 
   return (
@@ -42,11 +26,7 @@ const CalenderModal: React.FC<CalenderModalProps> = ({
         ) : (
           <StyledModalTitle>날짜 선택</StyledModalTitle>
         )}
-        <DatePicker
-          setNights={setNights}
-          onSave={handleSaveDates}
-          onCloseModal={closeModal}
-        />
+        <DatePicker setNights={setNights} onCloseModal={closeModal} />
       </StyledModalContent>
     </StyledModal>
   );

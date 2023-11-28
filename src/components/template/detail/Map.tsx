@@ -23,7 +23,7 @@ const Map: React.FC<MapProps> = ({ lat, lng }) => {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_KEY,
   });
 
-  const [map, setMap] = React.useState<any>(null);
+  const [, setMap] = React.useState<any>(null);
 
   const onLoad = React.useCallback(
     function callback(mapInstance: any) {
