@@ -1,26 +1,21 @@
-import { LuTv, LuSiren, LuWifi } from 'react-icons/lu';
-import { PiHandSoapBold, PiFireExtinguisherBold } from 'react-icons/pi';
+import { Facility } from '@/interfaces/interface';
+import { roomsIconMapping, roomsTextMapping } from './iconAndTextMapping';
 
-const RoomsFacilityList = () => {
-  return (
-    <>
-      <p>
-        <LuTv /> TV
-      </p>
-      <p>
-        <LuWifi /> 무선인터넷
-      </p>
-      <p>
-        <PiHandSoapBold /> 세면도구
-      </p>
-      <p>
-        <PiFireExtinguisherBold /> 소화기
-      </p>
-      <p>
-        <LuSiren /> 화재경보기
-      </p>
-    </>
-  );
+interface RoomsFacilityListProps {
+  roomsFacility: Facility[];
+}
+
+const RoomsFacilityList: React.FC<RoomsFacilityListProps> = ({
+  roomsFacility,
+}) => {
+  // 아이콘과 텍스트 매핑
+  const facilityElements = roomsFacility.map((facilityKey, index) => (
+    <p className="mapping" key={`room-facility-${index}`}>
+      {roomsIconMapping[facilityKey as keyof typeof roomsIconMapping]}{' '}
+      {roomsTextMapping[facilityKey as keyof typeof roomsTextMapping]}
+    </p>
+  ));
+
+  return <>{facilityElements}</>;
 };
-
 export default RoomsFacilityList;

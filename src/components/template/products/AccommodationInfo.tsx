@@ -1,7 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
 import { useState } from 'react';
-import { AccommodationData, GuestCount } from '@/interfaces/interface';
+import {
+  AccommodationData,
+  Facility,
+  GuestCount,
+} from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
 
 import {
@@ -27,12 +31,14 @@ interface AccommodationProp {
   guestCount: GuestCount;
   totalGuestCount: number;
   infoData: AccommodationData;
+  productsFacility: Facility;
 }
 const AccommodationInfo = ({
   onOpen,
   guestCount,
   totalGuestCount,
   infoData,
+  productsFacility,
 }: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
@@ -77,7 +83,7 @@ const AccommodationInfo = ({
           $flexDirection="row"
           $justifyContent="flex-start"
           $gap="1rem">
-          <ProductsFacilityList />
+          <ProductsFacilityList productsFacility={productsFacility} />
         </StyledServiceInfo>
         <StyledOnClick $color="#444" $borderBottom="none">
           ★4.50 후기 0개

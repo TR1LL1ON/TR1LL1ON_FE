@@ -59,6 +59,7 @@ export interface Room {
   check_in: string;
   check_out: string;
   count: number;
+  facility: Facility;
   // Add other properties of the room here if needed
 }
 export interface AccommodationData {
@@ -83,26 +84,24 @@ export interface AccommodationData {
   swimming_pool: boolean; */
 }
 export interface Facility {
-  has_beauty: boolean;
-  has_cooking: boolean;
-  has_sauna: boolean;
-  has_parking: boolean;
-  has_sports: boolean;
+  has_bathtub?: boolean;
+  has_air_conditioner?: boolean;
+  has_tv?: boolean;
+  has_pc?: boolean;
+  has_cable?: boolean;
+  has_internet?: boolean;
+  has_refrigerator?: boolean;
+  has_toiletries?: boolean;
+  has_sofa?: boolean;
+  has_table?: boolean;
+  can_cook?: boolean;
+  has_parking?: boolean;
+  has_cooking?: boolean;
+  has_sports?: boolean;
+  has_sauna?: boolean;
+  has_beauty?: boolean;
 }
-export interface RoomFacility {
-  can_cook: boolean;
-  has_air_conditioner: boolean;
-  has_bath: boolean;
-  has_cable: boolean;
-  has_hair_dryer: boolean;
-  has_internet: boolean;
-  has_pc: boolean;
-  has_refrigerator: boolean;
-  has_sofa: boolean;
-  has_tv: boolean;
-  has_table: boolean;
-  has_toiletries: boolean;
-}
+
 export interface AccommodationResponse {
   accomodationID: string;
   accomodationData: AccommodationData;

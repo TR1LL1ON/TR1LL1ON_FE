@@ -1,10 +1,14 @@
 import ImageContainer from './ImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
-import ProductsFacility from './ProductsFacility';
+import AllFacility from './AllFacility';
 import GuestModal from './GuestModal/guestModal';
 import { useState, useEffect } from 'react';
-import { AccommodationData, GuestCount } from '@/interfaces/interface';
+import {
+  AccommodationData,
+  Facility,
+  GuestCount,
+} from '@/interfaces/interface';
 import Review from './Review';
 import { postAccomodation } from '@/api/service';
 
@@ -12,7 +16,6 @@ interface ProductsContainerProps {
   accomodationID: string;
 }
 const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
-  console.log(accomodationID);
   const [guestCount, setGuestCount] = useState<GuestCount>({
     adults: 0,
     children: 0,
@@ -31,18 +34,42 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
 
   const [accommodationData, setAccommodationData] =
     useState<AccommodationData | null>(null);
+
+  const [roomsFacilityData, setRoomsFacilityData] = useState<
+    (keyof Facility)[]
+  >([]);
+
   useEffect(() => {
     const fetchAccommodationData = async () => {
       try {
         const res = await postAccomodation(accomodationID);
-        console.log('응답 데이터:', res.accomodationData);
         setAccommodationData(res.accomodationData);
+
+        const facilities = res.accomodationData.rooms.flatMap(
+          (room) => room.facility,
+        );
+
+        const uniqueFacilities: (keyof Facility)[] = Array.from(
+          facilities.reduce((acc, facility) => {
+            Object.entries(facility).forEach(([key, value]) => {
+              if (value) acc.add(key as keyof Facility);
+            });
+            return acc;
+          }, new Set<keyof Facility>()),
+        );
+
+        setRoomsFacilityData(uniqueFacilities);
       } catch (error) {
         console.error('객실 상세 정보를 불러오는데 실패했습니다', error);
       }
     };
-    fetchAccommodationData();
+
+    if (accomodationID) {
+      fetchAccommodationData();
+    }
   }, [accomodationID]);
+
+  // console.log('roomsFacilityData', roomsFacilityData);
   return (
     <>
       {accommodationData && (
@@ -53,6 +80,7 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
             guestCount={guestCount}
             totalGuestCount={totalGuestCount}
             infoData={accommodationData}
+            productsFacility={accommodationData.facility}
           />
           {showGuestModal && (
             <GuestModal
@@ -63,8 +91,10 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
             />
           )}
           <RoomCard accomodationID={accomodationID} />
-          {/* <RoomCard accomodationID={accommodationData.accomodation_id} /> */}
-          <ProductsFacility />
+          <AllFacility
+            productsFacility={accommodationData.facility}
+            roomsFacility={roomsFacilityData}
+          />
           <Review />
         </>
       )}
