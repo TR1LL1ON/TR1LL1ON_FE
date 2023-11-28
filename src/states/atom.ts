@@ -14,7 +14,7 @@ export const orderState = atom<OrderRequest>({
   key: 'orderState',
   default: {
     orders: [],
-    payment: 'kakaopay',
+    payment: 'KAKAOPAY',
     total_price: 0,
   },
 });
