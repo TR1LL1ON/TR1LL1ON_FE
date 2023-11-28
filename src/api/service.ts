@@ -171,4 +171,16 @@ export const deleteLikes = async (accomodationID: string) => {
   return res;
 };
 
+// 전제 주문목록 조회(마이페이지)
+export const getUser = async () => {
+  const res = await client.delete(`user`);
+  return res;
+};
+
+// 전제 주문목록 상세조회(마이페이지)
+export const getUserDetail = async (orderID: string) => {
+  const res = await client.delete(`user/details/${orderID}`);
+  return res;
+};
+
 // 📚레퍼런스 : https://www.notion.so/API-556c8b2ec73a460c9132ccc9a0a2dbc1

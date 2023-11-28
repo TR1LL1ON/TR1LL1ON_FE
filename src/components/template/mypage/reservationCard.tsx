@@ -4,8 +4,16 @@ import {
   StyledText,
   StyledHLine,
 } from '@/style/payment/paymentStyle';
+import { StyledOnClick } from '@/style/products/productsStyle';
+import { useState } from 'react';
+import ReviewWriteModal from './ReviewWriteModal';
 
 const ReservationCard = () => {
+  const [showReviewWriteModal, setShowReviewWriteModal] = useState(false);
+  const handleReviewWriteModal = () => {
+    setShowReviewWriteModal(true);
+  };
+
   return (
     <>
       <StyledFlexContainer
@@ -36,6 +44,12 @@ const ReservationCard = () => {
           </StyledText>
           <StyledFlexContainer style={{ width: '100%' }}>
             <StyledText $fontWeight={700}>리한셀렉트 경주</StyledText>
+            <StyledOnClick onClick={handleReviewWriteModal}>
+              후기작성
+            </StyledOnClick>
+            {showReviewWriteModal && (
+              <ReviewWriteModal setShowModal={setShowReviewWriteModal} />
+            )}
           </StyledFlexContainer>
           <StyledText $fontSize="0.75rem">더블 스탠다드룸 | 2인</StyledText>
           <StyledText $fontSize="0.75rem">

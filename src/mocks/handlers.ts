@@ -466,6 +466,57 @@ export const handlers = [
       ctx.json({ message: 'Accomodation unliked', accomodationID }),
     );
   }),
+
+  // 전제 주문목록 조회(마이페이지)
+  rest.get(`${SERVER_URL}/user`, (_, res, ctx) => {
+    const orderData = [
+      {
+        orderId: 1,
+        orderCreateDate: '2023-11-28T11:17:38.000+00:00',
+        payment: 'KAKAOPAY',
+        totalPrice: 100000,
+        accommodationId: 1,
+      },
+      {
+        orderId: 2,
+        orderCreateDate: '2023-11-29T11:21:53.000+00:00',
+        payment: 'KAKAOPAY',
+        totalPrice: 100000,
+        accommodationId: 2,
+      },
+    ];
+
+    return res(ctx.status(200), ctx.json(orderData));
+  }),
+
+  // 전제 주문목록 상세조회(마이페이지)
+
+  rest.get(`${SERVER_URL}/user/datails/:orderID`, (_, res, ctx) => {
+    const orderDatailData = {
+      orderId: 1,
+      orderItemList: [
+        {
+          orderItemId: 1,
+          productId: 1,
+          startDate: '2023-11-27',
+          endDate: '2023-11-29',
+          personNumber: 2,
+          price: 50000,
+          reviewWritten: false,
+        },
+        {
+          orderItemId: 2,
+          productId: 2,
+          startDate: '2023-11-29',
+          endDate: '2023-11-30',
+          personNumber: 2,
+          price: 50000,
+          reviewWritten: false,
+        },
+      ],
+    };
+    return res(ctx.status(200), ctx.json(orderDatailData));
+  }),
 ];
 
 // 📚레퍼런스 : https://www.notion.so/API-556c8b2ec73a460c9132ccc9a0a2dbc1
