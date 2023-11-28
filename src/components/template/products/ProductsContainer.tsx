@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { GuestCount, Room } from '@/interfaces/interface';
 import Review from './Review';
 import { postAccomodation } from '@/api/service';
+import Map from './Map';
 
 interface ProductsContainerProps {
   accomodationID: string;
@@ -77,6 +78,7 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
         />
       ))}
       <ProductsFacility />
+      <Map lat={37.5649867} lng={126.985575} />
       <Review />
     </>
   );
