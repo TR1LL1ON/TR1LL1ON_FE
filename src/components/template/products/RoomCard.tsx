@@ -2,7 +2,6 @@ import { LuUser, LuBedSingle } from 'react-icons/lu';
 import { useState } from 'react';
 import {
   StyledWrap,
-  StyledImgBox,
   StyledBrandText,
   StyledOnClick,
   StyledFlexRowGroup,
@@ -17,23 +16,27 @@ import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
 import { Link } from 'react-router-dom';
+import { Room } from '@/interfaces/interface';
+import Carousel from './detailModal/carousel';
 interface RoomCardProps {
+  roomData: Room;
   accomodationID: string;
   // totalGuestCount: number;
 }
-const RoomCard = ({ accomodationID }: RoomCardProps) => {
+
+const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
+  const imageUrls = roomData.image.map((item) => item.image_url);
+
   const [showDetailModal, setShowDetailModal] = useState(false);
   const handleDetailModal = () => {
     setShowDetailModal(true);
   };
 
-  const imgSrc: string =
-    '//a0.muscache.com/im/pictures/fe84676f-e446-45b2-9d35-bcaf5dbc7469.jpg?im_w=720';
   return (
     <StyledWrap>
       <StyledFlexRowGroup $gap="1rem">
-        <StyledImgItem>
-          <StyledImgBox backgroundImage={imgSrc} />
+        <StyledImgItem style={{ overflow: 'hidden' }}>
+          <Carousel imageUrls={imageUrls} />
         </StyledImgItem>
         <StyledTextItem
           $flexDirection="column"
@@ -46,7 +49,11 @@ const RoomCard = ({ accomodationID }: RoomCardProps) => {
                 상세보기
               </StyledOnClick>
               {showDetailModal && (
-                <DetailModal setShowModal={setShowDetailModal} />
+                <DetailModal
+                  setShowModal={setShowDetailModal}
+                  roomData={roomData}
+                  imageUrls={imageUrls}
+                />
               )}
             </StyledFlexContainer>
             <StyledH2Text
@@ -55,12 +62,12 @@ const RoomCard = ({ accomodationID }: RoomCardProps) => {
               $mt="0"
               $mb="0"
               $fontWeight={400}>
-              체크인: 15:00~체크아웃:11:00
+              {`체크인: ${roomData.check_in} ~ 체크아웃: ${roomData.check_out}`}
             </StyledH2Text>
           </div>
-          <StyledPriceText>400000원</StyledPriceText>
+          <StyledPriceText>{`${roomData.aver_price}원`}</StyledPriceText>
           <StyledFlexContainer $flexDirection="row">
-            <StyledBrandText>남은객실</StyledBrandText>
+            <StyledBrandText>{`남은객실 ${roomData.count}`}</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">
               <CartBtn />
               <Link to={`/payment/${accomodationID}`}>
@@ -73,10 +80,11 @@ const RoomCard = ({ accomodationID }: RoomCardProps) => {
         </StyledTextItem>
       </StyledFlexRowGroup>
       <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
-        <StyledH2Text>더블 스탠다드 룸</StyledH2Text>
+        <StyledH2Text>{roomData.room_name}</StyledH2Text>
         <StyledTextRow>
           <LuUser className="icon" />
-          기준 2인 | 최대 2인
+
+          {`기준 ${roomData.standard_number}인 | 최대 ${roomData.max_number}인`}
         </StyledTextRow>
         <StyledTextRow>
           <LuBedSingle className="icon" />
