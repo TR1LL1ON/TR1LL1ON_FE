@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import theme from '@/style/theme';
+
 import { ModalProps } from '@/interfaces/interface';
 import {
   StyledTitle,
@@ -70,7 +70,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
 
           <StyledSubTitle $mt="3rem">별점</StyledSubTitle>
           <div>
-            {[...Array(5)].map((star, index) => {
+            {[...Array(5)].map((_, index) => {
               const ratingValue = index + 0.5;
 
               return (
@@ -103,67 +103,67 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
 
 export default ReviewWriteModal;
 
-const StyledModalText = styled(StyledText)`
-  display: flex;
-  width: 40%;
-  align-items: center;
-  gap: 0.1rem;
-`;
+// const StyledModalText = styled(StyledText)`
+//   display: flex;
+//   width: 40%;
+//   align-items: center;
+//   gap: 0.1rem;
+// `;
 
-const StyledModalFlexContainer = styled(StyledFlexContainer)`
-  border: 1px solid #d8d8d8;
-  border-radius: 0.5rem;
-  flex-wrap: wrap;
-  padding: 1rem;
-  margin-bottom: 1rem;
-`;
-const StyledReviewButton = styled.button`
-  background-color: #fff;
-  border: 1px solid #d8d8d8;
-  width: 100%;
+// const StyledModalFlexContainer = styled(StyledFlexContainer)`
+//   border: 1px solid #d8d8d8;
+//   border-radius: 0.5rem;
+//   flex-wrap: wrap;
+//   padding: 1rem;
+//   margin-bottom: 1rem;
+// `;
+// const StyledReviewButton = styled.button`
+//   background-color: #fff;
+//   border: 1px solid #d8d8d8;
+//   width: 100%;
 
-  padding: 0.7rem;
-  color: #444;
-  font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: ${(props) => props.theme.fontWeights.bold};
-  border-radius: 0.5rem;
-  &:hover {
-    background-color: #eeeeee;
-  }
-`;
+//   padding: 0.7rem;
+//   color: #444;
+//   font-size: ${(props) => props.theme.fontSizes.md};
+//   font-weight: ${(props) => props.theme.fontWeights.bold};
+//   border-radius: 0.5rem;
+//   &:hover {
+//     background-color: #eeeeee;
+//   }
+// `;
 
-const StyledTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
+// const StyledTable = styled.table`
+//   width: 100%;
+//   border-collapse: collapse;
+// `;
 
-const StyledTh = styled.th`
-  border: 1px solid #ddd;
-  padding: 0.5rem;
-  background-color: #f2f2f2;
-  text-align: start;
-  font-size: ${(props) => props.theme.fontSizes.sm};
-  font-weight: ${(props) => props.theme.fontWeights.bold};
-`;
+// const StyledTh = styled.th`
+//   border: 1px solid #ddd;
+//   padding: 0.5rem;
+//   background-color: #f2f2f2;
+//   text-align: start;
+//   font-size: ${(props) => props.theme.fontSizes.sm};
+//   font-weight: ${(props) => props.theme.fontWeights.bold};
+// `;
 
-const StyledTd = styled.td`
-  border: 1px solid #ddd;
-  padding: 0.5rem;
-  text-align: left;
-  font-size: ${(props) => props.theme.fontSizes.sm};
-`;
+// const StyledTd = styled.td`
+//   border: 1px solid #ddd;
+//   padding: 0.5rem;
+//   text-align: left;
+//   font-size: ${(props) => props.theme.fontSizes.sm};
+// `;
 
 const StyledModalBody = styled.div`
   overflow-y: auto;
   padding: 2rem;
 `;
 
-const StyledModalFooter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px solid #ddd;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 4px 0px;
-`;
+// const StyledModalFooter = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   border-top: 1px solid #ddd;
+//   box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 4px 0px;
+// `;
 
 export const StyledModal = styled.div`
   position: fixed;
@@ -194,8 +194,8 @@ export const StyledModalContent = styled.div<{
   overflow-y: auto;
 `;
 
-const CarouselWrapper = styled.div`
-  width: 100%;
-  height: auto;
-  overflow: hidden;
-`;
+// const CarouselWrapper = styled.div`
+//   width: 100%;
+//   height: auto;
+//   overflow: hidden;
+// `;

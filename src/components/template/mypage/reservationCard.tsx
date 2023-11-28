@@ -6,7 +6,7 @@ import {
 } from '@/style/payment/paymentStyle';
 import { StyledOnClick } from '@/style/products/productsStyle';
 import { useState } from 'react';
-import ReviewWriteModal from './ReviewWriteModal';
+import ReviewWriteModal from './reviewWriteModal';
 
 const ReservationCard = () => {
   const [showReviewWriteModal, setShowReviewWriteModal] = useState(false);

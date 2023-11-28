@@ -12,7 +12,7 @@ import {
 } from '@/style/main/productCardStyle';
 import { StyledLabel } from '@/style/payment/paymentStyle';
 import { useNavigate } from 'react-router-dom';
-import { postLogin, postSignUp } from '@/api/service';
+import { postLogin } from '@/api/service';
 
 // import { getProducts } from '@api/service';
 
