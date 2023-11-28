@@ -11,6 +11,7 @@ const client = axios.create({
   baseURL: SERVER_URL,
   headers: {
     'content-type': CONTENT_TYPE,
+    withCredentials: true,
   },
 });
 
@@ -168,6 +169,18 @@ export const postLikes = async (accomodationID: string) => {
 // 숙소 찜 삭제
 export const deleteLikes = async (accomodationID: string) => {
   const res = await client.delete(`likes/${accomodationID}`);
+  return res;
+};
+
+// 전제 주문목록 조회(마이페이지)
+export const getUser = async () => {
+  const res = await client.get(`user`);
+  return res;
+};
+
+// 전제 주문목록 상세조회(마이페이지)
+export const getUserDetail = async (orderID: string) => {
+  const res = await client.get(`user/details/${orderID}`);
   return res;
 };
 

@@ -7,8 +7,8 @@ export interface JoinData {
 
 export interface ModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  roomData: Room;
-  imageUrls: string[];
+  roomData?: Room;
+  imageUrls?: string[];
 }
 
 export interface GuestCount {
