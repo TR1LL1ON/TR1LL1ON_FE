@@ -124,72 +124,167 @@ export const handlers = [
     const { accomodationID } = req.params;
 
     const accomodationData = {
-      // 더미 데이터
-      accomodation_id: accomodationID,
-      name: '숙소 예시 이름',
-      address: '숙소 예시 주소',
-      address_code: '123456',
-      category: '호텔',
-      check_in: new Date().toISOString().split('T')[0], // 오늘 날짜
-      check_out: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-        .toISOString()
-        .split('T')[0], // 내일 날짜
+      accommodation_id: 11,
+      name: '오월의 푸른하늘',
+      address: '경기도 이천시 마장면 덕평로877번길 16',
+      area_code: '31',
+      phone: '정보 없음',
+      category: 'B02010700',
+      check_in: '2023-11-26',
+      check_out: '2023-11-27',
       person_number: 2,
-      score: 4.5,
-      image: [{ image_url: 'http://example.com/room.jpg' }],
-      rooms: [
+      score: 5.0,
+      image: [
         {
-          room_id: 1,
-          room_name: '스탠다드 룸',
-          check_in: '15:00',
-          check_out: '11:00',
-          count: 5,
-          price: 150000,
-          max_number: 3,
-          standard_number: 2,
-          bed_type: '더블',
-          bed_number: 1,
-          is_sold: false,
-          image_url: 'http://example.com/room1.jpg',
+          imageUrl:
+            'http://tong.visitkorea.or.kr/cms/resource/45/3023445_image2_1.jpg',
+        },
+        {
+          imageUrl:
+            'http://tong.visitkorea.or.kr/cms/resource/45/3023445_image3_1.jpg',
         },
       ],
-      swimming_pool: true,
-      breakfest: true,
-      party: false,
-      parking: true,
-      cooking: false,
-      latitude: '37.5665',
-      longitude: '126.9780',
+      rooms: [
+        {
+          room_id: 32,
+          room_name: '디럭스',
+          check_in: '15:00',
+          check_out: '11:00',
+          count: 12,
+          aver_price: 70000.0,
+          total_price: 70000,
+          max_number: 9,
+          standard_number: 1,
+          facility: {
+            can_cook: false,
+            has_air_conditioner: false,
+            has_bath: true,
+            has_cable: true,
+            has_hair_dryer: true,
+            has_internet: false,
+            has_pc: false,
+            has_refrigerator: true,
+            has_sofa: true,
+            has_tv: false,
+            has_table: true,
+            has_toiletries: true,
+          },
+          image: [
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
+            },
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
+            },
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
+            },
+          ],
+          sold: true,
+        },
+        {
+          room_id: 34,
+          room_name: '스탠다드',
+          check_in: '15:00',
+          check_out: '11:00',
+          count: 8,
+          aver_price: 80000.0,
+          total_price: 80000,
+          max_number: 10,
+          standard_number: 2,
+          facility: {
+            can_cook: true,
+            has_air_conditioner: true,
+            has_bath: true,
+            has_cable: true,
+            has_hair_dryer: true,
+            has_internet: false,
+            has_pc: false,
+            has_refrigerator: false,
+            has_sofa: true,
+            has_tv: false,
+            has_table: false,
+            has_toiletries: false,
+          },
+          image: [
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
+            },
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
+            },
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
+            },
+          ],
+          sold: true,
+        },
+      ],
+      facility: {
+        has_beauty: false,
+        has_cooking: false,
+        has_sauna: false,
+        has_parking: false,
+        has_sports: false,
+      },
+      latitude: '37.2361078310',
+      longitude: '127.3639953703',
     };
 
     return res(ctx.status(200), ctx.json({ accomodationID, accomodationData }));
   }),
 
-  // 개별 상품 상세페이지 조회
+  // 개별 상품 상세페이지 조회(필요없음)
   rest.post(
     `${SERVER_URL}/products/:accomodationID/:productID`,
     (req, res, ctx) => {
       const { accomodationID, productID } = req.params;
 
       const roomData = {
-        // 더미 데이터
-        room_id: 1,
-        room_name: '스탠다드 룸',
+        room_id: 34,
+        room_name: '스탠다드',
         check_in: '15:00',
         check_out: '11:00',
-        count: 5,
-        price: 100000,
-        max_number: 3,
+        count: 8,
+        aver_price: 80000.0,
+        total_price: 80000,
+        max_number: 10,
         standard_number: 2,
-        bed_type: '퀸',
-        bed_number: 1,
-        is_smoke: false,
-        is_balcony: true,
-        is_sold: true,
+        facility: {
+          can_cook: true,
+          has_air_conditioner: true,
+          has_bath: true,
+          has_cable: true,
+          has_hair_dryer: true,
+          has_internet: false,
+          has_pc: false,
+          has_refrigerator: false,
+          has_sofa: true,
+          has_tv: false,
+          has_table: false,
+          has_toiletries: false,
+        },
         image: [
-          { image_url: 'http://example.com/room1.jpg' },
-          // 더 많은 이미지...
+          {
+            image_url:
+              'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
+          },
+          {
+            image_url:
+              'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
+          },
+          {
+            image_url:
+              'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
+          },
         ],
+        sold: true,
       };
 
       return res(

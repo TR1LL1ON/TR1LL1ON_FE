@@ -1,6 +1,6 @@
 import GuestContent from './guestContent';
 import { StyledText } from '@/style/payment/paymentStyle';
-import { StyledH2Text } from '@/style/detail/detailStyle';
+import { StyledH2Text } from '@/style/products/productsStyle';
 import { GuestCount } from '@/interfaces/interface';
 import ModalContainer from '@/components/layout/modal/ModalContainer';
 

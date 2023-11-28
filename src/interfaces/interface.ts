@@ -7,6 +7,8 @@ export interface JoinData {
 
 export interface ModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  roomData: Room;
+  imageUrls: string[];
 }
 
 export interface GuestCount {
@@ -16,19 +18,20 @@ export interface GuestCount {
 }
 
 export interface Order {
-  check_in: string; // 체크인 날짜
-  check_out: string; // 체크아웃 날짜
-  person_number: number; // 인원 수
-  product_id: number; // 상품 ID (객실 ID)
-  price: number; // 가격
+  check_in: string;
+  check_out: string;
+  person_number: number;
+  product_id: number;
+  price: number;
 }
 
-export interface OrderData {
-  orders: Order[]; // 주문 목록
-  payment: string; // 결제 수단
-  total_price: number; // 총 가격
+export interface OrderRequest {
+  orders: Order[];
+  payment: 'card' | 'kakaopay' | 'naverpay' | 'cash';
+  total_price: number;
 }
 
+// 변수명 명시적으로 바꿔야함
 export interface AccomodationData {
   checkIn: string; // 체크인 날짜
   checkOut: string; // 체크아웃 날짜
@@ -47,4 +50,73 @@ export interface SignupRequestBody {
   name: string;
   email: string;
   password: string;
+}
+
+export interface AccommodationImage {
+  image_url: string;
+}
+
+export interface Facility {
+  can_cook: boolean;
+  has_air_conditioner: boolean;
+  has_bath: boolean;
+  has_cable: boolean;
+  has_hair_dryer: boolean;
+  has_internet: boolean;
+  has_pc: boolean;
+  has_refrigerator: boolean;
+  has_sofa: boolean;
+  has_tv: boolean;
+  has_table: boolean;
+  has_toiletries: boolean;
+}
+
+export interface Room {
+  room_id: number;
+  room_name: string;
+  check_in: string;
+  check_out: string;
+  count: number;
+  aver_price: number;
+  total_price: number;
+  max_number: number;
+  standard_number: number;
+  sold: boolean;
+  facility: Facility;
+  image: { image_url: string }[];
+}
+
+// export interface Room {
+//   room_id: number;
+//   room_name: string;
+//   check_in: string;
+//   check_out: string;
+//   count: number;
+//   // Add other properties of the room here if needed
+// }
+
+export interface AccommodationData {
+  accomodation_id: string;
+  address: string;
+  address_code: string;
+  breakfest: boolean;
+  category: string;
+  check_in: string;
+  check_out: string;
+  cooking: boolean;
+  image: AccommodationImage[];
+  latitude: string;
+  longitude: string;
+  name: string;
+  parking: boolean;
+  party: boolean;
+  person_number: number;
+  rooms: Room[];
+  score: number;
+  swimming_pool: boolean;
+}
+
+export interface AccommodationResponse {
+  accomodationID: string;
+  accomodationData: AccommodationData;
 }

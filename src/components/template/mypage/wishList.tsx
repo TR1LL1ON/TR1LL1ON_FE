@@ -17,7 +17,7 @@ const WishList = () => {
           fontFamily:
             'Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif',
           overflowY: 'auto',
-          height: '30vh',
+          height: '40vh',
         }}>
         <StyledGridContainer>
           <WishCard />

@@ -1,16 +1,8 @@
 import styled from 'styled-components';
 
 export const StyledPaymentModal = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30rem;
-  padding: 1rem 2rem;
-  background-color: #fff;
-  border: 1px solid ${(props) => props.theme.colors.lightGray};
-  border-radius: 10px;
-  transform: translate(-50%, -50%);
-  z-index: 100;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const StyledInputGroup = styled.div`
@@ -19,12 +11,14 @@ export const StyledInputGroup = styled.div`
 `;
 
 export const StyledPayInput = styled.input`
-  width: 100%;
+  width: 6rem;
+  min-width: 4rem;
   outline: none;
   border: none;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
   font-size: 1rem;
-  letter-spacing: 0.5rem;
+  letter-spacing: 0.3rem;
+  background-color: transparent;
 
   appearance: none;
   -webkit-appearance: none;
