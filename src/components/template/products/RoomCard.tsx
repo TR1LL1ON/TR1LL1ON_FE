@@ -46,7 +46,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
             <StyledFlexContainer $flexDirection="row">
               <StyledH2Text>숙박</StyledH2Text>
               <StyledOnClick onClick={handleDetailModal}>
-                상세보기
+                상세보기!
               </StyledOnClick>
               {showDetailModal && (
                 <DetailModal

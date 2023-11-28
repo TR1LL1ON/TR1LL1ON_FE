@@ -14,7 +14,7 @@ interface ProductsContainerProps {
 const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
   console.log(accomodationID);
   const [guestCount, setGuestCount] = useState<GuestCount>({
-    adults: 0,
+    adults: 1,
     children: 0,
     infants: 0,
   });
