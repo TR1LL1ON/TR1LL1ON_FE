@@ -7,7 +7,7 @@ import {
   AccommodationResponse,
 } from '../interfaces/interface';
 
-const client = axios.create({
+export const client = axios.create({
   baseURL: SERVER_URL,
   headers: {
     'content-type': CONTENT_TYPE,
