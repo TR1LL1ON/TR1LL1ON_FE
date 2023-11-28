@@ -6,13 +6,13 @@ import GuestModal from './GuestModal/guestModal';
 import { useState, useEffect } from 'react';
 import { GuestCount, Room } from '@/interfaces/interface';
 import Review from './Review';
-import { postAccomodation } from '@/api/service';
+import { postAccommodation } from '@/api/service';
 
 interface ProductsContainerProps {
-  accomodationID: string;
+  accommodationID: string;
 }
-const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
-  console.log(accomodationID);
+const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
+  console.log(accommodationID);
   const [guestCount, setGuestCount] = useState<GuestCount>({
     adults: 0,
     children: 0,
@@ -33,11 +33,11 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
-      if (accomodationID) {
+      if (accommodationID) {
         setIsLoading(true); // 데이터 로딩 시작
         try {
-          const res = await postAccomodation(accomodationID);
-          setRoomData(res.accomodationData.rooms);
+          const res = await postAccommodation(accommodationID);
+          setRoomData(res.accommodationData.rooms);
         } catch (err) {
           console.log('에러');
         } finally {
@@ -47,7 +47,7 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
     };
 
     fetchData();
-  }, [accomodationID]);
+  }, [accommodationID]);
 
   if (isLoading) {
     return <div>Loading...</div>; // 데이터 로딩 중인 경우 로딩 표시
@@ -73,7 +73,7 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
         <RoomCard
           key={room.room_id}
           roomData={room}
-          accomodationID={accomodationID}
+          accommodationID={accommodationID}
         />
       ))}
       <ProductsFacility />
