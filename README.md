@@ -1,4 +1,4 @@
-# 야놀자테크캠프 미니프로젝트 1조 💸 TR1LL1ON 프론트엔드
+# 야놀자테크캠프 미니프로젝트 1조 💸 TR1LL1ON 프론트엔드!
 
 <div align="center">
 <p align="left">

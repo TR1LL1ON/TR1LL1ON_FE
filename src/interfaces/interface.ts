@@ -120,3 +120,17 @@ export interface AccommodationResponse {
   accomodationID: string;
   accomodationData: AccommodationData;
 }
+
+export interface Cart {
+  cartItemId: number;
+  accommodationId: number;
+  accomodationName: string;
+  accomodationAddress: string;
+  accomodationCategory: string;
+  productId: number;
+  productName: string;
+  checkIn: string;
+  checkOut: string;
+  personNumber: number;
+  price: number;
+}
