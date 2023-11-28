@@ -27,7 +27,7 @@ export interface Order {
 
 export interface OrderRequest {
   orders: Order[];
-  payment: 'card' | 'kakaopay' | 'naverpay' | 'cash';
+  payment: 'CARD' | 'KAKAOPAY' | 'NAVERPAY' | 'CASH';
   total_price: number;
 }
 

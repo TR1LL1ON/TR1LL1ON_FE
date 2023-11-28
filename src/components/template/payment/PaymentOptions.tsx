@@ -76,10 +76,10 @@ const PaymentOptions = () => {
         )}
       </StyledWrapper>
       <StyledSpacer $height="0.5rem" />
-      {payment.payment === 'cash' && (
+      {payment.payment === 'CASH' && (
         <StyledText>예약한 장소에서 현금 결제</StyledText>
       )}
-      {payment.payment === 'card' && <AddCreditCard />}
+      {payment.payment === 'CARD' && <AddCreditCard />}
     </>
   );
 };
