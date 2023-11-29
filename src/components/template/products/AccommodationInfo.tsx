@@ -22,7 +22,6 @@ import {
 import CalenderModal from '@/components/layout/modal/calenderModal';
 import GuestModal from './GuestModal/guestModal';
 import { dateRangeState } from '@/states/atom';
-import { Moment } from 'moment';
 import ProductsFacilityList from './ProductsFacilityList';
 
 interface AccommodationProp {}
