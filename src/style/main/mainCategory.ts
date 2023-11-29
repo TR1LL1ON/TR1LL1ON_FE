@@ -3,6 +3,7 @@ import { StyledText } from '@/style/payment/paymentStyle';
 
 export const StyledCategoryContainer = styled.div`
   display: grid;
+  place-items: center;
   grid-auto-flow: column;
   grid-auto-columns: minmax(64px, 1fr);
   column-gap: 1rem;

@@ -40,6 +40,11 @@ const DetailModal: React.FC<ModalProps> = ({
 
   const amenityArr: string[] = ['무료 와이파이', '발코니', '욕실'];
 
+
+  if (!roomData || !imageUrls) {
+    return (<div>로딩중</div>); 
+  }
+
   return (
     <StyledModal onClick={closeModal}>
       <StyledModalContent
