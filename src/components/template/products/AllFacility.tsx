@@ -62,7 +62,7 @@ const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
   ]).slice(0, 9);
 
   // 9개 노출 다시 확인 필요
-  console.log('9개', displayFacilities);
+  // console.log('9개', displayFacilities);
   return (
     <StyledBorderWrap>
       <StyledH2Text $mt="0rem" $mb="2rem">

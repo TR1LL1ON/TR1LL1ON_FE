@@ -7,7 +7,6 @@ interface RoomsFacilityListProps {
 const RoomsFacilityList: React.FC<RoomsFacilityListProps> = ({
   roomsFacility,
 }) => {
-  console.log('roomFacility', roomsFacility);
   // 아이콘과 텍스트 매핑
   const facilityElements = roomsFacility.map((facilityKey, index) => (
     <p className="mapping" key={`room-facility-${index}`}>

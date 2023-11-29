@@ -20,8 +20,6 @@ const ProductsFacilityList: React.FC<ProductsFacilityListProps> = ({
     </p>
   ));
 
-  console.log('facilityKeys', facilityKeys);
-
   return <>{facilityElements}</>;
 };
 export default ProductsFacilityList;
