@@ -29,7 +29,7 @@ export const ProductCard = ({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/detail/${accommodationID}`);
+    navigate(`/products/${accommodationID}`);
   };
 
   const words = address.split(' ');
