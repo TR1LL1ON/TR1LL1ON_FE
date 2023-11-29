@@ -6,7 +6,7 @@ const Products = () => {
 
   return (
     <div>
-      {accomodationID && <ProductsContainer accomodationID={accomodationID} />}
+      {accomodationID && <ProductsContainer accommodationID={accomodationID} />}
     </div>
   );
 };

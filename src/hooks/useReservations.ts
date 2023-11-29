@@ -1,3 +1,4 @@
+
 import { getAccommodation } from '@/api/service';
 import { useQueries } from '@tanstack/react-query';
 
@@ -8,7 +9,6 @@ const useReservations = (accommodationId: string[]) => {
       queryFn: () => getAccommodation(id),
     })),
   });
-
   return results;
 };
 
