@@ -31,7 +31,7 @@ export const productsIconMapping: { [key: string]: JSX.Element } = {
 };
 
 export const productsTextMapping: { [key: string]: string } = {
-  has_beauty: '뷰티 시설',
+  has_beauty: '파우더 룸',
   has_cooking: '취사 가능',
   has_sauna: '사우나',
   has_parking: '주차 가능',

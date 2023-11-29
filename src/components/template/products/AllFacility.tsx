@@ -24,12 +24,12 @@ const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
   };
 
   if (
-    !productsFacility ||
-    typeof productsFacility !== 'object' ||
-    !roomsFacility.length
+    (!productsFacility || typeof productsFacility !== 'object') &&
+    (!roomsFacility || !roomsFacility.length)
   ) {
-    return <div>데이터가 올바르지 않습니다.</div>;
+    return null;
   }
+
   // console.log('products🏰::', productsFacility);
   // console.log('rooms🎃::', roomsFacility);
 
@@ -53,9 +53,9 @@ const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
         숙소 편의시설
       </StyledH2Text>
       <FlexContainer>
-        <div>
+        <ItemContainer>
           <StyledItem> {displayFacilities}</StyledItem>
-        </div>
+        </ItemContainer>
         <ButtonContainer>
           <StyledBorderBtn $variant="primary" onClick={handleFacilityModal}>
             편의시설 모두 보기
@@ -77,6 +77,9 @@ export default AllFacility;
 const FlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+const ItemContainer = styled.div`
+  width: 100%;
 `;
 
 const ButtonContainer = styled.div`

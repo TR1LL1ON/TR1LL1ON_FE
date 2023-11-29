@@ -15,17 +15,32 @@ const FacilityModal = ({
   roomsFacility,
   onClose,
 }: FacilityModalProps) => {
+  // productsFacility에 하나라도 true 값이 있는지 확인
+  const hasTrueProductFacility = Object.values(productsFacility).some(
+    (value) => value,
+  );
+
+  console.log('숙소편의시설', productsFacility);
+  console.log('객실편의시설', roomsFacility);
   return (
     <ModalContainer onClose={onClose}>
       <StyledFacilityModal>
-        <StyledH2Text $mt="4rem" $mb="1rem">
-          숙소 편의시설
-        </StyledH2Text>
-        <ProductsFacilityList productsFacility={productsFacility} />
-        <StyledH2Text $mt="2rem" $mb="1rem">
-          객실 편의시설
-        </StyledH2Text>
-        <RoomsFacilityList roomsFacility={roomsFacility} />
+        {hasTrueProductFacility && (
+          <>
+            <StyledH2Text $mt="4rem" $mb="1rem">
+              숙소 편의시설
+            </StyledH2Text>
+            <ProductsFacilityList productsFacility={productsFacility} />
+          </>
+        )}
+        {roomsFacility.length > 0 && (
+          <>
+            <StyledH2Text $mt="2rem" $mb="1rem">
+              객실 편의시설
+            </StyledH2Text>
+            <RoomsFacilityList roomsFacility={roomsFacility} />
+          </>
+        )}
       </StyledFacilityModal>
     </ModalContainer>
   );
