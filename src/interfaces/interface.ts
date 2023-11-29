@@ -53,7 +53,27 @@ export interface SignupRequestBody {
 }
 
 export interface AccommodationImage {
-  image_url: string;
+  imageUrl: string;
+}
+
+export interface Facility {
+  canCook?: boolean;
+  hasAiConditioner?: boolean;
+  hasBath?: boolean;
+  hasCable?: boolean;
+  hasHairDryer?: boolean;
+  hasInternet?: boolean;
+  hasPc?: boolean;
+  hasRefrigerator?: boolean;
+  hasSofa?: boolean;
+  hasTv?: boolean;
+  hasTable?: boolean;
+  hasToiletries?: boolean;
+  hasParking?: boolean;
+  hasCooking?: boolean;
+  hasSports?: boolean;
+  hasSauna?: boolean;
+  hasBeauty?: boolean;
 }
 
 export interface AccommodationFacility {

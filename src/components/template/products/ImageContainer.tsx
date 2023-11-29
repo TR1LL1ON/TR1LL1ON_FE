@@ -24,7 +24,7 @@ const ImageContainer = ({ imgData }: ImageContainerProps) => {
     <>
       {showImageModal && (
         <ImageSlideModal
-          images={imgData.map((img) => img.image_url)}
+          images={imgData.map((img) => img.imageUrl)}
           selectedIndex={selectedImageIndex}
           onClose={() => setShowImageModal(false)}
           onNext={() =>
@@ -40,8 +40,8 @@ const ImageContainer = ({ imgData }: ImageContainerProps) => {
       <StyledGridImgWrap>
         {imgData.map((img, index) => (
           <StyledGridImgBox
-            key={img.image_url}
-            backgroundImage={img.image_url}
+            key={img.imageUrl}
+            backgroundImage={img.imageUrl}
             onClick={(e) => handleImageModal(e, index)}
           />
         ))}
