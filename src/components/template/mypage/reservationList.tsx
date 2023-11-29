@@ -3,14 +3,28 @@ import ReservationCard from './reservationCard';
 import { Reservation } from '@/interfaces/interface';
 import { getUser } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import styled from 'styled-components';
 
 const ReservationList = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3; // 예를 들어, 페이지당 5개의 아이템
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['ReservationData'],
     queryFn: () => getUser(),
   });
-  console.log();
+
   const ReservationData: Reservation[] = data?.data || [];
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = ReservationData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(ReservationData.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -19,6 +33,7 @@ const ReservationList = () => {
   if (isError) {
     return <div>Error fetching data</div>;
   }
+
   return (
     <>
       <StyledSubTitle
@@ -32,28 +47,56 @@ const ReservationList = () => {
           fontFamily:
             'Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif',
           overflowY: 'auto',
-          height: '50vh',
+          height: '70vh',
         }}>
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-          }}>
-          {ReservationData.map((order) => (
-            <div
-              key={order.orderId}
-              style={{
-                minWidth: '33%', // 한 줄에 4개의 카드가 오도록 너비 설정
-                boxSizing: 'border-box', // 패딩과 테두리를 너비에 포함
-                padding: '10px', // 카드 사이의 간격 조정
-              }}>
-              <ReservationCard key={order.orderId} data={order} />
-            </div>
+        {currentItems.map((order) => (
+          <div
+            key={order.orderId}
+            style={{
+              boxSizing: 'border-box',
+              padding: '1rem',
+            }}>
+            <ReservationCard data={order} />
+          </div>
+        ))}
+        <PaginationContainer>
+          {pageNumbers.map((number) => (
+            <PageButton
+              key={number}
+              className={number === currentPage ? 'active' : ''}
+              onClick={() => setCurrentPage(number)}>
+              {number}
+            </PageButton>
           ))}
-        </div>
+        </PaginationContainer>
       </StyledWrapper>
     </>
   );
 };
 
 export default ReservationList;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+`;
+
+const PageButton = styled.button`
+  border: none;
+  background-color: #f0f0f0;
+  margin: 0 5px;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d0d0d0;
+  }
+
+  &.active {
+    background-color: #de2f5f;
+    color: white;
+  }
+`;

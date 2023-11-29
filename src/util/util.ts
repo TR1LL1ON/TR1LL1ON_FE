@@ -9,7 +9,7 @@ export function getCookie(name: string): string | undefined {
 
 export const setCookie = async (accessToken: string) => {
   try {
-    document.cookie = `accessToken=${accessToken};max-age=3600;path=/;secure`;
+    document.cookie = `accessToken=${accessToken};max-age=360000;path=/;secure`;
   } catch (e) {
     console.error(e);
     alert('쿠키설정에 실패했습니다.');

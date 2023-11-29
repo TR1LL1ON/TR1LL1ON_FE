@@ -7,11 +7,31 @@ import {
   StyledText,
   StyledFlexContainer,
   StyledImageContainer,
+  StyledHLine,
 } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getUserDetail } from '@/api/service';
 
-const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
+const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal, orderID }) => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['ReservationDetailData'],
+    queryFn: () => getUserDetail(orderID as number),
+    enabled: orderID !== undefined,
+  });
+
+  const DetailData = data;
+  console.log(DetailData);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
+
   const closeModal = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
@@ -29,6 +49,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
         $heigh="40rem">
         <StyledModalBody>
           <StyledTitle>리뷰작성</StyledTitle>
+
           <StyledFlexContainer
             style={{
               width: '100%',
@@ -38,7 +59,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
             $gap="0.75rem">
             <StyledImageContainer $w="auto" style={{ overflow: 'unset' }}>
               <img
-                src="https://source.unsplash.com/random"
+                src={`${data?.data.orderItemList[0].orderItemDetail.productImage}`}
                 style={{
                   width: '124px',
                   height: '100%',
@@ -55,20 +76,36 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
                 호텔
               </StyledText>
               <StyledFlexContainer style={{ width: '100%' }}>
-                <StyledText $fontWeight={700}>리한셀렉트 경주</StyledText>
+                <StyledText $fontWeight={700}>
+                  {
+                    data?.data.orderItemList[0].orderItemDetail
+                      .accommodationName
+                  }
+                </StyledText>
               </StyledFlexContainer>
-              <StyledText $fontSize="0.75rem">더블 스탠다드룸 | 2인</StyledText>
               <StyledText $fontSize="0.75rem">
-                경상북도 경주시 보문로 338
+                {
+                  data?.data.orderItemList[0].orderItemDetail
+                    .accommodationAddress
+                }
               </StyledText>
+              <StyledText $fontSize="0.75rem">
+                {data?.data.orderItemList[0].orderItemDetail.productName} |{' '}
+                {data?.data.orderItemList[0].personNumber}인
+              </StyledText>
+
               <StyledFlexContainer style={{ width: '100%' }}>
-                <StyledText $fontSize="0.75rem">11.12 - 11.13 1박</StyledText>
+                <StyledText $fontSize="0.75rem">
+                  {data?.data.orderItemList[0].checkIn} ~{' '}
+                  {data?.data.orderItemList[0].checkOut}
+                </StyledText>
                 <StyledText $fontSize="1rem" $fontWeight={700}>
-                  100,000원
+                  {data?.data.orderItemList[0].price}원
                 </StyledText>
               </StyledFlexContainer>
             </StyledFlexContainer>
           </StyledFlexContainer>
+          <StyledHLine />
 
           <StyledSubTitle $mt="3rem">별점</StyledSubTitle>
           <div>

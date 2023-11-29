@@ -7,7 +7,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import ReviewWriteModal from './reviewWriteModal';
 import { Reservation } from '@/interfaces/interface';
-import { StyledOnClick } from '@/style/products/productsStyle';
+import ReservationAccordion from './reservationAccordion';
+
 interface ReservationCardProps {
   data: Reservation; // 단일 Reservation 객체
 }
@@ -15,18 +16,22 @@ interface ReservationCardProps {
 const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
   const [showReviewWriteModal, setShowReviewWriteModal] = useState(false);
 
-  const handleReviewWriteModal = () => {
-    setShowReviewWriteModal(true);
-  };
+  // const handleReviewWriteModal = () => {
+  //   setShowReviewWriteModal(true);
+  // };
 
-  // console.log(data);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
       <StyledReservationContainer
-        onClick={handleReviewWriteModal}
         $alignItems="flex-start"
-        $gap="0.75rem">
+        $gap="0.75rem"
+        onClick={toggleAccordion}>
         <StyledImageContainer $w="auto" style={{ overflow: 'unset' }}>
           <img
             src="https://source.unsplash.com/random"
@@ -52,7 +57,10 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
             }`}</StyledText>
 
             {showReviewWriteModal && (
-              <ReviewWriteModal setShowModal={setShowReviewWriteModal} />
+              <ReviewWriteModal
+                setShowModal={setShowReviewWriteModal}
+                orderID={data.orderId}
+              />
             )}
           </StyledFlexContainer>
           <StyledFlexContainer style={{ width: '100%' }}>
@@ -63,6 +71,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
           </StyledText>
         </StyledFlexContainer>
       </StyledReservationContainer>
+      <ReservationAccordion isOpen={isOpen} orderID={data.orderId} />
     </>
   );
 };

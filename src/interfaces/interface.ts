@@ -9,6 +9,7 @@ export interface ModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   roomData?: Room;
   imageUrls?: string[];
+  orderID?: number;
 }
 
 export interface GuestCount {
@@ -137,8 +138,26 @@ export interface Cart {
 }
 
 export interface Reservation {
+  accommodationImages: [];
+  accommodationNames: [];
   orderId: number;
   orderCreateDate: string;
   payment: string;
   totalPrice: number;
+}
+
+export interface ReservationDetail {
+  checkIn: string;
+  checkOut: string;
+  orderItemDetail: {
+    accommodationAddress: string;
+    accommodationName: string;
+    productImage: string;
+    productName: string;
+  };
+  orderItemId: number;
+  personNumber: number;
+  price: number;
+  productId: number;
+  reviewWritten: boolean;
 }
