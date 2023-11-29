@@ -15,15 +15,14 @@ const CartList = ({
 }: ICartListProps) => {
   return (
     <StyledCartList $flexDirection="column" $justifyContent="flex-start">
-      {cartsData &&
-        cartsData.map((cart, index) => (
-          <CartCard
-            cartData={cart}
-            key={index}
-            checkedCartsData={checkedCartsData}
-            setCheckedCartsData={setCheckedCartsData}
-          />
-        ))}
+      {cartsData.map((cart, index) => (
+        <CartCard
+          cartData={cart}
+          key={index}
+          checkedCartsData={checkedCartsData}
+          setCheckedCartsData={setCheckedCartsData}
+        />
+      ))}
     </StyledCartList>
   );
 };

@@ -136,8 +136,19 @@ export const getCarts = async () => {
 };
 
 // 장바구니 상품 추가
-export const postCarts = async (productID: string) => {
-  const res = await client.post(`carts/${productID}`);
+export const postCarts = async (
+  checkIn: string | undefined,
+  checkOut: string | undefined,
+  personNumber: number,
+  price: number,
+  productID: number,
+) => {
+  const res = await client.post(`carts/${productID}`, {
+    checkIn,
+    checkOut,
+    personNumber,
+    price,
+  });
   return res;
 };
 

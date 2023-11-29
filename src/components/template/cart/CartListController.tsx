@@ -35,7 +35,7 @@ const CartListController = ({
         <StyledCheckboxInput
           type="checkbox"
           checked={cartsTotal === checkedCartsTotal}
-          onClick={() => handleAllCheck()}
+          onChange={() => handleAllCheck()}
         />
         <StyledText $fontWeight={700}>
           전체선택({checkedCartsTotal}/{cartsTotal})

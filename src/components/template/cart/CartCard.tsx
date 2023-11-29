@@ -1,3 +1,4 @@
+import { deleteCarts } from '@/api/service';
 import { Cart } from '@/interfaces/interface';
 import { StyledDeleteButton } from '@/style/cart/cartStyle';
 import {
@@ -21,12 +22,14 @@ const CartCard = ({
 }: ICartCardProps) => {
   const checkIn = new Date(cartData.checkIn);
   const checkOut = new Date(cartData.checkOut);
+
   const formatCheckIn = `${(checkIn.getMonth() + 1)
     .toString()
     .padStart(2, '0')}.${checkIn.getDate().toString().padStart(2, '0')}`;
   const formatCheckOut = `${(checkOut.getMonth() + 1)
     .toString()
     .padStart(2, '0')}.${checkOut.getDate().toString().padStart(2, '0')}`;
+
   const nights = `${formatCheckIn} - ${formatCheckOut} ${
     checkOut.getDate() - checkIn.getDate()
   }박`;
@@ -43,6 +46,11 @@ const CartCard = ({
     } else {
       setCheckedCartsData((prev) => [...prev, item]);
     }
+  };
+
+  const handleCartDelete = async (item: any): Promise<void> => {
+    const res = await deleteCarts(item.cartItemId);
+    console.log(res);
   };
 
   return (
@@ -81,7 +89,9 @@ const CartCard = ({
         </StyledText>
         <StyledFlexContainer style={{ width: '100%' }}>
           <StyledText $fontWeight={700}>{cartData.accomodationName}</StyledText>
-          <StyledDeleteButton>삭제</StyledDeleteButton>
+          <StyledDeleteButton onClick={() => handleCartDelete(cartData)}>
+            삭제
+          </StyledDeleteButton>
         </StyledFlexContainer>
         <StyledText $fontSize="0.75rem">{`${cartData.productName} | ${cartData.personNumber}인`}</StyledText>
         <StyledText $fontSize="0.75rem">

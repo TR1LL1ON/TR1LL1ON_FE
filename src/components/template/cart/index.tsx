@@ -35,47 +35,8 @@ const CartContainer = () => {
     const fetchData = async (): Promise<void> => {
       try {
         const res = await getCarts();
-        setCartsData([
-          {
-            cartItemId: 1,
-            accommodationId: 1,
-            accomodationName: '신라호텔',
-            accomodationAddress: '제주특별자치도 서귀포시 중문관광로72번길 75',
-            accomodationCategory: 'B02010100',
-            productId: 1,
-            productName: '더블 스탠다드룸',
-            checkIn: '2023-11-21',
-            checkOut: '2023-11-22',
-            personNumber: 2,
-            price: 20000,
-          },
-          {
-            cartItemId: 2,
-            accommodationId: 1,
-            accomodationName: '신라호텔',
-            accomodationAddress: '제주특별자치도 서귀포시 중문관광로72번길 75',
-            accomodationCategory: 'B02010100',
-            productId: 2,
-            productName: '더블 스탠다드룸',
-            checkIn: '2023-11-21',
-            checkOut: '2023-11-24',
-            personNumber: 2,
-            price: 20000,
-          },
-          {
-            cartItemId: 3,
-            accommodationId: 1,
-            accomodationName: '신라호텔',
-            accomodationAddress: '제주특별자치도 서귀포시 중문관광로72번길 75',
-            accomodationCategory: 'B02010100',
-            productId: 3,
-            productName: '더블 스탠다드룸',
-            checkIn: '2023-11-22',
-            checkOut: '2023-11-22',
-            personNumber: 2,
-            price: 200000,
-          },
-        ]);
+
+        setCartsData(res.data);
       } catch (err) {
         console.log(err);
       }
