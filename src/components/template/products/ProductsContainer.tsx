@@ -6,7 +6,7 @@ import GuestModal from './GuestModal/guestModal';
 import { useState, useEffect } from 'react';
 import { GuestCount, Room } from '@/interfaces/interface';
 import Review from './Review';
-import { postAccomodation } from '@/api/service';
+import { getAccommodation } from '@/api/service';
 import Map from './Map';
 
 interface ProductsContainerProps {
@@ -30,17 +30,20 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
     setShowGuestModal(false);
   };
 
-  const [roomData, setRoomData] = useState<Room[]>([]);
+  const [roomData, setRoomData] = useState<Room[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       if (accomodationID) {
         setIsLoading(true); // 데이터 로딩 시작
         try {
-          const res = await postAccomodation(accomodationID);
-          setRoomData(res.accomodationData.rooms);
+          const res = await getAccommodation(accomodationID);
+          console.log(res);
+          setRoomData(res?.rooms);
         } catch (err) {
-          console.log('에러');
+          if (err instanceof Error) {
+            console.log(err.message);
+          }
         } finally {
           setIsLoading(false); // 데이터 로딩 완료
         }
@@ -70,9 +73,9 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
           onSave={handleSaveGuestCount}
         />
       )}
-      {roomData.map((room) => (
+      {roomData?.map((room) => (
         <RoomCard
-          key={room.room_id}
+          key={room.roomId}
           roomData={room}
           accomodationID={accomodationID}
         />
