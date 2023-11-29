@@ -27,11 +27,12 @@ export const StyledThumbnail = styled.div`
   overflow: hidden;
   margin-bottom: 1rem;
 `;
-export const StyledImage = styled.img`
+
+export const StyledImage = styled.img<{ src: string }>`
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-image: url('https://source.unsplash.com/random');
+  object-fit: cover;
+  src: url(${(props) => props.src});
 `;
 
 export const StyledCardTextWrap = styled.div``;
@@ -58,6 +59,10 @@ export const StyledDiscount = styled.span`
 
 export const StyledOriginalPrice = styled.span`
   text-decoration: line-through;
+`;
+
+export const StyledScore = styled.span`
+  font-weight: bold;
 `;
 
 export const StyledSalePrice = styled.div`

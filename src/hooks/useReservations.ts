@@ -8,7 +8,6 @@ const useReservations = (accommodationId: string[]) => {
       queryFn: () => getAccommodation(id),
     })),
   });
-
   return results;
 };
 

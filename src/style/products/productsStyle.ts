@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { StyledButton } from '@/style/common/commonStyle';
-import { StyledBlackBtn } from '@/components/template/products/GuestModal/guestContent';
 
 export const StyledWrap = styled.article`
   position: relative;
@@ -83,7 +82,15 @@ export const StyledH2Text = styled.h2<{
   text-align: ${(props) => props.$textAlign};
   width: 100%;
 `;
-
+export const StyledBold = styled.strong<{
+  $fontSize?: string;
+  $fontWeight?: number;
+  $color?: string;
+}>`
+  font-size: ${(props) => props.$fontSize || props.theme.fontSizes.md};
+  font-weight: ${(props) => props.$fontWeight || props.theme.fontWeights.bold};
+  color: ${(props) => props.$color || ''};
+`;
 export const StyledBrandText = styled.b`
   font-weight: ${(props) => props.theme.fontWeights.bold};
   color: ${(props) => props.theme.colors.primary};
@@ -152,11 +159,24 @@ export const StyledReservationBtn = styled(StyledButton)`
   padding: 0.6rem 2rem;
 `;
 
+export const StyledBlackBtn = styled(StyledButton)`
+  background-color: #444;
+  color: #fff;
+  white-space: nowrap;
+  width: auto;
+  padding: 0.6rem 2rem;
+  &:hover {
+    background-color: #333;
+    &:disabled {
+      background-color: #eee;
+    }
+  }
+`;
+
 export const StyledBorderBtn = styled(StyledBlackBtn)`
   background-color: transparent;
   color: #444;
   border: 1px solid #444;
-  padding: 0.6rem 2rem;
   transition: background-color 0.3s;
   &:hover {
     background-color: #444;
