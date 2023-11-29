@@ -7,22 +7,23 @@ import {
   AccommodationResponse,
 } from '../interfaces/interface';
 
-const client = axios.create({
+export const client = axios.create({
   baseURL: SERVER_URL,
   headers: {
     'content-type': CONTENT_TYPE,
+    withCredentials: true,
   },
 });
 
 // 회원가입
 export const postSignUp = async (
-  name: string,
   email: string,
+  name: string,
   password: string,
 ) => {
   const res = await client.post('auth/signup', {
-    name: name,
     email: email,
+    name: name,
     password: password,
   });
   return res;
@@ -84,7 +85,7 @@ export const getProductsCategoryRegion = async (
   return res;
 };
 
-// 개별 상품조회
+// 개별 상품조회(숙소전체)
 export const postAccomodation = async (accomodationID: string) => {
   const res = await client.post<AccommodationResponse>(
     `products/${accomodationID}/`,
@@ -168,6 +169,18 @@ export const postLikes = async (accomodationID: string) => {
 // 숙소 찜 삭제
 export const deleteLikes = async (accomodationID: string) => {
   const res = await client.delete(`likes/${accomodationID}`);
+  return res;
+};
+
+// 전제 주문목록 조회(마이페이지)
+export const getUser = async () => {
+  const res = await client.get(`user`);
+  return res;
+};
+
+// 전제 주문목록 상세조회(마이페이지)
+export const getUserDetail = async (orderID: string) => {
+  const res = await client.get(`user/details/${orderID}`);
   return res;
 };
 

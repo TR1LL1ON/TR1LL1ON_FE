@@ -5,13 +5,13 @@ import { SERVER_URL } from '@/constant';
 export const handlers = [
   // 회원가입
   rest.post(`${SERVER_URL}/auth/signup`, (req, res, ctx) => {
-    const { name, email, password } = req.body as SignupRequestBody;
+    const { email, name, password } = req.body as SignupRequestBody;
 
     return res(
       ctx.status(200),
       ctx.json({
         message: 'Signup successful',
-        user: { name, email, password },
+        user: { email, name, password },
       }),
     );
   }),
@@ -124,18 +124,16 @@ export const handlers = [
     const { accomodationID } = req.params;
 
     const accomodationData = {
-      // 더미 데이터
-      accomodation_id: accomodationID,
-      name: '숙소 예시 이름',
-      address: '숙소 예시 주소',
-      address_code: '123456',
-      category: '호텔',
-      check_in: new Date().toISOString().split('T')[0], // 오늘 날짜
-      check_out: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-        .toISOString()
-        .split('T')[0], // 내일 날짜
+      accommodation_id: 11,
+      name: '오월의 푸른하늘',
+      address: '경기도 이천시 마장면 덕평로877번길 16',
+      area_code: '31',
+      phone: '정보 없음',
+      category: 'B02010700',
+      check_in: '2023-11-26',
+      check_out: '2023-11-27',
       person_number: 2,
-      score: 4.5,
+      score: 5.0,
       image: [
         {
           image_url:
@@ -160,18 +158,15 @@ export const handlers = [
       ],
       rooms: [
         {
-          room_id: 1,
-          room_name: '스탠다드 룸',
+          room_id: 32,
+          room_name: '디럭스',
           check_in: '15:00',
           check_out: '11:00',
-          count: 5,
-          price: 150000,
-          max_number: 3,
-          standard_number: 2,
-          bed_type: '더블',
-          bed_number: 1,
-          is_sold: false,
-          // image_url: 'http://example.com/room1.jpg',
+          count: 12,
+          aver_price: 70000.0,
+          total_price: 70000,
+          max_number: 9,
+          standard_number: 1,
           facility: {
             can_cook: false,
             has_air_conditioner: false,
@@ -186,16 +181,69 @@ export const handlers = [
             has_table: true,
             has_toiletries: true,
           },
-          image: [{ image_url: 'https://source.unsplash.com/random/800x600' }],
+          image: [
+            {
+              imageUrl:
+                'http://tong.visitkorea.or.kr/cms/resource/45/3023445_image2_1.jpg',
+            },
+            {
+              imageUrl:
+                'http://tong.visitkorea.or.kr/cms/resource/45/3023445_image3_1.jpg',
+            },
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
+            },
+          ],
+          sold: true,
+        },
+        {
+          room_id: 34,
+          room_name: '스탠다드',
+          check_in: '15:00',
+          check_out: '11:00',
+          count: 8,
+          aver_price: 80000.0,
+          total_price: 80000,
+          max_number: 10,
+          standard_number: 2,
+          facility: {
+            can_cook: true,
+            has_air_conditioner: true,
+            has_bath: true,
+            has_cable: true,
+            has_hair_dryer: true,
+            has_internet: false,
+            has_pc: false,
+            has_refrigerator: false,
+            has_sofa: true,
+            has_tv: false,
+            has_table: false,
+            has_toiletries: false,
+          },
+          image: [
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
+            },
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
+            },
+            {
+              image_url:
+                'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
+            },
+          ],
           sold: true,
         },
       ],
       facility: {
-        has_beauty: true,
+        has_beauty: false,
         has_cooking: false,
-        has_sauna: true,
-        has_parking: true,
-        has_sports: true,
+        has_sauna: false,
+        has_parking: false,
+        has_sports: false,
       },
       latitude: '37.5665',
       longitude: '126.9780',
@@ -204,31 +252,51 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ accomodationID, accomodationData }));
   }),
 
-  // 개별 상품 상세페이지 조회
+  // 개별 상품 상세페이지 조회(필요없음)
   rest.post(
     `${SERVER_URL}/products/:accomodationID/:productID`,
     (req, res, ctx) => {
       const { accomodationID, productID } = req.params;
 
       const roomData = {
-        // 더미 데이터
-        room_id: 1,
-        room_name: '스탠다드 룸',
+        room_id: 34,
+        room_name: '스탠다드',
         check_in: '15:00',
         check_out: '11:00',
-        count: 5,
-        price: 100000,
-        max_number: 3,
+        count: 8,
+        aver_price: 80000.0,
+        total_price: 80000,
+        max_number: 10,
         standard_number: 2,
-        bed_type: '퀸',
-        bed_number: 1,
-        is_smoke: false,
-        is_balcony: true,
-        is_sold: true,
+        facility: {
+          can_cook: true,
+          has_air_conditioner: true,
+          has_bath: true,
+          has_cable: true,
+          has_hair_dryer: true,
+          has_internet: false,
+          has_pc: false,
+          has_refrigerator: false,
+          has_sofa: true,
+          has_tv: false,
+          has_table: false,
+          has_toiletries: false,
+        },
         image: [
-          { image_url: 'http://example.com/room1.jpg' },
-          // 더 많은 이미지...
+          {
+            image_url:
+              'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
+          },
+          {
+            image_url:
+              'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
+          },
+          {
+            image_url:
+              'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
+          },
         ],
+        sold: true,
       };
 
       return res(
@@ -277,15 +345,19 @@ export const handlers = [
       // 더미 데이터
       items: [
         {
-          accomodation_name: '신라호텔',
-          accomodation_address: '제주특별자치도 서귀포시 중문관광로72번길 75',
-          accomodation_category: 'B02010100',
-          product_name: '더블 스탠다드룸',
-          check_in: '2023-11-21',
-          check_out: '2023-11-22',
-          person_number: 2,
+          cartItemId: 2,
+          accommodationId: 1,
+          accomodationName: '신라호텔',
+          accomodationAddress: '제주특별자치도 서귀포시 중문관광로72번길 75',
+          accomodationCategory: 'B02010100',
+          productId: 1,
+          productName: '더블 스탠다드룸',
+          checkIn: '2023-11-21',
+          checkOut: '2023-11-22',
+          personNumber: 2,
           price: 20000,
         },
+
         // 더 많은 장바구니 아이템 추가 가능
       ],
     };
@@ -336,18 +408,39 @@ export const handlers = [
 
   // 리뷰 작성
   rest.post(`${SERVER_URL}/reviews`, (req, res, ctx) => {
-    const reviewData = req.body; // 요청 바디에서 리뷰 데이터 추출
+    const { reviewID } = req.params;
+
+    const reviewData = {
+      created_at: '2023-11-21',
+      user_name: 'test',
+      order_item_id: 1,
+      order_id: 1,
+      review_id: 1,
+      accomdation_id: 1,
+      content: '좋은 숙소입니다.',
+      score: 4.5,
+    };
 
     return res(
       ctx.status(200),
-      ctx.json({ message: 'Review posted', reviewData }),
+      ctx.json({ message: 'Review posted', reviewID, reviewData }),
     );
   }),
 
   // 리뷰 수정
   rest.put(`${SERVER_URL}/reviews/:reviewID`, (req, res, ctx) => {
     const { reviewID } = req.params;
-    const reviewData = req.body; // 요청 바디에서 리뷰 데이터 추출
+
+    const reviewData = {
+      created_at: '2023-11-21',
+      user_name: 'test',
+      order_item_id: 1,
+      order_id: 1,
+      review_id: 1,
+      accomdation_id: 1,
+      content: '좋은 숙소입니다.',
+      score: 4.5,
+    };
 
     return res(
       ctx.status(200),
@@ -388,6 +481,57 @@ export const handlers = [
       ctx.status(200),
       ctx.json({ message: 'Accomodation unliked', accomodationID }),
     );
+  }),
+
+  // 전제 주문목록 조회(마이페이지)
+  rest.get(`${SERVER_URL}/user`, (_, res, ctx) => {
+    const orderData = [
+      {
+        orderId: 1,
+        orderCreateDate: '2023-11-28T11:17:38.000+00:00',
+        payment: 'KAKAOPAY',
+        totalPrice: 100000,
+        accommodationId: 1,
+      },
+      {
+        orderId: 2,
+        orderCreateDate: '2023-11-29T11:21:53.000+00:00',
+        payment: 'KAKAOPAY',
+        totalPrice: 100000,
+        accommodationId: 2,
+      },
+    ];
+
+    return res(ctx.status(200), ctx.json(orderData));
+  }),
+
+  // 전제 주문목록 상세조회(마이페이지)
+
+  rest.get(`${SERVER_URL}/user/datails/:orderID`, (_, res, ctx) => {
+    const orderDatailData = {
+      orderId: 1,
+      orderItemList: [
+        {
+          orderItemId: 1,
+          productId: 1,
+          startDate: '2023-11-27',
+          endDate: '2023-11-29',
+          personNumber: 2,
+          price: 50000,
+          reviewWritten: false,
+        },
+        {
+          orderItemId: 2,
+          productId: 2,
+          startDate: '2023-11-29',
+          endDate: '2023-11-30',
+          personNumber: 2,
+          price: 50000,
+          reviewWritten: false,
+        },
+      ],
+    };
+    return res(ctx.status(200), ctx.json(orderDatailData));
   }),
 ];
 

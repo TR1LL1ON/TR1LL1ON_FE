@@ -7,6 +7,7 @@ import Products from '@/pages/products/products';
 import Main from '@/pages/main/main';
 import Mypage from '@/pages/mypage/mypage';
 import Payment from '@/pages/payment/payment';
+import NotFound from '@/components/template/notFound';
 
 function Dashboard() {
   return (
@@ -28,7 +29,11 @@ const MainRouter = () => {
           <Route index element={<Main />} />
           <Route path="/products/:accomodationID" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/payment" element={<Payment />} />
+          <Route
+            path="/payment"
+            element={<Payment />}
+            errorElement={<NotFound />}
+          />
           <Route path="/mypage" element={<Mypage />} />
         </Route>
       </Routes>

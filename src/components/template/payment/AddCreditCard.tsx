@@ -16,6 +16,8 @@ import { ChangeEvent } from 'react';
 import { StyledButton } from '../../../style/common/commonStyle';
 import { useRecoilState } from 'recoil';
 import { cardState } from '../../../states/atom';
+import useFakeLoading from '@/hooks/useFakeLoading';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export interface CardInfoValues {
   cardNumber: { first: string; second: string; third: string; fourth: string };
@@ -35,6 +37,7 @@ const AddCreditCard = () => {
     },
   });
   const [cardInfo, setCardInfo] = useRecoilState(cardState);
+  const { isLoading } = useFakeLoading([cardInfo.isSaveCard], 500);
 
   const focusNextInput = (
     e: ChangeEvent<HTMLInputElement>,
@@ -54,6 +57,7 @@ const AddCreditCard = () => {
       cardExpirationYear,
       cardPassword,
     } = data;
+
     const cardData = {
       cardNumber: {
         first: cardNumber.first,
@@ -67,10 +71,14 @@ const AddCreditCard = () => {
       isSaveCard: true,
     };
 
-    setCardInfo(cardData);
+    try {
+      setCardInfo(cardData);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  if (cardInfo.isSaveCard) {
+  if (!isLoading && cardInfo.isSaveCard) {
     return (
       <StyledFlexContainer $justifyContent="flex-start">
         <MastercardLogo />
@@ -83,103 +91,110 @@ const AddCreditCard = () => {
   }
 
   return (
-    <StyledPaymentModal>
-      <StyledText>구입하기 전까지는 요금이 청구되지 않습니다.</StyledText>
-      <StyledHLine />
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <StyledFlexContainer>
-          <StyledRadioInput type="radio" id="mastercard" name="card" />
-          <StyledRadioLabel htmlFor="mastercard">
-            <MastercardLogo />
-            <StyledText $fontSize="0.75rem">Mastercard</StyledText>
-          </StyledRadioLabel>
-        </StyledFlexContainer>
+    <>
+      {isLoading && <LoadingSpinner />}
+      <StyledPaymentModal>
+        <StyledText>구입하기 전까지는 요금이 청구되지 않습니다.</StyledText>
         <StyledHLine />
 
-        <StyledSubTitle $mb="0.5rem">카드 번호</StyledSubTitle>
-        <StyledFlexContainer $justifyContent="flex-start" $alignItems="center">
-          <StyledPayInput
-            type="number"
-            {...register('cardNumber.first', {
-              required: true,
-              maxLength: 4,
-              minLength: 4,
-              onChange: (e) => focusNextInput(e, 'cardNumber.second'),
-            })}
-            placeholder="0000"
-          />
-          <StyledPayInput
-            type="number"
-            {...register('cardNumber.second', {
-              required: true,
-              maxLength: 4,
-              minLength: 4,
-              onChange: (e) => focusNextInput(e, 'cardNumber.third'),
-            })}
-            placeholder="0000"
-          />
-          <StyledPayInput
-            type="password"
-            {...register('cardNumber.third', {
-              required: true,
-              maxLength: 4,
-              minLength: 4,
-              onChange: (e) => focusNextInput(e, 'cardNumber.fourth'),
-            })}
-            placeholder="0000"
-          />
-          <StyledPayInput
-            type="password"
-            {...register('cardNumber.fourth', {
-              required: true,
-              maxLength: 4,
-              minLength: 4,
-              onChange: (e) => focusNextInput(e, 'cardExpirationMonth'),
-            })}
-            placeholder="0000"
-          />
-        </StyledFlexContainer>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <StyledFlexContainer>
+            <StyledRadioInput type="radio" id="mastercard" name="card" />
+            <StyledRadioLabel htmlFor="mastercard">
+              <MastercardLogo />
+              <StyledText $fontSize="0.75rem">Mastercard</StyledText>
+            </StyledRadioLabel>
+          </StyledFlexContainer>
+          <StyledHLine />
 
-        <StyledSubTitle $mb="0.5rem">만료일</StyledSubTitle>
-        <StyledFlexContainer $justifyContent="flex-start" $alignItems="center">
-          <StyledPayInput
-            type="number"
-            {...register('cardExpirationMonth', {
-              required: true,
-              maxLength: 2,
-              minLength: 2,
-              onChange: (e) => focusNextInput(e, 'cardExpirationYear', 2),
-            })}
-            placeholder="MM"
-          />
-          <StyledPayInput
-            type="number"
-            {...register('cardExpirationYear', {
-              required: true,
-              maxLength: 2,
-              minLength: 2,
-            })}
-            placeholder="YY"
-          />
-        </StyledFlexContainer>
+          <StyledSubTitle $mb="0.5rem">카드 번호</StyledSubTitle>
+          <StyledFlexContainer
+            $justifyContent="flex-start"
+            $alignItems="center">
+            <StyledPayInput
+              type="number"
+              {...register('cardNumber.first', {
+                required: true,
+                maxLength: 4,
+                minLength: 4,
+                onChange: (e) => focusNextInput(e, 'cardNumber.second'),
+              })}
+              placeholder="0000"
+            />
+            <StyledPayInput
+              type="number"
+              {...register('cardNumber.second', {
+                required: true,
+                maxLength: 4,
+                minLength: 4,
+                onChange: (e) => focusNextInput(e, 'cardNumber.third'),
+              })}
+              placeholder="0000"
+            />
+            <StyledPayInput
+              type="password"
+              {...register('cardNumber.third', {
+                required: true,
+                maxLength: 4,
+                minLength: 4,
+                onChange: (e) => focusNextInput(e, 'cardNumber.fourth'),
+              })}
+              placeholder="0000"
+            />
+            <StyledPayInput
+              type="password"
+              {...register('cardNumber.fourth', {
+                required: true,
+                maxLength: 4,
+                minLength: 4,
+                onChange: (e) => focusNextInput(e, 'cardExpirationMonth'),
+              })}
+              placeholder="0000"
+            />
+          </StyledFlexContainer>
 
-        <StyledSubTitle $mb="0.5rem">비밀번호 앞 2자리</StyledSubTitle>
-        <StyledFlexContainer>
-          <StyledPayInput
-            type="password"
-            {...register('cardPassword', {
-              required: true,
-              maxLength: 2,
-              minLength: 2,
-            })}
-            placeholder="**"
-          />
-        </StyledFlexContainer>
+          <StyledSubTitle $mb="0.5rem">만료일</StyledSubTitle>
+          <StyledFlexContainer
+            $justifyContent="flex-start"
+            $alignItems="center">
+            <StyledPayInput
+              type="number"
+              {...register('cardExpirationMonth', {
+                required: true,
+                maxLength: 2,
+                minLength: 2,
+                onChange: (e) => focusNextInput(e, 'cardExpirationYear', 2),
+              })}
+              placeholder="MM"
+            />
+            <StyledPayInput
+              type="number"
+              {...register('cardExpirationYear', {
+                required: true,
+                maxLength: 2,
+                minLength: 2,
+              })}
+              placeholder="YY"
+            />
+          </StyledFlexContainer>
 
-        <StyledButton $variant="primary">등록</StyledButton>
-      </form>
-    </StyledPaymentModal>
+          <StyledSubTitle $mb="0.5rem">비밀번호 앞 2자리</StyledSubTitle>
+          <StyledFlexContainer>
+            <StyledPayInput
+              type="password"
+              {...register('cardPassword', {
+                required: true,
+                maxLength: 2,
+                minLength: 2,
+              })}
+              placeholder="**"
+            />
+          </StyledFlexContainer>
+
+          <StyledButton $variant="primary">등록</StyledButton>
+        </form>
+      </StyledPaymentModal>
+    </>
   );
 };
 

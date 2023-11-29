@@ -1,3 +1,4 @@
+import LoadingSpinner from '@/components/LoadingSpinner';
 import useReservations from '@/hooks/useReservations';
 import {
   StyledButton,
@@ -8,27 +9,43 @@ import {
   StyledText,
   StyledWrapper,
 } from '@/style/payment/paymentStyle';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PaymentReservations = () => {
   // recoil로 받아온 ids
   // const accommodationIds = ['1', '2'];
+  const [contentLoading, setContentLoading] = useState(true);
   const reservations = useReservations(['1', '2']);
+  const isLoading = reservations.some((reservation) => reservation.isLoading);
+  const error = reservations.some((reservation) => reservation.error);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const ref = setTimeout(() => {
+      if (!isLoading) {
+        setContentLoading(false);
+      }
+    }, 200);
+
+    return () => {
+      clearTimeout(ref);
+    };
+  }, [isLoading]);
+
+  if (error) {
+    navigate('/not-found');
+  }
 
   return (
     <>
+      {contentLoading && <LoadingSpinner />}
       <StyledSubTitle>예약 정보</StyledSubTitle>
       <StyledLabel>날짜</StyledLabel>
       <StyledFlexContainer>
         <StyledWrapper>
           {reservations.map((reservation, index) => {
-            const { data, isLoading, error } = reservation;
-
-            if (isLoading) {
-              return <div key={index}>Loading...</div>;
-            }
-            if (error) {
-              return <div key={index}>Error: {error.message}</div>;
-            }
+            const { data } = reservation;
             return (
               <StyledFlexContainer $gap="0.5rem" key={index}>
                 <StyledText>{data?.accomodationData.name}</StyledText>

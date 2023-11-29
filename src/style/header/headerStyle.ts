@@ -14,9 +14,15 @@ export const StyledHeaderContainer = styled(StyledFlexContainer)`
   background-color: #fff;
   padding: 0 20px;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
 
   @media screen and (min-width: 1024px) {
     padding: 0 4rem;
+  }
+
+  &[aria-expanded='true'] {
+    transform: translateY(-5rem);
+    opacity: 0;
   }
 
   a {
@@ -26,6 +32,7 @@ export const StyledHeaderContainer = styled(StyledFlexContainer)`
 `;
 
 export const StyledHeaderGroup = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
@@ -33,7 +40,6 @@ export const StyledHeaderGroup = styled.div`
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
 
   &:hover {
-    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -86,3 +92,59 @@ export const StyledSearchContainer = styled.div`
   border-radius: 50%;
 `;
 export const StyledSearchIcon = styled(SearchIcon)``;
+
+export const StyledHeaderModalButton = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+`;
+
+export const StyledHeaderModal = styled.div`
+  width: 240px;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+  border-radius: 14px;
+  background-color: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: absolute;
+  top: 54px;
+  right: 0;
+`;
+
+export const StyledHeaderModalList = styled.div`
+  width: 100%;
+  padding: 10px 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  a {
+    color: rgb(68, 68, 68);
+    width: 100%;
+    padding: 12px 14px;
+
+    &:hover {
+      background-color: #ebebeb;
+    }
+  }
+`;
+
+export const StyledHeaderText = styled.span`
+  width: 100%;
+  padding: 12px 14px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ebebeb;
+  }
+`;

@@ -13,7 +13,7 @@ import FacilityModal from './FacilityModal';
 
 interface AllFacilityProps {
   productsFacility: Facility;
-  roomsFacility: Facility[];
+  roomsFacility: (keyof Facility)[];
 }
 const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
   const [showFacilityModal, setShowFacilityModal] = useState(false);
