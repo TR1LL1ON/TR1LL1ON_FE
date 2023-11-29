@@ -71,7 +71,6 @@ export const getProducts = async (
       personNumber: personNumber,
     },
   });
-
   return res;
 };
 
@@ -111,19 +110,20 @@ export const getProductsCategoryRegion = async (
 };
 
 // 개별 상품조회(숙소전체)
-export const postAccommodation = async (accommodationID: string) => {
-  const res = await client.post<AccommodationResponse>(
-    `products/${accommodationID}/`,
+export const getAccommodation = async (accommodationID: string) => {
+  const res = await client.get<AccommodationResponse>(
   );
-  return res.data;
+  return res;
 };
 
 // 개별 상품 상세페이지 조회
-export const postAccommodationProduct = async (
+
+export const getAccommodationProduct = async (
   accommodationID: string,
   productID: string,
 ) => {
-  const res = await client.post(`products/${accommodationID}/${productID}`);
+  const res = await client.get(`products/${accommodationID}/${productID}`)
+  ;
   return res;
 };
 

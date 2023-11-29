@@ -5,7 +5,7 @@ import ProductsFacility from './ProductsFacility';
 import { useState, useEffect } from 'react';
 import { Room } from '@/interfaces/interface';
 import Review from './Review';
-import { postAccommodation } from '@/api/service';
+import { getAccommodation } from '@/api/service';
 import Map from './Map';
 
 interface ProductsContainerProps {
@@ -14,13 +14,15 @@ interface ProductsContainerProps {
 const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const [roomData, setRoomData] = useState<Room[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       if (accommodationID) {
         setIsLoading(true); // 데이터 로딩 시작
         try {
-          const res = await postAccommodation(accommodationID);
-          setRoomData(res.accomodationData.rooms);
+          const res = await getAccommodation(accomodationID);
+          console.log(res);
+          setRoomData(res.data.accomodationData.rooms);
         } catch (err) {
           console.log('에러');
         } finally {
