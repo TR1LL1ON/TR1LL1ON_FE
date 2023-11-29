@@ -21,7 +21,7 @@ import {
 } from '@/style/payment/paymentStyle';
 import CalenderModal from '@/components/layout/modal/calenderModal';
 import GuestModal from './GuestModal/guestModal';
-import { dateRangeState } from '@/states/atom';
+import { reservationState } from '@/states/atom';
 import ProductsFacilityList from './ProductsFacilityList';
 
 interface AccommodationProp {}
@@ -44,7 +44,7 @@ const AccommodationInfo = ({}: AccommodationProp) => {
   const handleCalendarModal = () => {
     setShowCalendarModal(true);
   };
-  const { startDate, endDate } = useRecoilValue(dateRangeState);
+  const { checkIn, checkOut } = useRecoilValue(reservationState);
   const [nights, setNights] = useState(0);
 
   return (
@@ -80,13 +80,9 @@ const AccommodationInfo = ({}: AccommodationProp) => {
             <StyledText $fontSize="1rem" $fontWeight={700}>
               날짜
             </StyledText>
-            {startDate && endDate ? (
+            {checkIn && checkOut ? (
               <StyledText $fontSize="1rem">
-                {`${startDate.format('YY.MM.DD')} ~ ${endDate.format(
-                  'YY.MM.DD',
-                )} / 
-            ${nights}박
-                  `}
+                {`${checkIn} ~ ${checkOut} / ${nights}박`}
               </StyledText>
             ) : (
               <StyledText $fontSize="1rem">날짜를 선택해주세요.</StyledText>

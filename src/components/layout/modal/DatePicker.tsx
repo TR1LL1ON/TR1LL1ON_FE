@@ -7,7 +7,7 @@ import { Moment } from 'moment';
 import 'moment/locale/ko';
 import { StyledButton } from '@/style/common/commonStyle';
 import { useRecoilState } from 'recoil';
-import { dateRangeState } from '@/states/atom';
+import { reservationState } from '@/states/atom';
 
 export interface DateRange {
   startDate: Moment | null;
@@ -21,7 +21,7 @@ interface DatePickerProps {
 const DatePicker: React.FC<DatePickerProps> = ({ setNights, onCloseModal }) => {
   const [startDate, setStartDate] = useState<Moment | null>(null);
   const [endDate, setEndDate] = useState<Moment | null>(null);
-  const [, setDateRange] = useRecoilState(dateRangeState);
+  const [, setReservation] = useRecoilState(reservationState);
 
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
     null,
@@ -49,7 +49,11 @@ const DatePicker: React.FC<DatePickerProps> = ({ setNights, onCloseModal }) => {
     setNights(0);
   }
   const handleSave = () => {
-    setDateRange({ startDate, endDate });
+    setReservation((prevReservation) => ({
+      ...prevReservation,
+      check_in: startDate ? startDate.format('YYYY-MM-DD') : '',
+      check_out: endDate ? endDate.format('YYYY-MM-DD') : '',
+    }));
     onCloseModal();
   };
 
