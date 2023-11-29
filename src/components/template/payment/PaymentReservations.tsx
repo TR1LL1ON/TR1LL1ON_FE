@@ -48,9 +48,9 @@ const PaymentReservations = () => {
             const { data } = reservation;
             return (
               <StyledFlexContainer $gap="0.5rem" key={index}>
-                <StyledText>{data?.name}</StyledText>
+                <StyledText>{data?.data.name}</StyledText>
                 <StyledText $fontWeight={600}>
-                  {data?.checkIn} - {data?.checkOut}
+                  {data?.data.checkIn} - {data?.data.checkOut}
                 </StyledText>
               </StyledFlexContainer>
             );
