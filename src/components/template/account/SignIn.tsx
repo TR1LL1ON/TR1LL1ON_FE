@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import { IFormValue } from '../cart';
 import { postLogin } from '@/api/service';
+import { setCookie } from '@/util/util';
 
 interface ISignInProps {
   isSignUp: boolean;
@@ -28,7 +29,10 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
 
   const handleLogin = async () => {
     try {
-      await postLogin(email, password);
+      const res = await postLogin(email, password);
+      const getToken = res.data.accessToken;
+      setCookie(getToken);
+
       setIsAccountModalOpen(false);
     } catch (err) {
       console.log(err);
