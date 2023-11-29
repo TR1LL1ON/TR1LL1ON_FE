@@ -19,17 +19,16 @@ export interface GuestCount {
 }
 
 export interface Order {
-  check_in: string;
-  check_out: string;
-  person_number: number;
-  product_id: number;
-  price: number;
+  checkIn: string;
+  checkOut: string;
+  personNumber: number;
+  productId: number;
+  cartId?: number;
 }
 
 export interface OrderRequest {
   orders: Order[];
   payment: 'CARD' | 'KAKAOPAY' | 'NAVERPAY' | 'CASH';
-  total_price: number;
 }
 
 // 변수명 명시적으로 바꿔야함
@@ -57,64 +56,61 @@ export interface AccommodationImage {
   image_url: string;
 }
 
+
 export interface Facility {
+
+export interface AccommodationFacility {
+  hasBeauty: boolean;
+  hasCooking: boolean;
+  hasSauna: boolean;
+  hasParking: boolean;
+  hasSports: boolean;
+}
+
+export interface RoomFacility {
   canCook: boolean;
   hasAirConditioner: boolean;
   hasBath: boolean;
-  hasCable: boolean;
-  hasHair_dryer: boolean;
+  hasHairDryer: boolean;
   hasInternet: boolean;
-  hasPc: boolean;
+  hasPC: boolean;
   hasRefrigerator: boolean;
   hasSofa: boolean;
-  hasTv: boolean;
+  hasTV: boolean;
   hasTable: boolean;
   hasToiletries: boolean;
 }
-
 export interface Room {
-  roomId: number;
-  roomName: string;
+  averPrice: number;
   checkIn: string;
   checkOut: string;
   count: number;
-  averPrice: number;
-  totalPrice: number;
+  facility: RoomFacility;
+  image: AccommodationImage[];
   maxNumber: number;
-  standardNumber: number;
+  roomId: number;
+  roomName: string;
   sold: boolean;
-  facility: Facility;
-  image: { imageUrl: string }[];
+  standardNumber: number;
+  totalPrice: number;
 }
 
-// export interface Room {
-//   room_id: number;
-//   room_name: string;
-//   check_in: string;
-//   check_out: string;
-//   count: number;
-//   // Add other properties of the room here if needed
-// }
-
 export interface AccommodationData {
-  accomodation_id: string;
+  accommodationId: number;
   address: string;
-  address_code: string;
-  breakfest: boolean;
+  areaCode: string;
   category: string;
-  check_in: string;
-  check_out: string;
-  cooking: boolean;
+  checkIn: string;
+  checkOut: string;
+  facility: AccommodationFacility;
   image: AccommodationImage[];
   latitude: string;
   longitude: string;
   name: string;
-  parking: boolean;
-  party: boolean;
-  person_number: number;
+  personNumber: number;
+  phone: string;
   rooms: Room[];
   score: number;
-  swimming_pool: boolean;
 }
 
 export interface AccommodationResponse {

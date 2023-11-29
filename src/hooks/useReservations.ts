@@ -1,4 +1,3 @@
-
 import { getAccommodation } from '@/api/service';
 import { useQueries } from '@tanstack/react-query';
 
