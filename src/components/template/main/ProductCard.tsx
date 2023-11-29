@@ -38,7 +38,7 @@ export const ProductCard = ({
   return (
     <StyledProductCard onClick={handleCardClick}>
       <StyledThumbnail>
-        <StyledImage imgUrl={imgUrl} />
+        <StyledImage src={imgUrl} />
       </StyledThumbnail>
       <StyledCardTextWrap>
         <StyledLabel>{shortenedAddress}</StyledLabel>

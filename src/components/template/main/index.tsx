@@ -11,7 +11,6 @@ const MainContainer = () => {
       try {
         // const res = await getProducts('2023-12-01', '2023-12-05', '6');
         const res = await getProducts();
-        console.log('조회 결과:', res.data);
 
         const productsData = res.data;
 
