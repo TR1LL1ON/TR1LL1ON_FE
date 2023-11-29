@@ -12,7 +12,7 @@ interface ProductsContainerProps {
   accommodationID: string;
 }
 const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
-  const [roomData, setRoomData] = useState<Room[]>([]);
+  const [roomData, setRoomData] = useState<Room[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -20,11 +20,13 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
       if (accommodationID) {
         setIsLoading(true); // 데이터 로딩 시작
         try {
-          const res = await getAccommodation(accomodationID);
+          const res = await getAccommodation(accommodationID);
           console.log(res);
-          setRoomData(res.data.accomodationData.rooms);
+          setRoomData(res?.rooms);
         } catch (err) {
-          console.log('에러');
+          if (err instanceof Error) {
+            console.log(err.message);
+          }
         } finally {
           setIsLoading(false); // 데이터 로딩 완료
         }
@@ -42,9 +44,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     <>
       <ImageContainer />
       <AccommodationInfo />
-      {roomData.map((room) => (
-        <RoomCard key={room.room_id} roomData={room} />
-      ))}
+      {roomData?.map((room) => <RoomCard key={room.roomId} roomData={room} />)}
       <ProductsFacility />
       <Map lat={37.5649867} lng={126.985575} />
       <Review />
