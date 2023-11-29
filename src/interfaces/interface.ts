@@ -56,6 +56,9 @@ export interface AccommodationImage {
   image_url: string;
 }
 
+
+export interface Facility {
+
 export interface AccommodationFacility {
   hasBeauty: boolean;
   hasCooking: boolean;
@@ -68,7 +71,6 @@ export interface RoomFacility {
   canCook: boolean;
   hasAirConditioner: boolean;
   hasBath: boolean;
-  hasCable: boolean;
   hasHairDryer: boolean;
   hasInternet: boolean;
   hasPC: boolean;
@@ -78,7 +80,6 @@ export interface RoomFacility {
   hasTable: boolean;
   hasToiletries: boolean;
 }
-
 export interface Room {
   averPrice: number;
   checkIn: string;

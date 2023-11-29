@@ -23,14 +23,13 @@ import Carousel from './detailModal/carousel';
 
 interface RoomCardProps {
   roomData: Room;
-  // accomodationID: string;
 }
 const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
-  const imageUrls = roomData.image.map((item) => item.image_url);
+  const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
-  console.log('총 인원수', guestCount.totals);
 
   const [showDetailModal, setShowDetailModal] = useState(false);
+
   const handleDetailModal = () => {
     setShowDetailModal(true);
   };
