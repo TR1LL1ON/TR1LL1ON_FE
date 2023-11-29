@@ -12,7 +12,9 @@ import { FaStar } from 'react-icons/fa';
 import { useState } from 'react';
 
 const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
-  const closeModal = () => {
+  const closeModal = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+
     setShowModal(false);
   };
 
@@ -175,7 +177,7 @@ export const StyledModal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  z-index: 100;
 `;
 
 export const StyledModalContent = styled.div<{

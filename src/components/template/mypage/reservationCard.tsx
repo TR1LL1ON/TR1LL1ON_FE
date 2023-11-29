@@ -2,25 +2,29 @@ import {
   StyledFlexContainer,
   StyledImageContainer,
   StyledText,
-  StyledHLine,
 } from '@/style/payment/paymentStyle';
-import { StyledOnClick } from '@/style/products/productsStyle';
+import styled from 'styled-components';
 import { useState } from 'react';
 import ReviewWriteModal from './reviewWriteModal';
+import { Reservation } from '@/interfaces/interface';
+import { StyledOnClick } from '@/style/products/productsStyle';
+interface ReservationCardProps {
+  data: Reservation; // 단일 Reservation 객체
+}
 
-const ReservationCard = () => {
+const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
   const [showReviewWriteModal, setShowReviewWriteModal] = useState(false);
+
   const handleReviewWriteModal = () => {
     setShowReviewWriteModal(true);
   };
 
+  // console.log(data);
+
   return (
     <>
-      <StyledFlexContainer
-        style={{
-          width: '100%',
-          padding: '15px 0',
-        }}
+      <StyledReservationContainer
+        onClick={handleReviewWriteModal}
         $alignItems="flex-start"
         $gap="0.75rem">
         <StyledImageContainer $w="auto" style={{ overflow: 'unset' }}>
@@ -40,32 +44,37 @@ const ReservationCard = () => {
           $flexDirection="column"
           $alignItems="flex-start">
           <StyledText $fontSize="0.75rem" $opacity={0.7}>
-            호텔
+            {`에약번호 : ${data.orderId}`}
           </StyledText>
           <StyledFlexContainer style={{ width: '100%' }}>
-            <StyledText $fontWeight={700}>리한셀렉트 경주</StyledText>
-            <StyledOnClick onClick={handleReviewWriteModal}>
-              후기작성
-            </StyledOnClick>
+            <StyledText $fontWeight={700}>{`${
+              data.orderCreateDate.split('T')[0]
+            }`}</StyledText>
+
             {showReviewWriteModal && (
               <ReviewWriteModal setShowModal={setShowReviewWriteModal} />
             )}
           </StyledFlexContainer>
-          <StyledText $fontSize="0.75rem">더블 스탠다드룸 | 2인</StyledText>
-          <StyledText $fontSize="0.75rem">
-            경상북도 경주시 보문로 338
-          </StyledText>
           <StyledFlexContainer style={{ width: '100%' }}>
-            <StyledText $fontSize="0.75rem">11.12 - 11.13 1박</StyledText>
-            <StyledText $fontSize="1rem" $fontWeight={700}>
-              100,000원
-            </StyledText>
+            <StyledText $fontSize="0.75rem">{`${data.payment}`}</StyledText>
           </StyledFlexContainer>
+          <StyledText $fontSize="1rem" $fontWeight={700}>
+            {`${data.totalPrice}원`}
+          </StyledText>
         </StyledFlexContainer>
-      </StyledFlexContainer>
-      <StyledHLine $mBlock="0" />
+      </StyledReservationContainer>
     </>
   );
 };
 
 export default ReservationCard;
+
+const StyledReservationContainer = styled(StyledFlexContainer)`
+  &:hover {
+    background-color: #eeeeee;
+  }
+  cursor: pointer;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+`;

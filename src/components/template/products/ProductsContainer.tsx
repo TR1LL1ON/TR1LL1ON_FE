@@ -20,6 +20,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   });
 
   const roomData: Room[] = data?.data.rooms || [];
+
   console.log(roomData);
 
   if (isLoading) {

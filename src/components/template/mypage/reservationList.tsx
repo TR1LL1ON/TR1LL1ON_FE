@@ -1,28 +1,23 @@
 import { StyledSubTitle, StyledWrapper } from '@/style/payment/paymentStyle';
 import ReservationCard from './reservationCard';
+import { Reservation } from '@/interfaces/interface';
 import { getUser } from '@/api/service';
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 const ReservationList = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true); // 데이터 로딩 시작
-      try {
-        const res = await getUser();
-        console.log(res.data);
-      } catch (err) {
-        console.log('에러');
-      } finally {
-        setIsLoading(false); // 데이터 로딩 완료
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['ReservationData'],
+    queryFn: () => getUser(),
+  });
+  console.log();
+  const ReservationData: Reservation[] = data?.data || [];
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
   }
   return (
     <>
@@ -37,14 +32,25 @@ const ReservationList = () => {
           fontFamily:
             'Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif',
           overflowY: 'auto',
-          height: '30vh',
+          height: '50vh',
         }}>
-        <ReservationCard />
-        <ReservationCard />
-        <ReservationCard />
-        <ReservationCard />
-        <ReservationCard />
-        <ReservationCard />
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+          }}>
+          {ReservationData.map((order) => (
+            <div
+              key={order.orderId}
+              style={{
+                minWidth: '33%', // 한 줄에 4개의 카드가 오도록 너비 설정
+                boxSizing: 'border-box', // 패딩과 테두리를 너비에 포함
+                padding: '10px', // 카드 사이의 간격 조정
+              }}>
+              <ReservationCard key={order.orderId} data={order} />
+            </div>
+          ))}
+        </div>
       </StyledWrapper>
     </>
   );

@@ -135,3 +135,10 @@ export interface Cart {
   personNumber: number;
   price: number;
 }
+
+export interface Reservation {
+  orderId: number;
+  orderCreateDate: string;
+  payment: string;
+  totalPrice: number;
+}
