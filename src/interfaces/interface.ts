@@ -31,13 +31,6 @@ export interface OrderRequest {
   payment: 'CARD' | 'KAKAOPAY' | 'NAVERPAY' | 'CASH';
 }
 
-// 변수명 명시적으로 바꿔야함
-export interface AccommodationData {
-  checkIn: string; // 체크인 날짜
-  checkOut: string; // 체크아웃 날짜
-  personNumber: number; // 인원 수
-}
-
 export interface ReviewData {
   order_item_id: number; // 주문상품 Id
   order_id: number; // 주문 id
@@ -56,6 +49,26 @@ export interface AccommodationImage {
   imageUrl: string;
 }
 
+export interface Facility {
+  canCook?: boolean;
+  hasAiConditioner?: boolean;
+  hasBath?: boolean;
+  hasCable?: boolean;
+  hasHairDryer?: boolean;
+  hasInternet?: boolean;
+  hasPc?: boolean;
+  hasRefrigerator?: boolean;
+  hasSofa?: boolean;
+  hasTv?: boolean;
+  hasTable?: boolean;
+  hasToiletries?: boolean;
+  hasParking?: boolean;
+  hasCooking?: boolean;
+  hasSports?: boolean;
+  hasSauna?: boolean;
+  hasBeauty?: boolean;
+}
+
 export interface AccommodationFacility {
   hasBeauty: boolean;
   hasCooking: boolean;
@@ -68,6 +81,7 @@ export interface RoomFacility {
   canCook: boolean;
   hasAirConditioner: boolean;
   hasBath: boolean;
+  hasCable: boolean;
   hasHairDryer: boolean;
   hasInternet: boolean;
   hasPC: boolean;
@@ -77,6 +91,7 @@ export interface RoomFacility {
   hasTable: boolean;
   hasToiletries: boolean;
 }
+
 export interface Room {
   averPrice: number;
   checkIn: string;
