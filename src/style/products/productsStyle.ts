@@ -238,7 +238,6 @@ export const StyledImageContainer = styled.div<{ backgroundImage: string }>`
   background-size: cover;
   background-position: center;
   border-radius: 1rem;
-  cursor: pointer;
   width: 100%;
   height: 40rem;
 `;
