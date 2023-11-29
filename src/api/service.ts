@@ -6,6 +6,7 @@ import {
   ReviewData,
   AccommodationResponse,
 } from '../interfaces/interface';
+import { getCookie } from '@/util/util';
 
 export const client = axios.create({
   baseURL: SERVER_URL,
@@ -14,6 +15,19 @@ export const client = axios.create({
     withCredentials: true,
   },
 });
+
+client.interceptors.request.use(
+  (config) => {
+    const accessToken = getCookie('accessToken');
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 // 회원가입
 export const postSignUp = async (
