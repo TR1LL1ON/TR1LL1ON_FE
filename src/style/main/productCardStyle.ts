@@ -27,11 +27,11 @@ export const StyledThumbnail = styled.div`
   overflow: hidden;
   margin-bottom: 1rem;
 `;
-export const StyledImage = styled.img`
+export const StyledImage = styled.img<{ imgUrl: string }>`
   width: 100%;
   height: 100%;
   background-size: cover;
-  background-image: url('https://source.unsplash.com/random');
+  background-image: url(${(props) => props.imgUrl});
 `;
 
 export const StyledCardTextWrap = styled.div``;
@@ -50,14 +50,14 @@ export const StyledProductPrice = styled.div`
   text-align: right;
 `;
 
-export const StyledDiscount = styled.span`
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  color: ${({ theme }) => theme.colors.primary};
-  margin-right: 0.5rem;
-`;
+// export const StyledDiscount = styled.span`
+//   font-weight: ${({ theme }) => theme.fontWeights.bold};
+//   color: ${({ theme }) => theme.colors.primary};
+//   margin-right: 0.5rem;
+// `;
 
-export const StyledOriginalPrice = styled.span`
-  text-decoration: line-through;
+export const StyledScore = styled.span`
+  /* text-decoration: line-through; */
 `;
 
 export const StyledSalePrice = styled.div`

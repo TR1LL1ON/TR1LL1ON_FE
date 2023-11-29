@@ -9,6 +9,7 @@ import {
   StyledDiscount,
   StyledOriginalPrice,
   StyledSalePrice,
+  StyledScore,
 } from '@/style/main/productCardStyle';
 import { StyledLabel } from '@/style/payment/paymentStyle';
 import { useNavigate } from 'react-router-dom';
@@ -16,8 +17,18 @@ import { getProducts } from '@/api/service';
 
 export const ProductCard = ({
   accommodationID,
+  imgUrl,
+  name,
+  price,
+  address,
+  score,
 }: {
   accommodationID: string;
+  imgUrl: string;
+  name: string;
+  price: number;
+  address: string;
+  score: number;
 }) => {
   const navigate = useNavigate();
 
@@ -25,18 +36,20 @@ export const ProductCard = ({
     navigate(`/detail/${accommodationID}`);
   };
 
+  const words = address.split(' ');
+  const shortenedAddress = words.slice(0, 2).join(' ');
+
   return (
     <StyledProductCard onClick={handleCardClick}>
       <StyledThumbnail>
-        <StyledImage />
+        <StyledImage imgUrl={imgUrl} />
       </StyledThumbnail>
       <StyledCardTextWrap>
-        <StyledLabel>서울 명동</StyledLabel>
-        <StyledProductTitle>스탠포드 호텔 서울</StyledProductTitle>
+        <StyledLabel>{shortenedAddress}</StyledLabel>
+        <StyledProductTitle>{name}</StyledProductTitle>
         <StyledProductPrice>
-          <StyledDiscount>6%</StyledDiscount>
-          <StyledOriginalPrice>145,000</StyledOriginalPrice>
-          <StyledSalePrice>135,000원</StyledSalePrice>
+          <StyledScore>★ {score}</StyledScore>
+          <StyledSalePrice>{price.toLocaleString()}원</StyledSalePrice>
         </StyledProductPrice>
       </StyledCardTextWrap>
     </StyledProductCard>

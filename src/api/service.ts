@@ -44,8 +44,19 @@ export const getLogout = async () => {
 };
 
 // 전체 숙소조회(비로그인) <=> 개인화 숙소조회(로그인)
-export const getProducts = async (accommodationData: AccommodationData) => {
-  const res = await client.get('products', { params: accommodationData });
+export const getProducts = async (
+  checkIn?: string,
+  checkOut?: string,
+  personNumber?: string,
+) => {
+  const res = await client.get('products', {
+    params: {
+      checkIn: checkIn,
+      checkOut: checkOut,
+      personNumber: personNumber,
+    },
+  });
+
   return res;
 };
 
