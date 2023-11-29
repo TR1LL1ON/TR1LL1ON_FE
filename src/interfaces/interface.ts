@@ -33,7 +33,7 @@ export interface OrderRequest {
 }
 
 // 변수명 명시적으로 바꿔야함
-export interface AccomodationData {
+export interface AccommodationData {
   checkIn: string; // 체크인 날짜
   checkOut: string; // 체크아웃 날짜
   personNumber: number; // 인원 수
