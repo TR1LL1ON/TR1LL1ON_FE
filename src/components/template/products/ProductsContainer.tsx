@@ -1,4 +1,4 @@
-import ImageContainer from './ImageContainer';
+// import ImageContainer from './ImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
 import { AccommodationData, Room } from '@/interfaces/interface';
@@ -7,6 +7,7 @@ import { getAccommodation } from '@/api/service';
 import Map from './Map';
 import { useQuery } from '@tanstack/react-query';
 import AllFacility from './AllFacility';
+import { StyledImageContainer } from '@/style/products/productsStyle';
 
 interface ProductsContainerProps {
   accommodationID: string;
@@ -33,7 +34,9 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
 
   return (
     <>
-      <ImageContainer imgData={accommodationData.image} />
+      <StyledImageContainer
+        backgroundImage={accommodationData.image[0].imageUrl}
+      />
       <AccommodationInfo
         infoData={accommodationData}
         productsFacility={accommodationData.facility}

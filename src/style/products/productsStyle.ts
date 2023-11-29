@@ -223,7 +223,6 @@ export const StyledItem = styled.div`
   align-items: center;
   flex-shrink: 0;
   width: 100%;
-  // gap: 0 10rem;
   & svg {
     font-size: ${(props) => props.theme.fontSizes.xl};
     margin-right: 1rem;
@@ -233,23 +232,13 @@ export const StyledItem = styled.div`
     line-height: 4rem;
   }
 `;
-/* const StyledItem = styled.div`
-  padding: 8px;
-  text-align: left;
-  background: #f99;
 
-  color: ${(props) => props.theme.colors.darkGray};
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  padding-left: 10%;
-  & svg {
-    font-size: ${(props) => props.theme.fontSizes.xl};
-  }
-  background: #ff0;
+export const StyledImageContainer = styled.div<{ backgroundImage: string }>`
+  background-image: url(${(props) => props.backgroundImage});
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  cursor: pointer;
   width: 100%;
-  & p {
-    width: 33%;
-    background: #ff0;
-  }
-`; */
+  height: 40rem;
+`;
