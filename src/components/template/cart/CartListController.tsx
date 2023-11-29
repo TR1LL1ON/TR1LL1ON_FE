@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { deleteCarts } from '@/api/service';
 import { Cart } from '@/interfaces/interface';
 import { StyledDeleteButton } from '@/style/cart/cartStyle';
 import {
@@ -10,12 +12,14 @@ interface ICartListControllerProps {
   cartsData: Cart[];
   checkedCartsData: Cart[];
   setCheckedCartsData: React.Dispatch<React.SetStateAction<Cart[]>>;
+  fetchData: () => void;
 }
 
 const CartListController = ({
   cartsData,
   checkedCartsData,
   setCheckedCartsData,
+  fetchData,
 }: ICartListControllerProps) => {
   const cartsTotal = cartsData.length !== 0 ? cartsData.length : 0;
   const checkedCartsTotal =
@@ -26,6 +30,21 @@ const CartListController = ({
       setCheckedCartsData(cartsData);
     } else {
       setCheckedCartsData([]);
+    }
+  };
+
+  const handleCheckedCartDelete = async (): Promise<void> => {
+    try {
+      const deletePromise = checkedCartsData.map(async (cart) => {
+        await deleteCarts(cart.cartItemId);
+      });
+
+      await Promise.all(deletePromise);
+
+      fetchData();
+      setCheckedCartsData([]);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -41,7 +60,9 @@ const CartListController = ({
           전체선택({checkedCartsTotal}/{cartsTotal})
         </StyledText>
       </StyledFlexContainer>
-      <StyledDeleteButton>선택삭제</StyledDeleteButton>
+      <StyledDeleteButton onClick={handleCheckedCartDelete}>
+        선택삭제
+      </StyledDeleteButton>
     </StyledFlexContainer>
   );
 };

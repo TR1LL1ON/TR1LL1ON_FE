@@ -13,12 +13,14 @@ interface ICartCardProps {
   cartData: Cart;
   checkedCartsData: Cart[];
   setCheckedCartsData: React.Dispatch<React.SetStateAction<Cart[]>>;
+  fetchData: () => void;
 }
 
 const CartCard = ({
   cartData,
   checkedCartsData,
   setCheckedCartsData,
+  fetchData,
 }: ICartCardProps) => {
   const checkIn = new Date(cartData.checkIn);
   const checkOut = new Date(cartData.checkOut);
@@ -48,9 +50,13 @@ const CartCard = ({
     }
   };
 
-  const handleCartDelete = async (item: any): Promise<void> => {
-    const res = await deleteCarts(item.cartItemId);
-    console.log(res);
+  const handleDeleteCart = async (item: any): Promise<void> => {
+    try {
+      await deleteCarts(item.cartItemId);
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -70,7 +76,7 @@ const CartCard = ({
       </StyledWrapper>
       <StyledImageContainer $w="auto" style={{ overflow: 'unset' }}>
         <img
-          src="https://source.unsplash.com/random"
+          src={cartData.imageUrl}
           style={{
             width: '124px',
             height: '100%',
@@ -85,17 +91,19 @@ const CartCard = ({
         $flexDirection="column"
         $alignItems="flex-start">
         <StyledText $fontSize="0.75rem" $opacity={0.7}>
-          {cartData.accomodationCategory}
+          {cartData.accommodationCategory}
         </StyledText>
         <StyledFlexContainer style={{ width: '100%' }}>
-          <StyledText $fontWeight={700}>{cartData.accomodationName}</StyledText>
-          <StyledDeleteButton onClick={() => handleCartDelete(cartData)}>
+          <StyledText $fontWeight={700}>
+            {cartData.accommodationName}
+          </StyledText>
+          <StyledDeleteButton onClick={() => handleDeleteCart(cartData)}>
             삭제
           </StyledDeleteButton>
         </StyledFlexContainer>
         <StyledText $fontSize="0.75rem">{`${cartData.productName} | ${cartData.personNumber}인`}</StyledText>
         <StyledText $fontSize="0.75rem">
-          {cartData.accomodationAddress}
+          {cartData.accommodationAddress}
         </StyledText>
         <StyledFlexContainer style={{ width: '100%' }}>
           <StyledText $fontSize="0.75rem">{nights}</StyledText>

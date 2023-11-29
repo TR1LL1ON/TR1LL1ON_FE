@@ -153,7 +153,7 @@ export const postCarts = async (
 };
 
 // 장바구니 상품 삭제
-export const deleteCarts = async (cartID: string) => {
+export const deleteCarts = async (cartID: number) => {
   const res = await client.delete(`carts/${cartID}`);
   return res;
 };

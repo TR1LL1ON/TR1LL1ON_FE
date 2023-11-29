@@ -31,17 +31,17 @@ const CartContainer = () => {
     navigate(`/payment?${queryString}`);
   };
 
+  const fetchData = async (): Promise<void> => {
+    try {
+      const res = await getCarts();
+
+      setCartsData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        const res = await getCarts();
-
-        setCartsData(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -57,12 +57,14 @@ const CartContainer = () => {
         cartsData={cartsData}
         checkedCartsData={checkedCartsData}
         setCheckedCartsData={setCheckedCartsData}
+        fetchData={fetchData}
       />
       <StyledHLine $mBlock="1rem" />
       <CartList
         cartsData={cartsData}
         checkedCartsData={checkedCartsData}
         setCheckedCartsData={setCheckedCartsData}
+        fetchData={fetchData}
       />
       <StyledHLine $mBlock="1rem" />
       <CartDetail checkedCartsData={checkedCartsData} />
