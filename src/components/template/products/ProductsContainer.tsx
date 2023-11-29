@@ -21,20 +21,8 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   });
 
   const roomData: Room[] = data?.data.rooms || [];
+  const accommodationData: AccommodationData = data?.data;
 
-  console.log(roomData);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching data</div>;
-  }
-
-  const [accommodationData, setAccommodationData] = useState<
-    AccommodationData | any
-  >(null);
 
   const [roomsFacilityData, setRoomsFacilityData] = useState<
     (keyof Facility)[]
@@ -46,8 +34,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         try {
           const res = await getAccommodation(accommodationID);
 
-          setAccommodationData(res.data.accommodationData);
-          const facilities = res.data.accommodationData.rooms.flatMap(
+          const facilities = res.data.rooms.flatMap(
             (room: any) => room.facility,
           );
 
@@ -59,7 +46,6 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
               return acc;
             }, new Set<keyof Facility>()),
           );
-
           setRoomsFacilityData(uniqueFacilities);
         } catch (err) {
           console.log('에러');
@@ -68,7 +54,15 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     };
 
     fetchData();
-  }, [accommodationID]);
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
 
   return (
     <>
