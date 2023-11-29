@@ -1,14 +1,14 @@
-import { Facility } from '@/interfaces/interface';
+import { AccommodationFacility } from '@/interfaces/interface';
 import { productsIconMapping, productsTextMapping } from './iconAndTextMapping';
 
 interface ProductsFacilityListProps {
-  productsFacility: Facility;
+  productsFacility: AccommodationFacility;
 }
 
 const ProductsFacilityList: React.FC<ProductsFacilityListProps> = ({
   productsFacility,
 }) => {
-  // `true`인 항목들만 필터링
+  // true인 항목들만 필터링
   const facilityKeys = Object.entries(productsFacility)
     .filter(([_, value]) => value)
     .map(([key]) => key);
@@ -19,6 +19,8 @@ const ProductsFacilityList: React.FC<ProductsFacilityListProps> = ({
       {productsIconMapping[key]} {productsTextMapping[key]}
     </p>
   ));
+
+  console.log('facilityKeys', facilityKeys);
 
   return <>{facilityElements}</>;
 };

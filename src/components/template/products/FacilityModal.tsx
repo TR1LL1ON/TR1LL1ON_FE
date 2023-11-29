@@ -3,11 +3,11 @@ import ModalContainer from '@/components/layout/modal/ModalContainer';
 import ProductsFacilityList from './ProductsFacilityList';
 import RoomsFacilityList from './RoomsFacilityList';
 import styled from 'styled-components';
-import { Facility } from '@/interfaces/interface';
+import { AccommodationFacility } from '@/interfaces/interface';
 
 interface FacilityModalProps {
-  productsFacility: Facility;
-  roomsFacility: Facility[];
+  productsFacility: AccommodationFacility;
+  roomsFacility: string[];
   onClose: () => void;
 }
 const FacilityModal = ({
@@ -19,9 +19,6 @@ const FacilityModal = ({
   const hasTrueProductFacility = Object.values(productsFacility).some(
     (value) => value,
   );
-
-  console.log('숙소편의시설', productsFacility);
-  console.log('객실편의시설', roomsFacility);
   return (
     <ModalContainer onClose={onClose}>
       <StyledFacilityModal>
@@ -50,7 +47,6 @@ export default FacilityModal;
 
 const StyledFacilityModal = styled.div`
   width: 24rem;
-
   & p {
     width: 100%;
     padding: 0.6rem 1rem;

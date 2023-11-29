@@ -1,7 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
 import { useState } from 'react';
-import { AccommodationData, Facility } from '@/interfaces/interface';
+import {
+  AccommodationData,
+  AccommodationFacility,
+} from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
 import { useRecoilValue } from 'recoil';
 import { guestCountState } from '@/states/atom';
@@ -27,7 +30,7 @@ import ProductsFacilityList from './ProductsFacilityList';
 
 interface AccommodationProp {
   infoData: AccommodationData;
-  productsFacility: Facility;
+  productsFacility: AccommodationFacility;
 }
 const AccommodationInfo = ({
   infoData,
@@ -35,7 +38,6 @@ const AccommodationInfo = ({
 }: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
-  // console.log(location);
   const guestCount = useRecoilValue(guestCountState);
   const [showGuestModal, setShowGuestModal] = useState(false);
   const handleGuestModal = (e: React.MouseEvent) => {
