@@ -18,7 +18,7 @@ const PaymentRoomItem = ({ accommodationData }: Props) => {
       $alignItems="flex-start"
       $gap="0.5rem">
       <StyledImageContainer>
-        <img src={accommodationData.image[0].image_url} />
+        <img src={accommodationData.image[0].imageUrl} />
       </StyledImageContainer>
       <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
         <StyledText $fontSize="0.7rem" $opacity={0.7}>

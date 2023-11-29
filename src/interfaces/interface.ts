@@ -53,7 +53,7 @@ export interface SignupRequestBody {
 }
 
 export interface AccommodationImage {
-  image_url: string;
+  imageUrl: string;
 }
 
 export interface AccommodationFacility {
