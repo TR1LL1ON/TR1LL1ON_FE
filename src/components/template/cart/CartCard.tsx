@@ -57,6 +57,7 @@ const CartCard = ({
       <StyledWrapper style={{ width: 'auto', height: '24px' }}>
         <StyledCheckboxInput
           type="checkbox"
+          checked={checkedCartIds.includes(cartData.cartItemId)}
           onChange={() => handleCheckBoxChange(cartData)}
         />
       </StyledWrapper>

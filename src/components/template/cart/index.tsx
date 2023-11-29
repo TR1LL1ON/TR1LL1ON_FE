@@ -95,6 +95,7 @@ const CartContainer = () => {
       <CartListController
         cartsData={cartsData}
         checkedCartsData={checkedCartsData}
+        setCheckedCartsData={setCheckedCartsData}
       />
       <StyledHLine $mBlock="1rem" />
       <CartList
