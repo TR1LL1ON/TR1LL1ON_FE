@@ -62,10 +62,10 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
               $mt="0"
               $mb="0"
               $fontWeight={400}>
-              {`체크인: ${roomData.check_in} ~ 체크아웃: ${roomData.check_out}`}
+              {`체크인: ${roomData.checkIn} ~ 체크아웃: ${roomData.checkOut}`}
             </StyledH2Text>
           </div>
-          <StyledPriceText>{`${roomData.aver_price}원`}</StyledPriceText>
+          <StyledPriceText>{`${roomData.averPrice}원`}</StyledPriceText>
           <StyledFlexContainer $flexDirection="row">
             <StyledBrandText>{`남은객실 ${roomData.count}`}</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">
@@ -80,11 +80,11 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
         </StyledTextItem>
       </StyledFlexRowGroup>
       <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
-        <StyledH2Text>{roomData.room_name}</StyledH2Text>
+        <StyledH2Text>{roomData.roomName}</StyledH2Text>
         <StyledTextRow>
           <LuUser className="icon" />
 
-          {`기준 ${roomData.standard_number}인 | 최대 ${roomData.max_number}인`}
+          {`기준 ${roomData.standardNumber}인 | 최대 ${roomData.maxNumber}인`}
         </StyledTextRow>
         <StyledTextRow>
           <LuBedSingle className="icon" />
