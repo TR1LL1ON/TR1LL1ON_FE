@@ -68,6 +68,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     enabled: !!accommodationID,
   });
 
+  console.log(accommodationID);
+
+  console.log(data);
+
   const roomData: Room[] = data?.data.rooms || [];
   console.log(roomData);
 >>>>>>> 4e0cdb720d69740ba8a4f06c37f727d385ba4c5f
@@ -103,8 +107,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
       )}
 =======
       <ImageContainer />
+      <AccommodationInfo />
       {roomData.map((room) => (
         <RoomCard key={room.roomId} roomData={room} />
+      ))}
       <ProductsFacility />
       <Map lat={37.5649867} lng={126.985575} />
       <Review />

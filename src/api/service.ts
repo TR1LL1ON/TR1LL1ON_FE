@@ -111,10 +111,10 @@ export const getProductsCategoryRegion = async (
 // 개별 상품조회(숙소전체)
 export const getAccommodation = async (accommodationID: string) => {
   const res = await client.get(`products/${accommodationID}`);
+  return res;
 };
 
 // 개별 상품 상세페이지 조회
-
 export const getAccommodationProduct = async (
   accommodationID: string,
   productID: string,
