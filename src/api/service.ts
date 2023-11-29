@@ -2,10 +2,11 @@ import axios from 'axios';
 import { CONTENT_TYPE, SERVER_URL } from '../constant';
 import {
   OrderRequest,
-  AccomodationData,
+  AccommodationData,
   ReviewData,
   AccommodationResponse,
 } from '../interfaces/interface';
+import { getCookie } from '@/util/util';
 
 export const client = axios.create({
   baseURL: SERVER_URL,
@@ -14,6 +15,19 @@ export const client = axios.create({
     withCredentials: true,
   },
 });
+
+client.interceptors.request.use(
+  (config) => {
+    const accessToken = getCookie('accessToken');
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 // 회원가입
 export const postSignUp = async (
@@ -45,18 +59,28 @@ export const getLogout = async () => {
 };
 
 // 전체 숙소조회(비로그인) <=> 개인화 숙소조회(로그인)
-export const getProducts = async (accomodationData: AccomodationData) => {
-  const res = await client.get('products', { params: accomodationData });
+export const getProducts = async (
+  checkIn?: string,
+  checkOut?: string,
+  personNumber?: string,
+) => {
+  const res = await client.get('products', {
+    params: {
+      checkIn: checkIn,
+      checkOut: checkOut,
+      personNumber: personNumber,
+    },
+  });
   return res;
 };
 
 // 카테고리별 숙소조회
 export const getProductsCategory = async (
   categoryCode: string,
-  accomodationData: AccomodationData,
+  accommodationData: AccommodationData,
 ) => {
   const res = await client.get(`products?category=${categoryCode}`, {
-    params: accomodationData,
+    params: accommodationData,
   });
   return res;
 };
@@ -64,10 +88,10 @@ export const getProductsCategory = async (
 // 지역별 숙소조회
 export const getProductsRegion = async (
   RegionCode: string,
-  accomodationData: AccomodationData,
+  accommodationData: AccommodationData,
 ) => {
   const res = await client.get(`products?region=${RegionCode}`, {
-    params: accomodationData,
+    params: accommodationData,
   });
   return res;
 };
@@ -76,29 +100,30 @@ export const getProductsRegion = async (
 export const getProductsCategoryRegion = async (
   categoryCode: string,
   RegionCode: string,
-  accomodationData: AccomodationData,
+  accommodationData: AccommodationData,
 ) => {
   const res = await client.get(
     `products?category=${categoryCode}&region=${RegionCode}`,
-    { params: accomodationData },
+    { params: accommodationData },
   );
   return res;
 };
 
 // 개별 상품조회(숙소전체)
-export const postAccomodation = async (accomodationID: string) => {
-  const res = await client.post<AccommodationResponse>(
-    `products/${accomodationID}/`,
+export const getAccommodation = async (accommodationID: string) => {
+  const res = await client.get<AccommodationResponse>(
   );
-  return res.data;
+  return res;
 };
 
 // 개별 상품 상세페이지 조회
-export const postAccomodationProduct = async (
-  accomodationID: string,
+
+export const getAccommodationProduct = async (
+  accommodationID: string,
   productID: string,
 ) => {
-  const res = await client.post(`products/${accomodationID}/${productID}`);
+  const res = await client.get(`products/${accommodationID}/${productID}`)
+  ;
   return res;
 };
 
@@ -161,14 +186,14 @@ export const getLikes = async () => {
 };
 
 // 숙소 찜 누르기
-export const postLikes = async (accomodationID: string) => {
-  const res = await client.post(`likes/${accomodationID}`);
+export const postLikes = async (accommodationID: string) => {
+  const res = await client.post(`likes/${accommodationID}`);
   return res;
 };
 
 // 숙소 찜 삭제
-export const deleteLikes = async (accomodationID: string) => {
-  const res = await client.delete(`likes/${accomodationID}`);
+export const deleteLikes = async (accommodationID: string) => {
+  const res = await client.delete(`likes/${accommodationID}`);
   return res;
 };
 

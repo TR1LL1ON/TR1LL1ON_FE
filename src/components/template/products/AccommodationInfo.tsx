@@ -1,13 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
 import { useState } from 'react';
-import {
-  AccommodationData,
-  Facility,
-  GuestCount,
-} from '@/interfaces/interface';
+import { AccommodationData, Facility } from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
-
+import { useRecoilValue } from 'recoil';
+import { guestCountState } from '@/states/atom';
 import {
   StyledIconBox,
   StyledOnClick,
@@ -15,6 +12,7 @@ import {
   StyledServiceInfo,
   StyledTextBox,
   StyledWrap,
+  StyledBold,
 } from '@/style/products/productsStyle';
 import {
   StyledTitle,
@@ -23,32 +21,32 @@ import {
   StyledSpacer,
 } from '@/style/payment/paymentStyle';
 import CalenderModal from '@/components/layout/modal/calenderModal';
-import { useRecoilValue } from 'recoil';
+import GuestModal from './GuestModal/guestModal';
 import { dateRangeState } from '@/states/atom';
 import ProductsFacilityList from './ProductsFacilityList';
 
 interface AccommodationProp {
-  onOpen: (e: React.MouseEvent) => void;
-  guestCount: GuestCount;
-  totalGuestCount: number;
   infoData: AccommodationData;
   productsFacility: Facility;
 }
 const AccommodationInfo = ({
-  onOpen,
-  guestCount,
-  totalGuestCount,
   infoData,
   productsFacility,
 }: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
   // console.log(location);
-
+  const guestCount = useRecoilValue(guestCountState);
+  const [showGuestModal, setShowGuestModal] = useState(false);
+  const handleGuestModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowGuestModal(true);
+  };
   const handleShareClick = () => {
     console.log(handleCopyClipBoard);
     handleCopyClipBoard(`${baseUrl}${location.pathname}`);
   };
+
   const [showCalendarModal, setShowCalendarModal] = useState(false);
   const handleCalendarModal = () => {
     setShowCalendarModal(true);
@@ -116,16 +114,24 @@ const AccommodationInfo = ({
             $flexDirection="column"
             $alignItems="flex-start"
             $gap=".5rem"
-            onClick={onOpen}>
+            onClick={handleGuestModal}>
             <StyledText $fontSize="1rem" $fontWeight={700}>
               게스트
             </StyledText>
+
             <StyledText $fontSize="1rem">
-              성인 {guestCount.adults}명 / 아동 {guestCount.children}명 / 유아
-              {guestCount.infants}명 &nbsp;::&nbsp; 총 {totalGuestCount}명
+              성인 {guestCount.adults}명 / 아동 {guestCount.children}명 /
+              유아&nbsp;
+              {guestCount.infants}명 &nbsp;: &nbsp;
+              <StyledBold $fontWeight={700}>
+                총 {guestCount.totals}명
+              </StyledBold>
             </StyledText>
           </StyledFlexContainer>
-          <StyledOnClick onClick={onOpen}>수정</StyledOnClick>
+          <StyledOnClick onClick={handleGuestModal}>수정</StyledOnClick>
+          {showGuestModal && (
+            <GuestModal onClose={() => setShowGuestModal(false)} />
+          )}
         </StyledSelect>
       </StyledFlexContainer>
     </StyledWrap>
