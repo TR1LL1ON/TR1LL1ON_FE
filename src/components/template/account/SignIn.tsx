@@ -10,12 +10,15 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import { IFormValue } from '../cart';
+import { postLogin } from '@/api/service';
+import { setCookie } from '@/util/util';
 
 interface ISignInProps {
   isSignUp: boolean;
+  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SignIn = ({ isSignUp }: ISignInProps) => {
+const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
   const {
     register,
     handleSubmit,
@@ -24,10 +27,21 @@ const SignIn = ({ isSignUp }: ISignInProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const handleLogin = async () => {
+    try {
+      const res = await postLogin(email, password);
+      const getToken = res.data.accessToken;
+      setCookie(getToken);
+
+      setIsAccountModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <S.StyledSignInContainer $isSignUp={isSignUp}>
-      <S.StyledForm
-        onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
+      <S.StyledForm onSubmit={handleSubmit(handleLogin)}>
         <StyledTitle>로그인</StyledTitle>
         <StyledFlexContainer
           $flexDirection="column"
@@ -79,13 +93,9 @@ const SignIn = ({ isSignUp }: ISignInProps) => {
               placeholder="비밀번호"
               {...register('password', {
                 required: '비밀번호를 입력해주세요.',
-                minLength: {
-                  value: 8,
-                  message: '8자리 ~ 20자리 이내로 입력해주세요.',
-                },
                 maxLength: {
                   value: 20,
-                  message: '8자리 ~ 20자리 이내로 입력해주세요.',
+                  message: '20자리 이내로 입력해주세요.',
                 },
                 onBlur(event) {
                   setPassword(event.target.value);

@@ -6,23 +6,38 @@ import {
   ReviewData,
   AccommodationResponse,
 } from '../interfaces/interface';
+import { getCookie } from '@/util/util';
 
-const client = axios.create({
+export const client = axios.create({
   baseURL: SERVER_URL,
   headers: {
     'content-type': CONTENT_TYPE,
+    withCredentials: true,
   },
 });
 
+client.interceptors.request.use(
+  (config) => {
+    const accessToken = getCookie('accessToken');
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
 // 회원가입
 export const postSignUp = async (
-  name: string,
   email: string,
+  name: string,
   password: string,
 ) => {
   const res = await client.post('auth/signup', {
-    name: name,
     email: email,
+    name: name,
     password: password,
   });
   return res;
@@ -179,6 +194,18 @@ export const postLikes = async (accommodationID: string) => {
 // 숙소 찜 삭제
 export const deleteLikes = async (accommodationID: string) => {
   const res = await client.delete(`likes/${accommodationID}`);
+  return res;
+};
+
+// 전제 주문목록 조회(마이페이지)
+export const getUser = async () => {
+  const res = await client.get(`user`);
+  return res;
+};
+
+// 전제 주문목록 상세조회(마이페이지)
+export const getUserDetail = async (orderID: string) => {
+  const res = await client.get(`user/details/${orderID}`);
   return res;
 };
 

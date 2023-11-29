@@ -6,24 +6,28 @@ import 'react-dates/lib/css/_datepicker.css';
 import { Moment } from 'moment';
 import 'moment/locale/ko';
 import { StyledButton } from '@/style/common/commonStyle';
+import { useRecoilState } from 'recoil';
+import { dateRangeState } from '@/states/atom';
+
+export interface DateRange {
+  startDate: Moment | null;
+  endDate: Moment | null;
+}
 
 interface DatePickerProps {
   setNights: React.Dispatch<React.SetStateAction<number>>;
-  onSave: (startDate: Moment | null, endDate: Moment | null) => void;
   onCloseModal: () => void;
 }
-const DatePicker: React.FC<DatePickerProps> = ({
-  setNights,
-  onSave,
-  onCloseModal,
-}) => {
+const DatePicker: React.FC<DatePickerProps> = ({ setNights, onCloseModal }) => {
   const [startDate, setStartDate] = useState<Moment | null>(null);
   const [endDate, setEndDate] = useState<Moment | null>(null);
+  const [, setDateRange] = useRecoilState(dateRangeState);
+
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
     null,
   );
+
   useEffect(() => {
-    // moment.locale('ko');
     setFocusedInput('startDate');
   }, []);
 
@@ -37,8 +41,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
     setStartDate(startDate);
     setEndDate(endDate);
   };
-  console.log('StartDate: ' + startDate);
-  console.log('endDate: ' + endDate);
 
   if (startDate && endDate) {
     const nights = endDate.diff(startDate, 'days');
@@ -47,7 +49,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     setNights(0);
   }
   const handleSave = () => {
-    onSave(startDate, endDate);
+    setDateRange({ startDate, endDate });
     onCloseModal();
   };
 

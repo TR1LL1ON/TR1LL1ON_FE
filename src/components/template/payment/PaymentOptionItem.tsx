@@ -10,7 +10,7 @@ import {
 import { useRecoilState } from 'recoil';
 import { orderState } from '../../../states/atom';
 
-export type PaymentOptionType = 'kakaopay' | 'naverpay' | 'card' | 'cash';
+export type PaymentOptionType = 'KAKAOPAY' | 'NAVERPAY' | 'CARD' | 'CASH';
 
 interface Props {
   type: PaymentOptionType;
@@ -18,13 +18,13 @@ interface Props {
 
 export const getPayLogo = (type: PaymentOptionType) => {
   switch (type) {
-    case 'kakaopay':
+    case 'KAKAOPAY':
       return <KakaoPayLogo />;
-    case 'naverpay':
+    case 'NAVERPAY':
       return <NaverPayLogo />;
-    case 'card':
+    case 'CARD':
       return <MastercardLogo />;
-    case 'cash':
+    case 'CASH':
       return;
   }
 };

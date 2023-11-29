@@ -3,15 +3,16 @@ import { rest } from 'msw';
 import { SERVER_URL } from '@/constant';
 
 export const handlers = [
+
   // 회원가입
   rest.post(`${SERVER_URL}/auth/signup`, (req, res, ctx) => {
-    const { name, email, password } = req.body as SignupRequestBody;
+    const { email, name, password } = req.body as SignupRequestBody;
 
     return res(
       ctx.status(200),
       ctx.json({
         message: 'Signup successful',
-        user: { name, email, password },
+        user: { email, name, password },
       }),
     );
   }),
@@ -333,15 +334,19 @@ export const handlers = [
       // 더미 데이터
       items: [
         {
-          accomodation_name: '신라호텔',
-          accomodation_address: '제주특별자치도 서귀포시 중문관광로72번길 75',
-          accomodation_category: 'B02010100',
-          product_name: '더블 스탠다드룸',
-          check_in: '2023-11-21',
-          check_out: '2023-11-22',
-          person_number: 2,
+          cartItemId: 2,
+          accommodationId: 1,
+          accomodationName: '신라호텔',
+          accomodationAddress: '제주특별자치도 서귀포시 중문관광로72번길 75',
+          accomodationCategory: 'B02010100',
+          productId: 1,
+          productName: '더블 스탠다드룸',
+          checkIn: '2023-11-21',
+          checkOut: '2023-11-22',
+          personNumber: 2,
           price: 20000,
         },
+
         // 더 많은 장바구니 아이템 추가 가능
       ],
     };
@@ -392,18 +397,39 @@ export const handlers = [
 
   // 리뷰 작성
   rest.post(`${SERVER_URL}/reviews`, (req, res, ctx) => {
-    const reviewData = req.body; // 요청 바디에서 리뷰 데이터 추출
+    const { reviewID } = req.params;
+
+    const reviewData = {
+      created_at: '2023-11-21',
+      user_name: 'test',
+      order_item_id: 1,
+      order_id: 1,
+      review_id: 1,
+      accomdation_id: 1,
+      content: '좋은 숙소입니다.',
+      score: 4.5,
+    };
 
     return res(
       ctx.status(200),
-      ctx.json({ message: 'Review posted', reviewData }),
+      ctx.json({ message: 'Review posted', reviewID, reviewData }),
     );
   }),
 
   // 리뷰 수정
   rest.put(`${SERVER_URL}/reviews/:reviewID`, (req, res, ctx) => {
     const { reviewID } = req.params;
-    const reviewData = req.body; // 요청 바디에서 리뷰 데이터 추출
+
+    const reviewData = {
+      created_at: '2023-11-21',
+      user_name: 'test',
+      order_item_id: 1,
+      order_id: 1,
+      review_id: 1,
+      accomdation_id: 1,
+      content: '좋은 숙소입니다.',
+      score: 4.5,
+    };
 
     return res(
       ctx.status(200),
@@ -444,6 +470,57 @@ export const handlers = [
       ctx.status(200),
       ctx.json({ message: 'Accomodation unliked', accomodationID }),
     );
+  }),
+
+  // 전제 주문목록 조회(마이페이지)
+  rest.get(`${SERVER_URL}/user`, (_, res, ctx) => {
+    const orderData = [
+      {
+        orderId: 1,
+        orderCreateDate: '2023-11-28T11:17:38.000+00:00',
+        payment: 'KAKAOPAY',
+        totalPrice: 100000,
+        accommodationId: 1,
+      },
+      {
+        orderId: 2,
+        orderCreateDate: '2023-11-29T11:21:53.000+00:00',
+        payment: 'KAKAOPAY',
+        totalPrice: 100000,
+        accommodationId: 2,
+      },
+    ];
+
+    return res(ctx.status(200), ctx.json(orderData));
+  }),
+
+  // 전제 주문목록 상세조회(마이페이지)
+
+  rest.get(`${SERVER_URL}/user/datails/:orderID`, (_, res, ctx) => {
+    const orderDatailData = {
+      orderId: 1,
+      orderItemList: [
+        {
+          orderItemId: 1,
+          productId: 1,
+          startDate: '2023-11-27',
+          endDate: '2023-11-29',
+          personNumber: 2,
+          price: 50000,
+          reviewWritten: false,
+        },
+        {
+          orderItemId: 2,
+          productId: 2,
+          startDate: '2023-11-29',
+          endDate: '2023-11-30',
+          personNumber: 2,
+          price: 50000,
+          reviewWritten: false,
+        },
+      ],
+    };
+    return res(ctx.status(200), ctx.json(orderDatailData));
   }),
 ];
 

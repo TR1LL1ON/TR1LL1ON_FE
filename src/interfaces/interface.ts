@@ -7,14 +7,15 @@ export interface JoinData {
 
 export interface ModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  roomData: Room;
-  imageUrls: string[];
+  roomData?: Room;
+  imageUrls?: string[];
 }
 
 export interface GuestCount {
   adults: number;
   children: number;
   infants: number;
+  totals: number;
 }
 
 export interface Order {
@@ -27,7 +28,7 @@ export interface Order {
 
 export interface OrderRequest {
   orders: Order[];
-  payment: 'card' | 'kakaopay' | 'naverpay' | 'cash';
+  payment: 'CARD' | 'KAKAOPAY' | 'NAVERPAY' | 'CASH';
   total_price: number;
 }
 
@@ -119,4 +120,18 @@ export interface AccommodationData {
 export interface AccommodationResponse {
   accomodationID: string;
   accomodationData: AccommodationData;
+}
+
+export interface Cart {
+  cartItemId: number;
+  accommodationId: number;
+  accomodationName: string;
+  accomodationAddress: string;
+  accomodationCategory: string;
+  productId: number;
+  productName: string;
+  checkIn: string;
+  checkOut: string;
+  personNumber: number;
+  price: number;
 }

@@ -15,17 +15,20 @@ import {
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
+import { useRecoilValue } from 'recoil';
+import { guestCountState } from '@/states/atom';
 import { Link } from 'react-router-dom';
 import { Room } from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
+
 interface RoomCardProps {
   roomData: Room;
   accomodationID: string;
-  // totalGuestCount: number;
 }
-
 const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
   const imageUrls = roomData.image.map((item) => item.image_url);
+  const guestCount = useRecoilValue(guestCountState);
+  console.log('총 인원수', guestCount.totals);
 
   const [showDetailModal, setShowDetailModal] = useState(false);
   const handleDetailModal = () => {
