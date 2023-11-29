@@ -48,7 +48,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
           <StyledInputLabel htmlFor="login_email">이메일</StyledInputLabel>
-          <S.StyledInput error={errors.email} inputValue={email}>
+          <S.StyledInput error={errors.email} $inputValue={email}>
             <input
               id="login_email"
               type="email"
@@ -86,7 +86,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
           <StyledInputLabel htmlFor="login_password">비밀번호</StyledInputLabel>
-          <S.StyledInput error={errors.password} inputValue={password}>
+          <S.StyledInput error={errors.password} $inputValue={password}>
             <input
               id="login_password"
               type="password"

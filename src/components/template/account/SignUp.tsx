@@ -48,7 +48,7 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="name">이름</StyledInputLabel>
-          <S.StyledInput error={errors.name} inputValue={name}>
+          <S.StyledInput error={errors.name} $inputValue={name}>
             <input
               id="name"
               type="text"
@@ -79,7 +79,7 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="email">이메일</StyledInputLabel>
-          <S.StyledInput error={errors.email} inputValue={email}>
+          <S.StyledInput error={errors.email} $inputValue={email}>
             <input
               id="email"
               type="email"
@@ -116,7 +116,7 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="password">비밀번호</StyledInputLabel>
-          <S.StyledInput error={errors.password} inputValue={password}>
+          <S.StyledInput error={errors.password} $inputValue={password}>
             <input
               id="password"
               type="password"
@@ -155,7 +155,7 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
           </StyledInputLabel>
           <S.StyledInput
             error={errors.passwordConfirm}
-            inputValue={passwordConfirm}>
+            $inputValue={passwordConfirm}>
             <input
               id="passwordConfirm"
               type="password"
