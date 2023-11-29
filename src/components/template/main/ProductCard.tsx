@@ -1,19 +1,15 @@
 import {
   StyledProductCard,
-  StyledGridContainer,
   StyledThumbnail,
   StyledImage,
   StyledCardTextWrap,
   StyledProductTitle,
   StyledProductPrice,
-  StyledDiscount,
-  StyledOriginalPrice,
   StyledSalePrice,
   StyledScore,
 } from '@/style/main/productCardStyle';
 import { StyledLabel } from '@/style/payment/paymentStyle';
 import { useNavigate } from 'react-router-dom';
-import { getProducts } from '@/api/service';
 
 export const ProductCard = ({
   accommodationID,
