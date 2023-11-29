@@ -2,16 +2,16 @@ import ImageContainer from './ImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
 import ProductsFacility from './ProductsFacility';
-import GuestModal from './GuestModal/guestModal';
 import { useState, useEffect } from 'react';
-import { GuestCount, Room } from '@/interfaces/interface';
+import { Room } from '@/interfaces/interface';
 import Review from './Review';
 import { getAccommodation } from '@/api/service';
 import Map from './Map';
 
 interface ProductsContainerProps {
-  accomodationID: string;
+  accommodationID: string;
 }
+
 const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
   console.log(accomodationID);
   const [guestCount, setGuestCount] = useState<GuestCount>({
@@ -32,9 +32,10 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
 
   const [roomData, setRoomData] = useState<Room[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
-      if (accomodationID) {
+      if (accommodationID) {
         setIsLoading(true); // 데이터 로딩 시작
         try {
           const res = await getAccommodation(accomodationID);
@@ -51,7 +52,7 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
     };
 
     fetchData();
-  }, [accomodationID]);
+  }, [accommodationID]);
 
   if (isLoading) {
     return <div>Loading...</div>; // 데이터 로딩 중인 경우 로딩 표시
