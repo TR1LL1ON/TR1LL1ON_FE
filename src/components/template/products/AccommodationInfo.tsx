@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AccommodationData, Facility } from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { guestCountState } from '@/states/atom';
 import {
   StyledIconBox,
@@ -52,6 +52,16 @@ const AccommodationInfo = ({
     setShowCalendarModal(true);
   };
   const { checkIn, checkOut } = useRecoilValue(reservationState);
+  const [, setReservation] = useRecoilState(reservationState);
+
+  //상품 변경시 일정 초기화
+  useEffect(() => {
+    setReservation((prevReservation) => ({
+      ...prevReservation,
+      checkIn: '',
+      checkOut: '',
+    }));
+  }, []);
   const [nights, setNights] = useState(0);
 
   return (
