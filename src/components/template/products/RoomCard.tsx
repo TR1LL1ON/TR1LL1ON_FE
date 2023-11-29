@@ -73,7 +73,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
             <StyledBrandText>{`남은객실 ${roomData.count}`}</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">
               <CartBtn />
-              <Link to={`/payment?productId=${roomData.room_id}`}>
+              <Link to={`/payment?productId=${roomData.roomId}`}>
                 <StyledReservationBtn $full={false} $variant="primary">
                   예약하기
                 </StyledReservationBtn>
