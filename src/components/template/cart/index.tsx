@@ -58,7 +58,7 @@ const CartContainer = () => {
             productId: 2,
             productName: '더블 스탠다드룸',
             checkIn: '2023-11-21',
-            checkOut: '2023-11-22',
+            checkOut: '2023-11-24',
             personNumber: 2,
             price: 20000,
           },
@@ -70,10 +70,10 @@ const CartContainer = () => {
             accomodationCategory: 'B02010100',
             productId: 3,
             productName: '더블 스탠다드룸',
-            checkIn: '2023-11-21',
+            checkIn: '2023-11-22',
             checkOut: '2023-11-22',
             personNumber: 2,
-            price: 20000,
+            price: 200000,
           },
         ]);
       } catch (err) {
@@ -104,7 +104,7 @@ const CartContainer = () => {
         setCheckedCartsData={setCheckedCartsData}
       />
       <StyledHLine $mBlock="1rem" />
-      <CartDetail />
+      <CartDetail checkedCartsData={checkedCartsData} />
       <StyledButton
         style={{ width: '100%' }}
         $variant="primary"

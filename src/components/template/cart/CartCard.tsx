@@ -21,14 +21,13 @@ const CartCard = ({
 }: ICartCardProps) => {
   const checkIn = new Date(cartData.checkIn);
   const checkOut = new Date(cartData.checkOut);
-
   const formatCheckIn = `${(checkIn.getMonth() + 1)
     .toString()
     .padStart(2, '0')}.${checkIn.getDate().toString().padStart(2, '0')}`;
   const formatCheckOut = `${(checkOut.getMonth() + 1)
     .toString()
     .padStart(2, '0')}.${checkOut.getDate().toString().padStart(2, '0')}`;
-  const formatCartDate = `${formatCheckIn} - ${formatCheckOut} ${
+  const nights = `${formatCheckIn} - ${formatCheckOut} ${
     checkOut.getDate() - checkIn.getDate()
   }박`;
   const formatCartPrice = cartData.price.toLocaleString();
@@ -89,7 +88,7 @@ const CartCard = ({
           {cartData.accomodationAddress}
         </StyledText>
         <StyledFlexContainer style={{ width: '100%' }}>
-          <StyledText $fontSize="0.75rem">{formatCartDate}</StyledText>
+          <StyledText $fontSize="0.75rem">{nights}</StyledText>
           <StyledText $fontSize="1rem" $fontWeight={700}>
             {formatCartPrice}원
           </StyledText>

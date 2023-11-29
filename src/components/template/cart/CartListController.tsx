@@ -28,7 +28,7 @@ const CartListController = ({
       setCheckedCartsData([]);
     }
   };
-  console.log(checkedCartsData);
+
   return (
     <StyledFlexContainer style={{ width: '100%' }}>
       <StyledFlexContainer $justifyContent="flex-start" $gap="12px">
