@@ -213,3 +213,43 @@ export const StyledGridContainer = styled.div<{ $px?: string }>`
   gap: 4rem;
   padding-inline: ${(props) => props.$px || '0'};
 `;
+
+export const StyledItem = styled.div`
+  padding: 1rem 2rem;
+  text-align: left;
+  color: ${(props) => props.theme.colors.darkGray};
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+  // gap: 0 10rem;
+  & svg {
+    font-size: ${(props) => props.theme.fontSizes.xl};
+    margin-right: 1rem;
+  }
+  & p {
+    width: 33.3%;
+    line-height: 4rem;
+  }
+`;
+/* const StyledItem = styled.div`
+  padding: 8px;
+  text-align: left;
+  background: #f99;
+
+  color: ${(props) => props.theme.colors.darkGray};
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-left: 10%;
+  & svg {
+    font-size: ${(props) => props.theme.fontSizes.xl};
+  }
+  background: #ff0;
+  width: 100%;
+  & p {
+    width: 33%;
+    background: #ff0;
+  }
+`; */
