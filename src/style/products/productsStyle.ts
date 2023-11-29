@@ -242,3 +242,5 @@ export const StyledImageContainer = styled.div<{ backgroundImage: string }>`
   width: 100%;
   height: 40rem;
 `;
+StyledImageContainer.shouldForwardProp = (prop) =>
+  !['backgroundImage'].includes(prop);

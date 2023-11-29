@@ -1,4 +1,3 @@
-// import ImageContainer from './ImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
 import { AccommodationData, Room } from '@/interfaces/interface';
