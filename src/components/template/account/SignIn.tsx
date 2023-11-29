@@ -30,7 +30,9 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
   const handleLogin = async () => {
     try {
       const res = await postLogin(email, password);
-      setCookie(res.data.accessToken);
+      const getToken = res.data.accessToken;
+      setCookie(getToken);
+
       setIsAccountModalOpen(false);
     } catch (err) {
       console.log(err);
