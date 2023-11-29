@@ -37,6 +37,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   return (
     <>
       <ImageContainer />
+      <AccommodationInfo />
       {roomData.map((room) => (
         <RoomCard key={room.roomId} roomData={room} />
       ))}
