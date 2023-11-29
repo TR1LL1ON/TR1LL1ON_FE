@@ -1,6 +1,6 @@
 export const setCookie = (accessToken: string) => {
   try {
-    document.cookie = `accessToken=${accessToken}`;
+    document.cookie = `accessToken=${accessToken};max-age=3600;path=/;secure`;
   } catch (err) {
     console.log(err);
     alert('쿠키 설정에 실패했습니다.');
