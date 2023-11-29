@@ -10,11 +10,11 @@ import {
   StyledWrapper,
 } from '@/style/payment/paymentStyle';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const PaymentReservations = () => {
-  // recoil로 받아온 ids
-  // const accommodationIds = ['1', '2'];
+  useParams();
+
   const [contentLoading, setContentLoading] = useState(true);
   const reservations = useReservations(['1', '2']);
   const isLoading = reservations.some((reservation) => reservation.isLoading);
@@ -48,10 +48,9 @@ const PaymentReservations = () => {
             const { data } = reservation;
             return (
               <StyledFlexContainer $gap="0.5rem" key={index}>
-                <StyledText>{data?.accomodationData.name}</StyledText>
+                <StyledText>{data?.name}</StyledText>
                 <StyledText $fontWeight={600}>
-                  {data?.accomodationData.check_in} -{' '}
-                  {data?.accomodationData.check_out}
+                  {data?.checkIn} - {data?.checkOut}
                 </StyledText>
               </StyledFlexContainer>
             );
