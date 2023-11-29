@@ -21,7 +21,7 @@ interface DatePickerProps {
 const DatePicker: React.FC<DatePickerProps> = ({ setNights, onCloseModal }) => {
   const [startDate, setStartDate] = useState<Moment | null>(null);
   const [endDate, setEndDate] = useState<Moment | null>(null);
-  const [reservation, setReservation] = useRecoilState(reservationState);
+  const [, setReservation] = useRecoilState(reservationState);
 
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
     null,

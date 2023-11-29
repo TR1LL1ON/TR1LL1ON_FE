@@ -2,7 +2,6 @@ import { GuestCount } from '@/interfaces/interface';
 import { atom } from 'recoil';
 import { Order, OrderRequest } from '../interfaces/interface';
 import { CardInfoValues } from '../components/template/payment/AddCreditCard';
-import { DateRange } from '@/components/layout/modal/DatePicker';
 
 export const allUserState = atom<string[]>({
   key: 'allUserState',
@@ -38,14 +37,6 @@ export const reservationState = atom<Order>({
     checkOut: '',
     personNumber: 0,
     productId: 0,
-  },
-});
-
-export const dateRangeState = atom<DateRange>({
-  key: 'dateRangeState',
-  default: {
-    startDate: null,
-    endDate: null,
   },
 });
 
