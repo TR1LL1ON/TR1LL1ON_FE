@@ -2,17 +2,15 @@ import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import ImageSlideModal from './ImageSlideModal';
+import { AccommodationImage } from '@/interfaces/interface';
 
-const ImageContainer: React.FC = () => {
+interface ImageContainerProps {
+  imgData: AccommodationImage[];
+}
+const ImageContainer = ({ imgData }: ImageContainerProps) => {
   const [showImageModal, setShowImageModal] = useState<boolean>(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
-  const images: string[] = [
-    'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/cc3a98b7-d83e-4684-bb03-2b2ce6dd480d.jpeg?im_w=720',
-    'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/bca57cdc-bc62-4366-91e9-03ba6c4059ee.jpeg?im_w=720',
-    'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/bf91b1f5-1942-4ecd-95b0-328bb617c47e.jpeg?im_w=720',
-    'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/a100b178-2ec2-45a8-a9e8-9d3b4dd5c777.jpeg?im_w=720',
-    'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/94b5ed5b-508e-4500-b842-d51e71993e5e.jpeg?im_w=720',
-  ];
+
   const handleImageModal = (
     e: React.MouseEvent<HTMLDivElement>,
     index: number,
@@ -26,24 +24,24 @@ const ImageContainer: React.FC = () => {
     <>
       {showImageModal && (
         <ImageSlideModal
-          images={images}
+          images={imgData.map((img) => img.imageUrl)}
           selectedIndex={selectedImageIndex}
           onClose={() => setShowImageModal(false)}
           onNext={() =>
-            setSelectedImageIndex((prev) => (prev + 1) % images.length)
+            setSelectedImageIndex((prev) => (prev + 1) % imgData.length)
           }
           onPrev={() =>
             setSelectedImageIndex(
-              (prev) => (prev - 1 + images.length) % images.length,
+              (prev) => (prev - 1 + imgData.length) % imgData.length,
             )
           }
         />
       )}
       <StyledGridImgWrap>
-        {images.map((img, index) => (
+        {imgData.map((img, index) => (
           <StyledGridImgBox
-            key={img}
-            backgroundImage={img}
+            key={img.imageUrl}
+            backgroundImage={img.imageUrl}
             onClick={(e) => handleImageModal(e, index)}
           />
         ))}

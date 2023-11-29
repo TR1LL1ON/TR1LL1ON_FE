@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
 import { useState } from 'react';
+import { AccommodationData, Facility } from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
 import { useRecoilValue } from 'recoil';
 import { guestCountState } from '@/states/atom';
@@ -24,8 +25,14 @@ import GuestModal from './GuestModal/guestModal';
 import { dateRangeState } from '@/states/atom';
 import ProductsFacilityList from './ProductsFacilityList';
 
-interface AccommodationProp {}
-const AccommodationInfo = ({}: AccommodationProp) => {
+interface AccommodationProp {
+  infoData: AccommodationData;
+  productsFacility: Facility;
+}
+const AccommodationInfo = ({
+  infoData,
+  productsFacility,
+}: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
   // console.log(location);
@@ -51,7 +58,7 @@ const AccommodationInfo = ({}: AccommodationProp) => {
     <StyledWrap>
       <StyledTextBox>
         <StyledFlexContainer>
-          <StyledTitle>마리나베이 속초</StyledTitle>
+          {infoData && <StyledTitle>{infoData.name}</StyledTitle>}
           <StyledIconBox $cursor="pointer" $gap="1rem">
             {/* 비로그인시 로그인페이지로 리다이렉트, 로그인시 찜목록 저장/GoHeartFill로 변경 */}
             <GoHeart onClick={() => alert('찜하기 미구현..😅')} />
@@ -59,12 +66,12 @@ const AccommodationInfo = ({}: AccommodationProp) => {
             <GoShareAndroid onClick={handleShareClick} />
           </StyledIconBox>
         </StyledFlexContainer>
-        <StyledText>강원특별자치도 강릉시 주문진읍 해안로 2005 </StyledText>
+        {infoData && <StyledText>{infoData.address} </StyledText>}
         <StyledServiceInfo
           $flexDirection="row"
           $justifyContent="flex-start"
           $gap="1rem">
-          <ProductsFacilityList />
+          <ProductsFacilityList productsFacility={productsFacility} />
         </StyledServiceInfo>
         <StyledOnClick $color="#444" $borderBottom="none">
           ★4.50 후기 0개
