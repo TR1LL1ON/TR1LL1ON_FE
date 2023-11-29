@@ -2,7 +2,6 @@ import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
 import { useState } from 'react';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
-import APIServiceList from './APIServiceList';
 import { useRecoilValue } from 'recoil';
 import { guestCountState } from '@/states/atom';
 import {
@@ -13,16 +12,18 @@ import {
   StyledTextBox,
   StyledWrap,
   StyledBold,
-} from '@/style/detail/detailStyle';
+} from '@/style/products/productsStyle';
 import {
   StyledTitle,
   StyledText,
   StyledFlexContainer,
   StyledSpacer,
 } from '@/style/payment/paymentStyle';
-import { Moment } from 'moment';
 import CalenderModal from '@/components/layout/modal/calenderModal';
 import GuestModal from './GuestModal/guestModal';
+import { dateRangeState } from '@/states/atom';
+import { Moment } from 'moment';
+import ProductsFacilityList from './ProductsFacilityList';
 
 interface AccommodationProp {}
 const AccommodationInfo = ({}: AccommodationProp) => {
@@ -30,7 +31,11 @@ const AccommodationInfo = ({}: AccommodationProp) => {
   const baseUrl = window.location.origin;
   // console.log(location);
   const guestCount = useRecoilValue(guestCountState);
-
+  const [showGuestModal, setShowGuestModal] = useState(false);
+  const handleGuestModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowGuestModal(true);
+  };
   const handleShareClick = () => {
     console.log(handleCopyClipBoard);
     handleCopyClipBoard(`${baseUrl}${location.pathname}`);
@@ -40,25 +45,8 @@ const AccommodationInfo = ({}: AccommodationProp) => {
   const handleCalendarModal = () => {
     setShowCalendarModal(true);
   };
-
-  const [showGuestModal, setShowGuestModal] = useState(false);
-  const handleGuestModal = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setShowGuestModal(true);
-  };
-
-  const [dateInfo, setDateInfo] = useState({
-    startDate: null as Moment | null,
-    endDate: null as Moment | null,
-    nights: 0,
-  });
-  const handleSaveDateInfo = (savedDateInfo: {
-    startDate: Moment | null;
-    endDate: Moment | null;
-    nights: number;
-  }) => {
-    setDateInfo(savedDateInfo);
-  };
+  const { startDate, endDate } = useRecoilValue(dateRangeState);
+  const [nights, setNights] = useState(0);
 
   return (
     <StyledWrap>
@@ -77,7 +65,7 @@ const AccommodationInfo = ({}: AccommodationProp) => {
           $flexDirection="row"
           $justifyContent="flex-start"
           $gap="1rem">
-          <APIServiceList />
+          <ProductsFacilityList />
         </StyledServiceInfo>
         <StyledOnClick $color="#444" $borderBottom="none">
           ★4.50 후기 0개
@@ -93,13 +81,13 @@ const AccommodationInfo = ({}: AccommodationProp) => {
             <StyledText $fontSize="1rem" $fontWeight={700}>
               날짜
             </StyledText>
-            {dateInfo.startDate && dateInfo.endDate ? (
+            {startDate && endDate ? (
               <StyledText $fontSize="1rem">
-                {`${dateInfo.startDate.format(
+                {`${startDate.format('YY.MM.DD')} ~ ${endDate.format(
                   'YY.MM.DD',
-                )} ~ ${dateInfo.endDate.format('YY.MM.DD')} / ${
-                  dateInfo.nights
-                }박`}
+                )} / 
+            ${nights}박
+                  `}
               </StyledText>
             ) : (
               <StyledText $fontSize="1rem">날짜를 선택해주세요.</StyledText>
@@ -109,7 +97,8 @@ const AccommodationInfo = ({}: AccommodationProp) => {
           {showCalendarModal && (
             <CalenderModal
               setShowModal={setShowCalendarModal}
-              onSave={handleSaveDateInfo}
+              nights={nights}
+              setNights={setNights}
             />
           )}
         </StyledSelect>

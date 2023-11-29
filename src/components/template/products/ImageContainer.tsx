@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import ImageSlideModal from './ImageSlideModal';
 
-const DetailImageContainer: React.FC = () => {
+const ImageContainer: React.FC = () => {
   const [showImageModal, setShowImageModal] = useState<boolean>(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const images: string[] = [
@@ -52,7 +52,7 @@ const DetailImageContainer: React.FC = () => {
   );
 };
 
-export default DetailImageContainer;
+export default ImageContainer;
 export const StyledGridImgWrap = styled.div`
   margin-top: 4rem;
   display: grid;

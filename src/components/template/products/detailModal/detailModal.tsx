@@ -17,7 +17,11 @@ import { SlSizeFullscreen } from 'react-icons/sl';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import { useNavigate } from 'react-router-dom';
 
-const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
+const DetailModal: React.FC<ModalProps> = ({
+  setShowModal,
+  roomData,
+  imageUrls,
+}) => {
   // 모달 밖 영역 클릭 시 모달 닫기
   const closeModal = () => {
     setShowModal(false);
@@ -28,17 +32,18 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
     navigate(`/payment`);
   };
 
-  const roomName: string = '더블 스탠다드룸';
-  const basePeople: number = 2;
-  const maxPeople: number = 4;
   const roomFeature = {
-    occupancy: `기준 ${basePeople}인 / 최대 ${maxPeople}인`,
     smoking: '금연객실',
     bedType: '퀸 침대 1개',
     roomSize: '23.1㎡',
   };
 
   const amenityArr: string[] = ['무료 와이파이', '발코니', '욕실'];
+
+
+  if (!roomData || !imageUrls) {
+    return (<div>로딩중</div>); 
+  }
 
   return (
     <StyledModal onClick={closeModal}>
@@ -47,8 +52,11 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
         $width="40rem"
         $heigh="40rem">
         <StyledModalBody>
-          <Carousel />
-          <StyledTitle>{roomName}</StyledTitle>
+          <CarouselWrapper>
+            <Carousel imageUrls={imageUrls} />
+          </CarouselWrapper>
+
+          <StyledTitle>{roomData.room_name}</StyledTitle>
 
           <StyledFlexContainer
             $justifyContent="flex-start"
@@ -70,7 +78,7 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
           <StyledModalFlexContainer>
             <StyledModalText $color="#808080">
               <LuUser />
-              {roomFeature.occupancy}
+              {`기준 ${roomData.standard_number}인 | 최대 ${roomData.max_number}인`}
             </StyledModalText>
             <StyledModalText $color="#808080">
               <IoLogoNoSmoking />
@@ -115,13 +123,13 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
               룸온리
             </StyledText>
             <StyledText $fontSize={theme.fontSizes.xs}>
-              체크인 15:00 ~ 체크아웃 12:00
+              {`체크인: ${roomData.check_in} ~ 체크아웃: ${roomData.check_out}`}
             </StyledText>
             <StyledText
               $fontSize={theme.fontSizes.lg}
               $fontWeight={theme.fontWeights.bold}
               style={{ alignSelf: 'flex-end' }}>
-              65,000원
+              {`${roomData.aver_price}원`}
             </StyledText>
             <StyledFlexContainer $justifyContent="flex-end">
               <StyledText
@@ -194,7 +202,7 @@ const DetailModal: React.FC<ModalProps> = ({ setShowModal }) => {
               <StyledText
                 $fontSize={theme.fontSizes.lg}
                 $fontWeight={theme.fontWeights.bold}>
-                55,000원
+                {`${roomData.aver_price}원`}
               </StyledText>
             </StyledFlexContainer>
           </StyledFlexContainer>
@@ -307,4 +315,11 @@ export const StyledModalContent = styled.div<{
   height: ${(props) => props.$heigh || 'auto'};
   max-height: 80vh;
   overflow-y: auto;
+`;
+
+const CarouselWrapper = styled.div`
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 0.5rem;
 `;

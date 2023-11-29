@@ -5,9 +5,20 @@ import {
   StyledCategoryText,
 } from '@/style/main/mainCategory';
 import { categoryList, iconMap } from './categoryList';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const MainCategory = () => {
-  const [selectedCategory, setSelectedCategory] = useState('관광호텔');
+  const [selectedCategory, setSelectedCategory] = useState('B02010100');
+  const navigation = useNavigate();
+  const location = useLocation();
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+
+    const params = new URLSearchParams(location.search);
+    params.set('category', category);
+    navigation(`/?${params.toString()}`, { replace: true });
+  };
 
   return (
     <StyledCategoryContainer>
@@ -17,8 +28,8 @@ const MainCategory = () => {
         return (
           <StyledCategoryButton
             key={category.code}
-            onClick={() => setSelectedCategory(category.name)}
-            data-selected={selectedCategory === category.name}>
+            onClick={() => handleCategoryClick(category.code)}
+            data-selected={selectedCategory === category.code}>
             <CategoryIcon size={24} />
             <StyledCategoryText>{category.name}</StyledCategoryText>
           </StyledCategoryButton>

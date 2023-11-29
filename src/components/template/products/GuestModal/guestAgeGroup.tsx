@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { LuPlusCircle, LuMinusCircle } from 'react-icons/lu';
 import { StyledFlexContainer, StyledText } from '@/style/payment/paymentStyle';
-import { StyledH2Text } from '@/style/detail/detailStyle';
+import { StyledH2Text } from '@/style/products/productsStyle';
 import { useRecoilState } from 'recoil';
 import { guestCountState } from '../../../../states/atom';
 import { GuestCount } from '@/interfaces/interface';
+
 interface GuestAgeGroupProps {
   text: string;
   subText: string;

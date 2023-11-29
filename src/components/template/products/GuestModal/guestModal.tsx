@@ -4,7 +4,7 @@ import {
   StyledFlexContainer,
   StyledText,
 } from '@/style/payment/paymentStyle';
-import { StyledH2Text, StyledBlackBtn } from '@/style/detail/detailStyle';
+import { StyledH2Text, StyledBlackBtn } from '@/style/products/productsStyle';
 import styled from 'styled-components';
 import ModalContainer from '@/components/layout/modal/ModalContainer';
 import { useRecoilState } from 'recoil';
@@ -44,7 +44,6 @@ const GuestModal = ({ onClose }: GuestModalProps) => {
 };
 
 export default GuestModal;
-
 export const StyledRowFull = styled(StyledFlexContainer)`
   width: 100%;
 `;
