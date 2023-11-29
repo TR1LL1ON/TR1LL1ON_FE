@@ -1,17 +1,25 @@
 import ImageContainer from './ImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
+<<<<<<< HEAD
 import AllFacility from './AllFacility';
 import { useState, useEffect } from 'react';
 import { AccommodationData, Facility, Room } from '@/interfaces/interface';
+=======
+import ProductsFacility from './ProductsFacility';
+import { Room } from '@/interfaces/interface';
+>>>>>>> 4e0cdb720d69740ba8a4f06c37f727d385ba4c5f
 import Review from './Review';
 import { getAccommodation } from '@/api/service';
 import Map from './Map';
+import { useQuery } from '@tanstack/react-query';
 
 interface ProductsContainerProps {
   accommodationID: string;
 }
+
 const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
+<<<<<<< HEAD
   const [accommodationData, setAccommodationData] =
     useState<AccommodationData | null>(null);
   const [roomsFacilityData, setRoomsFacilityData] = useState<
@@ -53,13 +61,28 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
 
     fetchData();
   }, [accommodationID]);
+=======
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['accommodation', accommodationID],
+    queryFn: () => getAccommodation(accommodationID),
+    enabled: !!accommodationID,
+  });
+
+  const roomData: Room[] = data?.data.rooms || [];
+  console.log(roomData);
+>>>>>>> 4e0cdb720d69740ba8a4f06c37f727d385ba4c5f
 
   if (isLoading) {
-    return <div>Loading...</div>; // 데이터 로딩 중인 경우 로딩 표시
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
   }
 
   return (
     <>
+<<<<<<< HEAD
       {accommodationData && (
         <>
           <ImageContainer imgData={accommodationData.image} />
@@ -78,6 +101,14 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
           <Review />
         </>
       )}
+=======
+      <ImageContainer />
+      {roomData.map((room) => (
+        <RoomCard key={room.roomId} roomData={room} />
+      <ProductsFacility />
+      <Map lat={37.5649867} lng={126.985575} />
+      <Review />
+>>>>>>> 4e0cdb720d69740ba8a4f06c37f727d385ba4c5f
     </>
   );
 };

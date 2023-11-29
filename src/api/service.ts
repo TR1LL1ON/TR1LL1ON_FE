@@ -4,7 +4,6 @@ import {
   OrderRequest,
   AccommodationData,
   ReviewData,
-  AccommodationResponse,
 } from '../interfaces/interface';
 import { getCookie } from '@/util/util';
 
@@ -111,9 +110,7 @@ export const getProductsCategoryRegion = async (
 
 // 개별 상품조회(숙소전체)
 export const getAccommodation = async (accommodationID: string) => {
-  const res = await client.get<AccommodationResponse>(
-  );
-  return res;
+  const res = await client.get(`products/${accommodationID}`);
 };
 
 // 개별 상품 상세페이지 조회
@@ -122,8 +119,7 @@ export const getAccommodationProduct = async (
   accommodationID: string,
   productID: string,
 ) => {
-  const res = await client.get(`products/${accommodationID}/${productID}`)
-  ;
+  const res = await client.get(`products/${accommodationID}/${productID}`);
   return res;
 };
 
