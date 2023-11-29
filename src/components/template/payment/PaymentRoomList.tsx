@@ -26,8 +26,8 @@ const PaymentRoomList = () => {
           }
           return (
             <PaymentRoomItem
-              key={`index-${data.accommodationId}`}
-              accommodationData={data}
+              key={`index-${data.data.accommodationId}`}
+              accommodationData={data.data}
             />
           );
         })}
