@@ -32,6 +32,8 @@ const DetailModal: React.FC<ModalProps> = ({
     navigate(`/payment`);
   };
 
+  console.log(roomData);
+
   const roomFeature = {
     smoking: '금연객실',
     bedType: '퀸 침대 1개',
@@ -40,9 +42,8 @@ const DetailModal: React.FC<ModalProps> = ({
 
   const amenityArr: string[] = ['무료 와이파이', '발코니', '욕실'];
 
-
   if (!roomData || !imageUrls) {
-    return (<div>로딩중</div>); 
+    return <div>로딩중</div>;
   }
 
   return (
@@ -56,7 +57,7 @@ const DetailModal: React.FC<ModalProps> = ({
             <Carousel imageUrls={imageUrls} />
           </CarouselWrapper>
 
-          <StyledTitle>{roomData.room_name}</StyledTitle>
+          <StyledTitle>{roomData.roomName}</StyledTitle>
 
           <StyledFlexContainer
             $justifyContent="flex-start"
@@ -78,7 +79,7 @@ const DetailModal: React.FC<ModalProps> = ({
           <StyledModalFlexContainer>
             <StyledModalText $color="#808080">
               <LuUser />
-              {`기준 ${roomData.standard_number}인 | 최대 ${roomData.max_number}인`}
+              {`기준 ${roomData.standardNumber}인 | 최대 ${roomData.maxNumber}인`}
             </StyledModalText>
             <StyledModalText $color="#808080">
               <IoLogoNoSmoking />
@@ -123,13 +124,13 @@ const DetailModal: React.FC<ModalProps> = ({
               룸온리
             </StyledText>
             <StyledText $fontSize={theme.fontSizes.xs}>
-              {`체크인: ${roomData.check_in} ~ 체크아웃: ${roomData.check_out}`}
+              {`체크인: ${roomData.checkIn} ~ 체크아웃: ${roomData.checkOut}`}
             </StyledText>
             <StyledText
               $fontSize={theme.fontSizes.lg}
               $fontWeight={theme.fontWeights.bold}
               style={{ alignSelf: 'flex-end' }}>
-              {`${roomData.aver_price}원`}
+              {`${roomData.averPrice}원`}
             </StyledText>
             <StyledFlexContainer $justifyContent="flex-end">
               <StyledText
@@ -202,7 +203,7 @@ const DetailModal: React.FC<ModalProps> = ({
               <StyledText
                 $fontSize={theme.fontSizes.lg}
                 $fontWeight={theme.fontWeights.bold}>
-                {`${roomData.aver_price}원`}
+                {`${roomData.averPrice}원`}
               </StyledText>
             </StyledFlexContainer>
           </StyledFlexContainer>
