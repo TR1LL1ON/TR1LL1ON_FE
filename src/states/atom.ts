@@ -9,22 +9,13 @@ export const allUserState = atom<string[]>({
   default: [],
 });
 
+// 숙소 상세 페이지에서 예약 누를 시, 예약 정보를 담는 state
+// orders: 예약 정보
 export const orderState = atom<OrderRequest>({
   key: 'orderState',
   default: {
     orders: [],
     payment: 'KAKAOPAY',
-  },
-});
-
-// 숙소 상세 페이지에서 예약하기 누르면, 예약 정보를 담는 state
-export const reservationState = atom<Order>({
-  key: 'reservationState',
-  default: {
-    checkIn: '',
-    checkOut: '',
-    personNumber: 0,
-    productId: 0,
   },
 });
 
@@ -36,6 +27,17 @@ export const cardState = atom<CardInfoValues>({
     cardExpirationMonth: '',
     cardExpirationYear: '',
     isSaveCard: false,
+  },
+});
+
+// 숙소 상세 페이지에서 예약하기 누르면, 예약 정보를 담는 state
+export const reservationState = atom<Order>({
+  key: 'reservationState',
+  default: {
+    checkIn: '',
+    checkOut: '',
+    personNumber: 0,
+    productId: 0,
   },
 });
 

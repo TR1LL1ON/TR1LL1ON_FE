@@ -21,7 +21,7 @@ interface DatePickerProps {
 const DatePicker: React.FC<DatePickerProps> = ({ setNights, onCloseModal }) => {
   const [startDate, setStartDate] = useState<Moment | null>(null);
   const [endDate, setEndDate] = useState<Moment | null>(null);
-  const [, setReservation] = useRecoilState(reservationState);
+  const [reservation, setReservation] = useRecoilState(reservationState);
 
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
     null,
@@ -42,18 +42,22 @@ const DatePicker: React.FC<DatePickerProps> = ({ setNights, onCloseModal }) => {
     setEndDate(endDate);
   };
 
-  if (startDate && endDate) {
-    const nights = endDate.diff(startDate, 'days');
-    setNights(nights);
-  } else {
-    setNights(0);
-  }
+  useEffect(() => {
+    if (startDate && endDate) {
+      const nights = endDate.diff(startDate, 'days');
+      setNights(nights);
+    } else {
+      setNights(0);
+    }
+  }, [startDate, endDate]);
+
   const handleSave = () => {
     setReservation((prevReservation) => ({
       ...prevReservation,
-      check_in: startDate ? startDate.format('YYYY-MM-DD') : '',
-      check_out: endDate ? endDate.format('YYYY-MM-DD') : '',
+      checkIn: startDate ? startDate.format('YYYY-MM-DD') : '',
+      checkOut: endDate ? endDate.format('YYYY-MM-DD') : '',
     }));
+
     onCloseModal();
   };
 
