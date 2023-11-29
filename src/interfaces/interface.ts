@@ -58,33 +58,33 @@ export interface AccommodationImage {
 }
 
 export interface Facility {
-  can_cook: boolean;
-  has_air_conditioner: boolean;
-  has_bath: boolean;
-  has_cable: boolean;
-  has_hair_dryer: boolean;
-  has_internet: boolean;
-  has_pc: boolean;
-  has_refrigerator: boolean;
-  has_sofa: boolean;
-  has_tv: boolean;
-  has_table: boolean;
-  has_toiletries: boolean;
+  canCook: boolean;
+  hasAirConditioner: boolean;
+  hasBath: boolean;
+  hasCable: boolean;
+  hasHair_dryer: boolean;
+  hasInternet: boolean;
+  hasPc: boolean;
+  hasRefrigerator: boolean;
+  hasSofa: boolean;
+  hasTv: boolean;
+  hasTable: boolean;
+  hasToiletries: boolean;
 }
 
 export interface Room {
-  room_id: number;
-  room_name: string;
-  check_in: string;
-  check_out: string;
+  roomId: number;
+  roomName: string;
+  checkIn: string;
+  checkOut: string;
   count: number;
-  aver_price: number;
-  total_price: number;
-  max_number: number;
-  standard_number: number;
+  averPrice: number;
+  totalPrice: number;
+  maxNumber: number;
+  standardNumber: number;
   sold: boolean;
   facility: Facility;
-  image: { image_url: string }[];
+  image: { imageUrl: string }[];
 }
 
 // export interface Room {
