@@ -56,9 +56,6 @@ export interface AccommodationImage {
   image_url: string;
 }
 
-
-export interface Facility {
-
 export interface AccommodationFacility {
   hasBeauty: boolean;
   hasCooking: boolean;

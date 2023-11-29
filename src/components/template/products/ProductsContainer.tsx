@@ -19,6 +19,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     enabled: !!accommodationID,
   });
 
+  console.log(accommodationID);
+
+  console.log(data);
+
   const roomData: Room[] = data?.data.rooms || [];
   console.log(roomData);
 
@@ -35,6 +39,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
       <ImageContainer />
       {roomData.map((room) => (
         <RoomCard key={room.roomId} roomData={room} />
+      ))}
       <ProductsFacility />
       <Map lat={37.5649867} lng={126.985575} />
       <Review />
