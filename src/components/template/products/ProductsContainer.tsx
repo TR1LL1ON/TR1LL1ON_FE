@@ -80,61 +80,7 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
   if (isLoading) {
     return <div>Loading...</div>; // 데이터 로딩 중인 경우 로딩 표시
   }
-  // 방 정보
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (accomodationID) {
-  //       setIsLoading(true); // 데이터 로딩 시작
-  //       try {
-  //         const res = await postAccomodation(accomodationID);
-  //         setRoomData(res.accomodationData.rooms);
-  //       } catch (err) {
-  //         console.log('에러');
-  //       } finally {
-  //         setIsLoading(false); // 데이터 로딩 완료
-  //       }
-  //     }
-  //   };
 
-  //   fetchData();
-  // }, [accomodationID]);
-
-  // if (isLoading) {
-  //   return <div>Loading...</div>; // 데이터 로딩 중인 경우 로딩 표시
-  // }
-
-  //숙소 데이터 전체+편의시설
-  // useEffect(() => {
-  //   const fetchAccommodationData = async () => {
-  //     try {
-  //       const res = await postAccomodation(accomodationID);
-  //       setAccommodationData(res.accomodationData);
-
-  //       const facilities = res.accomodationData.rooms.flatMap(
-  //         (room) => room.facility,
-  //       );
-
-  //       const uniqueFacilities: (keyof Facility)[] = Array.from(
-  //         facilities.reduce((acc, facility) => {
-  //           Object.entries(facility).forEach(([key, value]) => {
-  //             if (value) acc.add(key as keyof Facility);
-  //           });
-  //           return acc;
-  //         }, new Set<keyof Facility>()),
-  //       );
-
-  //       setRoomsFacilityData(uniqueFacilities);
-  //     } catch (error) {
-  //       console.error('객실 상세 정보를 불러오는데 실패했습니다', error);
-  //     }
-  //   };
-
-  //   if (accomodationID) {
-  //     fetchAccommodationData();
-  //   }
-  // }, [accomodationID]);
-
-  // console.log('roomsFacilityData', roomsFacilityData);
   return (
     <>
       {accommodationData && (
@@ -166,6 +112,7 @@ const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
             productsFacility={accommodationData.facility}
             roomsFacility={roomsFacilityData}
           />
+          <Map lat={37.5649867} lng={126.985575} />
           <Review />
         </>
       )}
