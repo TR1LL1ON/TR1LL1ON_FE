@@ -23,7 +23,6 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -48,7 +47,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         productsFacility={accommodationData.facility}
         roomsFacility={roomData}
       />
-      <Map lat={37.5649867} lng={126.985575} />
+      <Map
+        lat={Number(accommodationData.latitude)}
+        lng={Number(accommodationData.longitude)}
+      />
       <Review />
     </>
   );
