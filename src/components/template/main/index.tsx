@@ -1,72 +1,54 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
+import { useQuery } from '@tanstack/react-query';
 import { getProducts, getProductsCategory } from '@/api/service';
 import { useLocation } from 'react-router-dom';
 import { mainData } from '@/interfaces/interface';
 
+// API 응답 타입 정의
+interface ProductsResponse {
+  data: mainData[];
+}
+
 const MainContainer = () => {
-  const [productCards, setProductCards] = useState<React.ReactNode[]>([]);
-  const [showNoResults, setShowNoResults] = useState(false); //
-
   const location = useLocation();
-  const categoryRef = useRef<string | null>(null);
+  const categoryParam = new URLSearchParams(location.search).get('category');
 
-  async function fetchProducts(categoryParam?: string) {
-    try {
-      const res = categoryParam
-        ? await getProductsCategory(categoryParam)
-        : await getProducts();
-      const productsData = res.data;
+  const { data, error, isLoading, isError } = useQuery<ProductsResponse>({
+    queryKey: ['products', categoryParam],
+    queryFn: () =>
+      categoryParam ? getProductsCategory(categoryParam) : getProducts(),
+  });
 
-      // 데이터가 배열이고, 비어 있지 않은 경우에만 처리
-      if (Array.isArray(productsData) && productsData.length > 0) {
-        setShowNoResults(false);
-        const cards = productsData.map((product: mainData) => (
-          <ProductCard
-            key={product.accommodationId}
-            address={product.address}
-            accommodationID={product.accommodationId}
-            imgUrl={product.imageUrl}
-            name={product.name}
-            score={product.score}
-            price={product.price}
-          />
-        ));
-        setProductCards(cards);
-      } else {
-        // 빈 배열이거나 유효하지 않은 데이터인 경우
-        setShowNoResults(true);
-        setProductCards([]);
-      }
-    } catch (error) {
-      console.error('조회 실패:', error);
-      // 에러 상황에 대한 추가 처리 (예: 에러 메시지 상태 업데이트)
-      setShowNoResults(true);
-      setProductCards([]);
-    }
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  useEffect(() => {
-    fetchProducts(categoryRef.current as string);
-  }, [location.search]); // 의존성 배열 확인
+  if (isError) {
+    console.error('조회 실패:', error);
+    return <div>데이터를 불러오는 데 실패했습니다.</div>;
+  }
+
+  const productsData = data?.data || [];
 
   return (
     <>
-      {showNoResults ? (
-        <div
-          style={{
-            width: '100%',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            fontSize: '32px',
-            color: '#bbb',
-            marginTop: '40px',
-          }}>
-          검색 결과가 없습니다.
-        </div>
+      {productsData.length === 0 ? (
+        <div>검색 결과가 없습니다.</div>
       ) : (
-        <StyledGridContainer>{productCards} </StyledGridContainer>
+        <StyledGridContainer>
+          {productsData.map((product: mainData) => (
+            <ProductCard
+              key={product.accommodationId}
+              accommodationID={product.accommodationId} // 변경됨
+              imgUrl={product.imageUrl} // 변경됨
+              name={product.name}
+              price={product.price}
+              address={product.address}
+              score={product.score}
+            />
+          ))}
+        </StyledGridContainer>
       )}
     </>
   );
