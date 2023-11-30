@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
+import { getProducts, getProductsCategory } from '@/api/service';
+import { useLocation } from 'react-router-dom';
 import { getProducts } from '@/api/service';
 import { useLocation } from 'react-router-dom';
 import { getGeolocation } from '@/util/geolocation';
@@ -18,6 +20,7 @@ const MainContainer = () => {
     const queryParams = new URLSearchParams(location.search);
     const newCategory = queryParams.get('category');
     categoryRef.current = newCategory;
+    
     const areacode = queryParams.get('areacode');
 
     async function fetchProducts() {
@@ -34,8 +37,7 @@ const MainContainer = () => {
         }
 
         const productsData = res.data;
-        console.log(productsData);
-
+        
         if (productsData.length === 0) {
           setShowNoResults(true);
           setProductCards([]);
@@ -58,7 +60,6 @@ const MainContainer = () => {
         console.error('조회 실패:', error);
       }
     }
-
     fetchProducts();
   }, [location.search]);
 
@@ -82,7 +83,7 @@ const MainContainer = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  
   return (
     <>
       {showNoResults ? (
