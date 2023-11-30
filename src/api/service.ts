@@ -7,7 +7,7 @@ import {
   ProductReview,
   Cart,
 } from '../interfaces/interface';
-import { getCookie } from '@/util/util';
+import { getCookie, removeCookie } from '@/util/util';
 
 export const client = axios.create({
   baseURL: SERVER_URL,
@@ -37,6 +37,10 @@ client.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       alert('로그인이 필요합니다.');
+      window.location.href = '/';
+    }
+    if (error.response.state === 500) {
+      removeCookie();
       window.location.href = '/';
     }
     return Promise.reject(error);

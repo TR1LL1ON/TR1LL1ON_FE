@@ -15,31 +15,36 @@ import {
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
-import { useRecoilValue } from 'recoil';
-import { reservationState, guestCountState } from '@/states/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  reservationState,
+  guestCountState,
+  cartsDataState,
+} from '@/states/atom';
 import { Link } from 'react-router-dom';
 import { ProductReview, Room, AccommodationData } from '@/interfaces/interface';
 
 import Carousel from './detailModal/carousel';
 import useAddCart from '@/hooks/useAddCart';
 import CartModal from '@/components/layout/modal/CartModal';
+import useGetCarts from '@/hooks/useGetCarts';
 
 interface RoomCardProps {
   roomData: Room;
   ProductReview: ProductReview[] | undefined;
   name: string;
-    infoData: AccommodationData;
+  infoData: AccommodationData;
 }
 const RoomCard: React.FC<RoomCardProps> = ({
   roomData,
   ProductReview,
   name,
-  infoData 
+  infoData,
 }) => {
-
   const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
+  const setCartsData = useSetRecoilState(cartsDataState);
   const handleAddCart = useAddCart(
     checkIn,
     checkOut,
@@ -50,6 +55,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
 
   const [showCartModal, setShowCartModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const handleGetCarts = useGetCarts();
 
   const handleDetailModal = () => {
     setShowDetailModal(true);
@@ -104,8 +110,10 @@ const RoomCard: React.FC<RoomCardProps> = ({
                 <StyledReservationBtn
                   onClick={() => {
                     handleAddCart()
-                      .then(() => {
+                      .then(async () => {
                         console.log('카드 담기 성공');
+                        const res = await handleGetCarts();
+                        setCartsData(res);
                       })
                       .catch((error) => {
                         console.log(error, '카드 담기 에러');
