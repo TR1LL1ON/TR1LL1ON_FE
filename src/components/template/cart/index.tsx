@@ -10,6 +10,7 @@ import CartListController from './CartListController';
 import { useEffect, useState } from 'react';
 import { Cart } from '@/interfaces/interface';
 import { getCarts } from '@/api/service';
+import { useNavigate } from 'react-router-dom';
 
 export interface IFormValue {
   name: string;
@@ -19,19 +20,28 @@ export interface IFormValue {
 }
 
 const CartContainer = () => {
+  const navigate = useNavigate();
   const [cartsData, setCartsData] = useState<Cart[]>([]);
   const [checkedCartsData, setCheckedCartsData] = useState<Cart[]>([]);
 
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        const res = await getCarts();
-        setCartsData(res.data.items);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  const handleSubmit = (): void => {
+    const productIds = checkedCartsData.map((cart) => cart.productId);
+    const queryString = productIds.map((id) => `productId=${id}`).join('&');
 
+    navigate(`/payment?${queryString}`);
+  };
+
+  const fetchData = async (): Promise<void> => {
+    try {
+      const res = await getCarts();
+
+      setCartsData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -43,16 +53,25 @@ const CartContainer = () => {
           'Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif',
       }}>
       <StyledTitle $mt="1.5rem">장바구니</StyledTitle>
-      <CartListController />
+      <CartListController
+        cartsData={cartsData}
+        checkedCartsData={checkedCartsData}
+        setCheckedCartsData={setCheckedCartsData}
+        fetchData={fetchData}
+      />
       <StyledHLine $mBlock="1rem" />
       <CartList
         cartsData={cartsData}
         checkedCartsData={checkedCartsData}
         setCheckedCartsData={setCheckedCartsData}
+        fetchData={fetchData}
       />
       <StyledHLine $mBlock="1rem" />
-      <CartDetail />
-      <StyledButton style={{ width: '100%' }} $variant="primary">
+      <CartDetail checkedCartsData={checkedCartsData} />
+      <StyledButton
+        style={{ width: '100%' }}
+        $variant="primary"
+        onClick={handleSubmit}>
         결제하기
       </StyledButton>
     </StyledWrapper>

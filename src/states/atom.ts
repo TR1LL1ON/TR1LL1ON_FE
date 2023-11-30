@@ -2,29 +2,19 @@ import { GuestCount } from '@/interfaces/interface';
 import { atom } from 'recoil';
 import { Order, OrderRequest } from '../interfaces/interface';
 import { CardInfoValues } from '../components/template/payment/AddCreditCard';
-import { DateRange } from '@/components/layout/modal/DatePicker';
 
 export const allUserState = atom<string[]>({
   key: 'allUserState',
   default: [],
 });
 
+// 숙소 상세 페이지에서 예약 누를 시, 예약 정보를 담는 state
+// orders: 예약 정보
 export const orderState = atom<OrderRequest>({
   key: 'orderState',
   default: {
     orders: [],
     payment: 'KAKAOPAY',
-  },
-});
-
-// 숙소 상세 페이지에서 예약하기 누르면, 예약 정보를 담는 state
-export const reservationState = atom<Order>({
-  key: 'reservationState',
-  default: {
-    checkIn: '',
-    checkOut: '',
-    personNumber: 0,
-    productId: 0,
   },
 });
 
@@ -39,11 +29,14 @@ export const cardState = atom<CardInfoValues>({
   },
 });
 
-export const dateRangeState = atom<DateRange>({
-  key: 'dateRangeState',
+// 숙소 상세 페이지에서 예약하기 누르면, 예약 정보를 담는 state
+export const reservationState = atom<Order>({
+  key: 'reservationState',
   default: {
-    startDate: null,
-    endDate: null,
+    checkIn: '',
+    checkOut: '',
+    personNumber: 0,
+    productId: 0,
   },
 });
 

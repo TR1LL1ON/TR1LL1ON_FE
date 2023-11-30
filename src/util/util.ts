@@ -1,4 +1,13 @@
-export function getCookie(name: string): string | undefined {
+export const setCookie = (accessToken: string) => {
+  try {
+    document.cookie = `accessToken=${accessToken};max-age=3600;path=/;secure`;
+  } catch (err) {
+    console.log(err);
+    alert('쿠키 설정에 실패했습니다.');
+  }
+};
+
+export const getCookie = (name: string): string | undefined => {
   const cookieValue = document.cookie
     .split('; ')
     .find((row) => row.startsWith(`${name}=`))

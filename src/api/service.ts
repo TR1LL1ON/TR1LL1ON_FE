@@ -78,7 +78,7 @@ export const getProducts = async (
 // 카테고리별 숙소조회
 export const getProductsCategory = async (
   categoryCode: string,
-  accommodationData: AccommodationData,
+  accommodationData?: AccommodationData,
 ) => {
   const res = await client.get(`products?category=${categoryCode}`, {
     params: accommodationData,
@@ -113,10 +113,10 @@ export const getProductsCategoryRegion = async (
 // 개별 상품조회(숙소전체)
 export const getAccommodation = async (accommodationID: string) => {
   const res = await client.get(`products/${accommodationID}`);
+  return res;
 };
 
 // 개별 상품 상세페이지 조회
-
 export const getAccommodationProduct = async (
   accommodationID: string,
   productID: string,
@@ -138,13 +138,24 @@ export const getCarts = async () => {
 };
 
 // 장바구니 상품 추가
-export const postCarts = async (productID: string) => {
-  const res = await client.post(`carts/${productID}`);
+export const postCarts = async (
+  checkIn: string | undefined,
+  checkOut: string | undefined,
+  personNumber: number,
+  price: number,
+  productID: number,
+) => {
+  const res = await client.post(`carts/${productID}`, {
+    checkIn,
+    checkOut,
+    personNumber,
+    price,
+  });
   return res;
 };
 
 // 장바구니 상품 삭제
-export const deleteCarts = async (cartID: string) => {
+export const deleteCarts = async (cartID: number) => {
   const res = await client.delete(`carts/${cartID}`);
   return res;
 };

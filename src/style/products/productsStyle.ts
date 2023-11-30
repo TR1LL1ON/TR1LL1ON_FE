@@ -213,3 +213,34 @@ export const StyledGridContainer = styled.div<{ $px?: string }>`
   gap: 4rem;
   padding-inline: ${(props) => props.$px || '0'};
 `;
+
+export const StyledItem = styled.div`
+  padding: 1rem 2rem;
+  text-align: left;
+  color: ${(props) => props.theme.colors.darkGray};
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+  & svg {
+    font-size: ${(props) => props.theme.fontSizes.xl};
+    margin-right: 1rem;
+  }
+  & p {
+    width: 33.3%;
+    line-height: 4rem;
+  }
+`;
+
+export const StyledImageContainer = styled.div<{ backgroundImage: string }>`
+  background-image: url(${(props) => props.backgroundImage});
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  cursor: pointer;
+  width: 100%;
+  height: 40rem;
+`;
+StyledImageContainer.shouldForwardProp = (prop) =>
+  !['backgroundImage'].includes(prop);

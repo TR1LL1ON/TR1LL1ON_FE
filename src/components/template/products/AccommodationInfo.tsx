@@ -1,8 +1,12 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
 import { useState } from 'react';
+import {
+  AccommodationData,
+  AccommodationFacility,
+} from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { guestCountState } from '@/states/atom';
 import {
   StyledIconBox,
@@ -21,14 +25,19 @@ import {
 } from '@/style/payment/paymentStyle';
 import CalenderModal from '@/components/layout/modal/calenderModal';
 import GuestModal from './GuestModal/guestModal';
-import { dateRangeState } from '@/states/atom';
+import { reservationState } from '@/states/atom';
 import ProductsFacilityList from './ProductsFacilityList';
 
-interface AccommodationProp {}
-const AccommodationInfo = ({}: AccommodationProp) => {
+interface AccommodationProp {
+  infoData: AccommodationData;
+  productsFacility: AccommodationFacility;
+}
+const AccommodationInfo = ({
+  infoData,
+  productsFacility,
+}: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
-  // console.log(location);
   const guestCount = useRecoilValue(guestCountState);
   const [showGuestModal, setShowGuestModal] = useState(false);
   const handleGuestModal = (e: React.MouseEvent) => {
@@ -44,14 +53,24 @@ const AccommodationInfo = ({}: AccommodationProp) => {
   const handleCalendarModal = () => {
     setShowCalendarModal(true);
   };
-  const { startDate, endDate } = useRecoilValue(dateRangeState);
+  const { checkIn, checkOut } = useRecoilValue(reservationState);
+  const [, setReservation] = useRecoilState(reservationState);
+
+  //상품 변경시 일정 초기화
+  useEffect(() => {
+    setReservation((prevReservation) => ({
+      ...prevReservation,
+      checkIn: '',
+      checkOut: '',
+    }));
+  }, []);
   const [nights, setNights] = useState(0);
 
   return (
     <StyledWrap>
       <StyledTextBox>
         <StyledFlexContainer>
-          <StyledTitle>마리나베이 속초</StyledTitle>
+          {infoData && <StyledTitle>{infoData.name}</StyledTitle>}
           <StyledIconBox $cursor="pointer" $gap="1rem">
             {/* 비로그인시 로그인페이지로 리다이렉트, 로그인시 찜목록 저장/GoHeartFill로 변경 */}
             <GoHeart onClick={() => alert('찜하기 미구현..😅')} />
@@ -59,12 +78,12 @@ const AccommodationInfo = ({}: AccommodationProp) => {
             <GoShareAndroid onClick={handleShareClick} />
           </StyledIconBox>
         </StyledFlexContainer>
-        <StyledText>강원특별자치도 강릉시 주문진읍 해안로 2005 </StyledText>
+        {infoData && <StyledText>{infoData.address} </StyledText>}
         <StyledServiceInfo
           $flexDirection="row"
           $justifyContent="flex-start"
           $gap="1rem">
-          <ProductsFacilityList />
+          <ProductsFacilityList productsFacility={productsFacility} />
         </StyledServiceInfo>
         <StyledOnClick $color="#444" $borderBottom="none">
           ★4.50 후기 0개
@@ -80,13 +99,9 @@ const AccommodationInfo = ({}: AccommodationProp) => {
             <StyledText $fontSize="1rem" $fontWeight={700}>
               날짜
             </StyledText>
-            {startDate && endDate ? (
+            {checkIn && checkOut ? (
               <StyledText $fontSize="1rem">
-                {`${startDate.format('YY.MM.DD')} ~ ${endDate.format(
-                  'YY.MM.DD',
-                )} / 
-            ${nights}박
-                  `}
+                {`${checkIn} ~ ${checkOut} / ${nights}박`}
               </StyledText>
             ) : (
               <StyledText $fontSize="1rem">날짜를 선택해주세요.</StyledText>

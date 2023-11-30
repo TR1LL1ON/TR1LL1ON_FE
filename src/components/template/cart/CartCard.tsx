@@ -1,3 +1,4 @@
+import { deleteCarts } from '@/api/service';
 import { Cart } from '@/interfaces/interface';
 import { StyledDeleteButton } from '@/style/cart/cartStyle';
 import {
@@ -12,12 +13,14 @@ interface ICartCardProps {
   cartData: Cart;
   checkedCartsData: Cart[];
   setCheckedCartsData: React.Dispatch<React.SetStateAction<Cart[]>>;
+  fetchData: () => void;
 }
 
 const CartCard = ({
   cartData,
   checkedCartsData,
   setCheckedCartsData,
+  fetchData,
 }: ICartCardProps) => {
   const checkIn = new Date(cartData.checkIn);
   const checkOut = new Date(cartData.checkOut);
@@ -28,7 +31,8 @@ const CartCard = ({
   const formatCheckOut = `${(checkOut.getMonth() + 1)
     .toString()
     .padStart(2, '0')}.${checkOut.getDate().toString().padStart(2, '0')}`;
-  const formatCartDate = `${formatCheckIn} - ${formatCheckOut} ${
+
+  const nights = `${formatCheckIn} - ${formatCheckOut} ${
     checkOut.getDate() - checkIn.getDate()
   }박`;
   const formatCartPrice = cartData.price.toLocaleString();
@@ -46,6 +50,15 @@ const CartCard = ({
     }
   };
 
+  const handleDeleteCart = async (item: any): Promise<void> => {
+    try {
+      await deleteCarts(item.cartItemId);
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <StyledFlexContainer
       style={{
@@ -57,12 +70,13 @@ const CartCard = ({
       <StyledWrapper style={{ width: 'auto', height: '24px' }}>
         <StyledCheckboxInput
           type="checkbox"
+          checked={checkedCartIds.includes(cartData.cartItemId)}
           onChange={() => handleCheckBoxChange(cartData)}
         />
       </StyledWrapper>
       <StyledImageContainer $w="auto" style={{ overflow: 'unset' }}>
         <img
-          src="https://source.unsplash.com/random"
+          src={cartData.imageUrl}
           style={{
             width: '124px',
             height: '100%',
@@ -77,18 +91,22 @@ const CartCard = ({
         $flexDirection="column"
         $alignItems="flex-start">
         <StyledText $fontSize="0.75rem" $opacity={0.7}>
-          {cartData.accomodationCategory}
+          {cartData.accommodationCategory}
         </StyledText>
         <StyledFlexContainer style={{ width: '100%' }}>
-          <StyledText $fontWeight={700}>{cartData.accomodationName}</StyledText>
-          <StyledDeleteButton>삭제</StyledDeleteButton>
+          <StyledText $fontWeight={700}>
+            {cartData.accommodationName}
+          </StyledText>
+          <StyledDeleteButton onClick={() => handleDeleteCart(cartData)}>
+            삭제
+          </StyledDeleteButton>
         </StyledFlexContainer>
         <StyledText $fontSize="0.75rem">{`${cartData.productName} | ${cartData.personNumber}인`}</StyledText>
         <StyledText $fontSize="0.75rem">
-          {cartData.accomodationAddress}
+          {cartData.accommodationAddress}
         </StyledText>
         <StyledFlexContainer style={{ width: '100%' }}>
-          <StyledText $fontSize="0.75rem">{formatCartDate}</StyledText>
+          <StyledText $fontSize="0.75rem">{nights}</StyledText>
           <StyledText $fontSize="1rem" $fontWeight={700}>
             {formatCartPrice}원
           </StyledText>

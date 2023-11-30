@@ -1,12 +1,12 @@
-import ImageContainer from './ImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
-import ProductsFacility from './ProductsFacility';
-import { Room } from '@/interfaces/interface';
+import { AccommodationData, Room } from '@/interfaces/interface';
 import Review from './Review';
 import { getAccommodation } from '@/api/service';
 import Map from './Map';
 import { useQuery } from '@tanstack/react-query';
+import AllFacility from './AllFacility';
+import { StyledImageContainer } from '@/style/products/productsStyle';
 
 interface ProductsContainerProps {
   accommodationID: string;
@@ -15,13 +15,14 @@ interface ProductsContainerProps {
 const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['accommodation', accommodationID],
+
     queryFn: () => getAccommodation(accommodationID),
     enabled: !!accommodationID,
   });
 
   const roomData: Room[] = data?.data.rooms || [];
+  const accommodationData: AccommodationData = data?.data;
 
-  console.log(roomData);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -33,11 +34,20 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
 
   return (
     <>
-      <ImageContainer />
+      <StyledImageContainer
+        backgroundImage={accommodationData.image[0].imageUrl}
+      />
+      <AccommodationInfo
+        infoData={accommodationData}
+        productsFacility={accommodationData.facility}
+      />
       {roomData.map((room) => (
         <RoomCard key={room.roomId} roomData={room} />
       ))}
-      <ProductsFacility />
+      <AllFacility
+        productsFacility={accommodationData.facility}
+        roomsFacility={roomData}
+      />
       <Map lat={37.5649867} lng={126.985575} />
       <Review />
     </>
