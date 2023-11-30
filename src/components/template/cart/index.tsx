@@ -54,7 +54,7 @@ const CartContainer = () => {
       .map((id) => `accommodationId=${id[1]}`)
       .join('&');
 
-    navigate(`/payment?${productQueryString}?${accommodationQueryString}`);
+    navigate(`/payment?${productQueryString}&${accommodationQueryString}`);
   };
 
   const fetchData = async (): Promise<void> => {

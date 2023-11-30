@@ -24,7 +24,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Pick<IFormValue, 'email' | 'password'>>({ mode: 'onBlur' });
+  } = useForm<Pick<IFormValue, 'email' | 'password'>>({ mode: 'onChange' });
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -36,8 +36,12 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
 
       toast.success('Trillion 로그인');
       setIsAccountModalOpen(false);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      if (err.response.status === 401) {
+        toast.error('이메일 주소 또는 비밀번호가 틀립니다.');
+        setEmail('');
+        setPassword('');
+      }
     }
   };
 
@@ -55,6 +59,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
               id="login_email"
               type="email"
               placeholder="이메일"
+              value={email}
               {...register('email', {
                 required: '이메일을 입력해주세요.',
                 pattern: {
@@ -62,7 +67,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
                     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
                   message: '이메일 형식에 맞지 않습니다.',
                 },
-                onBlur(event) {
+                onChange(event) {
                   setEmail(event.target.value);
                 },
               })}
@@ -93,6 +98,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
               id="login_password"
               type="password"
               placeholder="비밀번호"
+              value={password}
               {...register('password', {
                 required: '비밀번호를 입력해주세요.',
                 minLength: {
@@ -103,7 +109,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
                   value: 20,
                   message: '8~20자리 이내로 입력해주세요.',
                 },
-                onBlur(event) {
+                onChange(event) {
                   setPassword(event.target.value);
                 },
               })}
