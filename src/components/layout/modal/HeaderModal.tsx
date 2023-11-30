@@ -11,6 +11,7 @@ import { useRecoilValue } from 'recoil';
 import { cartsDataState } from '@/states/atom';
 import { LuShoppingCart, LuLogIn, LuLogOut, LuUser } from 'react-icons/lu';
 import styled from 'styled-components';
+import toast from 'react-hot-toast';
 
 interface IHeaderModalProps {
   setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +31,7 @@ const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
     try {
       await postLogout();
       removeCookie();
+      toast.success('Trillion 로그아웃');
       navigate('/');
     } catch (err) {
       console.log(err);

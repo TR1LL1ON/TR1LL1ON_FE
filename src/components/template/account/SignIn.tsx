@@ -12,6 +12,7 @@ import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import { IFormValue } from '../cart';
 import { postLogin } from '@/api/service';
 import { setCookie } from '@/util/util';
+import toast from 'react-hot-toast';
 
 interface ISignInProps {
   isSignUp: boolean;
@@ -33,6 +34,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
       const getToken = res.data.accessToken;
       setCookie(getToken);
 
+      toast.success('Trillion 로그인');
       setIsAccountModalOpen(false);
     } catch (err) {
       console.log(err);
