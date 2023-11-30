@@ -227,7 +227,7 @@ export const StyledItem = styled.div`
     font-size: ${(props) => props.theme.fontSizes.xl};
     margin-right: 1rem;
   }
-  & p {
+  & .mapping {
     width: 33.3%;
     line-height: 4rem;
   }
@@ -238,7 +238,6 @@ export const StyledImageContainer = styled.div<{ backgroundImage: string }>`
   background-size: cover;
   background-position: center;
   border-radius: 1rem;
-  cursor: pointer;
   width: 100%;
   height: 40rem;
 `;

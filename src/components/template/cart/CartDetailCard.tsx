@@ -15,7 +15,7 @@ const CartDetailCard = ({ cart }: ICartDetailCard) => {
   return (
     <StyledFlexContainer style={{ width: '100%', padding: '10px 0' }}>
       <StyledText>
-        {formatCartPrice} x {nights}박 - {cart.accomodationName}
+        {formatCartPrice} x {nights}박 - {cart.accommodationName}
       </StyledText>
       <StyledText>{accommodationCost}원</StyledText>
     </StyledFlexContainer>

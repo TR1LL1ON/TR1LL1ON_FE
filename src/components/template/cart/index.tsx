@@ -45,7 +45,8 @@ const CartContainer = () => {
   const fetchData = async (): Promise<void> => {
     try {
       const res = await getCarts();
-      setCartsData(res.data);
+
+      setCartsData(res);
     } catch (err) {
       console.log(err);
     } finally {

@@ -11,6 +11,7 @@ export interface ModalProps {
   imageUrls?: string[];
   orderID?: number;
   orderDetailData?: string[];
+  infoData?: AccommodationData;
 }
 
 export interface GuestCount {

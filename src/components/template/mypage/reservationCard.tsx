@@ -64,7 +64,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
           </StyledFlexContainer>
 
           <StyledText $fontSize="1rem" $fontWeight={700}>
-            {`${data.totalPrice}원`}
+            {`${data.totalPrice.toLocaleString()}원`}
           </StyledText>
         </StyledFlexContainer>
       </StyledReservationContainer>

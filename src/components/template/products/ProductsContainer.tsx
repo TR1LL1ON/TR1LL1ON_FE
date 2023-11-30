@@ -23,7 +23,6 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -42,7 +41,11 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         productsFacility={accommodationData.facility}
       />
       {roomData.map((room) => (
-        <RoomCard key={room.roomId} roomData={room} />
+        <RoomCard
+          key={room.roomId}
+          roomData={room}
+          infoData={accommodationData}
+        />
       ))}
       <AllFacility
         productsFacility={accommodationData.facility}

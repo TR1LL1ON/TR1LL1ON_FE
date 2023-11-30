@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import theme from '@/style/theme';
-import { ModalProps } from '@/interfaces/interface';
+import {
+  ModalProps,
+  AccommodationFacility,
+  RoomFacility,
+} from '@/interfaces/interface';
 import { StyledButton } from '@/style/common/commonStyle';
 import {
   StyledTitle,
@@ -10,15 +14,25 @@ import {
 } from '@/style/payment/paymentStyle';
 import { v4 as uuidv4 } from 'uuid';
 import Carousel from './carousel';
-import { MdKeyboardArrowRight, MdArrowForwardIos } from 'react-icons/md';
-import { LuUser, LuBedSingle, LuCheck } from 'react-icons/lu';
-import { IoLogoNoSmoking } from 'react-icons/io';
-import { SlSizeFullscreen } from 'react-icons/sl';
+import { MdKeyboardArrowRight } from 'react-icons/md';
+import { LuUser } from 'react-icons/lu';
 import CartBtn from '@/components/layout/Button/cartBtn';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import {
+  productsIconMapping,
+  productsTextMapping,
+  roomsIconMapping,
+  roomsTextMapping,
+} from '../iconAndTextMapping';
+import { useState } from 'react';
+import useAddCart from '@/hooks/useAddCart';
+import { useRecoilValue } from 'recoil';
+import { guestCountState, reservationState } from '@/states/atom';
+import CartModal from '@/components/layout/modal/CartModal';
 
 const DetailModal: React.FC<ModalProps> = ({
   setShowModal,
+  infoData,
   roomData,
   imageUrls,
 }) => {
@@ -26,21 +40,48 @@ const DetailModal: React.FC<ModalProps> = ({
   const closeModal = () => {
     setShowModal(false);
   };
-  const navigate = useNavigate();
 
-  const handleReservationClick = () => {
-    navigate(`/payment`);
+  const [showCartModal, setShowCartModal] = useState(false);
+  const guestCount = useRecoilValue(guestCountState);
+  const { checkIn, checkOut } = useRecoilValue(reservationState);
+
+  const handleAddCart = useAddCart(
+    checkIn,
+    checkOut,
+    guestCount.totals,
+    roomData?.averPrice ?? 0,
+    roomData?.roomId ?? 0,
+  );
+
+  function getTrueFacilities(
+    facilities: AccommodationFacility | RoomFacility | undefined,
+  ): string[] {
+    if (!facilities) {
+      return [];
+    }
+
+    return Object.keys(facilities).filter(
+      (key) => facilities[key as keyof typeof facilities],
+    );
+  }
+
+  const trueInfoDataFacilities = getTrueFacilities(infoData?.facility);
+  const trueRoomDataFacilities = getTrueFacilities(roomData?.facility);
+
+  const formatDate = (dateString: string | undefined): string => {
+    if (!dateString) {
+      return '';
+    }
+
+    const date = new Date(dateString);
+    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
+    const day = date.getDate();
+
+    // 'MM.DD' 형식으로 반환. 월과 일이 한 자리 수일 경우 앞에 '0'을 붙임
+    return `${month.toString().padStart(2, '0')}.${day
+      .toString()
+      .padStart(2, '0')}`;
   };
-
-  console.log(roomData);
-
-  const roomFeature = {
-    smoking: '금연객실',
-    bedType: '퀸 침대 1개',
-    roomSize: '23.1㎡',
-  };
-
-  const amenityArr: string[] = ['무료 와이파이', '발코니', '욕실'];
 
   if (!roomData || !imageUrls) {
     return <div>로딩중</div>;
@@ -48,6 +89,7 @@ const DetailModal: React.FC<ModalProps> = ({
 
   return (
     <StyledModal onClick={closeModal}>
+      {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
       <StyledModalContent
         onClick={(e) => e.stopPropagation()}
         $width="40rem"
@@ -65,14 +107,7 @@ const DetailModal: React.FC<ModalProps> = ({
               marginBottom: '0.5rem',
             }}>
             <StyledText $fontWeight={theme.fontWeights.semiBold}>
-              더 노벰버 스테이 인 랜드마크
-            </StyledText>
-            <StyledText>
-              <MdArrowForwardIos
-                style={{
-                  marginTop: '0.2rem',
-                }}
-              />
+              {infoData?.name}
             </StyledText>
           </StyledFlexContainer>
 
@@ -81,33 +116,36 @@ const DetailModal: React.FC<ModalProps> = ({
               <LuUser />
               {`기준 ${roomData.standardNumber}인 | 최대 ${roomData.maxNumber}인`}
             </StyledModalText>
-            <StyledModalText $color="#808080">
-              <IoLogoNoSmoking />
-              {roomFeature.smoking}
-            </StyledModalText>
-            <StyledModalText $color="#808080" style={{ marginTop: '0.2rem' }}>
-              <LuBedSingle />
-              {roomFeature.bedType}
-            </StyledModalText>
-            <StyledModalText $color="#808080" style={{ marginTop: '0.2rem' }}>
-              <SlSizeFullscreen />
-              {roomFeature.roomSize}
-            </StyledModalText>
-          </StyledModalFlexContainer>
-
-          <StyledSubTitle $mt="3rem">주요 서비스 및 편의시설</StyledSubTitle>
-
-          <StyledFlexContainer
-            $justifyContent="flex-start "
-            $gap="1rem"
-            style={{ marginBottom: '2rem' }}>
-            {amenityArr.map((item) => (
-              <StyledFlexContainer key={uuidv4()} $gap="0.2rem">
-                <LuCheck />
-                <StyledText $color="#808080">{item}</StyledText>
-              </StyledFlexContainer>
+            {trueInfoDataFacilities.map((facility) => (
+              <StyledModalText
+                key={uuidv4()}
+                $color="#808080"
+                style={{ flex: '1 0 18%' }}>
+                {productsIconMapping[facility]}
+                {productsTextMapping[facility]}
+              </StyledModalText>
             ))}
-          </StyledFlexContainer>
+          </StyledModalFlexContainer>
+          <StyledSubTitle $mt="2rem" $mb="0.5rem">
+            주요 서비스 및 편의시설
+          </StyledSubTitle>
+          <StyledModalFlexContainer
+            $justifyContent="flex-start"
+            $gap="1rem"
+            style={{
+              flexWrap: 'wrap',
+              marginBottom: '2rem',
+            }}>
+            {trueRoomDataFacilities.map((facility) => (
+              <StyledModalText
+                key={uuidv4()}
+                $color="#808080"
+                style={{ flex: '1 0 18%' }}>
+                {roomsIconMapping[facility]}
+                {roomsTextMapping[facility]}
+              </StyledModalText>
+            ))}
+          </StyledModalFlexContainer>
 
           <StyledModalFlexContainer
             $justifyContent="flex-stat"
@@ -130,7 +168,7 @@ const DetailModal: React.FC<ModalProps> = ({
               $fontSize={theme.fontSizes.lg}
               $fontWeight={theme.fontWeights.bold}
               style={{ alignSelf: 'flex-end' }}>
-              {`${roomData.averPrice}원`}
+              {`${roomData.averPrice.toLocaleString()}원`}
             </StyledText>
             <StyledFlexContainer $justifyContent="flex-end">
               <StyledText
@@ -143,7 +181,9 @@ const DetailModal: React.FC<ModalProps> = ({
             </StyledFlexContainer>
           </StyledModalFlexContainer>
 
-          <StyledSubTitle $mt="3rem">후기</StyledSubTitle>
+          <StyledSubTitle $mt="2rem" $mb="0.5rem">
+            후기
+          </StyledSubTitle>
           <StyledModalFlexContainer
             $justifyContent="flex-stat"
             $alignItems="left"
@@ -152,7 +192,9 @@ const DetailModal: React.FC<ModalProps> = ({
           </StyledModalFlexContainer>
           <StyledReviewButton>168개 객실후기 보기</StyledReviewButton>
 
-          <StyledSubTitle $mt="3rem">취소 수수료</StyledSubTitle>
+          <StyledSubTitle $mt="3rem" $mb="0.5rem">
+            취소 수수료
+          </StyledSubTitle>
           <StyledTable>
             <thead>
               <tr>
@@ -190,7 +232,9 @@ const DetailModal: React.FC<ModalProps> = ({
               <StyledText
                 $fontSize={theme.fontSizes.sm}
                 $fontWeight={theme.fontWeights.bold}>
-                11.29~11.30
+                {`${formatDate(infoData?.checkIn)}~${formatDate(
+                  infoData?.checkOut,
+                )}`}
               </StyledText>
               <StyledText
                 $fontSize={theme.fontSizes.sm}
@@ -203,21 +247,34 @@ const DetailModal: React.FC<ModalProps> = ({
               <StyledText
                 $fontSize={theme.fontSizes.lg}
                 $fontWeight={theme.fontWeights.bold}>
-                {`${roomData.averPrice}원`}
+                {`${roomData.averPrice.toLocaleString()}원`}
               </StyledText>
             </StyledFlexContainer>
           </StyledFlexContainer>
           <StyledFlexContainer style={{ height: '5rem' }}>
-            <CartBtn />
-            <StyledButton
-              $variant="primary"
-              style={{
-                width: '15rem',
-                margin: '0.5rem',
-              }}
-              onClick={handleReservationClick}>
-              예약하기
-            </StyledButton>
+            <CartBtn
+              handleAddCart={handleAddCart}
+              setShowCartModal={setShowCartModal}
+            />
+            <Link to={`/payment?productId=${roomData.roomId}`}>
+              <StyledButton
+                onClick={() => {
+                  handleAddCart()
+                    .then(() => {
+                      console.log('카드 담기 성공');
+                    })
+                    .catch((error) => {
+                      console.log(error, '카드 담기 에러');
+                    });
+                }}
+                $variant="primary"
+                style={{
+                  width: '15rem',
+                  margin: '0.5rem',
+                }}>
+                예약하기
+              </StyledButton>
+            </Link>
           </StyledFlexContainer>
         </StyledModalFooter>
       </StyledModalContent>
@@ -321,6 +378,7 @@ export const StyledModalContent = styled.div<{
 const CarouselWrapper = styled.div`
   width: 100%;
   height: auto;
+  max-height: 400px;
   overflow: hidden;
   border-radius: 0.5rem;
 `;
