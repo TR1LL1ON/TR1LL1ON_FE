@@ -25,10 +25,18 @@ const CartContainer = () => {
   const [checkedCartsData, setCheckedCartsData] = useState<Cart[]>([]);
 
   const handleSubmit = (): void => {
-    const productIds = checkedCartsData.map((cart) => cart.productId);
-    const queryString = productIds.map((id) => `productId=${id}`).join('&');
+    const idsArray = checkedCartsData.map((cart) => [
+      cart.productId,
+      cart.accommodationId,
+    ]);
+    const productQueryString = idsArray
+      .map((id) => `productId=${id[0]}`)
+      .join('&');
+    const accommodationQueryString = idsArray
+      .map((id) => `accommodationId=${id[1]}`)
+      .join('&');
 
-    navigate(`/payment?${queryString}`);
+    navigate(`/payment?${productQueryString}?${accommodationQueryString}`);
   };
 
   const fetchData = async (): Promise<void> => {

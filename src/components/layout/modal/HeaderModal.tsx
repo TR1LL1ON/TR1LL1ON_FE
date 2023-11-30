@@ -1,3 +1,4 @@
+import { getCookie, removeCookie } from '@/util/util';
 import {
   StyledHeaderModal,
   StyledHeaderModalList,
@@ -5,21 +6,33 @@ import {
 } from '../../../style/header/headerStyle';
 import { StyledHLine } from '../../../style/payment/paymentStyle';
 import { Link } from 'react-router-dom';
+import { postLogout } from '@/api/service';
 
 interface IHeaderModalProps {
   setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
+  const isSignIn = getCookie('accessToken');
   const handleAccountModal = (): void => {
     setIsAccountModalOpen(true);
+  };
+
+  const handleSignOut = async (): Promise<void> => {
+    try {
+      await postLogout();
+      removeCookie();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <StyledHeaderModal>
       <StyledHeaderModalList>
-        <StyledHeaderText onClick={handleAccountModal}>
-          로그인/회원가입
+        <StyledHeaderText
+          onClick={!isSignIn ? handleAccountModal : handleSignOut}>
+          {!isSignIn ? '로그인/회원가입' : '로그아웃'}
         </StyledHeaderText>
       </StyledHeaderModalList>
       <StyledHLine $mBlock="0" />
