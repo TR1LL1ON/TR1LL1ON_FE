@@ -76,7 +76,7 @@ export const getProducts = async (
 // 카테고리별 숙소조회
 export const getProductsCategory = async (
   categoryCode: string,
-  accommodationData: AccommodationData,
+  accommodationData?: AccommodationData,
 ) => {
   const res = await client.get(`products?category=${categoryCode}`, {
     params: accommodationData,
