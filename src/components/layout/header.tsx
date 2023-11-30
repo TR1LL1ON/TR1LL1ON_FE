@@ -9,6 +9,7 @@ import {
   StyledSearchIcon,
   StyledVLine,
 } from '@/style/header/headerStyle';
+import MapModal from './modal/MapModal';
 
 import { AiOutlineMenu } from 'react-icons/ai';
 import { BiSolidUserCircle } from 'react-icons/bi';
@@ -25,6 +26,11 @@ const Header = () => {
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
   const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
   const regionModalRef = useRef<HTMLDivElement>(null);
+
+  const [showMapModal, setShowMapModal] = useState(false);
+  const handleMapModal = () => {
+    setShowMapModal(true);
+  };
 
   useClickOutside(headerModalRef, () => {
     setIsHeaderModalOpen(false);
@@ -48,7 +54,8 @@ const Header = () => {
       </StyledTitle>
       <StyledHeaderGroup>
         <StyledHeaderButton>
-          <StyledText>내 주변</StyledText>
+          <StyledText onClick={handleMapModal}>내 주변</StyledText>
+          {showMapModal && <MapModal setShowModal={setShowMapModal} />}
         </StyledHeaderButton>
         <StyledVLine />
         <StyledHeaderButton onClick={() => setIsRegionModalOpen(true)}>

@@ -2,7 +2,7 @@ import React from 'react';
 import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
 import { StyledH2Text } from '@/style/products/productsStyle';
 
-interface MapProps {
+export interface MapProps {
   lat: number;
   lng: number;
 }

@@ -51,3 +51,11 @@ export const guestCountState = atom<GuestCount>({
     totals: 0,
   },
 });
+
+export const currPositionState = atom({
+  key: 'currPostionState',
+  default: {
+    lat: 0,
+    lng: 0,
+  },
+});
