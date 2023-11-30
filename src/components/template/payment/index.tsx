@@ -26,7 +26,7 @@ import { StyledButton } from '@/style/common/commonStyle';
 type SortedOrder = Pick<
   Cart,
   'productId' | 'personNumber' | 'checkIn' | 'checkOut'
->;
+> & { cartId: number };
 
 const PaymentContainer = () => {
   const [agreement, setAgreement] = useState(false);
@@ -40,6 +40,7 @@ const PaymentContainer = () => {
       personNumber: room.personNumber,
       checkIn: room.checkIn,
       checkOut: room.checkOut,
+      cartId: room.cartItemId,
     })) || [];
 
   const updateOrderData = (orders: Order[]) => {
