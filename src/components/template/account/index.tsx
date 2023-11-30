@@ -19,10 +19,7 @@ const AccountContainer = ({
 
   return (
     <S.StyledContainer>
-      <SignUp
-        isSignUp={isSignUp}
-        setIsAccountModalOpen={setIsAccountModalOpen}
-      />
+      <SignUp isSignUp={isSignUp} handleToggle={handleToggle} />
       <SignIn
         isSignUp={isSignUp}
         setIsAccountModalOpen={setIsAccountModalOpen}

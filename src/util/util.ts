@@ -15,3 +15,11 @@ export const getCookie = (name: string): string | undefined => {
 
   return cookieValue || undefined;
 };
+
+export const removeCookie = (): void => {
+  try {
+    document.cookie = 'accessToken=; max-age=0;path=/';
+  } catch (err) {
+    console.log(err);
+  }
+};

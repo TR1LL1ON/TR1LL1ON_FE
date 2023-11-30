@@ -1,8 +1,11 @@
-export interface JoinData {
-  id: string;
-  password: string;
+export interface mainData {
+  accommodationId: number;
+  address: string;
+  areaCode: string;
+  imageUrl: string;
   name: string;
-  phone: number;
+  price: number;
+  score: number;
 }
 
 export interface ModalProps {
@@ -13,6 +16,8 @@ export interface ModalProps {
   orderDetailData?: string[];
   ProductReview?: ProductReview[] | undefined;
   name?: string;
+  orderDetailData?: ReservationDetail;
+  infoData?: AccommodationData;
 }
 
 export interface GuestCount {
@@ -167,4 +172,9 @@ export interface ReservationDetail {
   price: number;
   productId: number;
   reviewWritten: boolean;
+}
+
+export interface Position {
+  latitude: number;
+  longitude: number;
 }

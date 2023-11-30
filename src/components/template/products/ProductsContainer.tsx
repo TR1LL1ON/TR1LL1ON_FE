@@ -64,6 +64,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         <RoomCard
           key={room.roomId}
           roomData={room}
+
           ProductReview={ProductReview}
           name={accommodationData.name}
         />
@@ -72,6 +73,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         productsFacility={accommodationData.facility}
         roomsFacility={roomData}
       />
+
+          infoData={accommodationData}
+        />
+
       <Map lat={37.5649867} lng={126.985575} />
       {!isLoadingReview && ProductReview && (
         <Review ProductReview={ProductReview} name={accommodationData.name} />

@@ -8,6 +8,7 @@ import Main from '@/pages/main/main';
 import Mypage from '@/pages/mypage/mypage';
 import Payment from '@/pages/payment/payment';
 import NotFound from '@/components/template/notFound';
+import PrivateRoute from '@/components/layout/PrivateRoute';
 
 function Dashboard() {
   return (
@@ -28,13 +29,15 @@ const MainRouter = () => {
         <Route path="/" element={<Dashboard />}>
           <Route index element={<Main />} />
           <Route path="/products/:accomodationID" element={<Products />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route
-            path="/payment"
-            element={<Payment />}
-            errorElement={<NotFound />}
-          />
-          <Route path="/mypage" element={<Mypage />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/cart" element={<Cart />} />
+            <Route
+              path="/payment"
+              element={<Payment />}
+              errorElement={<NotFound />}
+            />
+            <Route path="/mypage" element={<Mypage />} />
+          </Route>
         </Route>
       </Routes>
     </>

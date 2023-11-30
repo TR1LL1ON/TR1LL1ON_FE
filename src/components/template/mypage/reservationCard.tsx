@@ -23,8 +23,6 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
     setIsOpen(!isOpen);
   };
 
-  console.log(data);
-
   return (
     <div style={{ padding: '0' }}>
       <StyledReservationContainer
@@ -64,7 +62,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
           </StyledFlexContainer>
 
           <StyledText $fontSize="1rem" $fontWeight={700}>
-            {`${data.totalPrice}원`}
+            {`${data.totalPrice.toLocaleString()}원`}
           </StyledText>
         </StyledFlexContainer>
       </StyledReservationContainer>

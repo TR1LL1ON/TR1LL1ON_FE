@@ -6,6 +6,7 @@ import {
   ReviewData,
   Review,
   ProductReview,
+  Cart,
 } from '../interfaces/interface';
 import { getCookie } from '@/util/util';
 
@@ -29,6 +30,14 @@ client.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+client.interceptors.response.use((response) => {
+  if (response.status === 401) {
+    alert('로그인이 필요합니다.');
+    window.location.href = '/';
+  }
+  return response;
+});
 
 // 회원가입
 export const postSignUp = async (
@@ -54,59 +63,44 @@ export const postLogin = async (email: string, password: string) => {
 };
 
 // 로그아웃
-export const getLogout = async () => {
-  const res = await client.get('logout');
+export const postLogout = async () => {
+  const res = await client.post('auth/logout');
   return res;
 };
 
-// 전체 숙소조회(비로그인) <=> 개인화 숙소조회(로그인)
+//getProducts 통합
 export const getProducts = async (
-  checkIn?: string,
-  checkOut?: string,
-  personNumber?: string,
+  options: {
+    checkIn?: string;
+    checkOut?: string;
+    personNumber?: string;
+    categoryCode?: string;
+    RegionCode?: string;
+    accommodationData?: AccommodationData;
+  } = {},
 ) => {
-  const res = await client.get('products', {
-    params: {
-      checkIn: checkIn,
-      checkOut: checkOut,
-      personNumber: personNumber,
-    },
-  });
-  return res;
-};
+  const params = { ...options };
 
-// 카테고리별 숙소조회
-export const getProductsCategory = async (
-  categoryCode: string,
-  accommodationData?: AccommodationData,
-) => {
-  const res = await client.get(`products?category=${categoryCode}`, {
-    params: accommodationData,
-  });
-  return res;
-};
+  let endpoint = 'products';
 
-// 지역별 숙소조회
-export const getProductsRegion = async (
-  RegionCode: string,
-  accommodationData: AccommodationData,
-) => {
-  const res = await client.get(`products?region=${RegionCode}`, {
-    params: accommodationData,
-  });
-  return res;
-};
+  if (options.categoryCode || options.RegionCode) {
+    endpoint += '?';
 
-// 지역별 & 카테고리별 숙소조회
-export const getProductsCategoryRegion = async (
-  categoryCode: string,
-  RegionCode: string,
-  accommodationData: AccommodationData,
-) => {
-  const res = await client.get(
-    `products?category=${categoryCode}&region=${RegionCode}`,
-    { params: accommodationData },
-  );
+    if (options.categoryCode) {
+      endpoint += `category=${options.categoryCode}`;
+      delete params.categoryCode;
+    }
+
+    if (options.RegionCode) {
+      if (options.categoryCode) {
+        endpoint += '&';
+      }
+      endpoint += `region=${options.RegionCode}`;
+      delete params.RegionCode;
+    }
+  }
+
+  const res = await client.get(endpoint, { params });
   return res;
 };
 
@@ -127,14 +121,14 @@ export const getAccommodationProduct = async (
 
 // 상품 주문하기
 export const postOrders = async (orderData: OrderRequest) => {
-  const res = await client.post(`orders`, orderData);
+  const res = await client.post(`order`, orderData);
   return res;
 };
 
 // 장바구니 상품 전체 조회
 export const getCarts = async () => {
-  const res = await client.get(`carts`);
-  return res;
+  const res = await client.get<Cart[]>(`carts`);
+  return res.data;
 };
 
 // 장바구니 상품 추가
@@ -167,9 +161,15 @@ export const getReviews = async () => {
 };
 
 // 리뷰작성
-export const postReviews = async (Review: Review) => {
-  const res = await client.post(`reviews`, {
-    Review,
+export const postReviews = async (
+  orderItemId: number,
+  score: number,
+  content: string,
+) => {
+  const res = await client.post(`/reviews`, {
+    orderItemId: orderItemId,
+    score: score,
+    content: content,
   });
   return res;
 };
@@ -224,6 +224,29 @@ export const getUser = async () => {
 export const getUserDetail = async (orderID: number) => {
   const res = await client.get(`user/details/${orderID}`);
   return res;
+};
+export interface SummaryData {
+  products: Product[];
+}
+
+export interface Product {
+  accommodationName: string;
+  roomName: string;
+  imageUrl: string;
+  category: string;
+}
+
+export const getReservedRooms = async (productIds: number[]) => {
+  try {
+    const res = await client.post<SummaryData>(`products/summary`, productIds);
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    if (error instanceof Error) {
+      console.log(error);
+    }
+  }
 };
 
 // 📚레퍼런스 : https://www.notion.so/API-556c8b2ec73a460c9132ccc9a0a2dbc1
