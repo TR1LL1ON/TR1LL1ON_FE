@@ -4,6 +4,8 @@ import {
   OrderRequest,
   AccommodationData,
   ReviewData,
+  Review,
+  AccommodationResponse,
 } from '../interfaces/interface';
 import { getCookie } from '@/util/util';
 
@@ -165,9 +167,9 @@ export const getReviews = async () => {
 };
 
 // 리뷰작성
-export const postReviews = async (ReviewData: ReviewData) => {
+export const postReviews = async (Review: Review) => {
   const res = await client.post(`reviews`, {
-    ReviewData,
+    Review,
   });
   return res;
 };
@@ -211,7 +213,7 @@ export const getUser = async () => {
 };
 
 // 전제 주문목록 상세조회(마이페이지)
-export const getUserDetail = async (orderID: string) => {
+export const getUserDetail = async (orderID: number) => {
   const res = await client.get(`user/details/${orderID}`);
   return res;
 };

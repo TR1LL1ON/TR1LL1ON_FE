@@ -7,7 +7,7 @@ const MypageContainer = () => {
     <>
       <StyledTitle>마이페이지</StyledTitle>
       <ReservationList />
-      <WishList />
+      {/* <WishList /> */}
     </>
   );
 };
