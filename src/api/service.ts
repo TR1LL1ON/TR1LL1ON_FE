@@ -4,6 +4,8 @@ import {
   OrderRequest,
   AccommodationData,
   ReviewData,
+  Review,
+  AccommodationResponse,
 } from '../interfaces/interface';
 import { getCookie } from '@/util/util';
 
@@ -76,7 +78,7 @@ export const getProducts = async (
 // 카테고리별 숙소조회
 export const getProductsCategory = async (
   categoryCode: string,
-  accommodationData: AccommodationData,
+  accommodationData?: AccommodationData,
 ) => {
   const res = await client.get(`products?category=${categoryCode}`, {
     params: accommodationData,
@@ -136,13 +138,24 @@ export const getCarts = async () => {
 };
 
 // 장바구니 상품 추가
-export const postCarts = async (productID: string) => {
-  const res = await client.post(`carts/${productID}`);
+export const postCarts = async (
+  checkIn: string | undefined,
+  checkOut: string | undefined,
+  personNumber: number,
+  price: number,
+  productID: number,
+) => {
+  const res = await client.post(`carts/${productID}`, {
+    checkIn,
+    checkOut,
+    personNumber,
+    price,
+  });
   return res;
 };
 
 // 장바구니 상품 삭제
-export const deleteCarts = async (cartID: string) => {
+export const deleteCarts = async (cartID: number) => {
   const res = await client.delete(`carts/${cartID}`);
   return res;
 };
@@ -154,9 +167,9 @@ export const getReviews = async () => {
 };
 
 // 리뷰작성
-export const postReviews = async (ReviewData: ReviewData) => {
+export const postReviews = async (Review: Review) => {
   const res = await client.post(`reviews`, {
-    ReviewData,
+    Review,
   });
   return res;
 };
@@ -200,7 +213,7 @@ export const getUser = async () => {
 };
 
 // 전제 주문목록 상세조회(마이페이지)
-export const getUserDetail = async (orderID: string) => {
+export const getUserDetail = async (orderID: number) => {
   const res = await client.get(`user/details/${orderID}`);
   return res;
 };
