@@ -1,9 +1,12 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
-import { useState } from 'react';
-import { AccommodationData, Facility } from '@/interfaces/interface';
+import { useState, useEffect } from 'react';
+import {
+  AccommodationData,
+  AccommodationFacility,
+} from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { guestCountState } from '@/states/atom';
 import {
   StyledIconBox,
@@ -22,12 +25,12 @@ import {
 } from '@/style/payment/paymentStyle';
 import CalenderModal from '@/components/layout/modal/calenderModal';
 import GuestModal from './GuestModal/guestModal';
-import { dateRangeState } from '@/states/atom';
+import { reservationState } from '@/states/atom';
 import ProductsFacilityList from './ProductsFacilityList';
 
 interface AccommodationProp {
   infoData: AccommodationData;
-  productsFacility: Facility;
+  productsFacility: AccommodationFacility;
 }
 const AccommodationInfo = ({
   infoData,
@@ -35,7 +38,6 @@ const AccommodationInfo = ({
 }: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
-  // console.log(location);
   const guestCount = useRecoilValue(guestCountState);
   const [showGuestModal, setShowGuestModal] = useState(false);
   const handleGuestModal = (e: React.MouseEvent) => {
@@ -51,7 +53,17 @@ const AccommodationInfo = ({
   const handleCalendarModal = () => {
     setShowCalendarModal(true);
   };
-  const { startDate, endDate } = useRecoilValue(dateRangeState);
+  const { checkIn, checkOut } = useRecoilValue(reservationState);
+  const [, setReservation] = useRecoilState(reservationState);
+
+  //상품 변경시 일정 초기화
+  useEffect(() => {
+    setReservation((prevReservation) => ({
+      ...prevReservation,
+      checkIn: '',
+      checkOut: '',
+    }));
+  }, []);
   const [nights, setNights] = useState(0);
 
   return (
@@ -87,13 +99,9 @@ const AccommodationInfo = ({
             <StyledText $fontSize="1rem" $fontWeight={700}>
               날짜
             </StyledText>
-            {startDate && endDate ? (
+            {checkIn && checkOut ? (
               <StyledText $fontSize="1rem">
-                {`${startDate.format('YY.MM.DD')} ~ ${endDate.format(
-                  'YY.MM.DD',
-                )} / 
-            ${nights}박
-                  `}
+                {`${checkIn} ~ ${checkOut} / ${nights}박`}
               </StyledText>
             ) : (
               <StyledText $fontSize="1rem">날짜를 선택해주세요.</StyledText>

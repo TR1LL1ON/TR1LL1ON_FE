@@ -9,6 +9,8 @@ export interface ModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   roomData?: Room;
   imageUrls?: string[];
+  orderID?: number;
+  orderDetailData?: string[];
 }
 
 export interface GuestCount {
@@ -32,11 +34,15 @@ export interface OrderRequest {
 }
 
 export interface ReviewData {
-  order_item_id: number; // 주문상품 Id
+  review: Review[];
   order_id: number; // 주문 id
   accomodation_id: number; // 숙소 id
-  content: string; // 리뷰내용
-  score: number; // 평점
+}
+
+export interface Review {
+  order_item_id: number;
+  score: number;
+  content: string;
 }
 
 export interface SignupRequestBody {
@@ -133,13 +139,40 @@ export interface AccommodationResponse {
 export interface Cart {
   cartItemId: number;
   accommodationId: number;
-  accomodationName: string;
-  accomodationAddress: string;
-  accomodationCategory: string;
+  accommodationName: string;
+  accommodationAddress: string;
+  accommodationCategory: string;
   productId: number;
   productName: string;
   checkIn: string;
   checkOut: string;
   personNumber: number;
   price: number;
+  imageUrl: string;
+}
+
+export interface Reservation {
+  accommodationImages: string[];
+  accommodationNames: string[];
+  productNames: string[];
+  orderId: number;
+  orderCreateDate: string;
+  payment: string;
+  totalPrice: number;
+}
+
+export interface ReservationDetail {
+  checkIn: string;
+  checkOut: string;
+  orderItemDetail: {
+    accommodationAddress: string;
+    accommodationName: string;
+    productImage: string;
+    productName: string;
+  };
+  orderItemId: number;
+  personNumber: number;
+  price: number;
+  productId: number;
+  reviewWritten: boolean;
 }
