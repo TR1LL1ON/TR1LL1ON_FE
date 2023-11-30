@@ -123,9 +123,13 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
               placeholder="비밀번호"
               {...register('password', {
                 required: '비밀번호를 입력해주세요.',
+                minLength: {
+                  value: 8,
+                  message: '8~20자리 이내로 입력해주세요.',
+                },
                 maxLength: {
                   value: 20,
-                  message: '20자리 이내로 입력해주세요.',
+                  message: '8~20자리 이내로 입력해주세요.',
                 },
                 onBlur(event) {
                   setPassword(event.target.value);

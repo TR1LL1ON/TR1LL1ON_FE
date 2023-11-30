@@ -8,19 +8,10 @@ import CartDetailCard from './CartDetailCard';
 
 interface ICartDetailProps {
   checkedCartsData: Cart[];
+  totalPrice: string;
 }
 
-const CartDetail = ({ checkedCartsData }: ICartDetailProps) => {
-  const accommodationCosts = checkedCartsData.map((cart) => {
-    const checkIn = new Date(cart.checkIn);
-    const checkOut = new Date(cart.checkOut);
-    const nights = checkOut.getDate() - checkIn.getDate();
-    return cart.price * nights;
-  });
-  const totalPrice = accommodationCosts
-    .reduce((acc, cur) => acc + cur, 0)
-    .toLocaleString();
-
+const CartDetail = ({ checkedCartsData, totalPrice }: ICartDetailProps) => {
   return (
     <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
       <StyledSubTitle $mt="0" $mb="0">
