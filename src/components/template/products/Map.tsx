@@ -40,7 +40,7 @@ const Map: React.FC<MapProps> = ({ lat, lng }) => {
     setMap(map);
   }, []);
 
-  const onUnmount = React.useCallback(function callback(map: any) {
+  const onUnmount = React.useCallback(function callback() {
     setMap(null);
   }, []);
 
