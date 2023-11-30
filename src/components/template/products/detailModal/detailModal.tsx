@@ -241,20 +241,6 @@ const StyledModalFlexContainer = styled(StyledFlexContainer)`
   padding: 1rem;
   margin-bottom: 1rem;
 `;
-const StyledReviewButton = styled.button`
-  background-color: #fff;
-  border: 1px solid #d8d8d8;
-  width: 100%;
-
-  padding: 0.7rem;
-  color: #444;
-  font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: ${(props) => props.theme.fontWeights.bold};
-  border-radius: 0.5rem;
-  &:hover {
-    background-color: #eeeeee;
-  }
-`;
 
 const StyledTable = styled.table`
   width: 100%;

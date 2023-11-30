@@ -1,66 +1,58 @@
 import { ProductReview } from '@/interfaces/interface';
+import { StyledSubTitle } from '@/style/payment/paymentStyle';
+import { v4 as uuidv4 } from 'uuid';
 import {
-  StyledFlexContainer,
-  StyledSubTitle,
-} from '@/style/payment/paymentStyle';
-import styled from 'styled-components';
+  StyleReviewContainer,
+  StyleReviewItem,
+  StyledReviewButton,
+  noReviewMessage,
+  reviewStar,
+} from '../Review';
+import useDisplayedReview from '@/hooks/useDisplayedReview';
 
 interface ModalReviewProps {
   ProductReview: ProductReview[] | undefined;
-  name: string;
+  name: string | undefined;
   roomId: number;
 }
 
 const ModalReview = ({ ProductReview, name, roomId }: ModalReviewProps) => {
-  const filteredReviews = ProductReview?.filter(
-    (review) => review.productId === roomData.roomId,
+  const filteredReview = ProductReview?.filter(
+    (review) => review.productId === roomId,
   );
-  console.log(roomId);
-  console.log(ProductReview);
-  console.log(name);
+  // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
+  const { displayedReview, showAllReview } = useDisplayedReview(filteredReview);
+
   return (
     <>
       <StyledSubTitle $mt="3rem">{name} 후기</StyledSubTitle>
-      <StyledModalFlexContainer
+      <StyleReviewContainer
         $justifyContent="flex-stat"
-        $alignItems="left"
+        $alignItems="center"
         $flexDirection="column">
-        {/*  {filteredReviews?.length > 0 ? (
-          filteredReviews.map((review) => (
-            <div key={review.review_id}>
-         
+        {displayedReview.length > 0 ? (
+          displayedReview.map((review) => (
+            <StyleReviewItem key={uuidv4()}>
+              <p>
+                <span> {reviewStar(review.score)}점</span>
+                <span>{review.reviewDate}</span>
+              </p>
               <p>{review.content}</p>
-          
-            </div>
+            </StyleReviewItem>
           ))
         ) : (
-          <p>이 방에 대한 리뷰가 없습니다.</p>
-        )} */}
-      </StyledModalFlexContainer>
-      <StyledReviewButton>168개 객실후기 보기</StyledReviewButton>
+          <StyleReviewItem $mt="0" $mb="0" $padding=".5rem" $textAlign="center">
+            {noReviewMessage}
+          </StyleReviewItem>
+        )}
+      </StyleReviewContainer>
+      {filteredReview && filteredReview.length > 3 && (
+        <StyledReviewButton onClick={showAllReview}>
+          객실 후기 모두 보기
+        </StyledReviewButton>
+      )}
     </>
   );
 };
 
 export default ModalReview;
-export const StyledModalFlexContainer = styled(StyledFlexContainer)`
-  border: 1px solid #d8d8d8;
-  border-radius: 0.5rem;
-  flex-wrap: wrap;
-  padding: 1rem;
-  margin-bottom: 1rem;
-`;
-export const StyledReviewButton = styled.button`
-  background-color: #fff;
-  border: 1px solid #d8d8d8;
-  width: 100%;
-
-  padding: 0.7rem;
-  color: #444;
-  font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: ${(props) => props.theme.fontWeights.bold};
-  border-radius: 0.5rem;
-  &:hover {
-    background-color: #eeeeee;
-  }
-`;

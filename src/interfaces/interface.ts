@@ -49,11 +49,11 @@ export interface Review {
 
 // 객실 리뷰
 export interface ProductReview {
-  review_id: number;
-  review_date: string;
+  reviewId: number;
+  reviewDate: string;
   score: number;
-  user_id: number;
-  product_id: number;
+  userId: number;
+  productId: number;
   content: string;
 }
 
