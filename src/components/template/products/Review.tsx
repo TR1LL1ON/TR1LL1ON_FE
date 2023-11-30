@@ -30,6 +30,23 @@ const Review = ({ ProductReview, name }: ReviewProps) => {
       setDisplayedReviews(ProductReview);
     }
   };
+
+  const reviewStar = (score: number) => {
+    const totalStars = 5;
+    let stars = [];
+
+    for (let i = 1; i <= totalStars; i++) {
+      stars.push(
+        <FaStar
+          key={i}
+          style={{ color: i <= score ? '#ffc107' : '#e4e5e9' }}
+        />,
+      );
+    }
+
+    return stars;
+  };
+
   return (
     <StyledWrap>
       <StyledH2Text $mt="1rem" $mb="2rem">
@@ -48,9 +65,7 @@ const Review = ({ ProductReview, name }: ReviewProps) => {
           displayedReviews.map((review) => (
             <StyleReviewItem key={uuidv4()}>
               <div>
-                <span>
-                  {review.score} <FaStar />
-                </span>
+                <span>{reviewStar(review.score)}</span>
                 <span>{review.user_id}</span>
                 <span>{review.review_date}</span>
                 <p>{review.content}</p>
