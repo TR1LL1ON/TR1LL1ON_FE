@@ -28,7 +28,7 @@ const MainContainer = () => {
     return <div>데이터를 불러오는 데 실패했습니다.</div>;
   }
 
-  const productsData = data?.data || [];
+  const productsData = Array.isArray(data?.data) ? data?.data : [];
 
   return (
     <>
