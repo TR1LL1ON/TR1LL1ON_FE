@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { handleCopyClipBoard } from '@/util/clipboard';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   AccommodationData,
   AccommodationFacility,

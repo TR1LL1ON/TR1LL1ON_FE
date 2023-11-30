@@ -16,7 +16,7 @@ import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
 import { useRecoilValue } from 'recoil';
-import { dateRangeState, guestCountState } from '@/states/atom';
+import { reservationState, guestCountState } from '@/states/atom';
 import { Link } from 'react-router-dom';
 import { Room } from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
@@ -29,10 +29,10 @@ interface RoomCardProps {
 const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
   const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
-  const { startDate, endDate } = useRecoilValue(dateRangeState);
+  const { checkIn, checkOut } = useRecoilValue(reservationState);
   const handleAddCart = useAddCart(
-    startDate?.format('YYYY-MM-DD'),
-    endDate?.format('YYYY-MM-DD'),
+    checkIn,
+    checkOut,
     guestCount.totals,
     roomData.averPrice,
     roomData.roomId,
