@@ -210,7 +210,7 @@ TEST용 PASSWORD: 123456
 |:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|
 | ![leHiHo](https://avatars.githubusercontent.com/leHiHo) | ![joanShim](https://avatars.githubusercontent.com/joanShim) | ![JiHongkyu](https://avatars.githubusercontent.com/JiHongkyu) | ![developer-jyyun](https://avatars.githubusercontent.com/developer-jyyun) | ![Gaoridang](https://avatars.githubusercontent.com/Gaoridang) |
 | [leHiHo](https://github.com/leHiHo) | [joanShim](https://github.com/joanShim) | [JiHongkyu](https://github.com/JiHongkyu) | [developer-jyyun](https://github.com/developer-jyyun) | [Gaoridang](https://github.com/Gaoridang) |
-| <ul><li>초기설정</li><li>프론트엔드 배포</li><li>폴더구조설계</li><li>리뷰 CRUD</li><li>객실 상세</li><li>예약내역</li><li>모킹서버</li></ul> | <ul><li>판매내역 조회</li><li>상품 상태 변경</li><li>좋아요 기능</li> | <ul><li>회원가입</li><li>프로필수정</li><li>상품 상세 페이지</li><li>상품 관련 채팅목록</li><li>소켓 연결 후 실시간 채팅 </li></ul> | <ul><li>숙소상세</li><li>리뷰조회</li><li>게스트모달</li><li>편의시설</li> | <ul><li>메인페이지 전체 상품 불러오기</li><li>카테고리 목록 불러오기</li><li>소켓 연결 후 실시간 채팅 구현</li><li>마이 페이지</li> |
+| <ul><li>초기설정</li><li>프론트엔드 배포</li><li>폴더구조설계</li><li>리뷰 CRUD</li><li>객실 상세</li><li>예약내역</li><li>모킹서버</li></ul> | <ul><li>메인화면</li><li>검색(전체,카테고리,지역별)</li><li>캘린더(체크인/체크아웃)</li><li>지도(숙소위치)</li></ul> | <ul><li>로그인</li><li>회원가입</li><li>장바구니</li></ul> | <ul><li>숙소상세</li><li>리뷰조회</li><li>게스트모달</li><li>편의시설</li></ul> | <ul><li>결제</li></ul> |
 
 ### ✨ BE 팀 소개
 | 서은 (FE) <br> 팀장 | 성지운 (FE) <br> 팀원 | 전유림 (FE) <br> 팀원 | 김수빈 (FE) <br> 팀원 |
