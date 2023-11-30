@@ -18,15 +18,21 @@ import DetailModal from './detailModal/detailModal';
 import { useRecoilValue } from 'recoil';
 import { reservationState, guestCountState } from '@/states/atom';
 import { Link } from 'react-router-dom';
-import { Room } from '@/interfaces/interface';
+import { ProductReview, Room } from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
 import useAddCart from '@/hooks/useAddCart';
 import CartModal from '@/components/layout/modal/CartModal';
 
 interface RoomCardProps {
   roomData: Room;
+  ProductReview: ProductReview[] | undefined;
+  name: string;
 }
-const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
+const RoomCard: React.FC<RoomCardProps> = ({
+  roomData,
+  ProductReview,
+  name,
+}) => {
   const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
@@ -67,6 +73,8 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
                   setShowModal={setShowDetailModal}
                   roomData={roomData}
                   imageUrls={imageUrls}
+                  ProductReview={ProductReview}
+                  name={name}
                 />
               )}
             </StyledFlexContainer>

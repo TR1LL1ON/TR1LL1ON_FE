@@ -16,11 +16,14 @@ import { IoLogoNoSmoking } from 'react-icons/io';
 import { SlSizeFullscreen } from 'react-icons/sl';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import { useNavigate } from 'react-router-dom';
+import ModalReview from './ModalReview';
 
 const DetailModal: React.FC<ModalProps> = ({
   setShowModal,
   roomData,
   imageUrls,
+  ProductReview,
+  name,
 }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
   const closeModal = () => {
@@ -45,7 +48,7 @@ const DetailModal: React.FC<ModalProps> = ({
   if (!roomData || !imageUrls) {
     return <div>로딩중</div>;
   }
-
+  console.log('방 리뷰', ProductReview);
   return (
     <StyledModal onClick={closeModal}>
       <StyledModalContent
@@ -143,14 +146,11 @@ const DetailModal: React.FC<ModalProps> = ({
             </StyledFlexContainer>
           </StyledModalFlexContainer>
 
-          <StyledSubTitle $mt="3rem">후기</StyledSubTitle>
-          <StyledModalFlexContainer
-            $justifyContent="flex-stat"
-            $alignItems="left"
-            $flexDirection="column">
-            후기
-          </StyledModalFlexContainer>
-          <StyledReviewButton>168개 객실후기 보기</StyledReviewButton>
+          <ModalReview
+            ProductReview={ProductReview}
+            name={name}
+            roomId={roomData.roomId}
+          />
 
           <StyledSubTitle $mt="3rem">취소 수수료</StyledSubTitle>
           <StyledTable>

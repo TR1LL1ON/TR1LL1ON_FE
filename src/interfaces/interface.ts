@@ -11,6 +11,8 @@ export interface ModalProps {
   imageUrls?: string[];
   orderID?: number;
   orderDetailData?: string[];
+  ProductReview?: ProductReview[] | undefined;
+  name?: string;
 }
 
 export interface GuestCount {
