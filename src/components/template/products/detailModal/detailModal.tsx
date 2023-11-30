@@ -15,15 +15,20 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import Carousel from './carousel';
 import { MdKeyboardArrowRight } from 'react-icons/md';
-import { LuUser, LuCheck } from 'react-icons/lu';
+import { LuUser } from 'react-icons/lu';
 import CartBtn from '@/components/layout/Button/cartBtn';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   productsIconMapping,
   productsTextMapping,
   roomsIconMapping,
   roomsTextMapping,
 } from '../iconAndTextMapping';
+import { useState } from 'react';
+import useAddCart from '@/hooks/useAddCart';
+import { useRecoilValue } from 'recoil';
+import { guestCountState, reservationState } from '@/states/atom';
+import CartModal from '@/components/layout/modal/CartModal';
 
 const DetailModal: React.FC<ModalProps> = ({
   setShowModal,
@@ -35,11 +40,18 @@ const DetailModal: React.FC<ModalProps> = ({
   const closeModal = () => {
     setShowModal(false);
   };
-  const navigate = useNavigate();
 
-  const handleReservationClick = () => {
-    navigate(`/payment`);
-  };
+  const [showCartModal, setShowCartModal] = useState(false);
+  const guestCount = useRecoilValue(guestCountState);
+  const { checkIn, checkOut } = useRecoilValue(reservationState);
+
+  const handleAddCart = useAddCart(
+    checkIn,
+    checkOut,
+    guestCount.totals,
+    roomData?.averPrice ?? 0,
+    roomData?.roomId ?? 0,
+  );
 
   function getTrueFacilities(
     facilities: AccommodationFacility | RoomFacility | undefined,
@@ -55,11 +67,6 @@ const DetailModal: React.FC<ModalProps> = ({
 
   const trueInfoDataFacilities = getTrueFacilities(infoData?.facility);
   const trueRoomDataFacilities = getTrueFacilities(roomData?.facility);
-
-  console.log(trueInfoDataFacilities);
-  console.log(trueRoomDataFacilities);
-
-  const amenityArr: string[] = ['무료 와이파이', '발코니', '욕실'];
 
   const formatDate = (dateString: string | undefined): string => {
     if (!dateString) {
@@ -82,6 +89,7 @@ const DetailModal: React.FC<ModalProps> = ({
 
   return (
     <StyledModal onClick={closeModal}>
+      {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
       <StyledModalContent
         onClick={(e) => e.stopPropagation()}
         $width="40rem"
@@ -244,16 +252,29 @@ const DetailModal: React.FC<ModalProps> = ({
             </StyledFlexContainer>
           </StyledFlexContainer>
           <StyledFlexContainer style={{ height: '5rem' }}>
-            <CartBtn />
-            <StyledButton
-              $variant="primary"
-              style={{
-                width: '15rem',
-                margin: '0.5rem',
-              }}
-              onClick={handleReservationClick}>
-              예약하기
-            </StyledButton>
+            <CartBtn
+              handleAddCart={handleAddCart}
+              setShowCartModal={setShowCartModal}
+            />
+            <Link to={`/payment?productId=${roomData.roomId}`}>
+              <StyledButton
+                onClick={() => {
+                  handleAddCart()
+                    .then(() => {
+                      console.log('카드 담기 성공');
+                    })
+                    .catch((error) => {
+                      console.log(error, '카드 담기 에러');
+                    });
+                }}
+                $variant="primary"
+                style={{
+                  width: '15rem',
+                  margin: '0.5rem',
+                }}>
+                예약하기
+              </StyledButton>
+            </Link>
           </StyledFlexContainer>
         </StyledModalFooter>
       </StyledModalContent>

@@ -90,7 +90,18 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData, infoData }) => {
                 setShowCartModal={setShowCartModal}
               />
               <Link to={`/payment?productId=${roomData.roomId}`}>
-                <StyledReservationBtn $full={false} $variant="primary">
+                <StyledReservationBtn
+                  onClick={() => {
+                    handleAddCart()
+                      .then(() => {
+                        console.log('카드 담기 성공');
+                      })
+                      .catch((error) => {
+                        console.log(error, '카드 담기 에러');
+                      });
+                  }}
+                  $full={false}
+                  $variant="primary">
                   예약하기
                 </StyledReservationBtn>
               </Link>
@@ -102,7 +113,6 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData, infoData }) => {
         <StyledH2Text>{roomData.roomName}</StyledH2Text>
         <StyledTextRow>
           <LuUser className="icon" />
-
           {`기준 ${roomData.standardNumber}인 | 최대 ${roomData.maxNumber}인`}
         </StyledTextRow>
         <StyledTextRow>
