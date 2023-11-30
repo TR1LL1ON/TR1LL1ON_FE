@@ -34,11 +34,9 @@ const MainContainer = () => {
 
   return (
     <>
-      {productsData.length === 0 ? (
-        <div>검색 결과가 없습니다.</div>
-      ) : (
+      {productsData && productsData.length > 0 ? (
         <StyledGridContainer>
-          {productsData.map((product: mainData) => (
+          {productsData?.map((product: mainData) => (
             <ProductCard
               key={product.accommodationId}
               accommodationID={product.accommodationId} // 변경됨
@@ -50,6 +48,8 @@ const MainContainer = () => {
             />
           ))}
         </StyledGridContainer>
+      ) : (
+        <div>검색 결과가 없습니다.</div>
       )}
     </>
   );
