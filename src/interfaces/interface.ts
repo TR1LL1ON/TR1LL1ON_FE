@@ -1,8 +1,11 @@
-export interface JoinData {
-  id: string;
-  password: string;
+export interface mainData {
+  accommodationId: number;
+  address: string;
+  areaCode: string;
+  imageUrl: string;
   name: string;
-  phone: number;
+  price: number;
+  score: number;
 }
 
 export interface ModalProps {
