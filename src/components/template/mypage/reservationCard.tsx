@@ -23,8 +23,6 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
     setIsOpen(!isOpen);
   };
 
-  console.log(data);
-
   return (
     <div style={{ padding: '0' }}>
       <StyledReservationContainer

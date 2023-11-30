@@ -1,54 +1,75 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
-import { useQuery } from '@tanstack/react-query';
-import { getProducts } from '@/api/service';
-
-import { mainData } from '@/interfaces/interface';
-
-// API 응답 타입 정의
-interface ProductsResponse {
-  data: mainData[];
-}
+import { getProducts, getProductsCategory } from '@/api/service';
+import { useLocation } from 'react-router-dom';
 
 const MainContainer = () => {
-  // const location = useLocation();
-  // const categoryParam = new URLSearchParams(location.search).get('category');
+  const [productCards, setProductCards] = useState<React.ReactNode[]>([]);
+  const [showNoResults, setShowNoResults] = useState(false); //
 
-  const { data, error, isLoading, isError } = useQuery<ProductsResponse>({
-    queryKey: ['products'],
-    queryFn: () => getProducts(),
-  });
+  const location = useLocation();
+  const categoryRef = useRef<string | null>(null);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const newCategory = queryParams.get('category');
+    categoryRef.current = newCategory;
 
-  if (isError) {
-    console.error('조회 실패:', error);
-    return <div>데이터를 불러오는 데 실패했습니다.</div>;
-  }
+    async function fetchProducts(categoryParam?: string) {
+      try {
+        // const res = await getProducts('2023-12-01', '2023-12-05', '6');
+        let res;
+        if (categoryParam) {
+          res = await getProductsCategory(categoryParam);
+        } else {
+          res = await getProducts();
+        }
 
-  const productsData = Array.isArray(data?.data) ? data?.data : [];
-  console.log(productsData);
+        const productsData = res.data;
+
+        if (productsData.length === 0) {
+          setShowNoResults(true);
+          setProductCards([]);
+        } else {
+          setShowNoResults(false);
+          const cards = productsData.map((product: any) => (
+            <ProductCard
+              key={product.accommodationId}
+              address={product.address}
+              accommodationID={product.accommodationId}
+              imgUrl={product.imageUrl}
+              name={product.name}
+              score={product.score}
+              price={product.price}
+            />
+          ));
+          setProductCards(cards);
+        }
+      } catch (error) {
+        console.error('조회 실패:', error);
+      }
+    }
+
+    fetchProducts(categoryRef.current as string);
+  }, [location.search]);
 
   return (
     <>
-      {productsData && productsData.length > 0 ? (
-        <StyledGridContainer>
-          {productsData?.map((product: mainData) => (
-            <ProductCard
-              key={product.accommodationId}
-              accommodationID={product.accommodationId} // 변경됨
-              imgUrl={product.imageUrl} // 변경됨
-              name={product.name}
-              price={product.price}
-              address={product.address}
-              score={product.score}
-            />
-          ))}
-        </StyledGridContainer>
+      {showNoResults ? (
+        <div
+          style={{
+            width: '100%',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: '32px',
+            color: '#bbb',
+            marginTop: '40px',
+          }}>
+          검색 결과가 없습니다.
+        </div>
       ) : (
-        <div>검색 결과가 없습니다.</div>
+        <StyledGridContainer>{productCards} </StyledGridContainer>
       )}
     </>
   );
