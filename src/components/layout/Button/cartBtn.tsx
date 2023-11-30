@@ -1,13 +1,24 @@
-import { reservationState, guestCountState } from '@/states/atom';
+import useGetCarts from '@/hooks/useGetCarts';
+import {
+  reservationState,
+  guestCountState,
+  cartsDataState,
+} from '@/states/atom';
 import { LuShoppingCart } from 'react-icons/lu';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 const CartBtn = ({ handleAddCart, setShowCartModal }: any) => {
   const guestCount = useRecoilValue(guestCountState);
+  const setCartsData = useSetRecoilState(cartsDataState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
-  const handleCartBtnClick = () => {
-    handleAddCart();
+  const handleGetCarts = useGetCarts();
+
+  const handleCartBtnClick = async () => {
+    await handleAddCart();
+    const res = await handleGetCarts();
+
+    setCartsData(res);
     setShowCartModal(true);
   };
 

@@ -13,6 +13,10 @@ import { getCarts } from '@/api/service';
 import { useNavigate } from 'react-router-dom';
 import EmptyCart from './EmptyCart';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { cartsDataState } from '@/states/atom';
+import useGetCarts from '@/hooks/useGetCarts';
 
 export interface IFormValue {
   name: string;
@@ -23,9 +27,20 @@ export interface IFormValue {
 
 const CartContainer = () => {
   const navigate = useNavigate();
-  const [cartsData, setCartsData] = useState<Cart[]>([]);
+  const [cartsData, setCartsData] = useRecoilState(cartsDataState);
   const [checkedCartsData, setCheckedCartsData] = useState<Cart[]>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const handleGetCarts = useGetCarts();
+
+  const accommodationCosts = checkedCartsData.map((cart) => {
+    const checkIn = new Date(cart.checkIn);
+    const checkOut = new Date(cart.checkOut);
+    const nights = checkOut.getDate() - checkIn.getDate();
+    return cart.price * nights;
+  });
+  const totalPrice = accommodationCosts
+    .reduce((acc, cur) => acc + cur, 0)
+    .toLocaleString();
 
   const handleSubmit = (): void => {
     const idsArray = checkedCartsData.map((cart) => [
@@ -39,12 +54,12 @@ const CartContainer = () => {
       .map((id) => `accommodationId=${id[1]}`)
       .join('&');
 
-    navigate(`/payment?${productQueryString}?${accommodationQueryString}`);
+    navigate(`/payment?${productQueryString}&${accommodationQueryString}`);
   };
 
   const fetchData = async (): Promise<void> => {
     try {
-      const res = await getCarts();
+      const res = await handleGetCarts();
 
       setCartsData(res);
     } catch (err) {
@@ -70,26 +85,27 @@ const CartContainer = () => {
         cartsData.length !== 0 ? (
           <>
             <CartListController
-              cartsData={cartsData}
               checkedCartsData={checkedCartsData}
               setCheckedCartsData={setCheckedCartsData}
               fetchData={fetchData}
             />
             <StyledHLine $mBlock="1rem" />
             <CartList
-              cartsData={cartsData}
               checkedCartsData={checkedCartsData}
               setCheckedCartsData={setCheckedCartsData}
               fetchData={fetchData}
             />
             <StyledHLine $mBlock="1rem" />
-            <CartDetail checkedCartsData={checkedCartsData} />
-            <StyledButton
-              style={{ width: '100%' }}
+            <CartDetail
+              checkedCartsData={checkedCartsData}
+              totalPrice={totalPrice}
+            />
+            <StyledPaymentButton
               $variant="primary"
-              onClick={handleSubmit}>
-              결제하기
-            </StyledButton>
+              onClick={handleSubmit}
+              disabled={checkedCartsData.length === 0 ? true : false}>
+              {totalPrice}원 결제하기
+            </StyledPaymentButton>
           </>
         ) : (
           <EmptyCart />
@@ -102,3 +118,15 @@ const CartContainer = () => {
 };
 
 export default CartContainer;
+
+const StyledPaymentButton = styled(StyledButton)`
+  width: 100%;
+
+  &:hover {
+    background-color: #ad1d45;
+  }
+  &:disabled {
+    background-color: rgba(222, 47, 95, 0.5);
+    cursor: not-allowed;
+  }
+`;

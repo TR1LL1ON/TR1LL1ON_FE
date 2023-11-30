@@ -3,6 +3,11 @@ import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
 import { getProducts, getProductsCategory } from '@/api/service';
 import { useLocation } from 'react-router-dom';
+import { getProducts } from '@/api/service';
+import { useLocation } from 'react-router-dom';
+import { getGeolocation } from '@/util/geolocation';
+import { useRecoilState } from 'recoil';
+import { currPositionState } from '@/states/atom';
 
 const MainContainer = () => {
   const [productCards, setProductCards] = useState<React.ReactNode[]>([]);
@@ -15,19 +20,24 @@ const MainContainer = () => {
     const queryParams = new URLSearchParams(location.search);
     const newCategory = queryParams.get('category');
     categoryRef.current = newCategory;
+    
+    const areacode = queryParams.get('areacode');
 
-    async function fetchProducts(categoryParam?: string) {
+    async function fetchProducts() {
       try {
-        // const res = await getProducts('2023-12-01', '2023-12-05', '6');
         let res;
-        if (categoryParam) {
-          res = await getProductsCategory(categoryParam);
+        if (categoryRef.current || areacode) {
+          // 통합된 getProducts 함수 사용
+          res = await getProducts({
+            categoryCode: categoryRef.current || undefined,
+            RegionCode: areacode || undefined,
+          });
         } else {
           res = await getProducts();
         }
 
         const productsData = res.data;
-
+        
         if (productsData.length === 0) {
           setShowNoResults(true);
           setProductCards([]);
@@ -50,10 +60,30 @@ const MainContainer = () => {
         console.error('조회 실패:', error);
       }
     }
-
-    fetchProducts(categoryRef.current as string);
+    fetchProducts();
   }, [location.search]);
 
+  //위치정보 받아오기
+  const [currPosition, setCurrPosition] = useRecoilState(currPositionState);
+
+  useEffect(() => {
+    const fetchCurrentLocation = async () => {
+      try {
+        const position = await getGeolocation();
+        setCurrPosition({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      } catch (error) {
+        console.error('위치 정보를 받아오지 못했습니다');
+      }
+    };
+
+    fetchCurrentLocation(); // 함수 호출
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
   return (
     <>
       {showNoResults ? (

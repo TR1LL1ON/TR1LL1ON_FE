@@ -67,54 +67,39 @@ export const postLogout = async () => {
   return res;
 };
 
-// 전체 숙소조회(비로그인) <=> 개인화 숙소조회(로그인)
+//getProducts 통합
 export const getProducts = async (
-  checkIn?: string,
-  checkOut?: string,
-  personNumber?: string,
+  options: {
+    checkIn?: string;
+    checkOut?: string;
+    personNumber?: string;
+    categoryCode?: string;
+    RegionCode?: string;
+    accommodationData?: AccommodationData;
+  } = {},
 ) => {
-  const res = await client.get('products', {
-    params: {
-      checkIn: checkIn,
-      checkOut: checkOut,
-      personNumber: personNumber,
-    },
-  });
-  return res;
-};
+  const params = { ...options };
 
-// 카테고리별 숙소조회
-export const getProductsCategory = async (
-  categoryCode: string,
-  accommodationData?: AccommodationData,
-) => {
-  const res = await client.get(`products?category=${categoryCode}`, {
-    params: accommodationData,
-  });
-  return res;
-};
+  let endpoint = 'products';
 
-// 지역별 숙소조회
-export const getProductsRegion = async (
-  RegionCode: string,
-  accommodationData: AccommodationData,
-) => {
-  const res = await client.get(`products?region=${RegionCode}`, {
-    params: accommodationData,
-  });
-  return res;
-};
+  if (options.categoryCode || options.RegionCode) {
+    endpoint += '?';
 
-// 지역별 & 카테고리별 숙소조회
-export const getProductsCategoryRegion = async (
-  categoryCode: string,
-  RegionCode: string,
-  accommodationData: AccommodationData,
-) => {
-  const res = await client.get(
-    `products?category=${categoryCode}&region=${RegionCode}`,
-    { params: accommodationData },
-  );
+    if (options.categoryCode) {
+      endpoint += `category=${options.categoryCode}`;
+      delete params.categoryCode;
+    }
+
+    if (options.RegionCode) {
+      if (options.categoryCode) {
+        endpoint += '&';
+      }
+      endpoint += `region=${options.RegionCode}`;
+      delete params.RegionCode;
+    }
+  }
+
+  const res = await client.get(endpoint, { params });
   return res;
 };
 

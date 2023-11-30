@@ -10,19 +10,24 @@ import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import { useState } from 'react';
 import { IFormValue } from '../cart';
 import { postSignUp } from '@/api/service';
+import toast from 'react-hot-toast';
 
 export interface IIsSignUpProps {
   isSignUp: boolean;
-  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  handleToggle: () => void;
 }
 
-const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
+const SignUp = ({
+  isSignUp,
+
+  handleToggle,
+}: IIsSignUpProps) => {
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<IFormValue>({ mode: 'onBlur' });
+  } = useForm<IFormValue>({ mode: 'onChange' });
 
   const [email, setEmail] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -32,9 +37,17 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
   const handleSignUp = async () => {
     try {
       await postSignUp(email, name, password);
-      setIsAccountModalOpen(false);
-    } catch (err) {
-      console.log(err);
+      setEmail('');
+      setName('');
+      setPassword('');
+      setPasswordConfirm('');
+
+      handleToggle();
+      toast.success('회원가입 완료!');
+    } catch (err: any) {
+      if (err.response.status === 409) {
+        toast.error('중복된 이메일입니다.');
+      }
     }
   };
 
@@ -55,7 +68,7 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
               placeholder="이름"
               {...register('name', {
                 required: '이름을 입력해주세요.',
-                onBlur(event) {
+                onChange(event) {
                   setName(event.target.value);
                 },
               })}
@@ -92,7 +105,7 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
                     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
                   message: '이메일 형식에 맞지 않습니다.',
                 },
-                onBlur(event) {
+                onChange(event) {
                   setEmail(event.target.value);
                 },
               })}
@@ -123,11 +136,15 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
               placeholder="비밀번호"
               {...register('password', {
                 required: '비밀번호를 입력해주세요.',
+                minLength: {
+                  value: 8,
+                  message: '8~20자리 이내로 입력해주세요.',
+                },
                 maxLength: {
                   value: 20,
-                  message: '20자리 이내로 입력해주세요.',
+                  message: '8~20자리 이내로 입력해주세요.',
                 },
-                onBlur(event) {
+                onChange(event) {
                   setPassword(event.target.value);
                 },
               })}
@@ -169,7 +186,7 @@ const SignUp = ({ isSignUp, setIsAccountModalOpen }: IIsSignUpProps) => {
                     }
                   },
                 },
-                onBlur(event) {
+                onChange(event) {
                   setPasswordConfirm(event.target.value);
                 },
               })}

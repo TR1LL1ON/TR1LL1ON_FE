@@ -1,4 +1,4 @@
-import { GuestCount } from '@/interfaces/interface';
+import { Cart, GuestCount } from '@/interfaces/interface';
 import { atom } from 'recoil';
 import { Order, OrderRequest } from '../interfaces/interface';
 import { CardInfoValues } from '../components/template/payment/AddCreditCard';
@@ -50,4 +50,16 @@ export const guestCountState = atom<GuestCount>({
     infants: 0,
     totals: 0,
   },
+});
+
+export const currPositionState = atom({
+  key: 'currPostionState',
+  default: {
+    lat: 0,
+    lng: 0,
+  },
+  
+export const cartsDataState = atom<Cart[]>({
+  key: 'cartsDataState',
+  default: [],
 });
