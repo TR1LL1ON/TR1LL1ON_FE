@@ -30,13 +30,18 @@ client.interceptors.request.use(
   },
 );
 
-client.interceptors.response.use((response) => {
-  if (response.status === 401) {
-    alert('로그인이 필요합니다.');
-    window.location.href = '/';
-  }
-  return response;
-});
+client.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.status === 401) {
+      alert('로그인이 필요합니다.');
+      window.location.href = '/';
+    }
+    return Promise.reject(error);
+  },
+);
 
 // 회원가입
 export const postSignUp = async (

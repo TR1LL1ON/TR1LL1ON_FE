@@ -10,6 +10,10 @@ interface Props {
 }
 
 const PaymentRoomList = ({ reservationData }: Props) => {
+  if (reservationData?.length === 0) {
+    return <div>예약 정보가 없습니다.</div>;
+  }
+
   return (
     <>
       <StyledSubTitle>숙소 정보</StyledSubTitle>

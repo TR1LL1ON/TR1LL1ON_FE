@@ -9,6 +9,7 @@ import Mypage from '@/pages/mypage/mypage';
 import Payment from '@/pages/payment/payment';
 import NotFound from '@/components/template/notFound';
 import PrivateRoute from '@/components/layout/PrivateRoute';
+import PaymentConfirm from '@/components/template/payment/paymentConfirm';
 
 function Dashboard() {
   return (
@@ -36,6 +37,7 @@ const MainRouter = () => {
               element={<Payment />}
               errorElement={<NotFound />}
             />
+            <Route path="/confirm" element={<PaymentConfirm />} />
             <Route path="/mypage" element={<Mypage />} />
           </Route>
         </Route>
