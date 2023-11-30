@@ -1,13 +1,14 @@
 <div align="center">
   
 </br>
-<img src="https://github.com/EmploymentRescueTeam/FE_marketClone/assets/111065848/32b6fd0c-387c-4570-8222-323f40126681" width=300 />
+<img src="https://github.com/TR1LL1ON/TR1LL1ON_FE/assets/134940630/98153dc7-b93d-45ae-b43a-24ba9f32a874" width=300 />
 
-### 오이마켓 🥒 프론트엔드
+
+### TR1LL1ON 💸 프론트엔드
 
 <p align="center">
-  <a href="https://www.mwt-market.store/">
-    <img src="https://img.shields.io/badge/오이마켓-darkgreen?style=for-the-badge&logoColor=white" alt="site"/>
+  <a href="https://www.tr1ll1on.site/">
+    <img src="https://img.shields.io/badge/TR1LL1ON-skyblue?style=for-the-badge&logoColor=white" alt="site"/>
   </a>
 </p>
 
@@ -17,24 +18,18 @@
 
 ## 📝 프로젝트 소개
 
-초기 당근마켓을 벤치마킹한 중고거래 웹 프로젝트
+야놀자와 에어비앤비를 벤치마킹한 숙박 웹 프로젝트
 
 TEST용 ID: test@test.com  
-TEST용 PASSWORD: 123456
+TEST용 PASSWORD: 12345678
 
 <br/>
 
-프론트엔드 노션은 [이곳](https://www.notion.so/3ac920f7fa864328a20ba394ee555132)을 클릭해주세요.
+노션은 [이곳](https://www.notion.so/1-c168673667e3412da40b6a76244d4461)을 클릭해주세요.
 <br/>
-피그마는 [이곳](https://www.figma.com/file/ZE6vTyljDbEu4qWPdP3rd9/%EC%98%A4%EC%9D%B4%EB%A7%88%EC%BC%93?type=design&node-id=0%3A1&mode=design&t=eZjDhRFb0hHTc976-1)을 클릭해주세요
+피그마는 [이곳](https://www.figma.com/file/gSfN0YiphmVAu1HOeSyxts/%EC%88%99%EB%B0%95%EC%84%9C%EB%B9%84%EC%8A%A4?type=design&node-id=0%3A1&mode=design&t=0HLjbyqaG1tTqdQU-1)을 클릭해주세요
 <br/>
-백엔드 노션은 [이곳](https://www.notion.so/MWT-Team-Project-a7c024d8eecc4c7ba02cdecab12629d7)을 클릭해주세요.
-<br/>
-백엔드 레포지토리는 [이곳](https://github.com/FC-WhyWrongThoguhtRight/MWT-Market)을 클릭해주세요.
-<br/>
-프로젝트 제안서는 [이곳](https://acoustic-polka-c6d.notion.site/cfcf3393c85d44deafe488fa93bef54c)을 클릭해주세요.
-<br/>
-스웨거는 [이곳](https://api.mwt-market.store/api/v1/swagger-ui/index.html#/)을 클릭해주세요.
+백엔드 레포지토리는 [이곳](https://github.com/TR1LL1ON/TR1LL1ON_BE)을 클릭해주세요.
 <br/>
 
 ## 🛠️ 기술 스택
@@ -49,8 +44,12 @@ TEST용 PASSWORD: 123456
 
 <div style="display: flex; align-items: center;" >
   
-![Next](https://camo.githubusercontent.com/4a468968c96e15a2c8133fa0541676949d410f809aaa55285343884304a23058/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6e6578742e6a732d3030303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d4e6578742e6a73266c6f676f436f6c6f723d7768697465)
-![Axios](https://img.shields.io/badge/axios-671ddf?&style=for-the-badge&logo=axios&logoColor=white) <img style="height: 26px" src="https://github.com/EmploymentRescueTeam/FE_marketClone/assets/111065848/0eb55b12-5a54-476f-a657-b1574ae3a37c" />
+![React](https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=white)
+![ReactQuery](https://img.shields.io/badge/reactquery-FF4154.svg?style=for-the-badge&logo=reactquery&logoColor=white)
+![Recoil](https://img.shields.io/badge/Recoil-007af4.svg?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FscXVlXzEiIGRhdGEtbmFtZT0iQ2FscXVlIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDI1NS4yMSA2MjMuOTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDp3aGl0ZX08L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im03NC42MiAyNzcuNDYgMS4yNC0uMTMgMzQuNzgtMy4yOC01My40Ny01OC42NkE5Ni40NyA5Ni40NyAwIDAgMSAzMiAxNTAuM0gzYTEyNS4zIDEyNS4zIDAgMCAwIDMyLjggODQuNTdaTTE3Ny4xMyAzNDdsLTM2IDMuNCA1My4zMiA1OC41MUE5Ni40MSA5Ni40MSAwIDAgMSAyMTkuNjMgNDc0aDI4LjkyYTEyNS4yOCAxMjUuMjggMCAwIDAtMzIuNzYtODQuNTdaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjUzLjY5IDIzMS42OGMtNi4zMy0zMS4zLTMwLjg5LTU0LjA5LTYyLjU3LTU4LjA3bC02LjM1LS43OWE0OS42MSA0OS42MSAwIDAgMS00My4zNS00OS4xM3YtMjBhNTIuNzUgNTIuNzUgMCAxIDAtMjguOTEtLjM2djIwLjM4YTc4LjU2IDc4LjU2IDAgMCAwIDY4LjY1IDc3LjgybDYuMzYuOGMyMy4yNCAyLjkyIDM0Ljc4IDIwIDM3LjgzIDM1LjFzLS45MyAzNS4zMi0yMS4yMiA0N2E3My44MSA3My44MSAwIDAgMS0zMC4wNiA5LjYybC05NS42NiA5YTEwMi40NSAxMDIuNDUgMCAwIDAtNDEuOCAxMy4zOEM5IDMzMi40NS00LjgxIDM2MyAxLjUyIDM5NC4yOXMzMC44OSA1NC4wOCA2Mi41NyA1OC4wNmw2LjM1LjhhNDkuNiA0OS42IDAgMCAxIDQzLjM1IDQ5LjEydjE4YTUyLjc1IDUyLjc1IDAgMSAwIDI4LjkxLjI2di0xOC4yNmE3OC41NSA3OC41NSAwIDAgMC02OC42NS03Ny44MWwtNi4zNi0uOGMtMjMuMjQtMi45Mi0zNC43OC0yMC4wNS0zNy44My0zNS4xMXMuOTMtMzUuMzIgMjEuMjItNDdhNzMuNjggNzMuNjggMCAwIDEgMzAuMDYtOS42M2w5NS42Ni05YTEwMi40NSAxMDIuNDUgMCAwIDAgNDEuOC0xMy4zOGMyNy42NS0xNi4wMiA0MS40LTQ2LjU0IDM1LjA5LTc3Ljg2WiIvPjwvc3ZnPg==&logoColor=white)
+![StyledComponents](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
+![Axios](https://img.shields.io/badge/axios-671ddf?&style=for-the-badge&logo=axios&logoColor=white) 
+
 </div>
 
 
@@ -72,27 +71,21 @@ TEST용 PASSWORD: 123456
 ![springsecurity](https://img.shields.io/badge/springsecurity-6DB33F.svg?style=for-the-badge&logo=springsecurity&logoColor=white)
 
 #### DB
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![mysql](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
 #### Infra
-
-![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
-<img style="height: 26px" src="https://github.com/EmploymentRescueTeam/FE_marketClone/assets/111065848/0eb55b12-5a54-476f-a657-b1574ae3a37c" />
-![Mongoose](https://img.shields.io/badge/Mongoose-880000.svg?style=for-the-badge&logo=Mongoose&logoColor=white)
+![Amazon EC2](https://img.shields.io/badge/Amazon%20EC2-FF9900.svg?style=for-the-badge&logo=Amazon-EC2&logoColor=white)
 
 #### CI/CD
-
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
-![Amazon EC2](https://img.shields.io/badge/Amazon%20EC2-FF9900.svg?style=for-the-badge&logo=Amazon-EC2&logoColor=white)
+
 
 ## 📚 주요 기능
 
 <div align="center">
   <table>
     <tr align="center">
-      <th>게시물작성</th>
+      <th>로그인/회원가입</th>
       <th>메인/채팅</th>
     </tr>
     <tr>      
@@ -148,84 +141,60 @@ TEST용 PASSWORD: 123456
 ## 📂 폴더 구조
 
 ```
- 📦src
- ┣ 📂api
- ┣ 📂app
- ┃ ┣ 📂category
- ┃ ┣ 📂chat
- ┃ ┃ ┗ 📂[id]
- ┃ ┣ 📂login
- ┃ ┣ 📂main
- ┃ ┣ 📂mypage
- ┃ ┃ ┣ 📂chats
- ┃ ┃ ┣ 📂edit
- ┃ ┃ ┣ 📂sales
- ┃ ┃ ┣ 📂wish
- ┃ ┣ 📂product
- ┃ ┃ ┣ 📂[id]
- ┃ ┃ ┃ ┣ 📂chats
- ┃ ┃ ┃ ┣ 📂edit
- ┃ ┃ ┗ 📂products
- ┃ ┣ 📂search
- ┃ ┣ 📂signup
- ┃ ┣ 📂write
- ┃ ┣ 📜layout.tsx
- ┃ ┗ 📜page.tsx
+📦src
+ ┣ 📂api 
+ ┣ 📂assets
  ┣ 📂components
- ┣ 📂styles
- ┃ ┣ 📂components
- ┃ ┣ 📂templates
- ┃ ┃ ┣ 📂category
- ┃ ┃ ┣ 📂chat
- ┃ ┃ ┣ 📂login
+ ┃ ┣ 📂layout
+ ┃ ┣ 📂template
+ ┃ ┃ ┣ 📂account
+ ┃ ┃ ┣ 📂cart
  ┃ ┃ ┣ 📂main
  ┃ ┃ ┣ 📂mypage
- ┃ ┃ ┣ 📂product
- ┃ ┃ ┣ 📂search
- ┃ ┃ ┣ 📂signup
- ┃ ┃ ┣ 📂write
- ┃ ┣ 📜globals.scss
- ┃ ┣ 📜mixin.scss
- ┃ ┗ 📜reset.scss
- ┣ 📂templates
- ┃ ┣ 📂category
- ┃ ┣ 📂chat
- ┃ ┣ 📂login
+ ┃ ┃ ┣ 📂notFound
+ ┃ ┃ ┣ 📂payment
+ ┃ ┃ ┗ 📂products
+ ┃ ┃ ┃ ┣ 📂GuestModal
+ ┣ 📂hooks
+ ┣ 📂interfaces
+ ┣ 📂pages
+ ┃ ┣ 📂cart
  ┃ ┣ 📂main
  ┃ ┣ 📂mypage
- ┃ ┣ 📂product
- ┃ ┃ ┣ 📂productStateList
- ┃ ┣ 📂search
- ┃ ┣ 📂signup
- ┃ ┣ 📂write
- ┗ 📂types
+ ┃ ┣ 📂payment
+ ┃ ┗ 📂products
+ ┣ 📂router
+ ┣ 📂states
+ ┣ 📂style
+ ┃ ┣ 📂account
+ ┃ ┣ 📂cart
+ ┃ ┣ 📂common
+ ┃ ┣ 📂header
+ ┃ ┣ 📂main
+ ┃ ┣ 📂mypage
+ ┃ ┣ 📂payment
+ ┃ ┣ 📂products
+ ┣ 📂util
+ ┣ 📜App.tsx
+ ┣ 📜constant.ts
+ ┣ 📜constants.ts
+ ┣ 📜index.css
+ ┣ 📜main.tsx
+ ┗ 📜vite-env.d.ts
 ```
 
 <br/>
 
 ## 🧑🏻‍💻 팀 소개 및 역할
 
-### ✨ FE 팀 소개 
+### ✨ 팀 소개 
 | 장호진 (FE) <br> 팀장 | 심정아 (FE) <br> 팀원 | 지홍규 (FE) <br> 팀원 | 윤지영 (FE) <br> 팀원 | 이재준 (FE) <br> 팀원 |
 |:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|
 | ![leHiHo](https://avatars.githubusercontent.com/leHiHo) | ![joanShim](https://avatars.githubusercontent.com/joanShim) | ![JiHongkyu](https://avatars.githubusercontent.com/JiHongkyu) | ![developer-jyyun](https://avatars.githubusercontent.com/developer-jyyun) | ![Gaoridang](https://avatars.githubusercontent.com/Gaoridang) |
 | [leHiHo](https://github.com/leHiHo) | [joanShim](https://github.com/joanShim) | [JiHongkyu](https://github.com/JiHongkyu) | [developer-jyyun](https://github.com/developer-jyyun) | [Gaoridang](https://github.com/Gaoridang) |
 | <ul><li>초기설정</li><li>프론트엔드 배포</li><li>폴더구조설계</li><li>리뷰 CRUD</li><li>객실 상세</li><li>예약내역</li><li>모킹서버</li></ul> | <ul><li>메인화면</li><li>검색(전체,카테고리,지역별)</li><li>캘린더(체크인/체크아웃)</li><li>지도(숙소위치)</li></ul> | <ul><li>로그인</li><li>회원가입</li><li>장바구니</li></ul> | <ul><li>숙소상세</li><li>리뷰조회</li><li>게스트모달</li><li>편의시설</li></ul> | <ul><li>결제</li></ul> |
-
-### ✨ BE 팀 소개
-| 서은 (FE) <br> 팀장 | 성지운 (FE) <br> 팀원 | 전유림 (FE) <br> 팀원 | 김수빈 (FE) <br> 팀원 |
-|:------------------:|:------------------:|:------------------:|:------------------:|
-| ![고동훤](https://avatars.githubusercontent.com/u/97681286?v=4&size=300) | ![김종훈](https://avatars.githubusercontent.com/u/40512982?v=4&size=300) | ![김진홍](https://avatars.githubusercontent.com/u/33937365?v=4&size=300) | ![서원빈](https://avatars.githubusercontent.com/u/81563920?v=4&size=300)  |
-| [Dr-KoKo](https://github.com/Dr-KoKo)| [WaterSpray](https://github.com/whdgns5059) | [deepredk](https://github.com/deepredk) | [Seo Wonbin](https://github.com/Wonbn) |
-| <ul><li>인증/인가</li><li>Spring 기본설계</li><li>Github Actions</li><li>AWS S3</li><li>Nginx</li><li>Mypage API</li><li>Product API</li></ul> | <ul><li>채팅 API</li></ul> | <ul><li>상품 관심목록 API</li><li>상품 채팅목록 API</li><li>상품 상태변경 API</li><li>상품 카테고리 API</li></ul> | <ul><li>상품 CRUD API</li><li>상품 전체조회 API</li><li>상품 상세조회 API</li></ul> |
-
-
- 
-
-<br/>
-
 <br>
 
 ## 📆 기간
 
-`2023.10.04 ~ 2023.10.27`
+`2023.11.20 ~ 2023.12.01`
