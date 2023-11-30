@@ -30,6 +30,7 @@ const MainContainer = () => {
   }
 
   const productsData = data?.data || [];
+  console.log(productsData);
 
   return (
     <>

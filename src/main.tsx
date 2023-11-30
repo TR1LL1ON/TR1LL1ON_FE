@@ -6,10 +6,10 @@ import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-if (import.meta.env.DEV) {
-  const { worker } = await import('./mocks/browser');
-  await worker.stop();
-}
+// if (import.meta.env.DEV) {
+//   const { worker } = await import('./mocks/browser');
+//   await worker.stop();
+// }
 
 const queryClient = new QueryClient();
 
