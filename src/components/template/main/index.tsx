@@ -3,6 +3,7 @@ import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
 import { getProducts, getProductsCategory } from '@/api/service';
 import { useLocation } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const MainContainer = () => {
   const [productCards, setProductCards] = useState<React.ReactNode[]>([]);
@@ -35,7 +36,7 @@ const MainContainer = () => {
           setShowNoResults(false);
           const cards = productsData.map((product: any) => (
             <ProductCard
-              key={product.accommodationId}
+              key={uuidv4()}
               address={product.address}
               accommodationID={product.accommodationId}
               imgUrl={product.imageUrl}
