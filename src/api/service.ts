@@ -5,6 +5,7 @@ import {
   AccommodationData,
   ReviewData,
   Review,
+  ProductReview,
   Cart,
 } from '../interfaces/interface';
 import { getCookie } from '@/util/util';
@@ -185,6 +186,14 @@ export const putReviews = async (reviewID: string, ReviewData: ReviewData) => {
 export const deleteReviews = async (reviewID: string) => {
   const res = await client.delete(`reviews/${reviewID}`);
   return res;
+};
+
+//숙소 리뷰 조회
+export const getProductsReview = async (
+  accommodationID: string,
+): Promise<ProductReview[]> => {
+  const res = await client.get(`reviews/${accommodationID}`);
+  return res.data;
 };
 
 // 숙소 찜 조회

@@ -13,6 +13,9 @@ export interface ModalProps {
   roomData?: Room;
   imageUrls?: string[];
   orderID?: number;
+  orderDetailData?: string[];
+  ProductReview?: ProductReview[] | undefined;
+  name?: string;
   orderDetailData?: ReservationDetail;
   infoData?: AccommodationData;
 }
@@ -46,6 +49,16 @@ export interface ReviewData {
 export interface Review {
   order_item_id: number;
   score: number;
+  content: string;
+}
+
+// 객실 리뷰
+export interface ProductReview {
+  reviewId: number;
+  reviewDate: string;
+  score: number;
+  userId: number;
+  productId: number;
   content: string;
 }
 

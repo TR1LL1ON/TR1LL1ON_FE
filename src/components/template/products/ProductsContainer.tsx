@@ -1,8 +1,8 @@
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
-import { AccommodationData, Room } from '@/interfaces/interface';
+import { AccommodationData, ProductReview, Room } from '@/interfaces/interface';
 import Review from './Review';
-import { getAccommodation } from '@/api/service';
+import { getAccommodation, getProductsReview } from '@/api/service';
 import Map from './Map';
 import { useQuery } from '@tanstack/react-query';
 import AllFacility from './AllFacility';
@@ -23,6 +23,16 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
+  const {
+    data: ProductReview,
+    isLoading: isLoadingReview,
+    isError: isErrorReview,
+  } = useQuery<ProductReview[]>({
+    queryKey: ['ProductReview', accommodationID],
+    queryFn: () => getProductsReview(accommodationID),
+    enabled: !!accommodationID,
+  });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -31,6 +41,16 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     return <div>Error fetching data</div>;
   }
 
+  let reviewErrorComponent = null;
+  if (isErrorReview) {
+    reviewErrorComponent = <div>Error loading reviews</div>;
+  }
+
+  let reviewLoadingComponent = null;
+  if (isLoadingReview) {
+    reviewLoadingComponent = <div>Loading reviews...</div>;
+  }
+  console.log(ProductReview);
   return (
     <>
       <StyledImageContainer
@@ -44,11 +64,23 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         <RoomCard
           key={room.roomId}
           roomData={room}
+
+          ProductReview={ProductReview}
+          name={accommodationData.name}
+        />
+      ))}
+      <AllFacility
+        productsFacility={accommodationData.facility}
+        roomsFacility={roomData}
+      />
+
           infoData={accommodationData}
         />
-      ))}      
+
       <Map lat={37.5649867} lng={126.985575} />
-      <Review />
+      {!isLoadingReview && ProductReview && (
+        <Review ProductReview={ProductReview} name={accommodationData.name} />
+      )}
     </>
   );
 };

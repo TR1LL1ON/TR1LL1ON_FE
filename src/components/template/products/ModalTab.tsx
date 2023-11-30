@@ -17,8 +17,7 @@ const ModalTab = ({
   roomsFacility,
 }: ModalTabsProps) => {
   const [activeTab, setActiveTab] = useState('notice');
-  const handleTabClick = (e: React.MouseEvent, tabName: string) => {
-    e.stopPropagation();
+  const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
   return (
@@ -26,12 +25,12 @@ const ModalTab = ({
       <StyledModalWrap>
         <StyledTabContainer>
           <StyledFilterTab
-            onClick={(e: React.MouseEvent) => handleTabClick(e, 'notice')}
+            onClick={() => handleTabClick('notice')}
             active={activeTab === 'notice'}>
             객실 이용 안내
           </StyledFilterTab>
           <StyledFilterTab
-            onClick={(e: React.MouseEvent) => handleTabClick(e, 'facility')}
+            onClick={() => handleTabClick('facility')}
             active={activeTab === 'facility'}>
             편의시설
           </StyledFilterTab>
