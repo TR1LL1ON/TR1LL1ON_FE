@@ -20,7 +20,7 @@ const MainCategory = () => {
     navigation(`/?${params.toString()}`, { replace: true });
   };
 
-  console.log(categoryList);
+  // console.log(categoryList);
 
   return (
     <StyledCategoryContainer>

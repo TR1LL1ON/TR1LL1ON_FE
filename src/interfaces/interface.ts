@@ -160,3 +160,8 @@ export interface ReservationDetail {
   productId: number;
   reviewWritten: boolean;
 }
+
+export interface Position {
+  latitude: number;
+  longitude: number;
+}
