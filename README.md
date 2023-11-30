@@ -129,7 +129,7 @@ height="400"></td>
 
 <div align="center">
   
-<img src="https://github.com/LeHiHo/FE_marketClone/assets/134940630/38949786-7b36-41ff-b148-453077ba805f" alt="아키텍쳐" />
+<img src="https://github.com/TR1LL1ON/TR1LL1ON_FE/assets/134940630/5c22a8f5-05f2-45a8-b557-4b8b97c351c9" alt="아키텍쳐" />
 
 </div>
 
@@ -189,7 +189,7 @@ height="400"></td>
 |:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|
 | ![leHiHo](https://avatars.githubusercontent.com/leHiHo) | ![joanShim](https://avatars.githubusercontent.com/joanShim) | ![JiHongkyu](https://avatars.githubusercontent.com/JiHongkyu) | ![developer-jyyun](https://avatars.githubusercontent.com/developer-jyyun) | ![Gaoridang](https://avatars.githubusercontent.com/Gaoridang) |
 | [leHiHo](https://github.com/leHiHo) | [joanShim](https://github.com/joanShim) | [JiHongkyu](https://github.com/JiHongkyu) | [developer-jyyun](https://github.com/developer-jyyun) | [Gaoridang](https://github.com/Gaoridang) |
-| <ul><li>초기설정</li><li>프론트엔드 배포</li><li>폴더구조설계</li><li>리뷰 CRUD</li><li>객실 상세</li><li>예약내역</li><li>모킹서버</li></ul> | <ul><li>메인화면</li><li>검색(전체,카테고리,지역별)</li><li>캘린더(체크인/체크아웃)</li><li>지도(숙소위치)</li></ul> | <ul><li>로그인</li><li>회원가입</li><li>장바구니</li></ul> | <ul><li>숙소상세</li><li>리뷰조회</li><li>게스트모달</li><li>편의시설</li></ul> | <ul><li>결제</li></ul> |
+| <ul><li>초기설정</li><li>배포</li><li>모킹서버</li><li>리뷰 CRUD</li><li>객실 상세</li><li>예약내역</li></ul> | <ul><li>메인화면</li><li>검색(전체,카테고리,지역별)</li><li>캘린더(체크인/체크아웃)</li><li>지도(숙소위치)</li></ul> | <ul><li>로그인</li><li>회원가입</li><li>장바구니</li></ul> | <ul><li>숙소상세</li><li>리뷰조회</li><li>게스트모달</li><li>편의시설</li></ul> | <ul><li>결제</li><li>카테고리</li></ul> |
 <br>
 
 ## 📆 기간
