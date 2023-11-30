@@ -46,15 +46,8 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
           roomData={room}
           infoData={accommodationData}
         />
-      ))}
-      <AllFacility
-        productsFacility={accommodationData.facility}
-        roomsFacility={roomData}
-      />
-      <Map
-        lat={Number(accommodationData.latitude)}
-        lng={Number(accommodationData.longitude)}
-      />
+      ))}      
+      <Map lat={37.5649867} lng={126.985575} />
       <Review />
     </>
   );

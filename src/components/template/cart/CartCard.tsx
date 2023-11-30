@@ -32,10 +32,8 @@ const CartCard = ({
     .toString()
     .padStart(2, '0')}.${checkOut.getDate().toString().padStart(2, '0')}`;
 
-  const nights = `${formatCheckIn} - ${formatCheckOut} ${
-    checkOut.getDate() - checkIn.getDate()
-  }박`;
-  const formatCartPrice = cartData.price.toLocaleString();
+  const nights = checkOut.getDate() - checkIn.getDate();
+  const formatCartPrice = (cartData.price * nights).toLocaleString();
   const checkedCartIds = checkedCartsData.map((item) => item.cartItemId);
 
   const handleCheckBoxChange = (item: any) => {
@@ -106,7 +104,7 @@ const CartCard = ({
           {cartData.accommodationAddress}
         </StyledText>
         <StyledFlexContainer style={{ width: '100%' }}>
-          <StyledText $fontSize="0.75rem">{nights}</StyledText>
+          <StyledText $fontSize="0.75rem">{`${formatCheckIn} - ${formatCheckOut} ${nights}박`}</StyledText>
           <StyledText $fontSize="1rem" $fontWeight={700}>
             {formatCartPrice}원
           </StyledText>
