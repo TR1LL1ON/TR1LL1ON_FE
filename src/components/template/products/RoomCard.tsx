@@ -16,10 +16,12 @@ import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
 import { useRecoilValue } from 'recoil';
-import { guestCountState } from '@/states/atom';
+import { dateRangeState, guestCountState } from '@/states/atom';
 import { Link } from 'react-router-dom';
 import { Room } from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
+import useAddCart from '@/hooks/useAddCart';
+import CartModal from '@/components/layout/modal/CartModal';
 
 interface RoomCardProps {
   roomData: Room;
@@ -27,7 +29,16 @@ interface RoomCardProps {
 const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
   const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
+  const { startDate, endDate } = useRecoilValue(dateRangeState);
+  const handleAddCart = useAddCart(
+    startDate?.format('YYYY-MM-DD'),
+    endDate?.format('YYYY-MM-DD'),
+    guestCount.totals,
+    roomData.averPrice,
+    roomData.roomId,
+  );
 
+  const [showCartModal, setShowCartModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
 
   const handleDetailModal = () => {
@@ -36,6 +47,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
 
   return (
     <StyledWrap>
+      {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
       <StyledFlexRowGroup $gap="1rem">
         <StyledImgItem style={{ overflow: 'hidden' }}>
           <Carousel imageUrls={imageUrls} />
@@ -71,7 +83,10 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
           <StyledFlexContainer $flexDirection="row">
             <StyledBrandText>{`남은객실 ${roomData.count}`}</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">
-              <CartBtn />
+              <CartBtn
+                handleAddCart={handleAddCart}
+                setShowCartModal={setShowCartModal}
+              />
               <Link to={`/payment?productId=${roomData.roomId}`}>
                 <StyledReservationBtn $full={false} $variant="primary">
                   예약하기

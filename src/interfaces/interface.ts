@@ -133,13 +133,14 @@ export interface AccommodationResponse {
 export interface Cart {
   cartItemId: number;
   accommodationId: number;
-  accomodationName: string;
-  accomodationAddress: string;
-  accomodationCategory: string;
+  accommodationName: string;
+  accommodationAddress: string;
+  accommodationCategory: string;
   productId: number;
   productName: string;
   checkIn: string;
   checkOut: string;
   personNumber: number;
   price: number;
+  imageUrl: string;
 }

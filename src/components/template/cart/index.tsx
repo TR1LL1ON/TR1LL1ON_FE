@@ -31,16 +31,17 @@ const CartContainer = () => {
     navigate(`/payment?${queryString}`);
   };
 
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        const res = await getCarts();
-        setCartsData(res.data.items);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  const fetchData = async (): Promise<void> => {
+    try {
+      const res = await getCarts();
 
+      setCartsData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -52,15 +53,21 @@ const CartContainer = () => {
           'Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif',
       }}>
       <StyledTitle $mt="1.5rem">장바구니</StyledTitle>
-      <CartListController />
+      <CartListController
+        cartsData={cartsData}
+        checkedCartsData={checkedCartsData}
+        setCheckedCartsData={setCheckedCartsData}
+        fetchData={fetchData}
+      />
       <StyledHLine $mBlock="1rem" />
       <CartList
         cartsData={cartsData}
         checkedCartsData={checkedCartsData}
         setCheckedCartsData={setCheckedCartsData}
+        fetchData={fetchData}
       />
       <StyledHLine $mBlock="1rem" />
-      <CartDetail />
+      <CartDetail checkedCartsData={checkedCartsData} />
       <StyledButton
         style={{ width: '100%' }}
         $variant="primary"
