@@ -31,7 +31,6 @@ const GuestModal = ({ onClose }: GuestModalProps) => {
       <StyledH2Text $fontSize="1.5rem" $textAlign="left">
         게스트
       </StyledH2Text>
-      <StyledText>이 숙소의 최대 숙박 인원은 n명 입니다.</StyledText>
       <GuestContent />
       <StyledRowFull $gap="2rem" $justifyContent="space-between">
         <StyledButton onClick={onClose}>취소</StyledButton>
