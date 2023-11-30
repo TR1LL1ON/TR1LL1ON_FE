@@ -4,7 +4,6 @@ import {
   OrderRequest,
   AccommodationData,
   ReviewData,
-  Review,
   ProductReview,
   Cart,
 } from '../interfaces/interface';

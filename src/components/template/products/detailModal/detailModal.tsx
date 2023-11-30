@@ -18,8 +18,9 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import { LuUser } from 'react-icons/lu';
 import CartBtn from '@/components/layout/Button/cartBtn';
 
-import { useNavigate, Link } from 'react-router-dom';
-import ModalReview from './ModalReview';
+import { Link } from 'react-router-dom';
+import ModalReview from './modalReview';
+
 import {
   productsIconMapping,
   productsTextMapping,
@@ -31,7 +32,6 @@ import useAddCart from '@/hooks/useAddCart';
 import { useRecoilValue } from 'recoil';
 import { guestCountState, reservationState } from '@/states/atom';
 import CartModal from '@/components/layout/modal/CartModal';
-
 
 const DetailModal: React.FC<ModalProps> = ({
   setShowModal,

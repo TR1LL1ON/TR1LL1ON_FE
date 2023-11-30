@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
-import { getProducts, getProductsCategory } from '@/api/service';
-import { useLocation } from 'react-router-dom';
 import { getProducts } from '@/api/service';
 import { useLocation } from 'react-router-dom';
 import { getGeolocation } from '@/util/geolocation';
@@ -20,7 +18,7 @@ const MainContainer = () => {
     const queryParams = new URLSearchParams(location.search);
     const newCategory = queryParams.get('category');
     categoryRef.current = newCategory;
-    
+
     const areacode = queryParams.get('areacode');
 
     async function fetchProducts() {
@@ -37,7 +35,7 @@ const MainContainer = () => {
         }
 
         const productsData = res.data;
-        
+
         if (productsData.length === 0) {
           setShowNoResults(true);
           setProductCards([]);
@@ -64,7 +62,7 @@ const MainContainer = () => {
   }, [location.search]);
 
   //위치정보 받아오기
-  const [currPosition, setCurrPosition] = useRecoilState(currPositionState);
+  const [_, setCurrPosition] = useRecoilState(currPositionState);
 
   useEffect(() => {
     const fetchCurrentLocation = async () => {
@@ -83,7 +81,7 @@ const MainContainer = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   return (
     <>
       {showNoResults ? (

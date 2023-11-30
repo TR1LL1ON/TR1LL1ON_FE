@@ -23,11 +23,9 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
-  const {
-    data: ProductReview,
-    isLoading: isLoadingReview,
-    isError: isErrorReview,
-  } = useQuery<ProductReview[]>({
+  const { data: ProductReview, isLoading: isLoadingReview } = useQuery<
+    ProductReview[]
+  >({
     queryKey: ['ProductReview', accommodationID],
     queryFn: () => getProductsReview(accommodationID),
     enabled: !!accommodationID,
@@ -41,16 +39,6 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     return <div>Error fetching data</div>;
   }
 
-  let reviewErrorComponent = null;
-  if (isErrorReview) {
-    reviewErrorComponent = <div>Error loading reviews</div>;
-  }
-
-  let reviewLoadingComponent = null;
-  if (isLoadingReview) {
-    reviewLoadingComponent = <div>Loading reviews...</div>;
-  }
-  console.log(ProductReview);
   return (
     <>
       <StyledImageContainer
@@ -64,9 +52,9 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         <RoomCard
           key={room.roomId}
           roomData={room}
-
           ProductReview={ProductReview}
           name={accommodationData.name}
+          infoData={accommodationData}
         />
       ))}
       <AllFacility
@@ -74,10 +62,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         roomsFacility={roomData}
       />
 
-          infoData={accommodationData}
-        />
-
-      <Map lat={37.5649867} lng={126.985575} />
+      <Map
+        lat={Number(accommodationData.latitude)}
+        lng={Number(accommodationData.longitude)}
+      />
       {!isLoadingReview && ProductReview && (
         <Review ProductReview={ProductReview} name={accommodationData.name} />
       )}

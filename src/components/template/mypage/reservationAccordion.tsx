@@ -22,7 +22,7 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   isOpen,
   orderID,
 }) => {
-  const [showReviewWriteModal, setShowReviewWriteModal] = useState(false);
+  const [_, setShowReviewWriteModal] = useState(false);
   const { data, isLoading, isError } = useQuery({
     queryKey: ['ReservationDetailData', orderID],
     queryFn: () => getUserDetail(orderID as number),

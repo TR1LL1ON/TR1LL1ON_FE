@@ -9,7 +9,6 @@ import CartList from './CartList';
 import CartListController from './CartListController';
 import { useEffect, useState } from 'react';
 import { Cart } from '@/interfaces/interface';
-import { getCarts } from '@/api/service';
 import { useNavigate } from 'react-router-dom';
 import EmptyCart from './EmptyCart';
 import LoadingSpinner from '@/components/LoadingSpinner';

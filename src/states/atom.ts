@@ -58,7 +58,8 @@ export const currPositionState = atom({
     lat: 0,
     lng: 0,
   },
-  
+});
+
 export const cartsDataState = atom<Cart[]>({
   key: 'cartsDataState',
   default: [],

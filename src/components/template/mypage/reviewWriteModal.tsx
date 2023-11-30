@@ -3,7 +3,7 @@ import { ModalProps } from '@/interfaces/interface';
 import { StyledButton } from '@/style/payment/paymentStyle';
 import { StyledTitle, StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { postReviews, getReviews } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
 
