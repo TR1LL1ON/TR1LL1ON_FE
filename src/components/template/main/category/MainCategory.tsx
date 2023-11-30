@@ -8,7 +8,7 @@ import { categoryList, iconMap } from './categoryList';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const MainCategory = () => {
-  const [selectedCategory, setSelectedCategory] = useState('B02010100');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const navigation = useNavigate();
   const location = useLocation();
 

@@ -36,7 +36,7 @@ const CartCard = ({
   const formatCartPrice = (cartData.price * nights).toLocaleString();
   const checkedCartIds = checkedCartsData.map((item) => item.cartItemId);
 
-  const handleCheckBoxChange = (item: any) => {
+  const handleCheckBoxChange = (item: Cart) => {
     if (checkedCartIds.includes(item.cartItemId)) {
       setCheckedCartsData((prev) =>
         prev.filter(
@@ -48,10 +48,15 @@ const CartCard = ({
     }
   };
 
-  const handleDeleteCart = async (item: any): Promise<void> => {
+  const handleDeleteCart = async (item: Cart): Promise<void> => {
     try {
       await deleteCarts(item.cartItemId);
       fetchData();
+      setCheckedCartsData((prev) =>
+        prev.filter(
+          (prevCartData) => prevCartData.cartItemId !== item.cartItemId,
+        ),
+      );
     } catch (err) {
       console.log(err);
     }
