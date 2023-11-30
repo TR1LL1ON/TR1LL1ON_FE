@@ -22,7 +22,7 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   isOpen,
   orderID,
 }) => {
-  const [showReviewWriteModal, setShowReviewWriteModal] = useState(false);
+  const [_, setShowReviewWriteModal] = useState(false);
   const { data, isLoading, isError } = useQuery({
     queryKey: ['ReservationDetailData', orderID],
     queryFn: () => getUserDetail(orderID as number),
@@ -31,9 +31,13 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
 
   const orderDetailData = data?.data.orderItemList;
 
-  console.log(data?.data);
-  const handleReviewWriteModal = () => {
+  const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(
+    null,
+  );
+
+  const handleReviewWriteModal = (index: number) => {
     setShowReviewWriteModal(true);
+    setSelectedItemIndex(index);
   };
 
   if (isLoading) {
@@ -49,9 +53,8 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
       <AccordionContent className={isOpen ? 'active' : ''}>
         <StyledSubTitle>상세조회</StyledSubTitle>
 
-        {orderDetailData.map((item: ReservationDetail) => (
+        {orderDetailData.map((item: ReservationDetail, index: number) => (
           <div key={item.orderItemId}>
-            {/* <StyledTitle>{orderID}</StyledTitle> */}
             <StyledFlexContainer
               style={{
                 width: '100%',
@@ -81,7 +84,7 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
                   <StyledText $fontWeight={700}>
                     {item.orderItemDetail.accommodationName}
                   </StyledText>
-                  <StyledButton onClick={handleReviewWriteModal}>
+                  <StyledButton onClick={() => handleReviewWriteModal(index)}>
                     리뷰작성
                   </StyledButton>
                 </StyledFlexContainer>
@@ -102,10 +105,10 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
                 </StyledFlexContainer>
               </StyledFlexContainer>
             </StyledFlexContainer>
-            {showReviewWriteModal && (
+            {selectedItemIndex === index && (
               <ReviewWriteModal
-                setShowModal={setShowReviewWriteModal}
-                orderDetailData={orderDetailData}
+                setShowModal={() => setSelectedItemIndex(null)}
+                orderDetailData={orderDetailData[index]}
               />
             )}
             <StyledHLine />

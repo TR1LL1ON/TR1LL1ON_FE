@@ -1,20 +1,21 @@
 import { StyledCartList } from '@/style/cart/cartStyle';
 import CartCard from './CartCard';
 import { Cart } from '@/interfaces/interface';
+import { useRecoilValue } from 'recoil';
+import { cartsDataState } from '@/states/atom';
 
 interface ICartListProps {
-  cartsData: Cart[];
   checkedCartsData: Cart[];
   setCheckedCartsData: React.Dispatch<React.SetStateAction<Cart[]>>;
   fetchData: () => void;
 }
 
 const CartList = ({
-  cartsData,
   checkedCartsData,
   setCheckedCartsData,
   fetchData,
 }: ICartListProps) => {
+  const cartsData = useRecoilValue(cartsDataState);
   return (
     <StyledCartList $flexDirection="column" $justifyContent="flex-start">
       {cartsData.map((cart, index) => (

@@ -1,25 +1,26 @@
 import { deleteCarts } from '@/api/service';
 import { Cart } from '@/interfaces/interface';
+import { cartsDataState } from '@/states/atom';
 import { StyledDeleteButton } from '@/style/cart/cartStyle';
 import {
   StyledCheckboxInput,
   StyledFlexContainer,
   StyledText,
 } from '@/style/payment/paymentStyle';
+import { useRecoilValue } from 'recoil';
 
 interface ICartListControllerProps {
-  cartsData: Cart[];
   checkedCartsData: Cart[];
   setCheckedCartsData: React.Dispatch<React.SetStateAction<Cart[]>>;
   fetchData: () => void;
 }
 
 const CartListController = ({
-  cartsData,
   checkedCartsData,
   setCheckedCartsData,
   fetchData,
 }: ICartListControllerProps) => {
+  const cartsData = useRecoilValue(cartsDataState);
   const cartsTotal = cartsData.length !== 0 ? cartsData.length : 0;
   const checkedCartsTotal =
     checkedCartsData.length !== 0 ? checkedCartsData.length : 0;

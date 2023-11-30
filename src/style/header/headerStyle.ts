@@ -109,6 +109,7 @@ export const StyledHeaderModal = styled.div`
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
   border-radius: 14px;
   background-color: #ffffff;
+  font-family: 'Pretendard', system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   display: flex;
   flex-direction: column;
@@ -124,14 +125,17 @@ export const StyledHeaderModalList = styled.div`
   padding: 10px 0;
 
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
 
   a {
     color: rgb(68, 68, 68);
     width: 100%;
     padding: 12px 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
 
     &:hover {
       background-color: #ebebeb;
@@ -143,6 +147,10 @@ export const StyledHeaderText = styled.span`
   width: 100%;
   padding: 12px 14px;
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
 
   &:hover {
     background-color: #ebebeb;

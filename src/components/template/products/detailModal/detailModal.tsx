@@ -17,7 +17,10 @@ import Carousel from './carousel';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { LuUser } from 'react-icons/lu';
 import CartBtn from '@/components/layout/Button/cartBtn';
+
 import { Link } from 'react-router-dom';
+import ModalReview from './modalReview';
+
 import {
   productsIconMapping,
   productsTextMapping,
@@ -35,6 +38,8 @@ const DetailModal: React.FC<ModalProps> = ({
   infoData,
   roomData,
   imageUrls,
+  ProductReview,
+  name,
 }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
   const closeModal = () => {
@@ -86,7 +91,7 @@ const DetailModal: React.FC<ModalProps> = ({
   if (!roomData || !imageUrls) {
     return <div>로딩중</div>;
   }
-
+  console.log('방 리뷰', ProductReview);
   return (
     <StyledModal onClick={closeModal}>
       {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
@@ -180,18 +185,11 @@ const DetailModal: React.FC<ModalProps> = ({
               <MdKeyboardArrowRight />
             </StyledFlexContainer>
           </StyledModalFlexContainer>
-
-          <StyledSubTitle $mt="2rem" $mb="0.5rem">
-            후기
-          </StyledSubTitle>
-          <StyledModalFlexContainer
-            $justifyContent="flex-stat"
-            $alignItems="left"
-            $flexDirection="column">
-            후기
-          </StyledModalFlexContainer>
-          <StyledReviewButton>168개 객실후기 보기</StyledReviewButton>
-
+          <ModalReview
+            ProductReview={ProductReview}
+            name={name}
+            roomId={roomData.roomId}
+          />
           <StyledSubTitle $mt="3rem" $mb="0.5rem">
             취소 수수료
           </StyledSubTitle>
@@ -297,20 +295,6 @@ const StyledModalFlexContainer = styled(StyledFlexContainer)`
   flex-wrap: wrap;
   padding: 1rem;
   margin-bottom: 1rem;
-`;
-const StyledReviewButton = styled.button`
-  background-color: #fff;
-  border: 1px solid #d8d8d8;
-  width: 100%;
-
-  padding: 0.7rem;
-  color: #444;
-  font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: ${(props) => props.theme.fontWeights.bold};
-  border-radius: 0.5rem;
-  &:hover {
-    background-color: #eeeeee;
-  }
 `;
 
 const StyledTable = styled.table`

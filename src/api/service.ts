@@ -4,7 +4,7 @@ import {
   OrderRequest,
   AccommodationData,
   ReviewData,
-  Review,
+  ProductReview,
   Cart,
 } from '../interfaces/interface';
 import { getCookie } from '@/util/util';
@@ -72,54 +72,39 @@ export const postLogout = async () => {
   return res;
 };
 
-// 전체 숙소조회(비로그인) <=> 개인화 숙소조회(로그인)
+//getProducts 통합
 export const getProducts = async (
-  checkIn?: string,
-  checkOut?: string,
-  personNumber?: string,
+  options: {
+    checkIn?: string;
+    checkOut?: string;
+    personNumber?: string;
+    categoryCode?: string;
+    RegionCode?: string;
+    accommodationData?: AccommodationData;
+  } = {},
 ) => {
-  const res = await client.get('products', {
-    params: {
-      checkIn: checkIn,
-      checkOut: checkOut,
-      personNumber: personNumber,
-    },
-  });
-  return res;
-};
+  const params = { ...options };
 
-// 카테고리별 숙소조회
-export const getProductsCategory = async (
-  categoryCode: string,
-  accommodationData?: AccommodationData,
-) => {
-  const res = await client.get(`products?category=${categoryCode}`, {
-    params: accommodationData,
-  });
-  return res;
-};
+  let endpoint = 'products';
 
-// 지역별 숙소조회
-export const getProductsRegion = async (
-  RegionCode: string,
-  accommodationData: AccommodationData,
-) => {
-  const res = await client.get(`products?region=${RegionCode}`, {
-    params: accommodationData,
-  });
-  return res;
-};
+  if (options.categoryCode || options.RegionCode) {
+    endpoint += '?';
 
-// 지역별 & 카테고리별 숙소조회
-export const getProductsCategoryRegion = async (
-  categoryCode: string,
-  RegionCode: string,
-  accommodationData: AccommodationData,
-) => {
-  const res = await client.get(
-    `products?category=${categoryCode}&region=${RegionCode}`,
-    { params: accommodationData },
-  );
+    if (options.categoryCode) {
+      endpoint += `category=${options.categoryCode}`;
+      delete params.categoryCode;
+    }
+
+    if (options.RegionCode) {
+      if (options.categoryCode) {
+        endpoint += '&';
+      }
+      endpoint += `region=${options.RegionCode}`;
+      delete params.RegionCode;
+    }
+  }
+
+  const res = await client.get(endpoint, { params });
   return res;
 };
 
@@ -180,9 +165,15 @@ export const getReviews = async () => {
 };
 
 // 리뷰작성
-export const postReviews = async (Review: Review) => {
-  const res = await client.post(`reviews`, {
-    Review,
+export const postReviews = async (
+  orderItemId: number,
+  score: number,
+  content: string,
+) => {
+  const res = await client.post(`/reviews`, {
+    orderItemId: orderItemId,
+    score: score,
+    content: content,
   });
   return res;
 };
@@ -199,6 +190,14 @@ export const putReviews = async (reviewID: string, ReviewData: ReviewData) => {
 export const deleteReviews = async (reviewID: string) => {
   const res = await client.delete(`reviews/${reviewID}`);
   return res;
+};
+
+//숙소 리뷰 조회
+export const getProductsReview = async (
+  accommodationID: string,
+): Promise<ProductReview[]> => {
+  const res = await client.get(`reviews/${accommodationID}`);
+  return res.data;
 };
 
 // 숙소 찜 조회
