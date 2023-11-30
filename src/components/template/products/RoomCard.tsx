@@ -102,7 +102,6 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData, infoData }) => {
         <StyledH2Text>{roomData.roomName}</StyledH2Text>
         <StyledTextRow>
           <LuUser className="icon" />
-
           {`기준 ${roomData.standardNumber}인 | 최대 ${roomData.maxNumber}인`}
         </StyledTextRow>
         <StyledTextRow>

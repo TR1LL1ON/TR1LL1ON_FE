@@ -15,9 +15,9 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import Carousel from './carousel';
 import { MdKeyboardArrowRight } from 'react-icons/md';
-import { LuUser, LuCheck } from 'react-icons/lu';
+import { LuUser } from 'react-icons/lu';
 import CartBtn from '@/components/layout/Button/cartBtn';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   productsIconMapping,
   productsTextMapping,
@@ -55,11 +55,6 @@ const DetailModal: React.FC<ModalProps> = ({
 
   const trueInfoDataFacilities = getTrueFacilities(infoData?.facility);
   const trueRoomDataFacilities = getTrueFacilities(roomData?.facility);
-
-  console.log(trueInfoDataFacilities);
-  console.log(trueRoomDataFacilities);
-
-  const amenityArr: string[] = ['무료 와이파이', '발코니', '욕실'];
 
   const formatDate = (dateString: string | undefined): string => {
     if (!dateString) {
@@ -245,15 +240,17 @@ const DetailModal: React.FC<ModalProps> = ({
           </StyledFlexContainer>
           <StyledFlexContainer style={{ height: '5rem' }}>
             <CartBtn />
-            <StyledButton
-              $variant="primary"
-              style={{
-                width: '15rem',
-                margin: '0.5rem',
-              }}
-              onClick={handleReservationClick}>
-              예약하기
-            </StyledButton>
+            <Link to={`/payment?productId=${roomData.roomId}`}>
+              <StyledButton
+                $variant="primary"
+                style={{
+                  width: '15rem',
+                  margin: '0.5rem',
+                }}
+                onClick={handleReservationClick}>
+                예약하기
+              </StyledButton>
+            </Link>
           </StyledFlexContainer>
         </StyledModalFooter>
       </StyledModalContent>
