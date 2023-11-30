@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import { Cart } from '@/interfaces/interface';
 import { getCarts } from '@/api/service';
 import { useNavigate } from 'react-router-dom';
+import EmptyCart from './EmptyCart';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export interface IFormValue {
   name: string;
@@ -23,12 +25,21 @@ const CartContainer = () => {
   const navigate = useNavigate();
   const [cartsData, setCartsData] = useState<Cart[]>([]);
   const [checkedCartsData, setCheckedCartsData] = useState<Cart[]>([]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const handleSubmit = (): void => {
-    const productIds = checkedCartsData.map((cart) => cart.productId);
-    const queryString = productIds.map((id) => `productId=${id}`).join('&');
+    const idsArray = checkedCartsData.map((cart) => [
+      cart.productId,
+      cart.accommodationId,
+    ]);
+    const productQueryString = idsArray
+      .map((id) => `productId=${id[0]}`)
+      .join('&');
+    const accommodationQueryString = idsArray
+      .map((id) => `accommodationId=${id[1]}`)
+      .join('&');
 
-    navigate(`/payment?${queryString}`);
+    navigate(`/payment?${productQueryString}?${accommodationQueryString}`);
   };
 
   const fetchData = async (): Promise<void> => {
@@ -38,6 +49,8 @@ const CartContainer = () => {
       setCartsData(res);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoaded(true);
     }
   };
 
@@ -53,27 +66,37 @@ const CartContainer = () => {
           'Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif',
       }}>
       <StyledTitle $mt="1.5rem">장바구니</StyledTitle>
-      <CartListController
-        cartsData={cartsData}
-        checkedCartsData={checkedCartsData}
-        setCheckedCartsData={setCheckedCartsData}
-        fetchData={fetchData}
-      />
-      <StyledHLine $mBlock="1rem" />
-      <CartList
-        cartsData={cartsData}
-        checkedCartsData={checkedCartsData}
-        setCheckedCartsData={setCheckedCartsData}
-        fetchData={fetchData}
-      />
-      <StyledHLine $mBlock="1rem" />
-      <CartDetail checkedCartsData={checkedCartsData} />
-      <StyledButton
-        style={{ width: '100%' }}
-        $variant="primary"
-        onClick={handleSubmit}>
-        결제하기
-      </StyledButton>
+      {isLoaded ? (
+        cartsData.length !== 0 ? (
+          <>
+            <CartListController
+              cartsData={cartsData}
+              checkedCartsData={checkedCartsData}
+              setCheckedCartsData={setCheckedCartsData}
+              fetchData={fetchData}
+            />
+            <StyledHLine $mBlock="1rem" />
+            <CartList
+              cartsData={cartsData}
+              checkedCartsData={checkedCartsData}
+              setCheckedCartsData={setCheckedCartsData}
+              fetchData={fetchData}
+            />
+            <StyledHLine $mBlock="1rem" />
+            <CartDetail checkedCartsData={checkedCartsData} />
+            <StyledButton
+              style={{ width: '100%' }}
+              $variant="primary"
+              onClick={handleSubmit}>
+              결제하기
+            </StyledButton>
+          </>
+        ) : (
+          <EmptyCart />
+        )
+      ) : (
+        <LoadingSpinner />
+      )}
     </StyledWrapper>
   );
 };

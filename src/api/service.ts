@@ -62,8 +62,8 @@ export const postLogin = async (email: string, password: string) => {
 };
 
 // 로그아웃
-export const getLogout = async () => {
-  const res = await client.get('logout');
+export const postLogout = async () => {
+  const res = await client.post('auth/logout');
   return res;
 };
 
