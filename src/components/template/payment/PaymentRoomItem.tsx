@@ -1,17 +1,17 @@
-import { Product } from '@/api/service';
 import {
   StyledFlexContainer,
   StyledImageContainer,
   StyledText,
 } from '@/style/payment/paymentStyle';
 import { CATEGORY_CODE } from '@/constants';
+import { Cart } from '@/interfaces/interface';
 
 interface Props {
-  productData: Product;
+  productData: Cart;
 }
 
 const PaymentRoomItem = ({ productData }: Props) => {
-  const { roomName, imageUrl, category } = productData;
+  const { imageUrl, accommodationCategory, productName } = productData;
 
   return (
     <StyledFlexContainer
@@ -23,9 +23,9 @@ const PaymentRoomItem = ({ productData }: Props) => {
       </StyledImageContainer>
       <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
         <StyledText $fontSize="0.7rem" $opacity={0.7}>
-          {CATEGORY_CODE[category]}
+          {CATEGORY_CODE[accommodationCategory]}
         </StyledText>
-        <StyledText>{roomName}</StyledText>
+        <StyledText>{productName}</StyledText>
       </StyledFlexContainer>
     </StyledFlexContainer>
   );

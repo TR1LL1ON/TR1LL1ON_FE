@@ -1,5 +1,5 @@
-import { SummaryData } from '@/api/service';
-import { reservationState } from '@/states/atom';
+import useFilteredReservation from '@/hooks/useFilteredReservation';
+
 import {
   StyledFlexContainer,
   StyledLabel,
@@ -8,37 +8,40 @@ import {
   StyledText,
   StyledWrapper,
 } from '@/style/payment/paymentStyle';
-import { useRecoilValue } from 'recoil';
-
-interface Props {
-  reservationData: SummaryData | undefined;
-}
 
 const PaymentReservations = () => {
-  const reservation = useRecoilValue(reservationState);
+  const { filteredRooms } = useFilteredReservation();
 
   return (
     <>
       <StyledSubTitle>예약 정보</StyledSubTitle>
       <StyledLabel>날짜</StyledLabel>
-      <StyledFlexContainer>
-        <StyledWrapper>
-          <StyledFlexContainer $gap="0.5rem">
-            <StyledText $fontWeight={600}>
-              {reservation.checkIn} ~ {reservation.checkOut}
-            </StyledText>
-          </StyledFlexContainer>
-        </StyledWrapper>
+      <StyledFlexContainer
+        $flexDirection="column"
+        $alignItems="start"
+        $gap="0.5rem">
+        {filteredRooms?.map((room, index) => (
+          <StyledWrapper key={`${room.productId}-${index}`}>
+            <StyledFlexContainer $flexDirection="column" $alignItems="start">
+              <StyledText $fontWeight={600}>
+                {room.checkIn} - {room.checkOut}
+              </StyledText>
+              <StyledText>{room.accommodationName}</StyledText>
+            </StyledFlexContainer>
+          </StyledWrapper>
+        ))}
       </StyledFlexContainer>
 
       <StyledSpacer $height="1rem" />
 
       <StyledLabel>게스트</StyledLabel>
-      <StyledFlexContainer>
-        <StyledWrapper>
-          <StyledText>성인 2명</StyledText>
-        </StyledWrapper>
-      </StyledFlexContainer>
+      {filteredRooms?.map((room, index) => (
+        <StyledFlexContainer key={`${room.productId}-${index}`}>
+          <StyledWrapper>
+            <StyledText>{room.personNumber} 명</StyledText>
+          </StyledWrapper>
+        </StyledFlexContainer>
+      ))}
     </>
   );
 };

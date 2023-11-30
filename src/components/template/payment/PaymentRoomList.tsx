@@ -1,12 +1,12 @@
-import { SummaryData } from '@/api/service';
 import {
   StyledFlexContainer,
   StyledSubTitle,
 } from '@/style/payment/paymentStyle';
 import PaymentRoomItem from './PaymentRoomItem';
+import { Cart } from '@/interfaces/interface';
 
 interface Props {
-  reservationData: SummaryData | undefined;
+  reservationData: Cart[] | undefined;
 }
 
 const PaymentRoomList = ({ reservationData }: Props) => {
@@ -17,7 +17,7 @@ const PaymentRoomList = ({ reservationData }: Props) => {
         $flexDirection="column"
         $alignItems="flex-start"
         $gap="1rem">
-        {reservationData?.products.map((reservation, index) => (
+        {reservationData?.map((reservation, index) => (
           <PaymentRoomItem
             key={`${index}-${reservation.accommodationName}`}
             productData={reservation}

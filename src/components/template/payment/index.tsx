@@ -11,34 +11,61 @@ import PaymentOptions from './PaymentOptions';
 import PaymentReservations from './PaymentReservations';
 import PaymentRoomList from './PaymentRoomList';
 import PaymentTerms from './PaymentTerms';
-import { useRecoilValue } from 'recoil';
-import { orderState, reservationState } from '@/states/atom';
+import { useRecoilState } from 'recoil';
+import { orderState } from '@/states/atom';
 import { useMutation } from '@tanstack/react-query';
 import { postOrders } from '@/api/service';
-import { OrderRequest } from '@/interfaces/interface';
-import { useLocation } from 'react-router-dom';
-import useReservations from '@/hooks/useReservations';
+import { Order } from '@/interfaces/interface';
+import useFilteredReservation from '@/hooks/useFilteredReservation';
+import type { Cart } from '@/interfaces/interface';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+type SortedOrder = Pick<
+  Cart,
+  'productId' | 'personNumber' | 'checkIn' | 'checkOut'
+>;
 
 const PaymentContainer = () => {
-  const locations = useLocation();
-  const params = new URLSearchParams(locations.search);
-  const productIds = params.getAll('productId').map((e) => Number(e));
-  const { data: reservations, isLoading, error } = useReservations(productIds);
+  const [orderData, setOrderData] = useRecoilState(orderState);
+  const { filteredRooms, isLoading } = useFilteredReservation();
+  const navigation = useNavigate();
 
-  const reservation = useRecoilValue(reservationState);
-  const orderData = useRecoilValue(orderState);
-  const orderRequestBody: OrderRequest = {
-    orders: [
-      {
-        ...reservation,
-      },
-    ],
-    payment: orderData.payment,
+  const orderList: SortedOrder[] =
+    filteredRooms?.map((room) => ({
+      productId: room.productId,
+      personNumber: room.personNumber,
+      checkIn: room.checkIn,
+      checkOut: room.checkOut,
+    })) || [];
+
+  const updateOrderData = (orders: Order[]) => {
+    setOrderData((prevOrders) => ({ ...prevOrders, orders: orders }));
   };
 
-  const { mutate } = useMutation({
-    mutationFn: () => postOrders(orderRequestBody),
+  const { mutate } = useMutation<AxiosResponse, AxiosError>({
+    mutationFn: () => postOrders(orderData),
+    onSuccess: () => {
+      alert('결제가 완료되었습니다.');
+      updateOrderData([]);
+    },
+    onError: (error) => {
+      if (error.response?.status === 400) {
+        alert('결제에 실패하였습니다.');
+      } else if (error.response?.status === 404) {
+        alert('이미 예약된 숙소입니다.');
+        navigation('/');
+      }
+    },
   });
+
+  const handlePayment = () => {
+    updateOrderData(orderList);
+    mutate();
+  };
+
+  if (!filteredRooms || isLoading) return <LoadingSpinner />;
 
   return (
     <>
@@ -55,13 +82,13 @@ const PaymentContainer = () => {
           <StyledSpacer />
           <PaymentDetail />
           <StyledSpacer $height="1rem" />
-          <StyledButton $variant="primary" onClick={() => mutate()}>
+          <StyledButton $variant="primary" onClick={handlePayment}>
             확인 및 결제
           </StyledButton>
         </StyledWrapper>
 
         <StyledWrapper>
-          <PaymentRoomList reservationData={reservations} />
+          <PaymentRoomList reservationData={filteredRooms} />
         </StyledWrapper>
       </StyledGridContainer>
     </>
