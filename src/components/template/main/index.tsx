@@ -1,8 +1,8 @@
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
 import { useQuery } from '@tanstack/react-query';
-import { getProducts, getProductsCategory } from '@/api/service';
-import { useLocation } from 'react-router-dom';
+import { getProducts } from '@/api/service';
+
 import { mainData } from '@/interfaces/interface';
 
 // API 응답 타입 정의
