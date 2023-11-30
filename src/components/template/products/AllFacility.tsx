@@ -8,23 +8,23 @@ import {
 } from '@/style/products/productsStyle';
 import ProductsFacilityList from './ProductsFacilityList';
 import RoomsFacilityList from './RoomsFacilityList';
-import FacilityModal from './FacilityModal';
 import {
   AccommodationFacility,
   Room,
   RoomFacility,
 } from '@/interfaces/interface';
+import ModalTab from './ModalTab';
 
 interface AllFacilityProps {
   productsFacility: AccommodationFacility;
   roomsFacility: Room[];
 }
 const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
-  const [showFacilityModal, setShowFacilityModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const handleFacilityModal = (e: React.MouseEvent) => {
+  const handleShowModal = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setShowFacilityModal(true);
+    setShowModal(true);
   };
   // roomsFacility에서 각 방의 facility를 추출하여 배열로 변환
   const transformedRoomsFacility = roomsFacility.flatMap((room) => {
@@ -43,15 +43,10 @@ const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
   ) {
     return null;
   }
-  // console.log('products🏰::', productsFacility);
-  // console.log('rooms🎃::', uniqueFacilities);
 
-  // 하나의 배열로 합침
   const productFacilityItems = (
     <ProductsFacilityList productsFacility={productsFacility} />
   );
-
-  // 문자열 배열로 받은 roomsFacility를 `RoomsFacilityList` 컴포넌트에 전달
   const roomFacilityItems = (
     <RoomsFacilityList roomsFacility={uniqueFacilities} />
   );
@@ -59,10 +54,8 @@ const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
   const displayFacilities = React.Children.toArray([
     productFacilityItems,
     roomFacilityItems,
-  ]).slice(0, 9);
+  ]);
 
-  // 9개 노출 다시 확인 필요
-  // console.log('9개', displayFacilities);
   return (
     <StyledBorderWrap>
       <StyledH2Text $mt="0rem" $mb="2rem">
@@ -73,15 +66,15 @@ const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
           <StyledItem> {displayFacilities}</StyledItem>
         </ItemContainer>
         <ButtonContainer>
-          <StyledBorderBtn $variant="primary" onClick={handleFacilityModal}>
-            편의시설 모두 보기
+          <StyledBorderBtn $variant="primary" onClick={handleShowModal}>
+            객실 이용 안내 보기
           </StyledBorderBtn>
 
-          {showFacilityModal && (
-            <FacilityModal
+          {showModal && (
+            <ModalTab
+              onClose={() => setShowModal(false)}
               productsFacility={productsFacility}
               roomsFacility={uniqueFacilities}
-              onClose={() => setShowFacilityModal(false)}
             />
           )}
         </ButtonContainer>

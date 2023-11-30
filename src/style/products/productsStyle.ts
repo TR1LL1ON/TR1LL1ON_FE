@@ -227,7 +227,7 @@ export const StyledItem = styled.div`
     font-size: ${(props) => props.theme.fontSizes.xl};
     margin-right: 1rem;
   }
-  & p {
+  & .mapping {
     width: 33.3%;
     line-height: 4rem;
   }
