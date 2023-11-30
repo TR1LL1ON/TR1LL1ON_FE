@@ -16,6 +16,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { cartsDataState } from '@/states/atom';
+import useGetCarts from '@/hooks/useGetCarts';
 
 export interface IFormValue {
   name: string;
@@ -29,6 +30,7 @@ const CartContainer = () => {
   const [cartsData, setCartsData] = useRecoilState(cartsDataState);
   const [checkedCartsData, setCheckedCartsData] = useState<Cart[]>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const handleGetCarts = useGetCarts();
 
   const accommodationCosts = checkedCartsData.map((cart) => {
     const checkIn = new Date(cart.checkIn);
@@ -57,7 +59,7 @@ const CartContainer = () => {
 
   const fetchData = async (): Promise<void> => {
     try {
-      const res = await getCarts();
+      const res = await handleGetCarts();
 
       setCartsData(res);
     } catch (err) {
