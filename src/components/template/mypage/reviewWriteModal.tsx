@@ -2,21 +2,11 @@ import styled from 'styled-components';
 
 import { ModalProps, Review } from '@/interfaces/interface';
 import { StyledButton } from '@/style/payment/paymentStyle';
-import {
-  StyledTitle,
-  StyledSubTitle,
-  StyledText,
-  StyledFlexContainer,
-  StyledImageContainer,
-  StyledHLine,
-} from '@/style/payment/paymentStyle';
+import { StyledTitle, StyledSubTitle } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
 import { useState } from 'react';
 import { postReviews } from '@/api/service';
-const ReviewWriteModal: React.FC<ModalProps> = ({
-  setShowModal,
-  orderDetailData,
-}) => {
+const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
   const closeModal = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 

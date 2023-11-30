@@ -45,6 +45,16 @@ export interface Review {
   content: string;
 }
 
+// 객실 리뷰
+export interface ProductReview {
+  review_id: number;
+  review_date: string;
+  score: number;
+  user_id: number;
+  product_id: number;
+  content: string;
+}
+
 export interface SignupRequestBody {
   name: string;
   email: string;
@@ -53,26 +63,6 @@ export interface SignupRequestBody {
 
 export interface AccommodationImage {
   imageUrl: string;
-}
-
-export interface Facility {
-  canCook?: boolean;
-  hasAiConditioner?: boolean;
-  hasBath?: boolean;
-  hasCable?: boolean;
-  hasHairDryer?: boolean;
-  hasInternet?: boolean;
-  hasPc?: boolean;
-  hasRefrigerator?: boolean;
-  hasSofa?: boolean;
-  hasTv?: boolean;
-  hasTable?: boolean;
-  hasToiletries?: boolean;
-  hasParking?: boolean;
-  hasCooking?: boolean;
-  hasSports?: boolean;
-  hasSauna?: boolean;
-  hasBeauty?: boolean;
 }
 
 export interface AccommodationFacility {

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   StyledWrap,
   StyledH2Text,
@@ -5,34 +6,65 @@ import {
 } from '@/style/products/productsStyle';
 import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
+import { ProductReview } from '@/interfaces/interface';
+import { FaStar } from 'react-icons/fa';
+import { v4 as uuidv4 } from 'uuid';
 
-const Review = () => {
+interface ReviewProps {
+  ProductReview: ProductReview[] | undefined;
+  name: string;
+}
+const Review = ({ ProductReview, name }: ReviewProps) => {
+  const [displayedReviews, setDisplayedReviews] = useState<ProductReview[]>([]);
+  const noReviewsMessage =
+    '이 숙박 시설에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊';
+
+  useEffect(() => {
+    if (ProductReview) {
+      setDisplayedReviews(ProductReview.slice(0, 3));
+    }
+  }, [ProductReview]);
+
+  const showAllReviews = () => {
+    if (ProductReview) {
+      setDisplayedReviews(ProductReview);
+    }
+  };
   return (
     <StyledWrap>
-      <StyledH2Text $mt="0rem" $mb="2rem">
-        리뷰는 추후 구현
+      <StyledH2Text $mt="1rem" $mb="2rem">
+        '{name}' 방문 리뷰
       </StyledH2Text>
       <StyleReviewContainer
         $justifyContent="flex-start"
         $alignItems="left"
-        $flexDirection="row"
+        $flexDirection="column"
         $gap="1rem">
-        <StyleReviewItem $padding="1.2rem 1rem">
-          ⭐⭐⭐⭐⭐ 평점 / 작성자 / 날짜 / 내용
-          <br />
-          야놀자에는 리뷰 항목 가로 슬라이드로 구현
-        </StyleReviewItem>
-        <StyleReviewItem $padding="1.2rem 1rem">
-          ⭐⭐⭐⭐⭐ 평점 / 작성자 / 날짜 / 내용
-          <br />
-          콘텐츠 클릭 시 리뷰 페이지로 이동
-        </StyleReviewItem>
-        <StyleReviewItem $padding="1.2rem 1rem">
-          ⭐⭐⭐⭐⭐ 평점 / 작성자 / 날짜 / 내용 좋아용
-          <br /> 슬라이드에 최대 10개? 노출
-        </StyleReviewItem>
+        {!displayedReviews || displayedReviews.length === 0 ? (
+          <StyleReviewItem $padding="1.2rem 1rem">
+            {noReviewsMessage}
+          </StyleReviewItem>
+        ) : (
+          displayedReviews.map((review) => (
+            <StyleReviewItem key={uuidv4()}>
+              <div>
+                <span>
+                  {review.score} <FaStar />
+                </span>
+                <span>{review.user_id}</span>
+                <span>{review.review_date}</span>
+                <p>{review.content}</p>
+              </div>
+            </StyleReviewItem>
+          ))
+        )}
       </StyleReviewContainer>
-      <StyledReviewButton>168개 후기 전체보기</StyledReviewButton>
+
+      {ProductReview && ProductReview.length > 3 && (
+        <StyledReviewButton onClick={showAllReviews}>
+          후기 전체보기
+        </StyledReviewButton>
+      )}
     </StyledWrap>
   );
 };
@@ -41,12 +73,10 @@ export default Review;
 const StyleReviewContainer = styled(StyledFlexContainer)`
   flex-wrap: nowrap;
   margin-bottom: 1rem;
-  width: 120%;
-  overflow: hidden;
 `;
 const StyleReviewItem = styled(StyledTextBox)`
   border: 1px solid ${({ theme }) => theme.colors.gray};
-  width: 40%;
+  width: 100%;
   border-radius: 1rem;
 `;
 const StyledReviewButton = styled.button`
