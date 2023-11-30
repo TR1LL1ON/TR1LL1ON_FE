@@ -1,12 +1,13 @@
 import { StyledFlexContainer, StyledText } from '@/style/payment/paymentStyle';
 import { StyledH2Text } from '@/style/products/productsStyle';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
     <StyledFooter>
       <StyledH2Text $textAlign="left" $fontSize="24px">
-        TR1LL1ON
+        <Link to="/">TR1LL1ON</Link>
       </StyledH2Text>
       <StyledText $fontSize="0.75rem" $opacity={0.8}>
         TR1LL1ON은 통신판매 중개자로서 통신판매의 당사자가 아니며 상품의 예약,
@@ -45,6 +46,7 @@ const StyledFooter = styled.footer`
   gap: 1rem;
   color: ${(props) => props.theme.colors.darkGray};
   font-size: ${(props) => props.theme.fontSizes.sm};
+  margin-top: 5rem;
 `;
 const StyledNameText = styled.footer`
   &::after {
