@@ -34,7 +34,7 @@ const ModalReview = ({ ProductReview, name, roomId }: ModalReviewProps) => {
           displayedReview.map((review) => (
             <StyleReviewItem key={uuidv4()}>
               <p>
-                <span> {reviewStar(review.score)}점</span>
+                <span> {reviewStar(review.score)}</span>
                 <span>{review.reviewDate}</span>
               </p>
               <p>{review.content}</p>
