@@ -175,13 +175,6 @@ export const getReviews = async () => {
 };
 
 // 리뷰작성
-// export const postReviews = async (Review: Review) => {
-//   const res = await client.post(`reviews`, {
-//     Review,
-//   });
-//   return res;
-// };
-
 export const postReviews = async (
   orderItemId: number,
   score: number,

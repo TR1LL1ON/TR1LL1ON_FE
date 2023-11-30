@@ -3,8 +3,9 @@ import { ModalProps } from '@/interfaces/interface';
 import { StyledButton } from '@/style/payment/paymentStyle';
 import { StyledTitle, StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
-import { useState } from 'react';
-import { postReviews } from '@/api/service';
+import { useEffect, useState } from 'react';
+import { postReviews, getReviews } from '@/api/service';
+import { useQuery } from '@tanstack/react-query';
 
 const ReviewWriteModal: React.FC<ModalProps> = ({
   setShowModal,
@@ -18,8 +19,6 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
   const [reviewText, setReviewText] = useState('');
   const [score, setScore] = useState(0);
   const [hover, setHover] = useState(0);
-
-  console.log(orderDetailData);
 
   const submitReview = async () => {
     if (orderDetailData && orderDetailData.orderItemId) {
@@ -38,6 +37,16 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
     }
   };
 
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['accommodation'],
+    queryFn: () => getReviews(),
+  });
+
+  console.log(data);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error occurred</div>;
+
   return (
     <StyledModal onClick={closeModal}>
       <StyledModalContent
@@ -54,7 +63,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
                 if (ratingValue === score) {
                   setScore((prevScore) => Math.max(prevScore - 1, 0));
                 } else {
-                  setScore(ratingValue); // 그렇지 않으면 새로운 별점 설정
+                  setScore(ratingValue);
                 }
               };
 
@@ -158,17 +167,17 @@ export const StyledModalContent = styled.div<{
 `;
 
 const StyledTextArea = styled.textarea`
-  width: 100%; // 전체 너비
-  height: 150px; // 초기 높이
-  padding: 10px; // 안쪽 여백
-  margin: 10px 0; // 바깥쪽 여백
-  border: 1px solid #ddd; // 테두리
-  border-radius: 4px; // 테두리 둥글기
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); // 그림자 효과
-  resize: vertical; // 세로 방향으로만 크기 조절 가능
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  resize: none;
 
   &:focus {
-    border-color: #0056b3; // 포커스 시 테두리 색상 변경
-    outline: none; // 기본 아웃라인 제거
+    border-color: #0056b3;
+    outline: none;
   }
 `;
