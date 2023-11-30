@@ -4,6 +4,7 @@ import { ProductCard } from './ProductCard';
 import { getProducts, getProductsCategory } from '@/api/service';
 import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { mainData } from '@/interfaces/interface';
 
 const MainContainer = () => {
   const [productCards, setProductCards] = useState<React.ReactNode[]>([]);
@@ -19,7 +20,6 @@ const MainContainer = () => {
 
     async function fetchProducts(categoryParam?: string) {
       try {
-        // const res = await getProducts('2023-12-01', '2023-12-05', '6');
         let res;
         if (categoryParam) {
           res = await getProductsCategory(categoryParam);
@@ -28,13 +28,14 @@ const MainContainer = () => {
         }
 
         const productsData = res.data;
+        console.log(productsData);
 
         if (productsData.length === 0) {
           setShowNoResults(true);
           setProductCards([]);
         } else {
           setShowNoResults(false);
-          const cards = productsData.map((product: any) => (
+          const cards = productsData.map((product: mainData) => (
             <ProductCard
               key={uuidv4()}
               address={product.address}

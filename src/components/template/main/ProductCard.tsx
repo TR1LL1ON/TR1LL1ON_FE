@@ -19,7 +19,7 @@ export const ProductCard = ({
   address,
   score,
 }: {
-  accommodationID: string;
+  accommodationID: number;
   imgUrl: string;
   name: string;
   price: number;
