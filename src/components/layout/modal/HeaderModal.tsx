@@ -5,7 +5,7 @@ import {
   StyledHeaderText,
 } from '../../../style/header/headerStyle';
 import { StyledHLine } from '../../../style/payment/paymentStyle';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { postLogout } from '@/api/service';
 
 interface IHeaderModalProps {
@@ -13,6 +13,7 @@ interface IHeaderModalProps {
 }
 
 const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
+  const navigate = useNavigate();
   const isSignIn = getCookie('accessToken');
   const handleAccountModal = (): void => {
     setIsAccountModalOpen(true);
@@ -22,6 +23,7 @@ const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
     try {
       await postLogout();
       removeCookie();
+      navigate('/');
     } catch (err) {
       console.log(err);
     }
