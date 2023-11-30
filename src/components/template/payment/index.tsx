@@ -1,5 +1,4 @@
 import {
-  StyledButton,
   StyledGridContainer,
   StyledHLine,
   StyledSpacer,
@@ -21,13 +20,16 @@ import type { Cart } from '@/interfaces/interface';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { StyledButton } from '@/style/common/commonStyle';
 
 type SortedOrder = Pick<
   Cart,
   'productId' | 'personNumber' | 'checkIn' | 'checkOut'
->;
+> & { cartId: number };
 
 const PaymentContainer = () => {
+  const [agreement, setAgreement] = useState(false);
   const [orderData, setOrderData] = useRecoilState(orderState);
   const { filteredRooms, isLoading } = useFilteredReservation();
   const navigation = useNavigate();
@@ -38,6 +40,7 @@ const PaymentContainer = () => {
       personNumber: room.personNumber,
       checkIn: room.checkIn,
       checkOut: room.checkOut,
+      cartId: room.cartItemId,
     })) || [];
 
   const updateOrderData = (orders: Order[]) => {
@@ -49,6 +52,7 @@ const PaymentContainer = () => {
     onSuccess: () => {
       alert('결제가 완료되었습니다.');
       updateOrderData([]);
+      navigation('/confirm', { state: orderData });
     },
     onError: (error) => {
       if (error.response?.status === 400) {
@@ -78,11 +82,15 @@ const PaymentContainer = () => {
           <StyledHLine />
           <PaymentOptions />
           <StyledHLine />
-          <PaymentTerms />
+          <PaymentTerms setAgreement={setAgreement} />
           <StyledSpacer />
           <PaymentDetail />
           <StyledSpacer $height="1rem" />
-          <StyledButton $variant="primary" onClick={handlePayment}>
+          <StyledButton
+            style={{ backgroundColor: !agreement ? '#ebebeb' : '' }}
+            disabled={!agreement}
+            $variant="primary"
+            onClick={handlePayment}>
             확인 및 결제
           </StyledButton>
         </StyledWrapper>

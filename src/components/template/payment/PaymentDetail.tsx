@@ -5,10 +5,14 @@ import {
   StyledSubTitle,
   StyledText,
 } from '@/style/payment/paymentStyle';
+import { calculateNights } from './PaymentReservations';
 
 const PaymentDetail = () => {
   const { filteredRooms } = useFilteredReservation();
-  const totalPrice = filteredRooms?.reduce((acc, cur) => acc + cur.price, 0);
+  const totalPrice = filteredRooms?.reduce(
+    (acc, cur) => acc + cur.price * calculateNights(cur.checkIn, cur.checkOut),
+    0,
+  );
 
   return (
     <>
@@ -17,7 +21,8 @@ const PaymentDetail = () => {
         <StyledFlexContainer
           key={`${room.productId}-${room.accommodationCategory}`}>
           <StyledText>
-            ₩{room.price.toLocaleString()} - {room.productName}
+            ₩{room.price.toLocaleString()} x{' '}
+            {calculateNights(room.checkIn, room.checkOut)} - {room.productName}
           </StyledText>
         </StyledFlexContainer>
       ))}
