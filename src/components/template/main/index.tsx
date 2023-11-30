@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
-import { getProducts, getProductsCategory } from '@/api/service';
+import { getProducts } from '@/api/service';
 import { useLocation } from 'react-router-dom';
 
 const MainContainer = () => {
