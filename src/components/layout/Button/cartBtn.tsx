@@ -1,11 +1,11 @@
-import { dateRangeState, guestCountState } from '@/states/atom';
+import { reservationState, guestCountState } from '@/states/atom';
 import { LuShoppingCart } from 'react-icons/lu';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 const CartBtn = ({ handleAddCart, setShowCartModal }: any) => {
   const guestCount = useRecoilValue(guestCountState);
-  const { startDate, endDate } = useRecoilValue(dateRangeState);
+  const { checkIn, checkOut } = useRecoilValue(reservationState);
   const handleCartBtnClick = () => {
     handleAddCart();
     setShowCartModal(true);
@@ -13,7 +13,7 @@ const CartBtn = ({ handleAddCart, setShowCartModal }: any) => {
 
   return (
     <StyledCartIcon
-      disabled={!startDate || !endDate || !guestCount.totals ? true : false}
+      disabled={!checkIn || !checkOut || !guestCount.totals ? true : false}
       onClick={handleCartBtnClick}>
       <LuShoppingCart />
     </StyledCartIcon>
