@@ -29,6 +29,7 @@ const MainContainer = () => {
   }
 
   const productsData = Array.isArray(data?.data) ? data?.data : [];
+  console.log(productsData);
 
   return (
     <>
