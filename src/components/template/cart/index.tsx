@@ -35,7 +35,7 @@ const CartContainer = () => {
     try {
       const res = await getCarts();
 
-      setCartsData(res.data);
+      setCartsData(res);
     } catch (err) {
       console.log(err);
     }

@@ -3,11 +3,13 @@ import {
   StyledSubTitle,
 } from '@/style/payment/paymentStyle';
 import PaymentRoomItem from './PaymentRoomItem';
-import useReservations from '@/hooks/useReservations';
+import { Cart } from '@/interfaces/interface';
 
-const PaymentRoomList = () => {
-  const reservations = useReservations(['1', '2']);
+interface Props {
+  reservationData: Cart[] | undefined;
+}
 
+const PaymentRoomList = ({ reservationData }: Props) => {
   return (
     <>
       <StyledSubTitle>숙소 정보</StyledSubTitle>
@@ -15,22 +17,12 @@ const PaymentRoomList = () => {
         $flexDirection="column"
         $alignItems="flex-start"
         $gap="1rem">
-        {reservations.map((reservation, index) => {
-          const { data, isLoading, error } = reservation;
-
-          if (isLoading || !data) {
-            return <div key={index}>Loading...</div>;
-          }
-          if (error) {
-            return <div key={index}>Error: {error.message}</div>;
-          }
-          return (
-            <PaymentRoomItem
-              key={`index-${data.data.accommodationId}`}
-              accommodationData={data.data}
-            />
-          );
-        })}
+        {reservationData?.map((reservation, index) => (
+          <PaymentRoomItem
+            key={`${index}-${reservation.accommodationName}`}
+            productData={reservation}
+          />
+        ))}
       </StyledFlexContainer>
     </>
   );
