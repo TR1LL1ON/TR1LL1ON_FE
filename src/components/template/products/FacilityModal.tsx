@@ -41,7 +41,6 @@ const FacilityModal = ({
 export default FacilityModal;
 
 const StyledFacilityModal = styled.div`
-  width: 24rem;
   & .mapping {
     width: 100%;
     padding: 0.6rem 1rem;

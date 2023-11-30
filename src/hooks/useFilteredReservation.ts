@@ -16,6 +16,8 @@ const useFilteredReservation = () => {
     queryFn: () => getCarts(),
   });
 
+  console.log(rooms);
+
   const filteredRooms = rooms?.filter((room) =>
     productIds.includes(room.productId),
   );

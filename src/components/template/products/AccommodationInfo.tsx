@@ -72,9 +72,7 @@ const AccommodationInfo = ({
         <StyledFlexContainer>
           {infoData && <StyledTitle>{infoData.name}</StyledTitle>}
           <StyledIconBox $cursor="pointer" $gap="1rem">
-            {/* 비로그인시 로그인페이지로 리다이렉트, 로그인시 찜목록 저장/GoHeartFill로 변경 */}
-            <GoHeart onClick={() => alert('찜하기 미구현..😅')} />
-            {/* <GoHeartFill /> */}
+            <GoHeart />
             <GoShareAndroid onClick={handleShareClick} />
           </StyledIconBox>
         </StyledFlexContainer>

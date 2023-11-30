@@ -13,7 +13,9 @@ export interface ModalProps {
   roomData?: Room;
   imageUrls?: string[];
   orderID?: number;
-  orderDetailData?: string[];
+  ProductReview?: ProductReview[] | undefined;
+  name?: string;
+  orderDetailData?: ReservationDetail;
   infoData?: AccommodationData;
 }
 
@@ -49,6 +51,16 @@ export interface Review {
   content: string;
 }
 
+// 객실 리뷰
+export interface ProductReview {
+  reviewId: number;
+  reviewDate: string;
+  score: number;
+  userId: number;
+  productId: number;
+  content: string;
+}
+
 export interface SignupRequestBody {
   name: string;
   email: string;
@@ -57,26 +69,6 @@ export interface SignupRequestBody {
 
 export interface AccommodationImage {
   imageUrl: string;
-}
-
-export interface Facility {
-  canCook?: boolean;
-  hasAiConditioner?: boolean;
-  hasBath?: boolean;
-  hasCable?: boolean;
-  hasHairDryer?: boolean;
-  hasInternet?: boolean;
-  hasPc?: boolean;
-  hasRefrigerator?: boolean;
-  hasSofa?: boolean;
-  hasTv?: boolean;
-  hasTable?: boolean;
-  hasToiletries?: boolean;
-  hasParking?: boolean;
-  hasCooking?: boolean;
-  hasSports?: boolean;
-  hasSauna?: boolean;
-  hasBeauty?: boolean;
 }
 
 export interface AccommodationFacility {
@@ -179,4 +171,9 @@ export interface ReservationDetail {
   price: number;
   productId: number;
   reviewWritten: boolean;
+}
+
+export interface Position {
+  latitude: number;
+  longitude: number;
 }

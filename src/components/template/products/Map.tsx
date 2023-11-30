@@ -1,20 +1,28 @@
 import React from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
 import { StyledH2Text } from '@/style/products/productsStyle';
 
-interface MapProps {
+export interface MapProps {
   lat: number;
   lng: number;
 }
 
 const containerStyle = {
-  width: '100%',
+  width: '1200px',
   height: '650px',
 };
-
+const myStyles = [
+  {
+    featureType: 'poi',
+    elementType: 'labels',
+    stylers: [{ visibility: 'off' }],
+  },
+];
 const OPTIONS = {
-  minZoom: 6,
+  minZoom: 4,
   maxZoom: 18,
+  disableDefaultUI: true,
+  styles: myStyles,
 };
 
 const Map: React.FC<MapProps> = ({ lat, lng }) => {
@@ -23,17 +31,14 @@ const Map: React.FC<MapProps> = ({ lat, lng }) => {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_KEY,
   });
 
-  const [, setMap] = React.useState<any>(null);
+  const [, setMap] = React.useState(null);
 
-  const onLoad = React.useCallback(
-    function callback(mapInstance: any) {
-      const bounds = new window.google.maps.LatLngBounds({ lat, lng });
-      mapInstance.fitBounds(bounds);
+  const onLoad = React.useCallback(function callback(map: any) {
+    const bounds = new window.google.maps.LatLngBounds({ lat, lng });
+    map.fitBounds(bounds);
 
-      setMap(mapInstance);
-    },
-    [lat, lng],
-  );
+    setMap(map);
+  }, []);
 
   const onUnmount = React.useCallback(function callback() {
     setMap(null);
@@ -48,11 +53,10 @@ const Map: React.FC<MapProps> = ({ lat, lng }) => {
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={{ lat, lng }}
-          zoom={18}
           onLoad={onLoad}
           onUnmount={onUnmount}
           options={OPTIONS}>
-          <Marker position={{ lat, lng }}></Marker>
+          <MarkerF position={{ lat, lng }}></MarkerF>
         </GoogleMap>
       ) : (
         <></>
