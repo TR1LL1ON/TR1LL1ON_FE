@@ -1,7 +1,6 @@
-import LoadingSpinner from '@/components/LoadingSpinner';
-import useReservations from '@/hooks/useReservations';
+import { SummaryData } from '@/api/service';
+import { reservationState } from '@/states/atom';
 import {
-  StyledButton,
   StyledFlexContainer,
   StyledLabel,
   StyledSpacer,
@@ -9,55 +8,26 @@ import {
   StyledText,
   StyledWrapper,
 } from '@/style/payment/paymentStyle';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+
+interface Props {
+  reservationData: SummaryData | undefined;
+}
 
 const PaymentReservations = () => {
-  useParams();
-
-  const [contentLoading, setContentLoading] = useState(true);
-  const reservations = useReservations(['1', '2']);
-  const isLoading = reservations.some((reservation) => reservation.isLoading);
-  const error = reservations.some((reservation) => reservation.error);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const ref = setTimeout(() => {
-      if (!isLoading) {
-        setContentLoading(false);
-      }
-    }, 200);
-
-    return () => {
-      clearTimeout(ref);
-    };
-  }, [isLoading]);
-
-  if (error) {
-    navigate('/not-found');
-  }
+  const reservation = useRecoilValue(reservationState);
 
   return (
     <>
-      {contentLoading && <LoadingSpinner />}
       <StyledSubTitle>예약 정보</StyledSubTitle>
       <StyledLabel>날짜</StyledLabel>
       <StyledFlexContainer>
         <StyledWrapper>
-          {reservations.map((reservation, index) => {
-            const { data } = reservation;
-            return (
-              <StyledFlexContainer $gap="0.5rem" key={index}>
-                <StyledText>{data?.data.name}</StyledText>
-                <StyledText $fontWeight={600}>
-                  {data?.data.checkIn} - {data?.data.checkOut}
-                </StyledText>
-              </StyledFlexContainer>
-            );
-          })}
-        </StyledWrapper>
-        <StyledWrapper>
-          <StyledButton>수정</StyledButton>
+          <StyledFlexContainer $gap="0.5rem">
+            <StyledText $fontWeight={600}>
+              {reservation.checkIn} ~ {reservation.checkOut}
+            </StyledText>
+          </StyledFlexContainer>
         </StyledWrapper>
       </StyledFlexContainer>
 
@@ -67,9 +37,6 @@ const PaymentReservations = () => {
       <StyledFlexContainer>
         <StyledWrapper>
           <StyledText>성인 2명</StyledText>
-        </StyledWrapper>
-        <StyledWrapper>
-          <StyledButton>수정</StyledButton>
         </StyledWrapper>
       </StyledFlexContainer>
     </>

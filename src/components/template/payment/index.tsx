@@ -16,25 +16,28 @@ import { orderState, reservationState } from '@/states/atom';
 import { useMutation } from '@tanstack/react-query';
 import { postOrders } from '@/api/service';
 import { OrderRequest } from '@/interfaces/interface';
+import { useLocation } from 'react-router-dom';
+import useReservations from '@/hooks/useReservations';
 
 const PaymentContainer = () => {
+  const locations = useLocation();
+  const params = new URLSearchParams(locations.search);
+  const productIds = params.getAll('productId').map((e) => Number(e));
+  const { data: reservations, isLoading, error } = useReservations(productIds);
+
   const reservation = useRecoilValue(reservationState);
   const orderData = useRecoilValue(orderState);
-
   const orderRequestBody: OrderRequest = {
-    orders: [{ ...reservation }],
+    orders: [
+      {
+        ...reservation,
+      },
+    ],
     payment: orderData.payment,
   };
 
   const { mutate } = useMutation({
-    mutationFn: async () => {
-      const orderRequestBody: OrderRequest = {
-        orders: [{ ...reservation }],
-        payment: orderData.payment,
-      };
-      const response = await postOrders(orderRequestBody);
-      return response.data;
-    },
+    mutationFn: () => postOrders(orderRequestBody),
   });
 
   return (
@@ -52,11 +55,13 @@ const PaymentContainer = () => {
           <StyledSpacer />
           <PaymentDetail />
           <StyledSpacer $height="1rem" />
-          <StyledButton $variant="primary">확인 및 결제</StyledButton>
+          <StyledButton $variant="primary" onClick={() => mutate()}>
+            확인 및 결제
+          </StyledButton>
         </StyledWrapper>
 
         <StyledWrapper>
-          <PaymentRoomList />
+          <PaymentRoomList reservationData={reservations} />
         </StyledWrapper>
       </StyledGridContainer>
     </>

@@ -125,7 +125,7 @@ export const getAccommodationProduct = async (
 
 // 상품 주문하기
 export const postOrders = async (orderData: OrderRequest) => {
-  const res = await client.post(`orders`, orderData);
+  const res = await client.post(`order`, orderData);
   return res;
 };
 
@@ -203,6 +203,29 @@ export const getUser = async () => {
 export const getUserDetail = async (orderID: string) => {
   const res = await client.get(`user/details/${orderID}`);
   return res;
+};
+export interface SummaryData {
+  products: Product[];
+}
+
+export interface Product {
+  accommodationName: string;
+  roomName: string;
+  imageUrl: string;
+  category: string;
+}
+
+export const getReservedRooms = async (productIds: number[]) => {
+  try {
+    const res = await client.post<SummaryData>(`products/summary`, productIds);
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    if (error instanceof Error) {
+      console.log(error);
+    }
+  }
 };
 
 // 📚레퍼런스 : https://www.notion.so/API-556c8b2ec73a460c9132ccc9a0a2dbc1
