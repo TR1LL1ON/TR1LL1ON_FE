@@ -4,6 +4,7 @@ import {
   OrderRequest,
   AccommodationData,
   ReviewData,
+  Review,
   AccommodationResponse,
 } from '../interfaces/interface';
 import { getCookie } from '@/util/util';
@@ -156,9 +157,9 @@ export const getReviews = async () => {
 };
 
 // 리뷰작성
-export const postReviews = async (ReviewData: ReviewData) => {
+export const postReviews = async (Review: Review) => {
   const res = await client.post(`reviews`, {
-    ReviewData,
+    Review,
   });
   return res;
 };

@@ -10,6 +10,7 @@ export interface ModalProps {
   roomData?: Room;
   imageUrls?: string[];
   orderID?: number;
+  orderDetailData?: string[];
 }
 
 export interface GuestCount {
@@ -41,11 +42,15 @@ export interface AccommodationData {
 }
 
 export interface ReviewData {
-  order_item_id: number; // 주문상품 Id
+  review: Review[];
   order_id: number; // 주문 id
   accomodation_id: number; // 숙소 id
-  content: string; // 리뷰내용
-  score: number; // 평점
+}
+
+export interface Review {
+  order_item_id: number;
+  score: number;
+  content: string;
 }
 
 export interface SignupRequestBody {
@@ -138,8 +143,9 @@ export interface Cart {
 }
 
 export interface Reservation {
-  accommodationImages: [];
-  accommodationNames: [];
+  accommodationImages: string[];
+  accommodationNames: string[];
+  productNames: string[];
   orderId: number;
   orderCreateDate: string;
   payment: string;

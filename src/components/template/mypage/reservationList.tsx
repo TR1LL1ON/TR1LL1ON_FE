@@ -1,7 +1,7 @@
 import { StyledSubTitle, StyledWrapper } from '@/style/payment/paymentStyle';
 import ReservationCard from './reservationCard';
 import { Reservation } from '@/interfaces/interface';
-import { getUser } from '@/api/service';
+import { getUser, postReviews } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -47,7 +47,7 @@ const ReservationList = () => {
           fontFamily:
             'Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif',
           overflowY: 'auto',
-          height: '70vh',
+          height: '100vh',
         }}>
         {currentItems.map((order) => (
           <div

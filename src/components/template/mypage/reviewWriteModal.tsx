@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { ModalProps } from '@/interfaces/interface';
+import { ModalProps, Review } from '@/interfaces/interface';
+import { StyledButton } from '@/style/payment/paymentStyle';
 import {
   StyledTitle,
   StyledSubTitle,
@@ -11,31 +12,30 @@ import {
 } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getUserDetail } from '@/api/service';
-
-const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal, orderID }) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['ReservationDetailData'],
-    queryFn: () => getUserDetail(orderID as number),
-    enabled: orderID !== undefined,
-  });
-
-  const DetailData = data;
-  console.log(DetailData);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching data</div>;
-  }
-
+import { postReviews } from '@/api/service';
+const ReviewWriteModal: React.FC<ModalProps> = ({
+  setShowModal,
+  orderDetailData,
+}) => {
   const closeModal = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
     setShowModal(false);
+  };
+
+  const submitReview = async () => {
+    try {
+      const response = await postReviews(reviewData);
+      console.log('리뷰가 성공적으로 제출되었습니다.', response);
+    } catch (error) {
+      console.error('리뷰 제출 중 에러가 발생했습니다.', error);
+    }
+  };
+
+  const reviewData: Review = {
+    order_item_id: 5, // 예시 ID
+    score: 5, // 예시 점수
+    content: '테스트 리뷰', // 예시 리뷰 내용
   };
 
   const [rating, setRating] = useState(0); // 선택된 별점
@@ -49,63 +49,12 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal, orderID }) => {
         $heigh="40rem">
         <StyledModalBody>
           <StyledTitle>리뷰작성</StyledTitle>
-
-          <StyledFlexContainer
-            style={{
-              width: '100%',
-              padding: '15px 0',
-            }}
-            $alignItems="flex-start"
-            $gap="0.75rem">
-            <StyledImageContainer $w="auto" style={{ overflow: 'unset' }}>
-              <img
-                src={`${data?.data.orderItemList[0].orderItemDetail.productImage}`}
-                style={{
-                  width: '124px',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '0.5rem',
-                }}
-              />
-            </StyledImageContainer>
-            <StyledFlexContainer
-              style={{ width: '100%', height: '100%' }}
-              $flexDirection="column"
-              $alignItems="flex-start">
-              <StyledText $fontSize="0.75rem" $opacity={0.7}>
-                호텔
-              </StyledText>
-              <StyledFlexContainer style={{ width: '100%' }}>
-                <StyledText $fontWeight={700}>
-                  {
-                    data?.data.orderItemList[0].orderItemDetail
-                      .accommodationName
-                  }
-                </StyledText>
-              </StyledFlexContainer>
-              <StyledText $fontSize="0.75rem">
-                {
-                  data?.data.orderItemList[0].orderItemDetail
-                    .accommodationAddress
-                }
-              </StyledText>
-              <StyledText $fontSize="0.75rem">
-                {data?.data.orderItemList[0].orderItemDetail.productName} |{' '}
-                {data?.data.orderItemList[0].personNumber}인
-              </StyledText>
-
-              <StyledFlexContainer style={{ width: '100%' }}>
-                <StyledText $fontSize="0.75rem">
-                  {data?.data.orderItemList[0].checkIn} ~{' '}
-                  {data?.data.orderItemList[0].checkOut}
-                </StyledText>
-                <StyledText $fontSize="1rem" $fontWeight={700}>
-                  {data?.data.orderItemList[0].price}원
-                </StyledText>
-              </StyledFlexContainer>
-            </StyledFlexContainer>
-          </StyledFlexContainer>
-          <StyledHLine />
+          <StyledSubTitle $mt="3rem">리뷰 내용</StyledSubTitle>
+          {/* <textarea
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            placeholder="리뷰를 작성하세요"
+          /> */}
 
           <StyledSubTitle $mt="3rem">별점</StyledSubTitle>
           <div>
@@ -135,6 +84,9 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal, orderID }) => {
             })}
           </div>
         </StyledModalBody>
+        <StyledButton $variant="primary" onClick={submitReview}>
+          리뷰 제출
+        </StyledButton>
       </StyledModalContent>
     </StyledModal>
   );

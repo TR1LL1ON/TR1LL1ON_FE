@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import { getUserDetail } from '@/api/service';
 import {
-  StyledTitle,
   StyledSubTitle,
   StyledText,
   StyledFlexContainer,
   StyledImageContainer,
   StyledHLine,
+  StyledButton,
 } from '@/style/payment/paymentStyle';
 import { ReservationDetail } from '@/interfaces/interface';
+import ReviewWriteModal from './reviewWriteModal';
 
 interface OrderDetailsAccordionProps {
   isOpen: boolean;
@@ -21,30 +22,36 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   isOpen,
   orderID,
 }) => {
+  const [showReviewWriteModal, setShowReviewWriteModal] = useState(false);
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['ReservationDetailData'],
+    queryKey: ['ReservationDetailData', orderID],
     queryFn: () => getUserDetail(orderID as number),
     enabled: orderID !== undefined,
   });
-  console.log(data?.data);
+
   const orderDetailData = data?.data.orderItemList;
+
+  console.log(data?.data);
+  const handleReviewWriteModal = () => {
+    setShowReviewWriteModal(true);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (isError) {
-    return <div>Error fetching data</div>;
+    return <div>상세내역 불러오기 실패</div>;
   }
 
   return (
     <AccordionContainer>
       <AccordionContent className={isOpen ? 'active' : ''}>
-        <StyledTitle>리뷰작성</StyledTitle>
-        <StyledTitle>{orderID}</StyledTitle>
+        <StyledSubTitle>상세조회</StyledSubTitle>
 
         {orderDetailData.map((item: ReservationDetail) => (
           <div key={item.orderItemId}>
+            {/* <StyledTitle>{orderID}</StyledTitle> */}
             <StyledFlexContainer
               style={{
                 width: '100%',
@@ -74,6 +81,9 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
                   <StyledText $fontWeight={700}>
                     {item.orderItemDetail.accommodationName}
                   </StyledText>
+                  <StyledButton onClick={handleReviewWriteModal}>
+                    리뷰작성
+                  </StyledButton>
                 </StyledFlexContainer>
                 <StyledText $fontSize="0.75rem">
                   {item.orderItemDetail.accommodationAddress}
@@ -92,6 +102,12 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
                 </StyledFlexContainer>
               </StyledFlexContainer>
             </StyledFlexContainer>
+            {showReviewWriteModal && (
+              <ReviewWriteModal
+                setShowModal={setShowReviewWriteModal}
+                orderDetailData={orderDetailData}
+              />
+            )}
             <StyledHLine />
           </div>
         ))}
@@ -103,36 +119,22 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
 export default ReservationAccordion;
 
 const AccordionContainer = styled.div`
-  border: 1px solid #ddd;
   border-radius: 5px;
   margin: 1rem 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 `;
 
-const AccordionHeader = styled.button`
-  background-color: #f7f7f7;
-  color: #333;
-  cursor: pointer;
-  padding: 1rem;
-  width: 100%;
-  text-align: left;
-  border: none;
-  outline: none;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #e7e7e7;
-  }
-`;
-
 const AccordionContent = styled.div`
-  padding: 0;
   max-height: 0;
   overflow: hidden;
-  /* transition: max-height 0.3s ease; */
+  transition: max-height 0.5s ease;
+  padding: 0 1rem;
+  transition:
+    max-height 0.5s ease,
+    padding 0.5s ease;
 
   &.active {
     padding: 1rem;
-    max-height: 1000px; // 이 값은 내용에 따라 조절 필요
+    max-height: 1000px;
   }
 `;
