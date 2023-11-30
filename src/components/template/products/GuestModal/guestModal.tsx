@@ -2,7 +2,6 @@ import GuestContent from './guestContent';
 import {
   StyledButton,
   StyledFlexContainer,
-  StyledText,
 } from '@/style/payment/paymentStyle';
 import { StyledH2Text, StyledBlackBtn } from '@/style/products/productsStyle';
 import styled from 'styled-components';
