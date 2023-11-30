@@ -208,8 +208,8 @@ TEST용 PASSWORD: 123456
 ### ✨ FE 팀 소개 
 | 장호진 (FE) <br> 팀장 | 심정아 (FE) <br> 팀원 | 지홍규 (FE) <br> 팀원 | 윤지영 (FE) <br> 팀원 | 이재준 (FE) <br> 팀원 |
 |:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|
-| ![leHiHo](https://avatars.githubusercontent.com/leHiHo) | ![joanShim](https://avatars.githubusercontent.com/joanShim) | ![JiHongkyu](https://avatars.githubusercontent.com/JiHongkyu) | ![sunpaaaa](https://avatars.githubusercontent.com/u/125979833?v=4) |
-| [leHiHo](https://github.com/leHiHo) | [joanShim](https://github.com/joanShim) | [JiHongkyu](https://github.com/JiHongkyu) | [sunpaaaa](https://github.com/noSPkeepgoing) |
+| ![leHiHo](https://avatars.githubusercontent.com/leHiHo) | ![joanShim](https://avatars.githubusercontent.com/joanShim) | ![JiHongkyu](https://avatars.githubusercontent.com/JiHongkyu) | ![developer-jyyun](https://avatars.githubusercontent.com/developer-jyyun) | ![Gaoridang](https://avatars.githubusercontent.com/Gaoridang) |
+| [leHiHo](https://github.com/leHiHo) | [joanShim](https://github.com/joanShim) | [JiHongkyu](https://github.com/JiHongkyu) | [developer-jyyun](https://github.com/developer-jyyun) | [Gaoridang](https://github.com/Gaoridang) |
 | <ul><li>로그인</li><li>초기설정</li><li>폴더구조설계</li><li>상품 수정</li><li>상품 등록</li><li>상품 삭제</li><li>카테고리</li></ul> | <ul><li>판매내역 조회</li><li>상품 상태 변경</li><li>좋아요 기능</li> | <ul><li>회원가입</li><li>프로필수정</li><li>상품 상세 페이지</li><li>상품 관련 채팅목록</li><li>소켓 연결 후 실시간 채팅 </li></ul> | <ul><li>메인페이지 전체 상품 불러오기</li><li>카테고리 목록 불러오기</li><li>소켓 연결 후 실시간 채팅 구현</li><li>마이 페이지</li> |
 
 ### ✨ BE 팀 소개
