@@ -20,9 +20,11 @@ const MainCategory = () => {
     navigation(`/?${params.toString()}`, { replace: true });
   };
 
+  console.log(categoryList);
+
   return (
     <StyledCategoryContainer>
-      {categoryList.map((category) => {
+      {categoryList?.map((category) => {
         const CategoryIcon = iconMap[category.code];
 
         return (
