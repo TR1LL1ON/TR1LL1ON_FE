@@ -1,15 +1,13 @@
-import { postAccomodation } from '@/api/service';
-import { useQueries } from '@tanstack/react-query';
+import { getReservedRooms } from '@/api/service';
+import { useQuery } from '@tanstack/react-query';
 
-const useReservations = (accommodationId: string[]) => {
-  const results = useQueries({
-    queries: accommodationId.map((id) => ({
-      queryKey: ['accommodation', id],
-      queryFn: () => postAccomodation(id),
-    })),
+const useReservations = (productIds: number[]) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['reservations', productIds],
+    queryFn: () => getReservedRooms(productIds),
   });
 
-  return results;
+  return { data, isLoading, error };
 };
 
 export default useReservations;

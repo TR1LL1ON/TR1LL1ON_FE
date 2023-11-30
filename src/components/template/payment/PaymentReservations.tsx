@@ -1,7 +1,6 @@
-import LoadingSpinner from '@/components/LoadingSpinner';
-import useReservations from '@/hooks/useReservations';
+import useFilteredReservation from '@/hooks/useFilteredReservation';
+
 import {
-  StyledButton,
   StyledFlexContainer,
   StyledLabel,
   StyledSpacer,
@@ -9,70 +8,40 @@ import {
   StyledText,
   StyledWrapper,
 } from '@/style/payment/paymentStyle';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const PaymentReservations = () => {
-  // recoil로 받아온 ids
-  // const accommodationIds = ['1', '2'];
-  const [contentLoading, setContentLoading] = useState(true);
-  const reservations = useReservations(['1', '2']);
-  const isLoading = reservations.some((reservation) => reservation.isLoading);
-  const error = reservations.some((reservation) => reservation.error);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const ref = setTimeout(() => {
-      if (!isLoading) {
-        setContentLoading(false);
-      }
-    }, 200);
-
-    return () => {
-      clearTimeout(ref);
-    };
-  }, [isLoading]);
-
-  if (error) {
-    navigate('/not-found');
-  }
+  const { filteredRooms } = useFilteredReservation();
 
   return (
     <>
-      {contentLoading && <LoadingSpinner />}
       <StyledSubTitle>예약 정보</StyledSubTitle>
       <StyledLabel>날짜</StyledLabel>
-      <StyledFlexContainer>
-        <StyledWrapper>
-          {reservations.map((reservation, index) => {
-            const { data } = reservation;
-            return (
-              <StyledFlexContainer $gap="0.5rem" key={index}>
-                <StyledText>{data?.accomodationData.name}</StyledText>
-                <StyledText $fontWeight={600}>
-                  {data?.accomodationData.check_in} -{' '}
-                  {data?.accomodationData.check_out}
-                </StyledText>
-              </StyledFlexContainer>
-            );
-          })}
-        </StyledWrapper>
-        <StyledWrapper>
-          <StyledButton>수정</StyledButton>
-        </StyledWrapper>
+      <StyledFlexContainer
+        $flexDirection="column"
+        $alignItems="start"
+        $gap="0.5rem">
+        {filteredRooms?.map((room, index) => (
+          <StyledWrapper key={`${room.productId}-${index}`}>
+            <StyledFlexContainer $flexDirection="column" $alignItems="start">
+              <StyledText $fontWeight={600}>
+                {room.checkIn} - {room.checkOut}
+              </StyledText>
+              <StyledText>{room.accommodationName}</StyledText>
+            </StyledFlexContainer>
+          </StyledWrapper>
+        ))}
       </StyledFlexContainer>
 
       <StyledSpacer $height="1rem" />
 
       <StyledLabel>게스트</StyledLabel>
-      <StyledFlexContainer>
-        <StyledWrapper>
-          <StyledText>성인 2명</StyledText>
-        </StyledWrapper>
-        <StyledWrapper>
-          <StyledButton>수정</StyledButton>
-        </StyledWrapper>
-      </StyledFlexContainer>
+      {filteredRooms?.map((room, index) => (
+        <StyledFlexContainer key={`${room.productId}-${index}`}>
+          <StyledWrapper>
+            <StyledText>{room.personNumber} 명</StyledText>
+          </StyledWrapper>
+        </StyledFlexContainer>
+      ))}
     </>
   );
 };

@@ -2,21 +2,36 @@ import styled from 'styled-components';
 import { LuPlusCircle, LuMinusCircle } from 'react-icons/lu';
 import { StyledFlexContainer, StyledText } from '@/style/payment/paymentStyle';
 import { StyledH2Text } from '@/style/products/productsStyle';
+import { useRecoilState } from 'recoil';
+import { guestCountState } from '../../../../states/atom';
+import { GuestCount } from '@/interfaces/interface';
+
 interface GuestAgeGroupProps {
   text: string;
   subText: string;
-  count: number;
-  onDecrease: () => void;
-  onIncrease: () => void;
+  type: keyof Omit<GuestCount, 'totals'>;
 }
 
-const guestAgeGroup = ({
-  text,
-  subText,
-  count,
-  onDecrease,
-  onIncrease,
-}: GuestAgeGroupProps) => {
+const guestAgeGroup = ({ text, subText, type }: GuestAgeGroupProps) => {
+  const [guestCount, setGuestCount] = useRecoilState(guestCountState);
+
+  const handleIncrease = () => {
+    setGuestCount((prev) => ({
+      ...prev,
+      [type]: prev[type] + 1,
+      totals: prev.totals + 1,
+    }));
+  };
+
+  const handleDecrease = () => {
+    if (guestCount[type] > 0) {
+      setGuestCount((prev) => ({
+        ...prev,
+        [type]: prev[type] - 1,
+        totals: prev.totals - 1,
+      }));
+    }
+  };
   return (
     <StyledGuestRow $justifyContent="space-between" $gap="5rem">
       <StyledTextBox
@@ -27,11 +42,11 @@ const guestAgeGroup = ({
         <StyledTextGray> {subText} </StyledTextGray>
       </StyledTextBox>
       <StyledGuestCount $gap="1rem">
-        <StyledCountBtn onClick={onDecrease} disabled={count === 0}>
+        <StyledCountBtn onClick={handleDecrease}>
           <LuMinusCircle />
         </StyledCountBtn>
-        <StyledText>{count}명</StyledText>
-        <StyledCountBtn onClick={onIncrease}>
+        <StyledText>{guestCount[type]}명</StyledText>
+        <StyledCountBtn onClick={handleIncrease}>
           <LuPlusCircle />
         </StyledCountBtn>
       </StyledGuestCount>

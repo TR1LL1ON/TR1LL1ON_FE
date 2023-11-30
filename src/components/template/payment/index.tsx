@@ -11,8 +11,62 @@ import PaymentOptions from './PaymentOptions';
 import PaymentReservations from './PaymentReservations';
 import PaymentRoomList from './PaymentRoomList';
 import PaymentTerms from './PaymentTerms';
+import { useRecoilState } from 'recoil';
+import { orderState } from '@/states/atom';
+import { useMutation } from '@tanstack/react-query';
+import { postOrders } from '@/api/service';
+import { Order } from '@/interfaces/interface';
+import useFilteredReservation from '@/hooks/useFilteredReservation';
+import type { Cart } from '@/interfaces/interface';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+type SortedOrder = Pick<
+  Cart,
+  'productId' | 'personNumber' | 'checkIn' | 'checkOut'
+>;
 
 const PaymentContainer = () => {
+  const [orderData, setOrderData] = useRecoilState(orderState);
+  const { filteredRooms, isLoading } = useFilteredReservation();
+  const navigation = useNavigate();
+
+  const orderList: SortedOrder[] =
+    filteredRooms?.map((room) => ({
+      productId: room.productId,
+      personNumber: room.personNumber,
+      checkIn: room.checkIn,
+      checkOut: room.checkOut,
+    })) || [];
+
+  const updateOrderData = (orders: Order[]) => {
+    setOrderData((prevOrders) => ({ ...prevOrders, orders: orders }));
+  };
+
+  const { mutate } = useMutation<AxiosResponse, AxiosError>({
+    mutationFn: () => postOrders(orderData),
+    onSuccess: () => {
+      alert('결제가 완료되었습니다.');
+      updateOrderData([]);
+    },
+    onError: (error) => {
+      if (error.response?.status === 400) {
+        alert('결제에 실패하였습니다.');
+      } else if (error.response?.status === 404) {
+        alert('이미 예약된 숙소입니다.');
+        navigation('/');
+      }
+    },
+  });
+
+  const handlePayment = () => {
+    updateOrderData(orderList);
+    mutate();
+  };
+
+  if (!filteredRooms || isLoading) return <LoadingSpinner />;
+
   return (
     <>
       <StyledTitle $mt="4rem" $px="5rem">
@@ -28,11 +82,13 @@ const PaymentContainer = () => {
           <StyledSpacer />
           <PaymentDetail />
           <StyledSpacer $height="1rem" />
-          <StyledButton $variant="primary">확인 및 결제</StyledButton>
+          <StyledButton $variant="primary" onClick={handlePayment}>
+            확인 및 결제
+          </StyledButton>
         </StyledWrapper>
 
         <StyledWrapper>
-          <PaymentRoomList />
+          <PaymentRoomList reservationData={filteredRooms} />
         </StyledWrapper>
       </StyledGridContainer>
     </>

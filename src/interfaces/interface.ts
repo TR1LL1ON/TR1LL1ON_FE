@@ -9,41 +9,41 @@ export interface ModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   roomData?: Room;
   imageUrls?: string[];
+  orderID?: number;
+  orderDetailData?: string[];
+  infoData?: AccommodationData;
 }
 
 export interface GuestCount {
   adults: number;
   children: number;
   infants: number;
+  totals: number;
 }
 
 export interface Order {
-  check_in: string;
-  check_out: string;
-  person_number: number;
-  product_id: number;
-  price: number;
+  checkIn: string;
+  checkOut: string;
+  personNumber: number;
+  productId: number;
+  cartId?: number;
 }
 
 export interface OrderRequest {
   orders: Order[];
   payment: 'CARD' | 'KAKAOPAY' | 'NAVERPAY' | 'CASH';
-  total_price: number;
-}
-
-// 변수명 명시적으로 바꿔야함
-export interface AccomodationData {
-  checkIn: string; // 체크인 날짜
-  checkOut: string; // 체크아웃 날짜
-  personNumber: number; // 인원 수
 }
 
 export interface ReviewData {
-  order_item_id: number; // 주문상품 Id
+  review: Review[];
   order_id: number; // 주문 id
   accomodation_id: number; // 숙소 id
-  content: string; // 리뷰내용
-  score: number; // 평점
+}
+
+export interface Review {
+  order_item_id: number;
+  score: number;
+  content: string;
 }
 
 export interface SignupRequestBody {
@@ -53,67 +53,83 @@ export interface SignupRequestBody {
 }
 
 export interface AccommodationImage {
-  image_url: string;
+  imageUrl: string;
 }
 
 export interface Facility {
-  can_cook: boolean;
-  has_air_conditioner: boolean;
-  has_bath: boolean;
-  has_cable: boolean;
-  has_hair_dryer: boolean;
-  has_internet: boolean;
-  has_pc: boolean;
-  has_refrigerator: boolean;
-  has_sofa: boolean;
-  has_tv: boolean;
-  has_table: boolean;
-  has_toiletries: boolean;
+  canCook?: boolean;
+  hasAiConditioner?: boolean;
+  hasBath?: boolean;
+  hasCable?: boolean;
+  hasHairDryer?: boolean;
+  hasInternet?: boolean;
+  hasPc?: boolean;
+  hasRefrigerator?: boolean;
+  hasSofa?: boolean;
+  hasTv?: boolean;
+  hasTable?: boolean;
+  hasToiletries?: boolean;
+  hasParking?: boolean;
+  hasCooking?: boolean;
+  hasSports?: boolean;
+  hasSauna?: boolean;
+  hasBeauty?: boolean;
+}
+
+export interface AccommodationFacility {
+  hasBeauty: boolean;
+  hasCooking: boolean;
+  hasSauna: boolean;
+  hasParking: boolean;
+  hasSports: boolean;
+}
+
+export interface RoomFacility {
+  canCook: boolean;
+  hasAirConditioner: boolean;
+  hasBath: boolean;
+  hasCable: boolean;
+  hasHairDryer: boolean;
+  hasInternet: boolean;
+  hasPC: boolean;
+  hasRefrigerator: boolean;
+  hasSofa: boolean;
+  hasTV: boolean;
+  hasTable: boolean;
+  hasToiletries: boolean;
 }
 
 export interface Room {
-  room_id: number;
-  room_name: string;
-  check_in: string;
-  check_out: string;
+  averPrice: number;
+  checkIn: string;
+  checkOut: string;
   count: number;
-  aver_price: number;
-  total_price: number;
-  max_number: number;
-  standard_number: number;
+  facility: RoomFacility;
+  image: AccommodationImage[];
+  maxNumber: number;
+  roomId: number;
+  roomName: string;
   sold: boolean;
-  facility: Facility;
-  image: { image_url: string }[];
+  standardNumber: number;
+  totalPrice: number;
 }
 
-// export interface Room {
-//   room_id: number;
-//   room_name: string;
-//   check_in: string;
-//   check_out: string;
-//   count: number;
-//   // Add other properties of the room here if needed
-// }
-
 export interface AccommodationData {
-  accomodation_id: string;
+  accommodationId: number;
   address: string;
-  address_code: string;
-  breakfest: boolean;
+  areaCode: string;
   category: string;
-  check_in: string;
-  check_out: string;
-  cooking: boolean;
+  checkIn: string;
+  checkOut: string;
+  facility: AccommodationFacility;
   image: AccommodationImage[];
   latitude: string;
   longitude: string;
   name: string;
-  parking: boolean;
-  party: boolean;
-  person_number: number;
+  personNumber: number;
+  phone: string;
   rooms: Room[];
   score: number;
-  swimming_pool: boolean;
 }
 
 export interface AccommodationResponse {
@@ -124,13 +140,40 @@ export interface AccommodationResponse {
 export interface Cart {
   cartItemId: number;
   accommodationId: number;
-  accomodationName: string;
-  accomodationAddress: string;
-  accomodationCategory: string;
+  accommodationName: string;
+  accommodationAddress: string;
+  accommodationCategory: string;
   productId: number;
   productName: string;
   checkIn: string;
   checkOut: string;
   personNumber: number;
   price: number;
+  imageUrl: string;
+}
+
+export interface Reservation {
+  accommodationImages: string[];
+  accommodationNames: string[];
+  productNames: string[];
+  orderId: number;
+  orderCreateDate: string;
+  payment: string;
+  totalPrice: number;
+}
+
+export interface ReservationDetail {
+  checkIn: string;
+  checkOut: string;
+  orderItemDetail: {
+    accommodationAddress: string;
+    accommodationName: string;
+    productImage: string;
+    productName: string;
+  };
+  orderItemId: number;
+  personNumber: number;
+  price: number;
+  productId: number;
+  reviewWritten: boolean;
 }

@@ -3,7 +3,6 @@ import { rest } from 'msw';
 import { SERVER_URL } from '@/constant';
 
 export const handlers = [
-
   // 회원가입
   rest.post(`${SERVER_URL}/auth/signup`, (req, res, ctx) => {
     const { email, name, password } = req.body as SignupRequestBody;
@@ -121,125 +120,144 @@ export const handlers = [
   }),
 
   // 개별 상품 조회
-  rest.post(`${SERVER_URL}/products/:accomodationID/`, (req, res, ctx) => {
-    const { accomodationID } = req.params;
+  // rest.post(`${SERVER_URL}/products/:accomodationID/`, (req, res, ctx) => {
+  rest.post(
+    `https://mocks-server.net/products/:accomodationID/`,
+    (req, res, ctx) => {
+      const { accomodationID } = req.params;
 
-    const accomodationData = {
-      accommodation_id: 11,
-      name: '오월의 푸른하늘',
-      address: '경기도 이천시 마장면 덕평로877번길 16',
-      area_code: '31',
-      phone: '정보 없음',
-      category: 'B02010700',
-      check_in: '2023-11-26',
-      check_out: '2023-11-27',
-      person_number: 2,
-      score: 5.0,
-      image: [
-        {
-          imageUrl:
-            'http://tong.visitkorea.or.kr/cms/resource/45/3023445_image2_1.jpg',
-        },
-        {
-          imageUrl:
-            'http://tong.visitkorea.or.kr/cms/resource/45/3023445_image3_1.jpg',
-        },
-      ],
-      rooms: [
-        {
-          room_id: 32,
-          room_name: '디럭스',
-          check_in: '15:00',
-          check_out: '11:00',
-          count: 12,
-          aver_price: 70000.0,
-          total_price: 70000,
-          max_number: 9,
-          standard_number: 1,
-          facility: {
-            can_cook: false,
-            has_air_conditioner: false,
-            has_bath: true,
-            has_cable: true,
-            has_hair_dryer: true,
-            has_internet: false,
-            has_pc: false,
-            has_refrigerator: true,
-            has_sofa: true,
-            has_tv: false,
-            has_table: true,
-            has_toiletries: true,
+      const accomodationData = {
+        accommodation_id: 11,
+        name: '오월의 푸른하늘',
+        address: '경기도 이천시 마장면 덕평로877번길 16',
+        area_code: '31',
+        phone: '정보 없음',
+        category: 'B02010700',
+        check_in: '2023-11-26',
+        check_out: '2023-11-27',
+        person_number: 2,
+        score: 5.0,
+        image: [
+          {
+            image_url:
+              'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/cc3a98b7-d83e-4684-bb03-2b2ce6dd480d.jpeg?im_w=720',
           },
-          image: [
-            {
-              image_url:
-                'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
-            },
-            {
-              image_url:
-                'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
-            },
-            {
-              image_url:
-                'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
-            },
-          ],
-          sold: true,
-        },
-        {
-          room_id: 34,
-          room_name: '스탠다드',
-          check_in: '15:00',
-          check_out: '11:00',
-          count: 8,
-          aver_price: 80000.0,
-          total_price: 80000,
-          max_number: 10,
-          standard_number: 2,
-          facility: {
-            can_cook: true,
-            has_air_conditioner: true,
-            has_bath: true,
-            has_cable: true,
-            has_hair_dryer: true,
-            has_internet: false,
-            has_pc: false,
-            has_refrigerator: false,
-            has_sofa: true,
-            has_tv: false,
-            has_table: false,
-            has_toiletries: false,
+          {
+            image_url:
+              'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/bca57cdc-bc62-4366-91e9-03ba6c4059ee.jpeg?im_w=720',
           },
-          image: [
-            {
-              image_url:
-                'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
+          {
+            image_url:
+              'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/bf91b1f5-1942-4ecd-95b0-328bb617c47e.jpeg?im_w=720',
+          },
+          {
+            image_url:
+              'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/a100b178-2ec2-45a8-a9e8-9d3b4dd5c777.jpeg?im_w=720',
+          },
+          {
+            image_url:
+              'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/94b5ed5b-508e-4500-b842-d51e71993e5e.jpeg?im_w=720',
+          },
+        ],
+        rooms: [
+          {
+            room_id: 32,
+            room_name: '디럭스',
+            check_in: '15:00',
+            check_out: '11:00',
+            count: 12,
+            aver_price: 70000.0,
+            total_price: 70000,
+            max_number: 9,
+            standard_number: 1,
+            facility: {
+              can_cook: false,
+              has_air_conditioner: false,
+              has_bath: false,
+              has_cable: false,
+              has_hair_dryer: false,
+              has_internet: true,
+              has_pc: false,
+              has_refrigerator: true,
+              has_sofa: true,
+              has_tv: true,
+              has_table: true,
+              has_toiletries: true,
             },
-            {
-              image_url:
-                'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
+            image: [
+              {
+                imageUrl:
+                  'http://tong.visitkorea.or.kr/cms/resource/45/3023445_image2_1.jpg',
+              },
+              {
+                imageUrl:
+                  'http://tong.visitkorea.or.kr/cms/resource/45/3023445_image3_1.jpg',
+              },
+              {
+                image_url:
+                  'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
+              },
+            ],
+            sold: true,
+          },
+          {
+            room_id: 34,
+            room_name: '스탠다드',
+            check_in: '15:00',
+            check_out: '11:00',
+            count: 8,
+            aver_price: 80000.0,
+            total_price: 80000,
+            max_number: 10,
+            standard_number: 2,
+            facility: {
+              can_cook: false,
+              has_air_conditioner: false,
+              has_bath: false,
+              has_cable: false,
+              has_hair_dryer: false,
+              has_internet: false,
+              has_pc: false,
+              has_refrigerator: false,
+              has_sofa: false,
+              has_tv: false,
+              has_table: false,
+              has_toiletries: false,
             },
-            {
-              image_url:
-                'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
-            },
-          ],
-          sold: true,
+            image: [
+              {
+                image_url:
+                  'http://tong.visitkorea.or.kr/cms/resource/50/2705650_image2_1.jpg',
+              },
+              {
+                image_url:
+                  'http://tong.visitkorea.or.kr/cms/resource/51/2705651_image2_1.jpg',
+              },
+              {
+                image_url:
+                  'http://tong.visitkorea.or.kr/cms/resource/35/2705635_image2_1.jpg',
+              },
+            ],
+            sold: true,
+          },
+        ],
+        facility: {
+          has_beauty: false,
+          has_cooking: true,
+          has_sauna: true,
+          has_parking: true,
+          has_sports: false,
         },
-      ],
-      facility: {
-        has_beauty: false,
-        has_cooking: false,
-        has_sauna: false,
-        has_parking: false,
-        has_sports: false,
-      },
-      latitude: '37.2361078310',
-      longitude: '127.3639953703',
-    };
+        latitude: '37.5665',
+        longitude: '126.9780',
+      };
 
-    return res(ctx.status(200), ctx.json({ accomodationID, accomodationData }));
-  }),
+      return res(
+        ctx.status(200),
+        ctx.json({ accomodationID, accomodationData }),
+      );
+    },
+  ),
 
   // 개별 상품 상세페이지 조회(필요없음)
   rest.post(

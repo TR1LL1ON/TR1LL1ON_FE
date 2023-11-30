@@ -1,17 +1,20 @@
+import { reservationState, guestCountState } from '@/states/atom';
 import { LuShoppingCart } from 'react-icons/lu';
-import { useNavigate } from 'react-router-dom';
-
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-const CartBtn = () => {
-  const navigate = useNavigate();
-
+const CartBtn = ({ handleAddCart, setShowCartModal }: any) => {
+  const guestCount = useRecoilValue(guestCountState);
+  const { checkIn, checkOut } = useRecoilValue(reservationState);
   const handleCartBtnClick = () => {
-    navigate(`/cart`);
+    handleAddCart();
+    setShowCartModal(true);
   };
 
   return (
-    <StyledCartIcon onClick={handleCartBtnClick}>
+    <StyledCartIcon
+      disabled={!checkIn || !checkOut || !guestCount.totals ? true : false}
+      onClick={handleCartBtnClick}>
       <LuShoppingCart />
     </StyledCartIcon>
   );
@@ -35,6 +38,7 @@ export const StyledCartIcon = styled.button`
     outline: none;
   }
   &:disabled {
+    cursor: not-allowed;
     color: ${(props) => props.theme.colors.gray};
     background-color: ${(props) => props.theme.colors.lightGray};
   }

@@ -1,19 +1,31 @@
 import styled from 'styled-components';
 
-import { ModalProps } from '@/interfaces/interface';
-import {
-  StyledTitle,
-  StyledSubTitle,
-  StyledText,
-  StyledFlexContainer,
-  StyledImageContainer,
-} from '@/style/payment/paymentStyle';
+import { ModalProps, Review } from '@/interfaces/interface';
+import { StyledButton } from '@/style/payment/paymentStyle';
+import { StyledTitle, StyledSubTitle } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
 import { useState } from 'react';
-
+import { postReviews } from '@/api/service';
 const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
-  const closeModal = () => {
+  const closeModal = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+
     setShowModal(false);
+  };
+
+  const submitReview = async () => {
+    try {
+      const response = await postReviews(reviewData);
+      console.log('리뷰가 성공적으로 제출되었습니다.', response);
+    } catch (error) {
+      console.error('리뷰 제출 중 에러가 발생했습니다.', error);
+    }
+  };
+
+  const reviewData: Review = {
+    order_item_id: 5, // 예시 ID
+    score: 5, // 예시 점수
+    content: '테스트 리뷰', // 예시 리뷰 내용
   };
 
   const [rating, setRating] = useState(0); // 선택된 별점
@@ -27,46 +39,12 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
         $heigh="40rem">
         <StyledModalBody>
           <StyledTitle>리뷰작성</StyledTitle>
-          <StyledFlexContainer
-            style={{
-              width: '100%',
-              padding: '15px 0',
-            }}
-            $alignItems="flex-start"
-            $gap="0.75rem">
-            <StyledImageContainer $w="auto" style={{ overflow: 'unset' }}>
-              <img
-                src="https://source.unsplash.com/random"
-                style={{
-                  width: '124px',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '0.5rem',
-                }}
-              />
-            </StyledImageContainer>
-            <StyledFlexContainer
-              style={{ width: '100%', height: '100%' }}
-              $flexDirection="column"
-              $alignItems="flex-start">
-              <StyledText $fontSize="0.75rem" $opacity={0.7}>
-                호텔
-              </StyledText>
-              <StyledFlexContainer style={{ width: '100%' }}>
-                <StyledText $fontWeight={700}>리한셀렉트 경주</StyledText>
-              </StyledFlexContainer>
-              <StyledText $fontSize="0.75rem">더블 스탠다드룸 | 2인</StyledText>
-              <StyledText $fontSize="0.75rem">
-                경상북도 경주시 보문로 338
-              </StyledText>
-              <StyledFlexContainer style={{ width: '100%' }}>
-                <StyledText $fontSize="0.75rem">11.12 - 11.13 1박</StyledText>
-                <StyledText $fontSize="1rem" $fontWeight={700}>
-                  100,000원
-                </StyledText>
-              </StyledFlexContainer>
-            </StyledFlexContainer>
-          </StyledFlexContainer>
+          <StyledSubTitle $mt="3rem">리뷰 내용</StyledSubTitle>
+          {/* <textarea
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            placeholder="리뷰를 작성하세요"
+          /> */}
 
           <StyledSubTitle $mt="3rem">별점</StyledSubTitle>
           <div>
@@ -96,6 +74,9 @@ const ReviewWriteModal: React.FC<ModalProps> = ({ setShowModal }) => {
             })}
           </div>
         </StyledModalBody>
+        <StyledButton $variant="primary" onClick={submitReview}>
+          리뷰 제출
+        </StyledButton>
       </StyledModalContent>
     </StyledModal>
   );
@@ -175,7 +156,7 @@ export const StyledModal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  z-index: 100;
 `;
 
 export const StyledModalContent = styled.div<{

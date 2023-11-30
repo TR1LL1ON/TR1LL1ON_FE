@@ -1,16 +1,17 @@
-import { AccommodationData } from '@/interfaces/interface';
 import {
   StyledFlexContainer,
   StyledImageContainer,
   StyledText,
 } from '@/style/payment/paymentStyle';
+import { CATEGORY_CODE } from '@/constants';
+import { Cart } from '@/interfaces/interface';
 
 interface Props {
-  accommodationData: AccommodationData;
+  productData: Cart;
 }
 
-const PaymentRoomItem = ({ accommodationData }: Props) => {
-  const { name, category } = accommodationData;
+const PaymentRoomItem = ({ productData }: Props) => {
+  const { imageUrl, accommodationCategory, productName } = productData;
 
   return (
     <StyledFlexContainer
@@ -18,13 +19,13 @@ const PaymentRoomItem = ({ accommodationData }: Props) => {
       $alignItems="flex-start"
       $gap="0.5rem">
       <StyledImageContainer>
-        <img src={accommodationData.image[0].image_url} />
+        <img src={imageUrl} />
       </StyledImageContainer>
       <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
         <StyledText $fontSize="0.7rem" $opacity={0.7}>
-          {category}
+          {CATEGORY_CODE[accommodationCategory]}
         </StyledText>
-        <StyledText>{name}</StyledText>
+        <StyledText>{productName}</StyledText>
       </StyledFlexContainer>
     </StyledFlexContainer>
   );

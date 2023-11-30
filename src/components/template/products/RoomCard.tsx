@@ -15,25 +15,40 @@ import {
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
+import { useRecoilValue } from 'recoil';
+import { reservationState, guestCountState } from '@/states/atom';
 import { Link } from 'react-router-dom';
-import { Room } from '@/interfaces/interface';
+import { Room, AccommodationData } from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
+import useAddCart from '@/hooks/useAddCart';
+import CartModal from '@/components/layout/modal/CartModal';
+
 interface RoomCardProps {
   roomData: Room;
-  accomodationID: string;
-  // totalGuestCount: number;
+  infoData: AccommodationData;
 }
+const RoomCard: React.FC<RoomCardProps> = ({ roomData, infoData }) => {
+  const imageUrls = roomData.image.map((item) => item.imageUrl);
+  const guestCount = useRecoilValue(guestCountState);
+  const { checkIn, checkOut } = useRecoilValue(reservationState);
+  const handleAddCart = useAddCart(
+    checkIn,
+    checkOut,
+    guestCount.totals,
+    roomData.averPrice,
+    roomData.roomId,
+  );
 
-const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
-  const imageUrls = roomData.image.map((item) => item.image_url);
-
+  const [showCartModal, setShowCartModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
+
   const handleDetailModal = () => {
     setShowDetailModal(true);
   };
 
   return (
     <StyledWrap>
+      {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
       <StyledFlexRowGroup $gap="1rem">
         <StyledImgItem style={{ overflow: 'hidden' }}>
           <Carousel imageUrls={imageUrls} />
@@ -52,6 +67,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
                 <DetailModal
                   setShowModal={setShowDetailModal}
                   roomData={roomData}
+                  infoData={infoData}
                   imageUrls={imageUrls}
                 />
               )}
@@ -62,16 +78,30 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
               $mt="0"
               $mb="0"
               $fontWeight={400}>
-              {`체크인: ${roomData.check_in} ~ 체크아웃: ${roomData.check_out}`}
+              {`체크인: ${roomData.checkIn} ~ 체크아웃: ${roomData.checkOut}`}
             </StyledH2Text>
           </div>
-          <StyledPriceText>{`${roomData.aver_price}원`}</StyledPriceText>
+          <StyledPriceText>{`${roomData.averPrice.toLocaleString()}원`}</StyledPriceText>
           <StyledFlexContainer $flexDirection="row">
             <StyledBrandText>{`남은객실 ${roomData.count}`}</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">
-              <CartBtn />
-              <Link to={`/payment/${accomodationID}`}>
-                <StyledReservationBtn $full={false} $variant="primary">
+              <CartBtn
+                handleAddCart={handleAddCart}
+                setShowCartModal={setShowCartModal}
+              />
+              <Link to={`/payment?productId=${roomData.roomId}`}>
+                <StyledReservationBtn
+                  onClick={() => {
+                    handleAddCart()
+                      .then(() => {
+                        console.log('카드 담기 성공');
+                      })
+                      .catch((error) => {
+                        console.log(error, '카드 담기 에러');
+                      });
+                  }}
+                  $full={false}
+                  $variant="primary">
                   예약하기
                 </StyledReservationBtn>
               </Link>
@@ -80,15 +110,14 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData, accomodationID }) => {
         </StyledTextItem>
       </StyledFlexRowGroup>
       <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
-        <StyledH2Text>{roomData.room_name}</StyledH2Text>
+        <StyledH2Text>{roomData.roomName}</StyledH2Text>
         <StyledTextRow>
           <LuUser className="icon" />
-
-          {`기준 ${roomData.standard_number}인 | 최대 ${roomData.max_number}인`}
+          {`기준 ${roomData.standardNumber}인 | 최대 ${roomData.maxNumber}인`}
         </StyledTextRow>
         <StyledTextRow>
           <LuBedSingle className="icon" />
-          싱글 침대 2개
+          싱글 침대 1개
         </StyledTextRow>
       </StyledFlexContainer>
     </StyledWrap>

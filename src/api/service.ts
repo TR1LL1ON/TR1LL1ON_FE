@@ -2,10 +2,12 @@ import axios from 'axios';
 import { CONTENT_TYPE, SERVER_URL } from '../constant';
 import {
   OrderRequest,
-  AccomodationData,
+  AccommodationData,
   ReviewData,
-  AccommodationResponse,
+  Review,
+  Cart,
 } from '../interfaces/interface';
+import { getCookie } from '@/util/util';
 
 export const client = axios.create({
   baseURL: SERVER_URL,
@@ -13,6 +15,27 @@ export const client = axios.create({
     'content-type': CONTENT_TYPE,
     withCredentials: true,
   },
+});
+
+client.interceptors.request.use(
+  (config) => {
+    const accessToken = getCookie('accessToken');
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
+client.interceptors.response.use((response) => {
+  if (response.status === 401) {
+    alert('로그인이 필요합니다.');
+    window.location.href = '/';
+  }
+  return response;
 });
 
 // 회원가입
@@ -39,24 +62,34 @@ export const postLogin = async (email: string, password: string) => {
 };
 
 // 로그아웃
-export const getLogout = async () => {
-  const res = await client.get('logout');
+export const postLogout = async () => {
+  const res = await client.post('auth/logout');
   return res;
 };
 
 // 전체 숙소조회(비로그인) <=> 개인화 숙소조회(로그인)
-export const getProducts = async (accomodationData: AccomodationData) => {
-  const res = await client.get('products', { params: accomodationData });
+export const getProducts = async (
+  checkIn?: string,
+  checkOut?: string,
+  personNumber?: string,
+) => {
+  const res = await client.get('products', {
+    params: {
+      checkIn: checkIn,
+      checkOut: checkOut,
+      personNumber: personNumber,
+    },
+  });
   return res;
 };
 
 // 카테고리별 숙소조회
 export const getProductsCategory = async (
   categoryCode: string,
-  accomodationData: AccomodationData,
+  accommodationData?: AccommodationData,
 ) => {
   const res = await client.get(`products?category=${categoryCode}`, {
-    params: accomodationData,
+    params: accommodationData,
   });
   return res;
 };
@@ -64,10 +97,10 @@ export const getProductsCategory = async (
 // 지역별 숙소조회
 export const getProductsRegion = async (
   RegionCode: string,
-  accomodationData: AccomodationData,
+  accommodationData: AccommodationData,
 ) => {
   const res = await client.get(`products?region=${RegionCode}`, {
-    params: accomodationData,
+    params: accommodationData,
   });
   return res;
 };
@@ -76,52 +109,61 @@ export const getProductsRegion = async (
 export const getProductsCategoryRegion = async (
   categoryCode: string,
   RegionCode: string,
-  accomodationData: AccomodationData,
+  accommodationData: AccommodationData,
 ) => {
   const res = await client.get(
     `products?category=${categoryCode}&region=${RegionCode}`,
-    { params: accomodationData },
+    { params: accommodationData },
   );
   return res;
 };
 
 // 개별 상품조회(숙소전체)
-export const postAccomodation = async (accomodationID: string) => {
-  const res = await client.post<AccommodationResponse>(
-    `products/${accomodationID}/`,
-  );
-  return res.data;
+export const getAccommodation = async (accommodationID: string) => {
+  const res = await client.get(`products/${accommodationID}`);
+  return res;
 };
 
 // 개별 상품 상세페이지 조회
-export const postAccomodationProduct = async (
-  accomodationID: string,
+export const getAccommodationProduct = async (
+  accommodationID: string,
   productID: string,
 ) => {
-  const res = await client.post(`products/${accomodationID}/${productID}`);
+  const res = await client.get(`products/${accommodationID}/${productID}`);
   return res;
 };
 
 // 상품 주문하기
 export const postOrders = async (orderData: OrderRequest) => {
-  const res = await client.post(`orders`, orderData);
+  const res = await client.post(`order`, orderData);
   return res;
 };
 
 // 장바구니 상품 전체 조회
 export const getCarts = async () => {
-  const res = await client.get(`carts`);
-  return res;
+  const res = await client.get<Cart[]>(`carts`);
+  return res.data;
 };
 
 // 장바구니 상품 추가
-export const postCarts = async (productID: string) => {
-  const res = await client.post(`carts/${productID}`);
+export const postCarts = async (
+  checkIn: string | undefined,
+  checkOut: string | undefined,
+  personNumber: number,
+  price: number,
+  productID: number,
+) => {
+  const res = await client.post(`carts/${productID}`, {
+    checkIn,
+    checkOut,
+    personNumber,
+    price,
+  });
   return res;
 };
 
 // 장바구니 상품 삭제
-export const deleteCarts = async (cartID: string) => {
+export const deleteCarts = async (cartID: number) => {
   const res = await client.delete(`carts/${cartID}`);
   return res;
 };
@@ -133,9 +175,9 @@ export const getReviews = async () => {
 };
 
 // 리뷰작성
-export const postReviews = async (ReviewData: ReviewData) => {
+export const postReviews = async (Review: Review) => {
   const res = await client.post(`reviews`, {
-    ReviewData,
+    Review,
   });
   return res;
 };
@@ -161,14 +203,14 @@ export const getLikes = async () => {
 };
 
 // 숙소 찜 누르기
-export const postLikes = async (accomodationID: string) => {
-  const res = await client.post(`likes/${accomodationID}`);
+export const postLikes = async (accommodationID: string) => {
+  const res = await client.post(`likes/${accommodationID}`);
   return res;
 };
 
 // 숙소 찜 삭제
-export const deleteLikes = async (accomodationID: string) => {
-  const res = await client.delete(`likes/${accomodationID}`);
+export const deleteLikes = async (accommodationID: string) => {
+  const res = await client.delete(`likes/${accommodationID}`);
   return res;
 };
 
@@ -179,9 +221,32 @@ export const getUser = async () => {
 };
 
 // 전제 주문목록 상세조회(마이페이지)
-export const getUserDetail = async (orderID: string) => {
+export const getUserDetail = async (orderID: number) => {
   const res = await client.get(`user/details/${orderID}`);
   return res;
+};
+export interface SummaryData {
+  products: Product[];
+}
+
+export interface Product {
+  accommodationName: string;
+  roomName: string;
+  imageUrl: string;
+  category: string;
+}
+
+export const getReservedRooms = async (productIds: number[]) => {
+  try {
+    const res = await client.post<SummaryData>(`products/summary`, productIds);
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    if (error instanceof Error) {
+      console.log(error);
+    }
+  }
 };
 
 // 📚레퍼런스 : https://www.notion.so/API-556c8b2ec73a460c9132ccc9a0a2dbc1

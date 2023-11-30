@@ -1,83 +1,56 @@
-import ImageContainer from './ImageContainer';
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
-import ProductsFacility from './ProductsFacility';
-import GuestModal from './GuestModal/guestModal';
-import { useState, useEffect } from 'react';
-import { GuestCount, Room } from '@/interfaces/interface';
+import { AccommodationData, Room } from '@/interfaces/interface';
 import Review from './Review';
-import { postAccomodation } from '@/api/service';
+import { getAccommodation } from '@/api/service';
 import Map from './Map';
+import { useQuery } from '@tanstack/react-query';
+import AllFacility from './AllFacility';
+import { StyledImageContainer } from '@/style/products/productsStyle';
 
 interface ProductsContainerProps {
-  accomodationID: string;
+  accommodationID: string;
 }
-const ProductsContainer = ({ accomodationID }: ProductsContainerProps) => {
-  console.log(accomodationID);
-  const [guestCount, setGuestCount] = useState<GuestCount>({
-    adults: 0,
-    children: 0,
-    infants: 0,
+
+const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['accommodation', accommodationID],
+
+    queryFn: () => getAccommodation(accommodationID),
+    enabled: !!accommodationID,
   });
-  const [totalGuestCount, setTotalGuestCount] = useState(0);
-  const [showGuestModal, setShowGuestModal] = useState(false);
-  const handleGuestModal = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setShowGuestModal(true);
-  };
-  const handleSaveGuestCount = (newGuestCount: number) => {
-    setTotalGuestCount(newGuestCount); //게스트 수 상태 업데이트
-    setShowGuestModal(false);
-  };
 
-  const [roomData, setRoomData] = useState<Room[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      if (accomodationID) {
-        setIsLoading(true); // 데이터 로딩 시작
-        try {
-          const res = await postAccomodation(accomodationID);
-          setRoomData(res.accomodationData.rooms);
-        } catch (err) {
-          console.log('에러');
-        } finally {
-          setIsLoading(false); // 데이터 로딩 완료
-        }
-      }
-    };
-
-    fetchData();
-  }, [accomodationID]);
+  const roomData: Room[] = data?.data.rooms || [];
+  const accommodationData: AccommodationData = data?.data;
 
   if (isLoading) {
-    return <div>Loading...</div>; // 데이터 로딩 중인 경우 로딩 표시
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
   }
 
   return (
     <>
-      <ImageContainer />
-      <AccommodationInfo
-        onOpen={handleGuestModal}
-        guestCount={guestCount}
-        totalGuestCount={totalGuestCount}
+      <StyledImageContainer
+        backgroundImage={accommodationData.image[0].imageUrl}
       />
-      {showGuestModal && (
-        <GuestModal
-          guestCount={guestCount}
-          setGuestCount={setGuestCount}
-          onClose={() => setShowGuestModal(false)}
-          onSave={handleSaveGuestCount}
-        />
-      )}
+      <AccommodationInfo
+        infoData={accommodationData}
+        productsFacility={accommodationData.facility}
+      />
       {roomData.map((room) => (
         <RoomCard
-          key={room.room_id}
+          key={room.roomId}
           roomData={room}
-          accomodationID={accomodationID}
+          infoData={accommodationData}
         />
       ))}
-      <ProductsFacility />
+      <AllFacility
+        productsFacility={accommodationData.facility}
+        roomsFacility={roomData}
+      />
       <Map lat={37.5649867} lng={126.985575} />
       <Review />
     </>
