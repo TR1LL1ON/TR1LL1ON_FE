@@ -11,13 +11,12 @@ interface ProductsResponse {
 }
 
 const MainContainer = () => {
-  const location = useLocation();
-  const categoryParam = new URLSearchParams(location.search).get('category');
+  // const location = useLocation();
+  // const categoryParam = new URLSearchParams(location.search).get('category');
 
   const { data, error, isLoading, isError } = useQuery<ProductsResponse>({
-    queryKey: ['products', categoryParam],
-    queryFn: () =>
-      categoryParam ? getProductsCategory(categoryParam) : getProducts(),
+    queryKey: ['products'],
+    queryFn: () => getProducts(),
   });
 
   if (isLoading) {
@@ -30,7 +29,6 @@ const MainContainer = () => {
   }
 
   const productsData = data?.data || [];
-  console.log(productsData);
 
   return (
     <>
