@@ -17,25 +17,24 @@ const ModalTab = ({
   roomsFacility,
 }: ModalTabsProps) => {
   const [activeTab, setActiveTab] = useState('notice');
-  const handleTabClick = (event, tabName) => {
-    event.stopPropagation();
+  const handleTabClick = (e: React.MouseEvent, tabName: string) => {
+    e.stopPropagation();
     setActiveTab(tabName);
   };
   return (
     <ModalContainer onClose={onClose}>
       <StyledModalWrap>
         <StyledTabContainer>
-          <FilteredTab
-            StyledTab
-            onClick={(e) => handleTabClick(e, 'notice')}
+          <StyledFilterTab
+            onClick={(e: React.MouseEvent) => handleTabClick(e, 'notice')}
             active={activeTab === 'notice'}>
             객실 이용 안내
-          </FilteredTab>
-          <FilteredTab
-            onClick={(e) => handleTabClick(e, 'facility')}
+          </StyledFilterTab>
+          <StyledFilterTab
+            onClick={(e: React.MouseEvent) => handleTabClick(e, 'facility')}
             active={activeTab === 'facility'}>
-            숙소 편의시설
-          </FilteredTab>
+            편의시설
+          </StyledFilterTab>
         </StyledTabContainer>
         {activeTab === 'notice' && <NoticeModal />}
         {activeTab === 'facility' && (
@@ -50,10 +49,15 @@ const ModalTab = ({
 };
 
 export default ModalTab;
-
-interface FilteredTabProps {
+interface StyledFilterTabProps {
   active: boolean;
+  onClick: (e: React.MouseEvent) => void;
+  children: React.ReactNode;
 }
+const StyledFilterTab = ({ active, ...props }: StyledFilterTabProps) => (
+  <StyledTab active={active} {...props}></StyledTab>
+);
+
 const StyledModalWrap = styled.div`
   width: 500px;
   height: 80vh;
@@ -73,13 +77,9 @@ const StyledTab = styled.button<{ active: boolean }>`
   border: none;
   cursor: pointer;
   font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
-  color: ${(props) => (props.active ? 'red' : 'black')}
-  text-decoration: ${(props) => (props.active ? 'underline' : 'none')}; 
-    z-index: 10;
-    background:transparent;
-
-
+  color: ${(props) => (props.active ? props.theme.colors.primary : 'black')};
+  text-decoration: ${(props) => (props.active ? 'underline' : 'none')};
+  z-index: 2;
+  background: transparent;
+  margin-bottom: 1rem;
 `;
-const FilteredTab = ({ active, ...props }: FilteredTabProps) => (
-  <StyledTab active={active} {...props} />
-);

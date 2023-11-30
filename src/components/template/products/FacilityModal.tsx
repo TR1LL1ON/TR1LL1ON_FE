@@ -1,5 +1,4 @@
 import { StyledH2Text } from '@/style/products/productsStyle';
-import ModalContainer from '@/components/layout/modal/ModalContainer';
 import ProductsFacilityList from './ProductsFacilityList';
 import RoomsFacilityList from './RoomsFacilityList';
 import styled from 'styled-components';
@@ -18,11 +17,10 @@ const FacilityModal = ({
     (value) => value,
   );
   return (
-    // <ModalContainer onClose={onClose}>
     <StyledFacilityModal>
       {hasTrueProductFacility && (
         <>
-          <StyledH2Text $mt="4rem" $mb="1rem">
+          <StyledH2Text $mt="1rem" $mb="1rem" $fontSize="md">
             숙소 편의시설
           </StyledH2Text>
           <ProductsFacilityList productsFacility={productsFacility} />
@@ -30,14 +28,13 @@ const FacilityModal = ({
       )}
       {roomsFacility.length > 0 && (
         <>
-          <StyledH2Text $mt="2rem" $mb="1rem">
+          <StyledH2Text $mt="2rem" $mb="1rem" $fontSize="md">
             객실 편의시설
           </StyledH2Text>
           <RoomsFacilityList roomsFacility={roomsFacility} />
         </>
       )}
     </StyledFacilityModal>
-    // </ModalContainer>
   );
 };
 

@@ -5,7 +5,6 @@ import {
   AccommodationData,
   ReviewData,
   Review,
-  AccommodationResponse,
 } from '../interfaces/interface';
 import { getCookie } from '@/util/util';
 

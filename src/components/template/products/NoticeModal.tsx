@@ -1,18 +1,10 @@
-import { StyledH2Text } from '@/style/products/productsStyle';
-import ModalContainer from '@/components/layout/modal/ModalContainer';
 import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 
-interface NoticeModalProps {
-  //   onClose: () => void;
-}
-const NoticeModal = ({}: NoticeModalProps) => {
+const NoticeModal = () => {
   return (
     <StyledNoticeModal>
       <>
-        <StyledH2Text $mt="2rem" $mb="1rem">
-          객실 이용 안내
-        </StyledH2Text>
         <StyledFlexContainer $flexDirection="column" $alignItems="flex-start">
           <StyledList>
             <li>
