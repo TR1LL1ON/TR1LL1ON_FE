@@ -1,8 +1,8 @@
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
 import { useQuery } from '@tanstack/react-query';
-import { getProducts, getProductsCategory } from '@/api/service';
-import { useLocation } from 'react-router-dom';
+import { getProducts } from '@/api/service';
+
 import { mainData } from '@/interfaces/interface';
 
 // API 응답 타입 정의
@@ -11,13 +11,12 @@ interface ProductsResponse {
 }
 
 const MainContainer = () => {
-  const location = useLocation();
-  const categoryParam = new URLSearchParams(location.search).get('category');
+  // const location = useLocation();
+  // const categoryParam = new URLSearchParams(location.search).get('category');
 
   const { data, error, isLoading, isError } = useQuery<ProductsResponse>({
-    queryKey: ['products', categoryParam],
-    queryFn: () =>
-      categoryParam ? getProductsCategory(categoryParam) : getProducts(),
+    queryKey: ['products'],
+    queryFn: () => getProducts(),
   });
 
   if (isLoading) {
@@ -30,7 +29,6 @@ const MainContainer = () => {
   }
 
   const productsData = data?.data || [];
-  console.log(productsData);
 
   return (
     <>
