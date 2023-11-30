@@ -18,15 +18,16 @@ import DetailModal from './detailModal/detailModal';
 import { useRecoilValue } from 'recoil';
 import { reservationState, guestCountState } from '@/states/atom';
 import { Link } from 'react-router-dom';
-import { Room } from '@/interfaces/interface';
+import { Room, AccommodationData } from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
 import useAddCart from '@/hooks/useAddCart';
 import CartModal from '@/components/layout/modal/CartModal';
 
 interface RoomCardProps {
   roomData: Room;
+  infoData: AccommodationData;
 }
-const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
+const RoomCard: React.FC<RoomCardProps> = ({ roomData, infoData }) => {
   const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
@@ -66,6 +67,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
                 <DetailModal
                   setShowModal={setShowDetailModal}
                   roomData={roomData}
+                  infoData={infoData}
                   imageUrls={imageUrls}
                 />
               )}
@@ -79,7 +81,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
               {`체크인: ${roomData.checkIn} ~ 체크아웃: ${roomData.checkOut}`}
             </StyledH2Text>
           </div>
-          <StyledPriceText>{`${roomData.averPrice}원`}</StyledPriceText>
+          <StyledPriceText>{`${roomData.averPrice.toLocaleString()}원`}</StyledPriceText>
           <StyledFlexContainer $flexDirection="row">
             <StyledBrandText>{`남은객실 ${roomData.count}`}</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">
@@ -105,7 +107,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
         </StyledTextRow>
         <StyledTextRow>
           <LuBedSingle className="icon" />
-          싱글 침대 2개
+          싱글 침대 1개
         </StyledTextRow>
       </StyledFlexContainer>
     </StyledWrap>
