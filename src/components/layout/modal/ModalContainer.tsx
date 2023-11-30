@@ -52,11 +52,6 @@ export const StyledModalContent = styled.div`
   max-width: 1200px;
   position: fixed;
   height: auto;
-  max-height: 80vh;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
