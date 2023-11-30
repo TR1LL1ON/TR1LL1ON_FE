@@ -79,7 +79,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomData }) => {
               {`체크인: ${roomData.checkIn} ~ 체크아웃: ${roomData.checkOut}`}
             </StyledH2Text>
           </div>
-          <StyledPriceText>{`${roomData.averPrice}원`}</StyledPriceText>
+          <StyledPriceText>{`${roomData.averPrice.toLocaleString()}원`}</StyledPriceText>
           <StyledFlexContainer $flexDirection="row">
             <StyledBrandText>{`남은객실 ${roomData.count}`}</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">

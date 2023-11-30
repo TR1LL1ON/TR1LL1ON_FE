@@ -97,7 +97,7 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
                     {item.checkIn} ~ {item.checkOut}
                   </StyledText>
                   <StyledText $fontSize="1rem" $fontWeight={700}>
-                    {item.price}원
+                    {item.price.toLocaleString()}원
                   </StyledText>
                 </StyledFlexContainer>
               </StyledFlexContainer>
