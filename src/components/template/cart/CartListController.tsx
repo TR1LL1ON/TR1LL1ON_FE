@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { deleteCarts } from '@/api/service';
 import { Cart } from '@/interfaces/interface';
 import { StyledDeleteButton } from '@/style/cart/cartStyle';

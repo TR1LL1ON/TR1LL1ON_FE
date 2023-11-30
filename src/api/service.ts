@@ -5,7 +5,7 @@ import {
   AccommodationData,
   ReviewData,
   Review,
-  AccommodationResponse,
+  Cart,
 } from '../interfaces/interface';
 import { getCookie } from '@/util/util';
 
@@ -29,6 +29,14 @@ client.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+client.interceptors.response.use((response) => {
+  if (response.status === 401) {
+    alert('로그인이 필요합니다.');
+    window.location.href = '/';
+  }
+  return response;
+});
 
 // 회원가입
 export const postSignUp = async (
@@ -54,8 +62,8 @@ export const postLogin = async (email: string, password: string) => {
 };
 
 // 로그아웃
-export const getLogout = async () => {
-  const res = await client.get('logout');
+export const postLogout = async () => {
+  const res = await client.post('auth/logout');
   return res;
 };
 
@@ -127,14 +135,14 @@ export const getAccommodationProduct = async (
 
 // 상품 주문하기
 export const postOrders = async (orderData: OrderRequest) => {
-  const res = await client.post(`orders`, orderData);
+  const res = await client.post(`order`, orderData);
   return res;
 };
 
 // 장바구니 상품 전체 조회
 export const getCarts = async () => {
-  const res = await client.get(`carts`);
-  return res;
+  const res = await client.get<Cart[]>(`carts`);
+  return res.data;
 };
 
 // 장바구니 상품 추가
@@ -216,6 +224,29 @@ export const getUser = async () => {
 export const getUserDetail = async (orderID: number) => {
   const res = await client.get(`user/details/${orderID}`);
   return res;
+};
+export interface SummaryData {
+  products: Product[];
+}
+
+export interface Product {
+  accommodationName: string;
+  roomName: string;
+  imageUrl: string;
+  category: string;
+}
+
+export const getReservedRooms = async (productIds: number[]) => {
+  try {
+    const res = await client.post<SummaryData>(`products/summary`, productIds);
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    if (error instanceof Error) {
+      console.log(error);
+    }
+  }
 };
 
 // 📚레퍼런스 : https://www.notion.so/API-556c8b2ec73a460c9132ccc9a0a2dbc1
