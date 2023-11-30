@@ -1,7 +1,7 @@
 import { StyledSubTitle, StyledWrapper } from '@/style/payment/paymentStyle';
 import ReservationCard from './reservationCard';
 import { Reservation } from '@/interfaces/interface';
-import { getUser, postReviews } from '@/api/service';
+import { getUser } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';

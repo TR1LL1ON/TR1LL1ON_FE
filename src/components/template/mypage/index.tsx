@@ -1,6 +1,6 @@
 import { StyledTitle } from '@/style/payment/paymentStyle';
 import ReservationList from './reservationList';
-import WishList from './wishList';
+// import WishList from './wishList';
 
 const MypageContainer = () => {
   return (
