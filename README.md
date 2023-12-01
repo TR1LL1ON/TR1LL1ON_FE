@@ -3,7 +3,6 @@
 </br>
 <img src="https://github.com/TR1LL1ON/TR1LL1ON_FE/assets/134940630/98153dc7-b93d-45ae-b43a-24ba9f32a874" width=300 />
 
-
 ### TR1LL1ON 💸 프론트엔드
 
 <p align="center">
@@ -48,10 +47,9 @@ TEST용 PASSWORD: 12345678
 ![ReactQuery](https://img.shields.io/badge/reactquery-FF4154.svg?style=for-the-badge&logo=reactquery&logoColor=white)
 ![Recoil](https://img.shields.io/badge/Recoil-007af4.svg?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FscXVlXzEiIGRhdGEtbmFtZT0iQ2FscXVlIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDI1NS4yMSA2MjMuOTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDp3aGl0ZX08L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im03NC42MiAyNzcuNDYgMS4yNC0uMTMgMzQuNzgtMy4yOC01My40Ny01OC42NkE5Ni40NyA5Ni40NyAwIDAgMSAzMiAxNTAuM0gzYTEyNS4zIDEyNS4zIDAgMCAwIDMyLjggODQuNTdaTTE3Ny4xMyAzNDdsLTM2IDMuNCA1My4zMiA1OC41MUE5Ni40MSA5Ni40MSAwIDAgMSAyMTkuNjMgNDc0aDI4LjkyYTEyNS4yOCAxMjUuMjggMCAwIDAtMzIuNzYtODQuNTdaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjUzLjY5IDIzMS42OGMtNi4zMy0zMS4zLTMwLjg5LTU0LjA5LTYyLjU3LTU4LjA3bC02LjM1LS43OWE0OS42MSA0OS42MSAwIDAgMS00My4zNS00OS4xM3YtMjBhNTIuNzUgNTIuNzUgMCAxIDAtMjguOTEtLjM2djIwLjM4YTc4LjU2IDc4LjU2IDAgMCAwIDY4LjY1IDc3LjgybDYuMzYuOGMyMy4yNCAyLjkyIDM0Ljc4IDIwIDM3LjgzIDM1LjFzLS45MyAzNS4zMi0yMS4yMiA0N2E3My44MSA3My44MSAwIDAgMS0zMC4wNiA5LjYybC05NS42NiA5YTEwMi40NSAxMDIuNDUgMCAwIDAtNDEuOCAxMy4zOEM5IDMzMi40NS00LjgxIDM2MyAxLjUyIDM5NC4yOXMzMC44OSA1NC4wOCA2Mi41NyA1OC4wNmw2LjM1LjhhNDkuNiA0OS42IDAgMCAxIDQzLjM1IDQ5LjEydjE4YTUyLjc1IDUyLjc1IDAgMSAwIDI4LjkxLjI2di0xOC4yNmE3OC41NSA3OC41NSAwIDAgMC02OC42NS03Ny44MWwtNi4zNi0uOGMtMjMuMjQtMi45Mi0zNC43OC0yMC4wNS0zNy44My0zNS4xMXMuOTMtMzUuMzIgMjEuMjItNDdhNzMuNjggNzMuNjggMCAwIDEgMzAuMDYtOS42M2w5NS42Ni05YTEwMi40NSAxMDIuNDUgMCAwIDAgNDEuOC0xMy4zOGMyNy42NS0xNi4wMiA0MS40LTQ2LjU0IDM1LjA5LTc3Ljg2WiIvPjwvc3ZnPg==&logoColor=white)
 ![StyledComponents](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
-![Axios](https://img.shields.io/badge/axios-671ddf?&style=for-the-badge&logo=axios&logoColor=white) 
+![Axios](https://img.shields.io/badge/axios-671ddf?&style=for-the-badge&logo=axios&logoColor=white)
 
 </div>
-
 
 #### CI/CD
 
@@ -66,17 +64,21 @@ TEST용 PASSWORD: 12345678
 ### ✅ BackEnd
 
 #### Framework
+
 ![Spring](https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![springboot](https://img.shields.io/badge/springboot-6DB33F.svg?style=for-the-badge&logo=springboot&logoColor=white)
 ![springsecurity](https://img.shields.io/badge/springsecurity-6DB33F.svg?style=for-the-badge&logo=springsecurity&logoColor=white)
 
 #### DB
+
 ![mysql](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
 #### Infra
+
 ![Amazon EC2](https://img.shields.io/badge/Amazon%20EC2-FF9900.svg?style=for-the-badge&logo=Amazon-EC2&logoColor=white)
 
 #### CI/CD
+
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
 <br/>
@@ -157,8 +159,8 @@ Design : CSS 등 디자인 추가/수정
 Comment : 주석 추가/수정
 Docs : 내부 문서 추가/수정
 Test : 테스트 추가/수정
-Chore : 빌드 관련 코드 수정, 개발 환경 관련 설정(과거 Env)
-Move : 파일 및 폴더명 수정(과거 Rename)
+Chore : 빌드 관련 코드 수정, 개발 환경 관련 설정
+Move : 파일 및 폴더명 수정
 Remove : 파일 삭제
 ```
 
@@ -196,7 +198,7 @@ feature/#이슈번호
 
 ```
 📦src
- ┣ 📂api 
+ ┣ 📂api
  ┣ 📂assets
  ┣ 📂components
  ┃ ┣ 📂layout
@@ -241,12 +243,14 @@ feature/#이슈번호
 
 ## 🧑🏻‍💻 팀 소개 및 역할
 
-### ✨ 팀 소개 
-| 장호진 (FE) <br> 팀장 | 심정아 (FE) <br> 팀원 | 지홍규 (FE) <br> 팀원 | 윤지영 (FE) <br> 팀원 | 이재준 (FE) <br> 팀원 |
-|:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|
-| ![leHiHo](https://avatars.githubusercontent.com/leHiHo) | ![joanShim](https://avatars.githubusercontent.com/joanShim) | ![JiHongkyu](https://avatars.githubusercontent.com/JiHongkyu) | ![developer-jyyun](https://avatars.githubusercontent.com/developer-jyyun) | ![Gaoridang](https://avatars.githubusercontent.com/Gaoridang) |
-| [leHiHo](https://github.com/leHiHo) | [joanShim](https://github.com/joanShim) | [JiHongkyu](https://github.com/JiHongkyu) | [developer-jyyun](https://github.com/developer-jyyun) | [Gaoridang](https://github.com/Gaoridang) |
-| <ul><li>초기설정</li><li>배포</li><li>모킹서버</li><li>리뷰 CRUD</li><li>객실 상세</li><li>예약내역</li></ul> | <ul><li>메인화면</li><li>검색(전체,카테고리,지역별)</li><li>캘린더(체크인/체크아웃)</li><li>지도(숙소위치)</li></ul> | <ul><li>로그인</li><li>회원가입</li><li>장바구니</li></ul> | <ul><li>숙소상세</li><li>리뷰조회</li><li>게스트모달</li><li>편의시설</li></ul> | <ul><li>결제</li><li>카테고리</li></ul> |
+### ✨ 팀 소개
+
+|                                             장호진 (FE) <br> 팀장                                             |                                                심정아 (FE) <br> 팀원                                                 |                     지홍규 (FE) <br> 팀원                     |                              윤지영 (FE) <br> 팀원                              |                     이재준 (FE) <br> 팀원                     |
+| :-----------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------: | :-----------------------------------------------------------------------------: | :-----------------------------------------------------------: |
+|                            ![leHiHo](https://avatars.githubusercontent.com/leHiHo)                            |                             ![joanShim](https://avatars.githubusercontent.com/joanShim)                              | ![JiHongkyu](https://avatars.githubusercontent.com/JiHongkyu) |    ![developer-jyyun](https://avatars.githubusercontent.com/developer-jyyun)    | ![Gaoridang](https://avatars.githubusercontent.com/Gaoridang) |
+|                                      [leHiHo](https://github.com/leHiHo)                                      |                                       [joanShim](https://github.com/joanShim)                                        |           [JiHongkyu](https://github.com/JiHongkyu)           |              [developer-jyyun](https://github.com/developer-jyyun)              |           [Gaoridang](https://github.com/Gaoridang)           |
+| <ul><li>초기설정</li><li>배포</li><li>모킹서버</li><li>리뷰 CRUD</li><li>객실 상세</li><li>예약내역</li></ul> | <ul><li>메인화면</li><li>검색(전체,카테고리,지역별)</li><li>캘린더(체크인/체크아웃)</li><li>지도(숙소위치)</li></ul> |  <ul><li>로그인</li><li>회원가입</li><li>장바구니</li></ul>   | <ul><li>숙소상세</li><li>리뷰조회</li><li>게스트모달</li><li>편의시설</li></ul> |            <ul><li>결제</li><li>카테고리</li></ul>            |
+
 <br>
 
 ## 📆 기간
