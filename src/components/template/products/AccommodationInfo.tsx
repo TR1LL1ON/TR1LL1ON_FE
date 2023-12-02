@@ -27,6 +27,7 @@ import CalenderModal from '@/components/layout/modal/calenderModal';
 import GuestModal from './GuestModal/guestModal';
 import { reservationState } from '@/states/atom';
 import ProductsFacilityList from './ProductsFacilityList';
+import { formatDate } from '@/util/util';
 
 interface AccommodationProp {
   infoData: AccommodationData;
@@ -56,12 +57,16 @@ const AccommodationInfo = ({
   const { checkIn, checkOut } = useRecoilValue(reservationState);
   const [, setReservation] = useRecoilState(reservationState);
 
+  const today: Date = new Date();
+  const tomorrow: Date = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
   //상품 변경시 일정 초기화
   useEffect(() => {
     setReservation((prevReservation) => ({
       ...prevReservation,
-      checkIn: '',
-      checkOut: '',
+      checkIn: formatDate(today),
+      checkOut: formatDate(tomorrow),
     }));
   }, []);
   const [nights, setNights] = useState(0);

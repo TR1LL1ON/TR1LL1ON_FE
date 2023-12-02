@@ -45,10 +45,10 @@ export const reservationState = atom<Order>({
 export const guestCountState = atom<GuestCount>({
   key: 'guestCountState',
   default: {
-    adults: 0,
+    adults: 2,
     children: 0,
     infants: 0,
-    totals: 0,
+    totals: 2,
   },
 });
 
