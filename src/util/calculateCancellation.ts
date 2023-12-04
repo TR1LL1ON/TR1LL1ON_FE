@@ -5,8 +5,8 @@ interface CancellationInfo {
   isCancelable: boolean;
 }
 
-const MILLISECONDS_PER_DAY: number = 1000 * 3600 * 24;
-const DAY_NAMES: string[] = [
+const millisecondsPerDay: number = 1000 * 3600 * 24;
+const dayNames: string[] = [
   '(일)',
   '(월)',
   '(화)',
@@ -25,7 +25,7 @@ export const subtractDays = (date: string, days: number): Date => {
 
 // 요일 구하기(월,화...)
 export const getDayName = (date: Date): string => {
-  return DAY_NAMES[date.getDay()];
+  return dayNames[date.getDay()];
 };
 
 export const calculateCancellation = (
@@ -35,7 +35,7 @@ export const calculateCancellation = (
   const checkIn = new Date(checkInDate);
 
   const daysUntilCheckIn = Math.ceil(
-    (checkIn.getTime() - today.getTime()) / MILLISECONDS_PER_DAY,
+    (checkIn.getTime() - today.getTime()) / millisecondsPerDay,
   ); // 체크인까지 남은날 계산
 
   const freeCancellationDate = formatDateToMonthDay(checkInDate, 1);
