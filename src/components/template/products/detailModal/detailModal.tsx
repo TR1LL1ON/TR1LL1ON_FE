@@ -52,7 +52,7 @@ const DetailModal: React.FC<ModalProps> = ({
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
 
-  const { cancellationFee, isCancelable } = calculateCancellation(checkIn);
+  const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
   const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
 
   const handleAddCart = useAddCart(
@@ -171,7 +171,7 @@ const DetailModal: React.FC<ModalProps> = ({
                 $fontSize={theme.fontSizes.sm}
                 $fontWeight={theme.fontWeights.bold}
                 $color={textColor}>
-                {cancellationFee}
+                {cancellationStatus}
               </StyledText>
               <MdKeyboardArrowRight />
             </StyledFlexContainer>
@@ -235,10 +235,10 @@ const DetailModal: React.FC<ModalProps> = ({
                 )}`}
               </StyledText>
               <StyledText
-                $fontSize={theme.fontSizes.xs}
+                $fontSize={theme.fontSizes.sm}
                 $fontWeight={theme.fontWeights.bold}
                 $color={textColor}>
-                {cancellationFee}
+                {cancellationStatus}
               </StyledText>
             </StyledFlexContainer>
             <StyledFlexContainer>

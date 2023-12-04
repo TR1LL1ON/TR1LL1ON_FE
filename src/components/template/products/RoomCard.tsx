@@ -59,7 +59,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
   const [showDetailModal, setShowDetailModal] = useState(false);
   const handleGetCarts = useGetCarts();
 
-  const { cancellationFee, isCancelable } = calculateCancellation(checkIn);
+  const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
   const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
 
   const handleDetailModal = () => {
@@ -109,7 +109,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
               $fontSize={theme.fontSizes.md}
               $fontWeight={theme.fontWeights.bold}
               $color={textColor}>
-              {cancellationFee}
+              {cancellationStatus}
             </StyledText>
           </StyledPriceText>
 

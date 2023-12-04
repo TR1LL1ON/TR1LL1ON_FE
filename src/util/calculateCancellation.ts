@@ -1,7 +1,7 @@
 import { formatDateToMonthDay } from '@/util/util';
 
 interface CancellationInfo {
-  cancellationFee: string;
+  cancellationStatus: string;
   isCancelable: boolean;
 }
 
@@ -41,13 +41,13 @@ export const calculateCancellation = (
   const freeCancellationDate = formatDateToMonthDay(checkInDate, 1);
   const freeCancellationDayName = getDayName(subtractDays(checkInDate, 1));
 
-  let cancellationFee: string = `무료취소 (${freeCancellationDate} ${freeCancellationDayName} 00:00전까지)`;
+  let cancellationStatus: string = `무료취소 (${freeCancellationDate} ${freeCancellationDayName} 00:00전까지)`;
   let isCancelable: boolean = true;
 
   if (daysUntilCheckIn <= 1) {
-    cancellationFee = '취소 및 환불불가';
+    cancellationStatus = '취소 및 환불불가';
     isCancelable = false;
   }
 
-  return { cancellationFee, isCancelable };
+  return { cancellationStatus, isCancelable };
 };
