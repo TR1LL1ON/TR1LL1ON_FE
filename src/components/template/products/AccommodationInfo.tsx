@@ -69,7 +69,7 @@ const AccommodationInfo = ({
       checkOut: formatDate(tomorrow),
     }));
   }, []);
-  const [nights, setNights] = useState(0);
+  const [nights, setNights] = useState(1);
 
   return (
     <StyledWrap>

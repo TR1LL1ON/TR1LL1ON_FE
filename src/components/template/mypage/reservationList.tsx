@@ -5,10 +5,10 @@ import { getUser } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
+const itemsPerPage = 3; // 예를 들어, 페이지당 5개의 아이템
 
 const ReservationList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3; // 예를 들어, 페이지당 5개의 아이템
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['ReservationData'],

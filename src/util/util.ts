@@ -1,5 +1,3 @@
-import { Data } from '@react-google-maps/api';
-
 export const setCookie = (accessToken: string) => {
   try {
     document.cookie = `accessToken=${accessToken};max-age=3600;path=/;secure`;
@@ -52,24 +50,27 @@ export const formatDateToMonthDay = (
     .padStart(2, '0')}`;
 };
 
-export const calculateCancellationFee = (checkInDate: string): string => {
+export const calculateCancellationFee = (checkInDate: string) => {
   const today = new Date();
   const checkIn = new Date(checkInDate);
   const timeDiff = checkIn.getTime() - today.getTime();
   const daysUntilCheckIn = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-  // 무료 취소 가능한 마지막 날짜 계산
-  const freeCancellationDate = formatDateToMonthDay(checkInDate, 4);
+  // 무료 취소 가능한 마지막 날짜 및 요일 계산
+  const freeCancellationDate = formatDateToMonthDay(checkInDate, 1);
+  const freeCancellationDay = new Date(checkInDate);
+  freeCancellationDay.setDate(freeCancellationDay.getDate() - 1); // 무료 취소 마지막 날짜
+  const dayNames = ['(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)'];
+  const freeCancellationDayName = dayNames[freeCancellationDay.getDay()]; // 요일 이름
 
-  // 취소 수수료 계산
-  let cancellationFee = `무료취소 (${freeCancellationDate} 00:00전까지)`;
+  // 취소 수수료 및 취소 가능 여부 계산
+  let cancellationFee = `무료취소 (${freeCancellationDate} ${freeCancellationDayName} 00:00전까지)`;
+  let isCancelable = true;
+
   if (daysUntilCheckIn <= 1) {
     cancellationFee = '취소 및 환불불가';
-  } else if (daysUntilCheckIn <= 2) {
-    cancellationFee = '취소수수료 80%';
-  } else if (daysUntilCheckIn <= 4) {
-    cancellationFee = '취소수수료 50%';
+    isCancelable = false;
   }
 
-  return cancellationFee;
+  return { cancellationFee, isCancelable };
 };
