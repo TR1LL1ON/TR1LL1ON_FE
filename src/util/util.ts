@@ -50,27 +50,3 @@ export const formatDateToMonthDay = (
     .padStart(2, '0')}`;
 };
 
-export const calculateCancellationFee = (checkInDate: string) => {
-  const today = new Date();
-  const checkIn = new Date(checkInDate);
-  const timeDiff = checkIn.getTime() - today.getTime();
-  const daysUntilCheckIn = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-  // 무료 취소 가능한 마지막 날짜 및 요일 계산
-  const freeCancellationDate = formatDateToMonthDay(checkInDate, 1);
-  const freeCancellationDay = new Date(checkInDate);
-  freeCancellationDay.setDate(freeCancellationDay.getDate() - 1); // 무료 취소 마지막 날짜
-  const dayNames = ['(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)'];
-  const freeCancellationDayName = dayNames[freeCancellationDay.getDay()]; // 요일 이름
-
-  // 취소 수수료 및 취소 가능 여부 계산
-  let cancellationFee = `무료취소 (${freeCancellationDate} ${freeCancellationDayName} 00:00전까지)`;
-  let isCancelable = true;
-
-  if (daysUntilCheckIn <= 1) {
-    cancellationFee = '취소 및 환불불가';
-    isCancelable = false;
-  }
-
-  return { cancellationFee, isCancelable };
-};

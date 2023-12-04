@@ -29,7 +29,7 @@ import Carousel from './detailModal/carousel';
 import useAddCart from '@/hooks/useAddCart';
 import CartModal from '@/components/layout/modal/CartModal';
 import useGetCarts from '@/hooks/useGetCarts';
-import { calculateCancellationFee } from '@/util/util';
+import { calculateCancellation } from '@/util/calculateCancellation';
 
 interface RoomCardProps {
   roomData: Room;
@@ -59,7 +59,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
   const [showDetailModal, setShowDetailModal] = useState(false);
   const handleGetCarts = useGetCarts();
 
-  const { cancellationFee, isCancelable } = calculateCancellationFee(checkIn);
+  const { cancellationFee, isCancelable } = calculateCancellation(checkIn);
   const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
 
   const handleDetailModal = () => {

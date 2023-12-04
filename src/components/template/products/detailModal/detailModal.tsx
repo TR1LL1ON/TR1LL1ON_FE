@@ -32,7 +32,8 @@ import useAddCart from '@/hooks/useAddCart';
 import { useRecoilValue } from 'recoil';
 import { guestCountState, reservationState } from '@/states/atom';
 import CartModal from '@/components/layout/modal/CartModal';
-import { calculateCancellationFee, formatDateToMonthDay } from '@/util/util';
+import { formatDateToMonthDay } from '@/util/util';
+import { calculateCancellation } from '@/util/calculateCancellation';
 
 const DetailModal: React.FC<ModalProps> = ({
   setShowModal,
@@ -51,7 +52,7 @@ const DetailModal: React.FC<ModalProps> = ({
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
 
-  const { cancellationFee, isCancelable } = calculateCancellationFee(checkIn);
+  const { cancellationFee, isCancelable } = calculateCancellation(checkIn);
   const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
 
   const handleAddCart = useAddCart(
