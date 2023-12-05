@@ -7,7 +7,7 @@ import {
   StyledReviewButton,
 } from '../Review';
 import useDisplayedReview from '@/hooks/useDisplayedReview';
-import { reviewStar } from '@/util/reviewUtilities';
+import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
 
 interface ModalReviewProps {
   productReview: ProductReview[] | undefined;
@@ -28,10 +28,14 @@ const ModalReview = ({
   // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
   const { displayedReview, showAllReview } = useDisplayedReview(filteredReview);
 
+  // 객실 리뷰 평균 평점
+  const averageScore = calculateAverageScore(filteredReview);
+  const formattedAverageScore = averageScore.toFixed(1);
+
   return (
     <>
       <StyledSubTitle $mt="3rem">
-        {name} {''} {roomName} 후기
+        {name} {''} {roomName} 후기 ★ {formattedAverageScore}
       </StyledSubTitle>
       <StyleReviewContainer
         $justifyContent="flex-stat"
@@ -56,7 +60,7 @@ const ModalReview = ({
       </StyleReviewContainer>
       {filteredReview && filteredReview.length > 3 && (
         <StyledReviewButton onClick={showAllReview}>
-          객실 후기 모두 보기
+          객실 후기 {filteredReview.length}개 모두 보기
         </StyledReviewButton>
       )}
     </>
