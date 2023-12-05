@@ -1,5 +1,6 @@
 import { LuUser, LuBedSingle } from 'react-icons/lu';
 import { useState } from 'react';
+import theme from '@/style/theme';
 import {
   StyledWrap,
   StyledBrandText,
@@ -12,7 +13,7 @@ import {
   StyledTextRow,
   StyledReservationBtn,
 } from '@/style/products/productsStyle';
-import { StyledFlexContainer } from '@/style/payment/paymentStyle';
+import { StyledFlexContainer, StyledText } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -28,6 +29,7 @@ import Carousel from './detailModal/carousel';
 import useAddCart from '@/hooks/useAddCart';
 import CartModal from '@/components/layout/modal/CartModal';
 import useGetCarts from '@/hooks/useGetCarts';
+import { calculateCancellation } from '@/util/calculateCancellation';
 
 interface RoomCardProps {
   roomData: Room;
@@ -57,6 +59,9 @@ const RoomCard: React.FC<RoomCardProps> = ({
   const [showDetailModal, setShowDetailModal] = useState(false);
   const handleGetCarts = useGetCarts();
 
+  const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
+  const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
+
   const handleDetailModal = () => {
     setShowDetailModal(true);
   };
@@ -71,7 +76,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
         <StyledTextItem
           $flexDirection="column"
           $justifyContent="space-between"
-          $gap="1rem">
+          $gap="0.5rem">
           <div>
             <StyledFlexContainer $flexDirection="row">
               <StyledH2Text>숙박</StyledH2Text>
@@ -98,7 +103,16 @@ const RoomCard: React.FC<RoomCardProps> = ({
               {`체크인: ${roomData.checkIn} ~ 체크아웃: ${roomData.checkOut}`}
             </StyledH2Text>
           </div>
-          <StyledPriceText>{`${roomData.averPrice.toLocaleString()}원`}</StyledPriceText>
+          <StyledPriceText>
+            {`${roomData.averPrice.toLocaleString()}원`}
+            <StyledText
+              $fontSize={theme.fontSizes.md}
+              $fontWeight={theme.fontWeights.bold}
+              $color={textColor}>
+              {cancellationStatus}
+            </StyledText>
+          </StyledPriceText>
+
           <StyledFlexContainer $flexDirection="row">
             <StyledBrandText>{`남은객실 ${roomData.count}`}</StyledBrandText>
             <StyledFlexContainer $gap=".5rem">

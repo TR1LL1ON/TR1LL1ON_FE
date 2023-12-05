@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { CONTENT_TYPE, SERVER_URL } from '../constant';
 import {
   OrderRequest,
   AccommodationData,
@@ -10,9 +9,9 @@ import {
 import { getCookie, removeCookie } from '@/util/util';
 
 export const client = axios.create({
-  baseURL: SERVER_URL,
+  baseURL: import.meta.env.VITE_SERVER_URL,
   headers: {
-    'content-type': CONTENT_TYPE,
+    'content-type': 'application/json',
     withCredentials: true,
   },
 });
