@@ -5,6 +5,7 @@ import {
   StyleReviewContainer,
   StyleReviewItem,
   StyledReviewButton,
+  StyledStar,
 } from '../Review';
 import useDisplayedReview from '@/hooks/useDisplayedReview';
 import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
@@ -45,7 +46,7 @@ const ModalReview = ({
           displayedReview.map((review) => (
             <StyleReviewItem key={uuidv4()}>
               <p>
-                <span> {reviewStar(review.score)}</span>
+                <StyledStar> {reviewStar(review.score)}</StyledStar>
                 <span>{review.reviewDate}</span>
               </p>
               <p>{review.content}</p>

@@ -43,7 +43,7 @@ const Review = ({ productReview, name }: ReviewProps) => {
           displayedReview.map((review) => (
             <StyleReviewItem $mt="0" $mb="0" key={uuidv4()}>
               <p>
-                <span>{reviewStar(review.score)}</span>
+                <StyledStar>{reviewStar(review.score)}</StyledStar>
                 <span>{review.reviewDate}</span>
               </p>
               <p>{review.content}</p>
@@ -101,4 +101,8 @@ export const StyledReviewButton = styled.button`
   &:hover {
     background-color: #eeeeee;
   }
+`;
+
+export const StyledStar = styled.span`
+  font-size: ${(props) => props.theme.fontSizes.lg};
 `;
