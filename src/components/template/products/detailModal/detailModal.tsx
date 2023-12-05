@@ -32,6 +32,8 @@ import useAddCart from '@/hooks/useAddCart';
 import { useRecoilValue } from 'recoil';
 import { guestCountState, reservationState } from '@/states/atom';
 import CartModal from '@/components/layout/modal/CartModal';
+import { formatDateToMonthDay } from '@/util/util';
+import { calculateCancellation } from '@/util/calculateCancellation';
 
 const DetailModal: React.FC<ModalProps> = ({
   setShowModal,
@@ -49,6 +51,9 @@ const DetailModal: React.FC<ModalProps> = ({
   const [showCartModal, setShowCartModal] = useState(false);
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
+
+  const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
+  const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
 
   const handleAddCart = useAddCart(
     checkIn,
@@ -73,25 +78,11 @@ const DetailModal: React.FC<ModalProps> = ({
   const trueInfoDataFacilities = getTrueFacilities(infoData?.facility);
   const trueRoomDataFacilities = getTrueFacilities(roomData?.facility);
 
-  const formatDate = (dateString: string | undefined): string => {
-    if (!dateString) {
-      return '';
-    }
-
-    const date = new Date(dateString);
-    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
-    const day = date.getDate();
-
-    // 'MM.DD' 형식으로 반환. 월과 일이 한 자리 수일 경우 앞에 '0'을 붙임
-    return `${month.toString().padStart(2, '0')}.${day
-      .toString()
-      .padStart(2, '0')}`;
-  };
-
   if (!roomData || !imageUrls) {
     return <div>로딩중</div>;
   }
-  console.log('방 리뷰', ProductReview);
+
+  console.log(checkIn);
   return (
     <StyledModal onClick={closeModal}>
       {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
@@ -177,10 +168,10 @@ const DetailModal: React.FC<ModalProps> = ({
             </StyledText>
             <StyledFlexContainer $justifyContent="flex-end">
               <StyledText
-                $fontSize={theme.fontSizes.xs}
+                $fontSize={theme.fontSizes.sm}
                 $fontWeight={theme.fontWeights.bold}
-                $color="red">
-                취소 및 환불 불가
+                $color={textColor}>
+                {cancellationStatus}
               </StyledText>
               <MdKeyboardArrowRight />
             </StyledFlexContainer>
@@ -202,16 +193,25 @@ const DetailModal: React.FC<ModalProps> = ({
             </thead>
             <tbody>
               <tr>
-                <StyledTd>11.26 17:00 전까지</StyledTd>
+                <StyledTd>{`${formatDateToMonthDay(
+                  checkIn,
+                  7,
+                )} 00:00 전까지`}</StyledTd>
                 <StyledTd>취소 패널티 0%</StyledTd>
               </tr>
               <tr>
-                <StyledTd>11.28 17:00 전까지</StyledTd>
+                <StyledTd>{`${formatDateToMonthDay(
+                  checkIn,
+                  4,
+                )} 00:00 전까지`}</StyledTd>
                 <StyledTd>취소 패널티 50%</StyledTd>
               </tr>
               <tr>
-                <StyledTd>11.30 00:00 전까지</StyledTd>
-                <StyledTd>취소 패널티 100%</StyledTd>
+                <StyledTd>{`${formatDateToMonthDay(
+                  checkIn,
+                  2,
+                )} 00:00 전까지`}</StyledTd>
+                <StyledTd>취소 패널티 80%</StyledTd>
               </tr>
               <tr>
                 <StyledTd>체크인 당일 및 No-show</StyledTd>
@@ -230,15 +230,15 @@ const DetailModal: React.FC<ModalProps> = ({
               <StyledText
                 $fontSize={theme.fontSizes.sm}
                 $fontWeight={theme.fontWeights.bold}>
-                {`${formatDate(infoData?.checkIn)}~${formatDate(
-                  infoData?.checkOut,
+                {`${formatDateToMonthDay(checkIn)}~${formatDateToMonthDay(
+                  checkOut,
                 )}`}
               </StyledText>
               <StyledText
                 $fontSize={theme.fontSizes.sm}
                 $fontWeight={theme.fontWeights.bold}
-                $color="red">
-                취소 및 환불불가
+                $color={textColor}>
+                {cancellationStatus}
               </StyledText>
             </StyledFlexContainer>
             <StyledFlexContainer>

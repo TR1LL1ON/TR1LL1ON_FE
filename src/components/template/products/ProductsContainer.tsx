@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import AllFacility from './AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
 
+
 interface ProductsContainerProps {
   accommodationID: string;
 }
