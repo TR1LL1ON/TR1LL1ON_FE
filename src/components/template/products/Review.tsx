@@ -7,9 +7,8 @@ import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { ProductReview } from '@/interfaces/interface';
 import { v4 as uuidv4 } from 'uuid';
-import { FaStar } from 'react-icons/fa';
 import useDisplayedReview from '@/hooks/useDisplayedReview';
-import { reviewStar } from '@/util/reviewUtilities';
+import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
 
 interface ReviewProps {
   productReview: ProductReview[] | undefined;
@@ -20,20 +19,12 @@ const Review = ({ productReview, name }: ReviewProps) => {
   // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
   const { displayedReview, showAllReview } = useDisplayedReview(productReview);
 
-  //리뷰 평균 평점
-  let averageScore = 0;
-  if (productReview && productReview.length > 0) {
-    const totalScore = productReview.reduce(
-      (acc, review) => acc + review.score,
-      0,
-    );
-    averageScore = totalScore / productReview.length;
-  }
-
-  const formattedAverageScore = averageScore.toFixed(2);
+  //숙소 리뷰 평균 평점
+  const averageScore = calculateAverageScore(productReview);
+  const formattedAverageScore = averageScore.toFixed(1);
 
   const noReviewMessage = ` ${name}에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊`;
-
+  console.log(productReview);
   return (
     <StyledWrap>
       <StyledH2Text $mt="1rem" $mb="2rem">
@@ -63,7 +54,7 @@ const Review = ({ productReview, name }: ReviewProps) => {
 
       {productReview && productReview.length > 3 && (
         <StyledReviewButton onClick={showAllReview}>
-          후기 전체보기
+          후기 {productReview.length}개 모두 보기
         </StyledReviewButton>
       )}
     </StyledWrap>

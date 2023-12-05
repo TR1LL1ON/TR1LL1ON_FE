@@ -77,7 +77,7 @@ const AccommodationInfo = ({
 
   //리뷰 평점
   const averageScore = calculateAverageScore(productReview);
-  const formattedAverageScore = averageScore.toFixed(2);
+  const formattedAverageScore = averageScore.toFixed(1);
 
   return (
     <StyledWrap>
