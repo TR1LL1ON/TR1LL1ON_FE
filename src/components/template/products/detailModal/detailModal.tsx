@@ -38,7 +38,7 @@ const DetailModal: React.FC<ModalProps> = ({
   infoData,
   roomData,
   imageUrls,
-  ProductReview,
+  productReview,
   name,
 }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
@@ -91,7 +91,6 @@ const DetailModal: React.FC<ModalProps> = ({
   if (!roomData || !imageUrls) {
     return <div>로딩중</div>;
   }
-  console.log('방 리뷰', ProductReview);
   return (
     <StyledModal onClick={closeModal}>
       {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
@@ -186,8 +185,9 @@ const DetailModal: React.FC<ModalProps> = ({
             </StyledFlexContainer>
           </StyledModalFlexContainer>
           <ModalReview
-            ProductReview={ProductReview}
+            productReview={productReview}
             name={name}
+            roomName={roomData.roomName}
             roomId={roomData.roomId}
           />
           <StyledSubTitle $mt="3rem" $mb="0.5rem">

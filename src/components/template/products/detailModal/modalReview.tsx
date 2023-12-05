@@ -5,19 +5,24 @@ import {
   StyleReviewContainer,
   StyleReviewItem,
   StyledReviewButton,
-  noReviewMessage,
-  reviewStar,
 } from '../Review';
 import useDisplayedReview from '@/hooks/useDisplayedReview';
+import { reviewStar } from '@/util/reviewUtilities';
 
 interface ModalReviewProps {
-  ProductReview: ProductReview[] | undefined;
+  productReview: ProductReview[] | undefined;
   name: string | undefined;
+  roomName: string;
   roomId: number;
 }
 
-const ModalReview = ({ ProductReview, name, roomId }: ModalReviewProps) => {
-  const filteredReview = ProductReview?.filter(
+const ModalReview = ({
+  productReview,
+  name,
+  roomName,
+  roomId,
+}: ModalReviewProps) => {
+  const filteredReview = productReview?.filter(
     (review) => review.productId === roomId,
   );
   // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
@@ -25,7 +30,9 @@ const ModalReview = ({ ProductReview, name, roomId }: ModalReviewProps) => {
 
   return (
     <>
-      <StyledSubTitle $mt="3rem">{name} 후기</StyledSubTitle>
+      <StyledSubTitle $mt="3rem">
+        {name} {''} {roomName} 후기
+      </StyledSubTitle>
       <StyleReviewContainer
         $justifyContent="flex-stat"
         $alignItems="center"
@@ -42,7 +49,8 @@ const ModalReview = ({ ProductReview, name, roomId }: ModalReviewProps) => {
           ))
         ) : (
           <StyleReviewItem $mt="0" $mb="0" $padding=".5rem" $textAlign="center">
-            {noReviewMessage}
+            {name} {roomName}에 대한 리뷰가 없습니다. <br />
+            방문 후 리뷰를 남겨주세요 😊
           </StyleReviewItem>
         )}
       </StyleReviewContainer>

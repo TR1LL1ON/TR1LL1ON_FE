@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import {
   AccommodationData,
   AccommodationFacility,
+  ProductReview,
 } from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
 import { useRecoilValue, useRecoilState } from 'recoil';
@@ -27,14 +28,17 @@ import CalenderModal from '@/components/layout/modal/calenderModal';
 import GuestModal from './GuestModal/guestModal';
 import { reservationState } from '@/states/atom';
 import ProductsFacilityList from './ProductsFacilityList';
+import { calculateAverageScore } from '@/util/reviewUtilities';
 
 interface AccommodationProp {
   infoData: AccommodationData;
   productsFacility: AccommodationFacility;
+  productReview: ProductReview[] | undefined;
 }
 const AccommodationInfo = ({
   infoData,
   productsFacility,
+  productReview,
 }: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
@@ -55,7 +59,6 @@ const AccommodationInfo = ({
   };
   const { checkIn, checkOut } = useRecoilValue(reservationState);
   const [, setReservation] = useRecoilState(reservationState);
-
   //상품 변경시 일정 초기화
   useEffect(() => {
     setReservation((prevReservation) => ({
@@ -65,6 +68,10 @@ const AccommodationInfo = ({
     }));
   }, []);
   const [nights, setNights] = useState(0);
+
+  //리뷰 평점
+  const averageScore = calculateAverageScore(productReview);
+  const formattedAverageScore = averageScore.toFixed(2);
 
   return (
     <StyledWrap>
@@ -84,7 +91,7 @@ const AccommodationInfo = ({
           <ProductsFacilityList productsFacility={productsFacility} />
         </StyledServiceInfo>
         <StyledOnClick $color="#444" $borderBottom="none">
-          ★4.50 후기 0개
+          ★{formattedAverageScore} 후기 {productReview?.length}개
         </StyledOnClick>
       </StyledTextBox>
       <StyledSpacer />

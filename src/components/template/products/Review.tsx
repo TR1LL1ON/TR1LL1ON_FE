@@ -9,36 +9,35 @@ import { ProductReview } from '@/interfaces/interface';
 import { v4 as uuidv4 } from 'uuid';
 import { FaStar } from 'react-icons/fa';
 import useDisplayedReview from '@/hooks/useDisplayedReview';
+import { reviewStar } from '@/util/reviewUtilities';
 
 interface ReviewProps {
-  ProductReview: ProductReview[] | undefined;
+  productReview: ProductReview[] | undefined;
   name: string;
 }
 
-export const reviewStar = (score: number) => {
-  const totalStars = 5;
-  let stars = [];
+const Review = ({ productReview, name }: ReviewProps) => {
+  // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
+  const { displayedReview, showAllReview } = useDisplayedReview(productReview);
 
-  for (let i = 1; i <= totalStars; i++) {
-    stars.push(
-      <FaStar key={i} style={{ color: i <= score ? '#ffc107' : '#e4e5e9' }} />,
+  //리뷰 평균 평점
+  let averageScore = 0;
+  if (productReview && productReview.length > 0) {
+    const totalScore = productReview.reduce(
+      (acc, review) => acc + review.score,
+      0,
     );
+    averageScore = totalScore / productReview.length;
   }
 
-  return stars;
-};
+  const formattedAverageScore = averageScore.toFixed(2);
 
-export const noReviewMessage =
-  '이 숙박 시설에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊';
-
-const Review = ({ ProductReview, name }: ReviewProps) => {
-  // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
-  const { displayedReview, showAllReview } = useDisplayedReview(ProductReview);
+  const noReviewMessage = ` ${name}에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊`;
 
   return (
     <StyledWrap>
       <StyledH2Text $mt="1rem" $mb="2rem">
-        '{name}' 방문 리뷰
+        '{name}' 방문 후기 ★{formattedAverageScore}
       </StyledH2Text>
       <StyleReviewContainer
         $justifyContent="flex-start"
@@ -62,7 +61,7 @@ const Review = ({ ProductReview, name }: ReviewProps) => {
         )}
       </StyleReviewContainer>
 
-      {ProductReview && ProductReview.length > 3 && (
+      {productReview && productReview.length > 3 && (
         <StyledReviewButton onClick={showAllReview}>
           후기 전체보기
         </StyledReviewButton>

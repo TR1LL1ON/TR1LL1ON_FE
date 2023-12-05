@@ -23,10 +23,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
-  const { data: ProductReview, isLoading: isLoadingReview } = useQuery<
+  const { data: productReview, isLoading: isLoadingReview } = useQuery<
     ProductReview[]
   >({
-    queryKey: ['ProductReview', accommodationID],
+    queryKey: ['productReview', accommodationID],
     queryFn: () => getProductsReview(accommodationID),
     enabled: !!accommodationID,
   });
@@ -47,12 +47,13 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
       <AccommodationInfo
         infoData={accommodationData}
         productsFacility={accommodationData.facility}
+        productReview={productReview}
       />
       {roomData.map((room) => (
         <RoomCard
           key={room.roomId}
           roomData={room}
-          ProductReview={ProductReview}
+          productReview={productReview}
           name={accommodationData.name}
           infoData={accommodationData}
         />
@@ -66,8 +67,8 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         lat={Number(accommodationData.latitude)}
         lng={Number(accommodationData.longitude)}
       />
-      {!isLoadingReview && ProductReview && (
-        <Review ProductReview={ProductReview} name={accommodationData.name} />
+      {!isLoadingReview && productReview && (
+        <Review productReview={productReview} name={accommodationData.name} />
       )}
     </>
   );
