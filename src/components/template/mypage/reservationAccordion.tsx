@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { getUserDetail } from '@/api/service';
+import { getUserDetail, getReviews } from '@/api/service';
 import {
   StyledSubTitle,
   StyledText,
@@ -22,13 +22,28 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   isOpen,
   orderID,
 }) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['ReservationDetailData', orderID],
-    queryFn: () => getUserDetail(orderID as number),
-    enabled: orderID !== undefined,
+  const {
+    data: reservationData, // 쿼리의 결과 데이터. 'reservationData'로 이름이 재정의되었습니다.
+    isLoading: isReservationLoading, // 쿼리가 로딩 중인지 여부를 나타내는 플래그.
+    isError: isReservationError, // 쿼리가 에러를 반환했는지 여부를 나타내는 플래그.
+  } = useQuery({
+    queryKey: ['ReservationDetailData', orderID], // 쿼리 키. 'ReservationDetailData'와 orderID를 포함합니다. 이 배열은 쿼리의 고유 식별자 역할을 합니다.
+    queryFn: () => getUserDetail(orderID as number), // 쿼리 함수. orderID를 사용하여 getUserDetail 함수를 호출합니다. 이 함수는 비동기적으로 데이터를 가져옵니다.
+    enabled: orderID !== undefined, // 쿼리 활성화 상태. orderID가 undefined가 아닐 경우에만 쿼리가 실행됩니다.
   });
 
-  const orderDetailData = data?.data.orderItemList;
+  // const {
+  //   data: reviewsData, // 쿼리의 결과 데이터. 'reviewsData'로 이름이 재정의되었습니다.
+  //   isLoading: isReviewsLoading, // 쿼리가 로딩 중인지 여부를 나타내는 플래그.
+  //   isError: isReviewsError, // 쿼리가 에러를 반환했는지 여부를 나타내는 플래그.
+  // } = useQuery({
+  //   queryKey: ['reviews'], // 쿼리 키. 'reviews'를 포함합니다. 이 키는 쿼리의 고유 식별자 역할을 합니다.
+  //   queryFn: getReviews, // 쿼리 함수. getReviews 함수는 비동기적으로 데이터를 가져옵니다.
+  // });
+
+  // console.log('리뷰데이터:', reviewsData?.data);
+
+  const orderDetailData = reservationData?.data.orderItemList;
 
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(
     null,
@@ -38,11 +53,19 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
     setSelectedItemIndex(index);
   };
 
-  if (isLoading) {
+  // if (isReviewsLoading) {
+  //   return <div>Loading reviews...</div>;
+  // }
+
+  // if (isReviewsError) {
+  //   return <div>Error loading reviews</div>;
+  // }
+
+  if (isReservationLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (isReservationError) {
     return <div>상세내역 불러오기 실패</div>;
   }
 
@@ -82,8 +105,10 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
                   <StyledText $fontWeight={700}>
                     {item.orderItemDetail.accommodationName}
                   </StyledText>
-                  <StyledButton onClick={() => handleReviewWriteModal(index)}>
-                    리뷰작성
+                  <StyledButton
+                    onClick={() => handleReviewWriteModal(index)}
+                    style={{ color: item.reviewWritten ? 'green' : 'red' }}>
+                    {item.reviewWritten ? '리뷰수정' : '리뷰작성'}
                   </StyledButton>
                 </StyledFlexContainer>
                 <StyledText $fontSize="0.75rem">

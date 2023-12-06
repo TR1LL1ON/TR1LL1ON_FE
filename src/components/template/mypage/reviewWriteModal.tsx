@@ -5,12 +5,15 @@ import { StyledTitle, StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
 import { useState } from 'react';
 import { postReviews, getReviews } from '@/api/service';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { AxiosResponse, AxiosError } from 'axios';
 
 const ReviewWriteModal: React.FC<ModalProps> = ({
   setShowModal,
   orderDetailData,
 }) => {
+  const queryClient = useQueryClient();
+
   const closeModal = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     setShowModal(false);
@@ -20,32 +23,41 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
   const [score, setScore] = useState(0);
   const [hover, setHover] = useState(0);
 
-  const submitReview = async () => {
-    if (orderDetailData && orderDetailData.orderItemId) {
-      try {
-        const res = await postReviews(
-          orderDetailData.orderItemId,
-          score,
-          reviewText,
-        );
-        console.log('리뷰가 성공적으로 제출되었습니다.', res);
-        setShowModal(false);
-      } catch (error) {
-        console.error('리뷰 제출 중 에러가 발생했습니다.', error);
-        setShowModal(false);
+  const { mutate } = useMutation<AxiosResponse, AxiosError>({
+    mutationFn: () => {
+      if (orderDetailData && orderDetailData.orderItemId !== undefined) {
+        return postReviews(orderDetailData.orderItemId, score, reviewText);
+      } else {
+        throw new Error('orderDetailData를 찾을 수 없습니다.');
       }
-    }
-  };
+    },
+    onSuccess: (res) => {
+      console.log('리뷰가 성공적으로 제출되었습니다.', res);
+      queryClient.invalidateQueries({
+        queryKey: ['ReservationDetailData'],
+      });
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['accommodation'],
-    queryFn: () => getReviews(),
+      setShowModal(false);
+    },
+    onError: (error) => {
+      console.error('리뷰 제출 중 에러가 발생했습니다.', error);
+      setShowModal(false);
+    },
   });
 
-  console.log(data);
+  const submitReview = () => {
+    mutate();
+  };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error occurred</div>;
+  // const { data, isLoading, isError } = useQuery({
+  //   queryKey: ['accommodation'],
+  //   queryFn: () => getReviews(),
+  // });
+
+  // console.log(data);
+
+  // if (isLoading) return <div>Loading...</div>;
+  // if (isError) return <div>Error occurred</div>;
 
   return (
     <StyledModal onClick={closeModal}>

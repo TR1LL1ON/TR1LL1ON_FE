@@ -148,13 +148,15 @@ export interface Cart {
 }
 
 export interface Reservation {
-  accommodationImages: string[];
-  accommodationNames: string[];
-  productNames: string[];
-  orderId: number;
-  orderCreateDate: string;
-  payment: string;
-  totalPrice: number;
+  accommodation: {
+    accommodationImages: string[]; // 숙박 시설의 이미지 URL 배열
+    accommodationNames: string[]; // 숙박 시설 이름 배열
+    productNames: string[]; // 제품 이름 배열
+  };
+  orderCreateDate: string; // 주문 생성 날짜, ISO 8601 날짜 형식을 가정
+  orderId: number; // 주문 ID
+  payment: string; // 결제 방식
+  totalPrice: number; // 총 가격
 }
 
 export interface ReservationDetail {
