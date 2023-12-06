@@ -14,50 +14,82 @@ const MainContainer = () => {
   const location = useLocation();
   const categoryRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const newCategory = queryParams.get('category');
-    categoryRef.current = newCategory;
+  const [bottom, setBottom] = useState<HTMLDivElement | null>(null);
+  const bottomObserver = useRef<IntersectionObserver | null>(null);
 
-    const areacode = queryParams.get('areacode');
+  const [maxId, setMaxId] = useState<string>('0');
 
-    async function fetchProducts() {
-      try {
-        let res;
-        if (categoryRef.current || areacode) {
-          // 통합된 getProducts 함수 사용
-          res = await getProducts({
-            categoryCode: categoryRef.current || undefined,
-            RegionCode: areacode || undefined,
-          });
-        } else {
-          res = await getProducts();
-        }
+  const queryParams = new URLSearchParams(location.search);
+  const newCategory = queryParams.get('category');
+  categoryRef.current = newCategory;
 
-        const productsData = res.data;
+  const areaCode = queryParams.get('areacode');
 
-        if (productsData.length === 0) {
-          setShowNoResults(true);
-          setProductCards([]);
-        } else {
-          setShowNoResults(false);
-          const cards = productsData.map((product: any) => (
-            <ProductCard
-              key={product.accommodationId}
-              address={product.address}
-              accommodationID={product.accommodationId}
-              imgUrl={product.imageUrl}
-              name={product.name}
-              score={product.score}
-              price={product.price}
-            />
-          ));
-          setProductCards(cards);
-        }
-      } catch (error) {
-        console.error('조회 실패:', error);
+  const fetchProducts = async () => {
+    try {
+      const options = {
+        categoryCode: categoryRef.current || undefined,
+        RegionCode: areaCode || undefined,
+        maxId: maxId || undefined,
+        pageSize: 20,
+      };
+
+      const res = await getProducts(options);
+
+      const productsData = res.data;
+      console.log(`${maxId}:` + productsData);
+
+      if (productsData.length === 0) {
+        setShowNoResults(true);
+        setProductCards((prevCards) => [...prevCards]);
+      } else {
+        const lastAccommodationId =
+          productsData[productsData.length - 1].accommodationId;
+        setMaxId(lastAccommodationId);
+        setShowNoResults(false);
+        const cards = productsData.map((product: any) => (
+          <ProductCard
+            key={product.accommodationId}
+            address={product.address}
+            accommodationID={product.accommodationId}
+            imgUrl={product.imageUrl}
+            name={product.name}
+            score={product.score}
+            price={product.price}
+          />
+        ));
+        setProductCards(cards);
       }
+    } catch (error) {
+      console.error('조회 실패:', error);
     }
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          console.log('Intersecting!');
+          fetchProducts();
+        }
+      },
+      { threshold: 0, rootMargin: '600px' },
+    );
+    bottomObserver.current = observer;
+
+    const observerInstance = bottomObserver.current;
+    if (bottom) {
+      observerInstance?.observe(bottom);
+    }
+
+    return () => {
+      if (bottom) {
+        observerInstance?.unobserve(bottom);
+      }
+    };
+  }, [bottom, fetchProducts]);
+
+  useEffect(() => {
     fetchProducts();
   }, [location.search]);
 
@@ -99,6 +131,11 @@ const MainContainer = () => {
       ) : (
         <StyledGridContainer>{productCards} </StyledGridContainer>
       )}
+      {/* <div style={{ height: '1000px' }}></div> */}
+      <div
+        ref={(ref) => setBottom(ref)}
+        // style={{ height: '1rem', backgroundColor: 'red' }}
+      />
     </>
   );
 };

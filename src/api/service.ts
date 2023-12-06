@@ -111,6 +111,20 @@ export const getProducts = async (
   return res;
 };
 
+//무한스크롤 API - 기본 10개
+export const getNextProducts = async (maxId: string, pageSize?: number) => {
+  let endpoint = '/products';
+
+  if (pageSize) {
+    endpoint += `?pageSize=${pageSize}&maxId=${maxId}`;
+  } else {
+    endpoint += `?maxId=${maxId}`;
+  }
+
+  const res = await client.get(endpoint);
+  return res;
+};
+
 // 개별 상품조회(숙소전체)
 export const getAccommodation = async (accommodationID: string) => {
   const res = await client.get(`products/${accommodationID}`);
