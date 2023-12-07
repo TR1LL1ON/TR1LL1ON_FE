@@ -4,7 +4,12 @@ import { StyledButton } from '@/style/payment/paymentStyle';
 import { StyledTitle, StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
-import { postReviews, getReviews, putReviews } from '@/api/service';
+import {
+  postReviews,
+  getReviews,
+  putReviews,
+  deleteReviews,
+} from '@/api/service';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { AxiosResponse, AxiosError } from 'axios';
 import { findMyReview } from '@/util/util';
@@ -95,6 +100,27 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
     reviewMutate.mutate(reviewParams);
   };
 
+  const deleteReviewMutate = useMutation<AxiosResponse, AxiosError>({
+    mutationFn: () => {
+      return deleteReviews(reviewId);
+    },
+    onSuccess: (res) => {
+      console.log('리뷰가 성공적으로 삭제되었습니다.', res);
+      queryClient.invalidateQueries({
+        queryKey: ['ReservationDetailData'],
+      });
+      setShowModal(false);
+    },
+    onError: (error) => {
+      console.error('리뷰 삭제 중 에러가 발생했습니다.', error);
+      setShowModal(false);
+    },
+  });
+
+  const deleteReview = () => {
+    deleteReviewMutate.mutate();
+  };
+
   return (
     <StyledModal onClick={closeModal}>
       <StyledModalContent
@@ -105,47 +131,52 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
           <StyledTitle $mt="0">
             {orderDetailData?.reviewWritten ? '리뷰수정' : '리뷰작성'}
           </StyledTitle>
-          <StyledFlexContainer $justifyContent="flex-strat">
-            {[...Array(5)].map((_, index) => {
-              const ratingValue = index + 1;
+          <StyledFlexContainer $justifyContent="">
+            <div>
+              {[...Array(5)].map((_, index) => {
+                const ratingValue = index + 1;
 
-              const handleClick = () => {
-                if (ratingValue === score) {
-                  setScore((prevScore) => Math.max(prevScore - 1, 0));
-                } else {
-                  setScore(ratingValue);
-                }
-              };
+                const handleClick = () => {
+                  if (ratingValue === score) {
+                    setScore((prevScore) => Math.max(prevScore - 1, 0));
+                  } else {
+                    setScore(ratingValue);
+                  }
+                };
 
-              return (
-                <label key={index}>
-                  <input
-                    type="radio"
-                    name="rating"
-                    value={ratingValue}
-                    onClick={handleClick}
-                    style={{ display: 'none' }}
-                  />
-                  <FaStar
-                    className="star"
-                    color={
-                      ratingValue <= (hover || score) ? '#ffc107' : '#e4e5e9'
-                    }
-                    onMouseEnter={() => setHover(ratingValue)}
-                    onMouseLeave={() => setHover(score)}
-                    size={'2rem'}
-                  />
-                </label>
-              );
-            })}
-            <span
-              style={{
-                marginLeft: '10px',
-                fontSize: '2rem',
-                color: '#ffc107',
-              }}>
-              {score}
-            </span>
+                return (
+                  <label key={index}>
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={ratingValue}
+                      onClick={handleClick}
+                      style={{ display: 'none' }}
+                    />
+                    <FaStar
+                      className="star"
+                      color={
+                        ratingValue <= (hover || score) ? '#ffc107' : '#e4e5e9'
+                      }
+                      onMouseEnter={() => setHover(ratingValue)}
+                      onMouseLeave={() => setHover(score)}
+                      size={'2rem'}
+                    />
+                  </label>
+                );
+              })}
+              <span
+                style={{
+                  marginLeft: '10px',
+                  fontSize: '2rem',
+                  color: '#ffc107',
+                }}>
+                {score}
+              </span>
+            </div>
+            {orderDetailData?.reviewWritten && (
+              <StyledButton onClick={deleteReview}>리뷰삭제</StyledButton>
+            )}
           </StyledFlexContainer>
           <StyledTextArea
             value={reviewText}
