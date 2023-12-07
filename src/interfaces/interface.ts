@@ -19,6 +19,11 @@ export interface ModalProps {
   infoData?: AccommodationData;
 }
 
+export interface OrderDetailsAccordionProps {
+  isOpen: boolean;
+  orderID: number;
+}
+
 export interface GuestCount {
   adults: number;
   children: number;
@@ -39,16 +44,27 @@ export interface OrderRequest {
   payment: 'CARD' | 'KAKAOPAY' | 'NAVERPAY' | 'CASH';
 }
 
-export interface ReviewData {
-  review: Review[];
-  order_id: number; // 주문 id
-  accomodation_id: number; // 숙소 id
-}
-
-export interface Review {
-  order_item_id: number;
+export interface ReviewDetail {
+  reviewId: string;
+  reviewDate: string;
   score: number;
   content: string;
+  orderItemId: number;
+  accommodationDetails: {
+    accommodationId: number;
+    accommodationName: string;
+  };
+  productDetails: {
+    productId: number;
+    productImage: string;
+    productName: string;
+  };
+}
+
+export interface ReviewMutationParams {
+  reviewId?: string;
+  content: string;
+  score: number;
 }
 
 // 객실 리뷰
@@ -149,14 +165,14 @@ export interface Cart {
 
 export interface Reservation {
   accommodation: {
-    accommodationImages: string[]; // 숙박 시설의 이미지 URL 배열
-    accommodationNames: string[]; // 숙박 시설 이름 배열
-    productNames: string[]; // 제품 이름 배열
+    accommodationImages: string[];
+    accommodationNames: string[];
+    productNames: string[];
   };
-  orderCreateDate: string; // 주문 생성 날짜, ISO 8601 날짜 형식을 가정
-  orderId: number; // 주문 ID
-  payment: string; // 결제 방식
-  totalPrice: number; // 총 가격
+  orderCreateDate: string;
+  orderId: number;
+  payment: string;
+  totalPrice: number;
 }
 
 export interface ReservationDetail {

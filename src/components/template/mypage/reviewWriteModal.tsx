@@ -1,12 +1,13 @@
 import styled from 'styled-components';
-import { ModalProps } from '@/interfaces/interface';
+import { ModalProps, ReviewMutationParams } from '@/interfaces/interface';
 import { StyledButton } from '@/style/payment/paymentStyle';
 import { StyledTitle, StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
-import { useState } from 'react';
-import { postReviews, getReviews } from '@/api/service';
+import { useState, useEffect } from 'react';
+import { postReviews, getReviews, putReviews } from '@/api/service';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { AxiosResponse, AxiosError } from 'axios';
+import { findMyReview } from '@/util/util';
 
 const ReviewWriteModal: React.FC<ModalProps> = ({
   setShowModal,
@@ -20,44 +21,79 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
   };
 
   const [reviewText, setReviewText] = useState('');
+  const [reviewId, setReviewId] = useState('');
   const [score, setScore] = useState(0);
   const [hover, setHover] = useState(0);
 
-  const { mutate } = useMutation<AxiosResponse, AxiosError>({
-    mutationFn: () => {
-      if (orderDetailData && orderDetailData.orderItemId !== undefined) {
-        return postReviews(orderDetailData.orderItemId, score, reviewText);
-      } else {
-        throw new Error('orderDetailData를 찾을 수 없습니다.');
+  const { data } = useQuery({
+    queryKey: ['accommodation'],
+    queryFn: () => getReviews(),
+    enabled: !!orderDetailData?.reviewWritten,
+  });
+
+  useEffect(() => {
+    if (data?.data && orderDetailData?.orderItemId) {
+      const myReview = findMyReview(data.data, orderDetailData.orderItemId);
+      if (myReview) {
+        setReviewText(myReview.content);
+        setScore(myReview.score);
+        setReviewId(myReview.reviewId.toString());
+      }
+    }
+  }, [data, orderDetailData]);
+
+  const reviewMutate = useMutation<
+    AxiosResponse,
+    AxiosError,
+    ReviewMutationParams
+  >({
+    mutationFn: (reviewParams) => {
+      // 리뷰 수정
+      if (reviewParams.reviewId) {
+        return putReviews(
+          reviewParams.reviewId,
+          reviewParams.content,
+          reviewParams.score,
+        );
+      }
+      // 새 리뷰 제출
+      else if (orderDetailData?.orderItemId) {
+        return postReviews(
+          orderDetailData.orderItemId,
+          reviewParams.score,
+          reviewParams.content,
+        );
+      }
+      // 조건에 해당하지 않는 경우 오류 발생
+      else {
+        throw new Error(
+          'orderDetailData를 찾을 수 없거나, reviewId가 제공되지 않았습니다.',
+        );
       }
     },
-    onSuccess: (res) => {
-      console.log('리뷰가 성공적으로 제출되었습니다.', res);
+
+    onSuccess: (res, reviewParams) => {
+      console.log(
+        reviewParams.reviewId
+          ? '리뷰가 성공적으로 수정되었습니다.'
+          : '리뷰가 성공적으로 제출되었습니다.',
+        res,
+      );
       queryClient.invalidateQueries({
         queryKey: ['ReservationDetailData'],
       });
-
       setShowModal(false);
     },
     onError: (error) => {
-      console.error('리뷰 제출 중 에러가 발생했습니다.', error);
+      console.error('리뷰 처리 중 에러가 발생했습니다.', error);
       setShowModal(false);
     },
   });
 
-  const submitReview = () => {
-    mutate();
+  // 리뷰 제출 또는 수정 실행 함수
+  const submitReview = (reviewParams: ReviewMutationParams) => {
+    reviewMutate.mutate(reviewParams);
   };
-
-  // const { data, isLoading, isError } = useQuery({
-  //   queryKey: ['accommodation'],
-  //   queryFn: () => getReviews(),
-  // });
-
-  // console.log(data);
-
-  // if (isLoading) return <div>Loading...</div>;
-  // if (isError) return <div>Error occurred</div>;
 
   return (
     <StyledModal onClick={closeModal}>
@@ -66,7 +102,9 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
         $width="40rem"
         $height="25rem">
         <StyledModalBody>
-          <StyledTitle $mt="0">리뷰작성</StyledTitle>
+          <StyledTitle $mt="0">
+            {orderDetailData?.reviewWritten ? '리뷰수정' : '리뷰작성'}
+          </StyledTitle>
           <StyledFlexContainer $justifyContent="flex-strat">
             {[...Array(5)].map((_, index) => {
               const ratingValue = index + 1;
@@ -131,9 +169,15 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
             </StyledButton>
             <StyledButton
               $variant="primary"
-              onClick={submitReview}
+              onClick={() =>
+                submitReview({
+                  reviewId: reviewId, // 이 값이 undefined이면 새 리뷰를 제출
+                  content: reviewText,
+                  score: score,
+                })
+              }
               style={{ width: '40%' }}>
-              등록하기
+              {orderDetailData?.reviewWritten ? '수정하기' : '등록하기'}
             </StyledButton>
           </StyledFlexContainer>
         </StyledModalBody>
