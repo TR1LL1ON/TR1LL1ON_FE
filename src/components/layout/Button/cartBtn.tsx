@@ -1,31 +1,24 @@
-import useGetCarts from '@/hooks/useGetCarts';
-import {
-  reservationState,
-  guestCountState,
-  cartsDataState,
-} from '@/states/atom';
+import { reservationState, guestCountState } from '@/states/atom';
 import { LuShoppingCart } from 'react-icons/lu';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-const CartBtn = ({ handleAddCart, setShowCartModal }: any) => {
+interface ICartBtnProps {
+  handleAddCart: () => void;
+  setShowCartModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CartBtn = ({ handleAddCart, setShowCartModal }: ICartBtnProps) => {
   const guestCount = useRecoilValue(guestCountState);
-  const setCartsData = useSetRecoilState(cartsDataState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
-  const handleGetCarts = useGetCarts();
-
-  const handleCartBtnClick = async () => {
-    await handleAddCart();
-    const res = await handleGetCarts();
-
-    setCartsData(res);
-    setShowCartModal(true);
-  };
 
   return (
     <StyledCartIcon
       disabled={!checkIn || !checkOut || !guestCount.totals ? true : false}
-      onClick={handleCartBtnClick}>
+      onClick={() => {
+        handleAddCart();
+        setShowCartModal(true);
+      }}>
       <LuShoppingCart />
     </StyledCartIcon>
   );

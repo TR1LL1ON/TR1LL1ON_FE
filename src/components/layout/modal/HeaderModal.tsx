@@ -12,6 +12,7 @@ import { cartsDataState } from '@/states/atom';
 import { LuShoppingCart, LuLogIn, LuLogOut, LuUser } from 'react-icons/lu';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
 
 interface IHeaderModalProps {
   setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,27 +23,29 @@ const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
   const cartsData = useRecoilValue(cartsDataState);
   const cartsCount = cartsData.length;
   const isSignIn = getCookie('accessToken');
-
-  const handleAccountModal = (): void => {
-    setIsAccountModalOpen(true);
-  };
-
-  const handleSignOut = async (): Promise<void> => {
-    try {
-      await postLogout();
+  const { mutate } = useMutation({
+    mutationFn: () => postLogout(),
+    onSuccess: () => {
       removeCookie();
       toast.success('Trillion 로그아웃');
       navigate('/');
-    } catch (err) {
-      console.log(err);
-    }
+    },
+    onError: (error) => {
+      if (error.message.includes('500')) {
+        toast.error('서버 오류 발생');
+      }
+    },
+  });
+
+  const handleAccountModal = (): void => {
+    setIsAccountModalOpen(true);
   };
 
   return (
     <StyledHeaderModal>
       <StyledHeaderModalList>
         <StyledHeaderText
-          onClick={!isSignIn ? handleAccountModal : handleSignOut}>
+          onClick={!isSignIn ? handleAccountModal : () => mutate()}>
           <StyledIconDiv>
             {!isSignIn ? <LuLogIn /> : <LuLogOut />}
           </StyledIconDiv>

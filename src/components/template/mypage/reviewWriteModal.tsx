@@ -7,10 +7,10 @@ import { useState } from 'react';
 import { postReviews, getReviews } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
 
-const ReviewWriteModal: React.FC<ModalProps> = ({
+const ReviewWriteModal = ({
   setShowModal,
   orderDetailData,
-}) => {
+}: Pick<ModalProps, 'setShowModal' | 'orderDetailData'>) => {
   const closeModal = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     setShowModal(false);

@@ -17,6 +17,8 @@ export interface ModalProps {
   name?: string;
   orderDetailData?: ReservationDetail;
   infoData?: AccommodationData;
+  handleAddCart?: () => void;
+  setShowCartModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface GuestCount {
@@ -145,6 +147,14 @@ export interface Cart {
   personNumber: number;
   price: number;
   imageUrl: string;
+}
+
+export interface AddCart {
+  checkIn: string;
+  checkOut: string;
+  personNumber: number;
+  price: number;
+  productId: number;
 }
 
 export interface Reservation {

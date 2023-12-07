@@ -5,6 +5,7 @@ import {
   ReviewData,
   ProductReview,
   Cart,
+  AddCart,
 } from '../interfaces/interface';
 import { getCookie, removeCookie } from '@/util/util';
 
@@ -34,10 +35,10 @@ client.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
-      alert('로그인이 필요합니다.');
-      window.location.href = '/';
-    }
+    // if (error.response.status === 401) {
+    //   alert('로그인이 필요합니다.');
+    //   window.location.href = '/';
+    // }
     if (error.response.state === 500) {
       removeCookie();
       window.location.href = '/';
@@ -52,27 +53,25 @@ export const postSignUp = async (
   name: string,
   password: string,
 ) => {
-  const res = await client.post('auth/signup', {
-    email: email,
-    name: name,
-    password: password,
+  await client.post('auth/signup', {
+    email,
+    name,
+    password,
   });
-  return res;
 };
 
 // 로그인
 export const postLogin = async (email: string, password: string) => {
   const res = await client.post('auth/login', {
-    email: email,
-    password: password,
+    email,
+    password,
   });
   return res;
 };
 
 // 로그아웃
 export const postLogout = async () => {
-  const res = await client.post('auth/logout');
-  return res;
+  await client.post('auth/logout');
 };
 
 //getProducts 통합
@@ -139,26 +138,13 @@ export const getCarts = async () => {
 };
 
 // 장바구니 상품 추가
-export const postCarts = async (
-  checkIn: string | undefined,
-  checkOut: string | undefined,
-  personNumber: number,
-  price: number,
-  productID: number,
-) => {
-  const res = await client.post(`carts/${productID}`, {
-    checkIn,
-    checkOut,
-    personNumber,
-    price,
-  });
-  return res;
+export const postCart = async ({ productId, ...payload }: AddCart) => {
+  await client.post(`carts/${productId}`, payload);
 };
 
 // 장바구니 상품 삭제
-export const deleteCarts = async (cartID: number) => {
-  const res = await client.delete(`carts/${cartID}`);
-  return res;
+export const deleteCart = async (cartID: number) => {
+  await client.delete(`carts/${cartID}`);
 };
 
 // 내 리뷰 조회

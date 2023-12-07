@@ -13,6 +13,7 @@ import { IFormValue } from '../cart';
 import { postLogin } from '@/api/service';
 import { setCookie } from '@/util/util';
 import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
 
 interface ISignInProps {
   isSignUp: boolean;
@@ -27,27 +28,28 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
   } = useForm<Pick<IFormValue, 'email' | 'password'>>({ mode: 'onChange' });
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  const handleLogin = async () => {
-    try {
-      const res = await postLogin(email, password);
-      const getToken = res.data.accessToken;
+  const { mutate } = useMutation({
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      postLogin(email, password),
+    onSuccess: (data) => {
+      const getToken = data.data.accessToken;
       setCookie(getToken);
 
       toast.success('Trillion 로그인');
       setIsAccountModalOpen(false);
-    } catch (err: any) {
-      if (err.response.status === 401) {
+    },
+    onError: (error) => {
+      if (error.message.includes('401')) {
         toast.error('이메일 주소 또는 비밀번호가 틀립니다.');
         setEmail('');
         setPassword('');
       }
-    }
-  };
+    },
+  });
 
   return (
     <S.StyledSignInContainer $isSignUp={isSignUp}>
-      <S.StyledForm onSubmit={handleSubmit(handleLogin)}>
+      <S.StyledForm onSubmit={handleSubmit(() => mutate({ email, password }))}>
         <StyledTitle>로그인</StyledTitle>
         <StyledFlexContainer
           $flexDirection="column"

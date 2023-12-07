@@ -11,17 +11,14 @@ import { useState } from 'react';
 import { IFormValue } from '../cart';
 import { postSignUp } from '@/api/service';
 import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
 
 export interface IIsSignUpProps {
   isSignUp: boolean;
   handleToggle: () => void;
 }
 
-const SignUp = ({
-  isSignUp,
-
-  handleToggle,
-}: IIsSignUpProps) => {
+const SignUp = ({ isSignUp, handleToggle }: IIsSignUpProps) => {
   const {
     register,
     handleSubmit,
@@ -33,10 +30,17 @@ const SignUp = ({
   const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
-
-  const handleSignUp = async () => {
-    try {
-      await postSignUp(email, name, password);
+  const { mutate } = useMutation({
+    mutationFn: ({
+      email,
+      name,
+      password,
+    }: {
+      email: string;
+      name: string;
+      password: string;
+    }) => postSignUp(email, name, password),
+    onSuccess: () => {
       setEmail('');
       setName('');
       setPassword('');
@@ -44,16 +48,18 @@ const SignUp = ({
 
       handleToggle();
       toast.success('회원가입 완료!');
-    } catch (err: any) {
-      if (err.response.status === 409) {
+    },
+    onError: (error) => {
+      if (error.message.includes('401')) {
         toast.error('중복된 이메일입니다.');
       }
-    }
-  };
+    },
+  });
 
   return (
     <S.StyledSignUpContainer $isSignUp={isSignUp}>
-      <S.StyledForm onSubmit={handleSubmit(handleSignUp)}>
+      <S.StyledForm
+        onSubmit={handleSubmit(() => mutate({ email, name, password }))}>
         <StyledTitle>회원가입</StyledTitle>
 
         <StyledFlexContainer

@@ -1,4 +1,4 @@
-import { deleteCarts } from '@/api/service';
+import { deleteCart } from '@/api/service';
 import { Cart } from '@/interfaces/interface';
 import { StyledDeleteButton } from '@/style/cart/cartStyle';
 import {
@@ -8,6 +8,7 @@ import {
   StyledText,
   StyledWrapper,
 } from '@/style/payment/paymentStyle';
+import { useMutation } from '@tanstack/react-query';
 
 interface ICartCardProps {
   cartData: Cart;
@@ -35,6 +36,9 @@ const CartCard = ({
   const nights = checkOut.getDate() - checkIn.getDate();
   const formatCartPrice = (cartData.price * nights).toLocaleString();
   const checkedCartIds = checkedCartsData.map((item) => item.cartItemId);
+  const deleteCartMutation = useMutation({
+    mutationFn: (cartItemId: number) => deleteCart(cartItemId),
+  });
 
   const handleCheckBoxChange = (item: Cart) => {
     if (checkedCartIds.includes(item.cartItemId)) {
@@ -48,18 +52,22 @@ const CartCard = ({
     }
   };
 
-  const handleDeleteCart = async (item: Cart): Promise<void> => {
-    try {
-      await deleteCarts(item.cartItemId);
-      fetchData();
-      setCheckedCartsData((prev) =>
-        prev.filter(
-          (prevCartData) => prevCartData.cartItemId !== item.cartItemId,
-        ),
-      );
-    } catch (err) {
-      console.log(err);
-    }
+  const handleDeleteCart = (item: Cart): void => {
+    deleteCartMutation.mutate(item.cartItemId, {
+      onSuccess: () => {
+        fetchData();
+        setCheckedCartsData((prev) =>
+          prev.filter(
+            (prevCartData) => prevCartData.cartItemId !== item.cartItemId,
+          ),
+        );
+      },
+      onError: (error) => {
+        if (error.message.includes('404')) {
+          alert('장바구니에 담겨 있지 않은 상품입니다.');
+        }
+      },
+    });
   };
 
   return (

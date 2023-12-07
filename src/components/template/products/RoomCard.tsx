@@ -23,13 +23,17 @@ import {
   cartsDataState,
 } from '@/states/atom';
 import { Link } from 'react-router-dom';
-import { ProductReview, Room, AccommodationData } from '@/interfaces/interface';
-
+import {
+  ProductReview,
+  Room,
+  AccommodationData,
+  AddCart,
+} from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
-import useAddCart from '@/hooks/useAddCart';
 import CartModal from '@/components/layout/modal/CartModal';
-import useGetCarts from '@/hooks/useGetCarts';
 import { calculateCancellation } from '@/util/calculateCancellation';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { getCarts, postCart } from '@/api/service';
 
 interface RoomCardProps {
   roomData: Room;
@@ -47,17 +51,38 @@ const RoomCard: React.FC<RoomCardProps> = ({
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
   const setCartsData = useSetRecoilState(cartsDataState);
-  const handleAddCart = useAddCart(
+  const cartsDataQuery = useQuery({
+    queryKey: ['cartsData'],
+    queryFn: () => getCarts(),
+  });
+  const addCartMutation = useMutation({
+    mutationFn: (cart: AddCart) => postCart(cart),
+    onSuccess: async () => {
+      const res = await cartsDataQuery.refetch();
+      const getCartsData = res.data ?? [];
+      setCartsData(getCartsData);
+    },
+    onError: (error) => {
+      if (error.message.includes('404')) {
+        alert('유효하지 않은 상품입니다.');
+      }
+    },
+  });
+
+  const cart = {
     checkIn,
     checkOut,
-    guestCount.totals,
-    roomData.averPrice,
-    roomData.roomId,
-  );
+    personNumber: guestCount.totals,
+    price: roomData.averPrice,
+    productId: roomData.roomId,
+  };
+
+  const handleAddCart = () => {
+    addCartMutation.mutate(cart);
+  };
 
   const [showCartModal, setShowCartModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const handleGetCarts = useGetCarts();
 
   const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
   const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
@@ -91,6 +116,8 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   imageUrls={imageUrls}
                   ProductReview={ProductReview}
                   name={name}
+                  handleAddCart={handleAddCart}
+                  setShowCartModal={setShowCartModal}
                 />
               )}
             </StyledFlexContainer>
@@ -122,17 +149,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
               />
               <Link to={`/payment?productId=${roomData.roomId}`}>
                 <StyledReservationBtn
-                  onClick={() => {
-                    handleAddCart()
-                      .then(async () => {
-                        console.log('카드 담기 성공');
-                        const res = await handleGetCarts();
-                        setCartsData(res);
-                      })
-                      .catch((error) => {
-                        console.log(error, '카드 담기 에러');
-                      });
-                  }}
+                  onClick={handleAddCart}
                   $full={false}
                   $variant="primary">
                   예약하기
