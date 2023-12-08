@@ -1,11 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
 import { getProducts } from '@/api/service';
 import { useLocation } from 'react-router-dom';
-import { getGeolocation } from '@/util/geolocation';
-import { useRecoilState } from 'recoil';
-import { currPositionState } from '@/states/atom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -25,25 +22,6 @@ const MainContainer = () => {
   const newCategory = queryParams.get('category');
   categoryRef.current = newCategory;
   const areaCode = queryParams.get('areacode');
-  const [_, setCurrPosition] = useRecoilState(currPositionState);
-
-  // 위치정보 받아오기
-  useEffect(() => {
-    const fetchCurrentLocation = async () => {
-      try {
-        const position = await getGeolocation();
-        setCurrPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-        console.log('position', position);
-      } catch (error) {
-        console.error('위치 정보를 받아오지 못했습니다');
-      }
-    };
-
-    fetchCurrentLocation();
-  }, []);
 
   const fetchProducts = async ({ pageParam = 0 }) => {
     const options = {

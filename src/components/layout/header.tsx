@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   StyledHeaderButton,
@@ -19,6 +19,9 @@ import AccountModal from '@/components/layout/modal/accountModal';
 import { StyledText, StyledTitle } from '@/style/payment/paymentStyle';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import RegionList from '../template/main/region';
+import { useRecoilState } from 'recoil';
+import { currPositionState } from '@/states/atom';
+import { getGeolocation } from '@/util/geolocation';
 
 const Header = () => {
   const headerModalRef = useRef<HTMLDivElement>(null);
@@ -28,6 +31,26 @@ const Header = () => {
   const regionModalRef = useRef<HTMLDivElement>(null);
 
   const [showMapModal, setShowMapModal] = useState(false);
+
+  const [_, setCurrPosition] = useRecoilState(currPositionState);
+
+  // 위치정보 받아오기 -
+  useEffect(() => {
+    const fetchCurrentLocation = async () => {
+      try {
+        const position = await getGeolocation();
+        setCurrPosition({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        console.log('position', position);
+      } catch (error) {
+        console.error('위치 정보를 받아오지 못했습니다');
+      }
+    };
+
+    fetchCurrentLocation();
+  }, []);
   const handleMapModal = () => {
     setShowMapModal(true);
   };
@@ -49,7 +72,7 @@ const Header = () => {
       {isAccountModalOpen && (
         <AccountModal setIsAccountModalOpen={setIsAccountModalOpen} />
       )}
-      <StyledTitle>
+      <StyledTitle style={{ fontWeight: '900' }}>
         <Link to="/">TR1LL1ON</Link>
       </StyledTitle>
       <StyledHeaderGroup>
