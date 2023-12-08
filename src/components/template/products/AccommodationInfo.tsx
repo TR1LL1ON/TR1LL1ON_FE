@@ -35,11 +35,13 @@ interface AccommodationProp {
   infoData: AccommodationData;
   productsFacility: AccommodationFacility;
   productReview: ProductReview[] | undefined;
+  scrollToReview: () => void;
 }
 const AccommodationInfo = ({
   infoData,
   productsFacility,
   productReview,
+  scrollToReview,
 }: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
@@ -96,7 +98,10 @@ const AccommodationInfo = ({
           $gap="1rem">
           <ProductsFacilityList productsFacility={productsFacility} />
         </StyledServiceInfo>
-        <StyledOnClick $color="#444" $borderBottom="none">
+        <StyledOnClick
+          $color="#444"
+          $borderBottom="none"
+          onClick={scrollToReview}>
           ★{formattedAverageScore} 후기 {productReview?.length}개
         </StyledOnClick>
       </StyledTextBox>

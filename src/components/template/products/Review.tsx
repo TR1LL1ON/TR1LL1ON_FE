@@ -24,7 +24,6 @@ const Review = ({ productReview, name }: ReviewProps) => {
   const formattedAverageScore = averageScore.toFixed(1);
 
   const noReviewMessage = ` ${name}에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊`;
-  console.log(productReview);
   return (
     <StyledWrap>
       <StyledH2Text $mt="1rem" $mb="2rem">
