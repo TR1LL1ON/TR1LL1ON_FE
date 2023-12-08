@@ -6,7 +6,6 @@ import { useLocation } from 'react-router-dom';
 import { getGeolocation } from '@/util/geolocation';
 import { useRecoilState } from 'recoil';
 import { currPositionState } from '@/states/atom';
-// import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -65,15 +64,6 @@ const MainContainer = () => {
     }
   };
 
-  // const {
-  //   data: productsData,
-  //   isLoading,
-  //   isError,
-  // } = useQuery({
-  //   queryKey: ['products', categoryRef.current, areaCode],
-  //   queryFn: () => fetchProducts(maxId),
-  //   enabled: !!maxId,
-  // });
   const {
     data: productsData,
     fetchNextPage,
@@ -161,17 +151,3 @@ const MainContainer = () => {
   );
 };
 export default MainContainer;
-
-{
-  /* <div
-style={{
-  width: '100%',
-  textAlign: 'center',
-  fontWeight: 'bold',
-  fontSize: '32px',
-  color: '#bbb',
-  marginTop: '40px',
-}}>
-검색 결과가 없습니다.
-</div> */
-}
