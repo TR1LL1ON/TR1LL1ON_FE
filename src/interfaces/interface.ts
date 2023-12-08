@@ -86,10 +86,10 @@ export interface RoomFacility {
   hasCable: boolean;
   hasHairDryer: boolean;
   hasInternet: boolean;
-  hasPC: boolean;
+  hasPc: boolean;
   hasRefrigerator: boolean;
   hasSofa: boolean;
-  hasTV: boolean;
+  hasTv: boolean;
   hasTable: boolean;
   hasToiletries: boolean;
 }
