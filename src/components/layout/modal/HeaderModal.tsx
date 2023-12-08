@@ -7,7 +7,7 @@ import {
 import { StyledHLine } from '../../../style/payment/paymentStyle';
 import { Link, useNavigate } from 'react-router-dom';
 import { postLogout } from '@/api/service';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { cartsDataState } from '@/states/atom';
 import { LuShoppingCart, LuLogIn, LuLogOut, LuUser } from 'react-icons/lu';
 import styled from 'styled-components';
@@ -20,13 +20,14 @@ interface IHeaderModalProps {
 
 const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
   const navigate = useNavigate();
-  const cartsData = useRecoilValue(cartsDataState);
+  const [cartsData, setCartsData] = useRecoilState(cartsDataState);
   const cartsCount = cartsData.length;
   const isSignIn = getCookie('accessToken');
   const { mutate } = useMutation({
     mutationFn: () => postLogout(),
     onSuccess: () => {
       removeCookie();
+      setCartsData([]);
       toast.success('Trillion 로그아웃');
       navigate('/');
     },

@@ -67,7 +67,7 @@ const SignUp = ({ isSignUp, handleToggle }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="name">이름</StyledInputLabel>
-          <S.StyledInput error={errors.name} $inputValue={name}>
+          <S.StyledInput $error={errors.name} $inputValue={name}>
             <input
               id="name"
               type="text"
@@ -98,7 +98,7 @@ const SignUp = ({ isSignUp, handleToggle }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="email">이메일</StyledInputLabel>
-          <S.StyledInput error={errors.email} $inputValue={email}>
+          <S.StyledInput $error={errors.email} $inputValue={email}>
             <input
               id="email"
               type="email"
@@ -135,7 +135,7 @@ const SignUp = ({ isSignUp, handleToggle }: IIsSignUpProps) => {
           $alignItems="flex-start"
           style={{ width: '100%' }}>
           <StyledInputLabel htmlFor="password">비밀번호</StyledInputLabel>
-          <S.StyledInput error={errors.password} $inputValue={password}>
+          <S.StyledInput $error={errors.password} $inputValue={password}>
             <input
               id="password"
               type="password"
@@ -177,7 +177,7 @@ const SignUp = ({ isSignUp, handleToggle }: IIsSignUpProps) => {
             비밀번호 확인
           </StyledInputLabel>
           <S.StyledInput
-            error={errors.passwordConfirm}
+            $error={errors.passwordConfirm}
             $inputValue={passwordConfirm}>
             <input
               id="passwordConfirm"

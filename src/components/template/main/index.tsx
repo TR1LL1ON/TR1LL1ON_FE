@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
-import { getProducts } from '@/api/service';
+import { getCarts, getProducts } from '@/api/service';
 import { useLocation } from 'react-router-dom';
 import { getGeolocation } from '@/util/geolocation';
-import { useRecoilState } from 'recoil';
-import { currPositionState } from '@/states/atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { cartsDataState, currPositionState } from '@/states/atom';
+import { useQuery } from '@tanstack/react-query';
+import { getCookie } from '@/util/util';
 
 const MainContainer = () => {
   const [productCards, setProductCards] = useState<React.ReactNode[]>([]);
@@ -13,6 +15,17 @@ const MainContainer = () => {
 
   const location = useLocation();
   const categoryRef = useRef<string | null>(null);
+
+  const setCartsData = useSetRecoilState(cartsDataState);
+  const { data, isLoading } = useQuery({
+    queryKey: ['CartsData'],
+    queryFn: () => {
+      if (getCookie('accessToken')) {
+        return getCarts();
+      }
+      return null;
+    },
+  });
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -78,9 +91,12 @@ const MainContainer = () => {
     };
 
     fetchCurrentLocation(); // 함수 호출
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const cartsData = data ?? [];
+    setCartsData(cartsData);
+  }, [isLoading]);
 
   return (
     <>

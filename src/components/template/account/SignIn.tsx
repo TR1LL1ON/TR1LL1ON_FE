@@ -4,16 +4,17 @@ import {
   StyledTitle,
   StyledButton,
 } from '@/style/payment/paymentStyle';
-
 import * as S from '@/style/account/AccountStyle';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import { IFormValue } from '../cart';
-import { postLogin } from '@/api/service';
+import { getCarts, postLogin } from '@/api/service';
 import { setCookie } from '@/util/util';
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
+import { useSetRecoilState } from 'recoil';
+import { cartsDataState } from '@/states/atom';
 
 interface ISignInProps {
   isSignUp: boolean;
@@ -28,12 +29,16 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
   } = useForm<Pick<IFormValue, 'email' | 'password'>>({ mode: 'onChange' });
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const setCartsData = useSetRecoilState(cartsDataState);
   const { mutate } = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       postLogin(email, password),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const getToken = data.data.accessToken;
       setCookie(getToken);
+
+      const cartsData = await getCarts();
+      setCartsData(cartsData);
 
       toast.success('Trillion 로그인');
       setIsAccountModalOpen(false);
@@ -56,7 +61,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
           <StyledInputLabel htmlFor="login_email">이메일</StyledInputLabel>
-          <S.StyledInput error={errors.email} $inputValue={email}>
+          <S.StyledInput $error={errors.email} $inputValue={email}>
             <input
               id="login_email"
               type="email"
@@ -95,7 +100,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
           <StyledInputLabel htmlFor="login_password">비밀번호</StyledInputLabel>
-          <S.StyledInput error={errors.password} $inputValue={password}>
+          <S.StyledInput $error={errors.password} $inputValue={password}>
             <input
               id="login_password"
               type="password"

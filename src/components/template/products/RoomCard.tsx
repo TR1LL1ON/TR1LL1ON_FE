@@ -52,7 +52,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
   const { checkIn, checkOut } = useRecoilValue(reservationState);
   const setCartsData = useSetRecoilState(cartsDataState);
   const cartsDataQuery = useQuery({
-    queryKey: ['cartsData'],
+    queryKey: ['CartsData'],
     queryFn: () => getCarts(),
   });
   const addCartMutation = useMutation({
