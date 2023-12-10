@@ -5,9 +5,9 @@ import {
   StyledHeaderText,
 } from '../../../style/header/headerStyle';
 import { StyledHLine } from '../../../style/payment/paymentStyle';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { postLogout } from '@/api/service';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { cartsDataState } from '@/states/atom';
 import { LuShoppingCart, LuLogIn, LuLogOut, LuUser } from 'react-icons/lu';
 import styled from 'styled-components';
@@ -16,9 +16,13 @@ import { useMutation } from '@tanstack/react-query';
 
 interface IHeaderModalProps {
   setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsInformSignInModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
+const HeaderModal = ({
+  setIsAccountModalOpen,
+  setIsInformSignInModalOpen,
+}: IHeaderModalProps) => {
   const navigate = useNavigate();
   const [cartsData, setCartsData] = useRecoilState(cartsDataState);
   const cartsCount = cartsData.length;
@@ -42,6 +46,14 @@ const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
     setIsAccountModalOpen(true);
   };
 
+  const handleSignInModal = (link: string): void => {
+    if (!isSignIn) {
+      setIsInformSignInModalOpen(true);
+    } else {
+      navigate(link);
+    }
+  };
+
   return (
     <StyledHeaderModal>
       <StyledHeaderModalList>
@@ -55,7 +67,7 @@ const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
       </StyledHeaderModalList>
       <StyledHLine $mBlock="0" />
       <StyledHeaderModalList>
-        <Link to="/cart">
+        <StyledHeaderText onClick={() => handleSignInModal('/cart')}>
           <StyledIconDiv>
             <LuShoppingCart />
           </StyledIconDiv>
@@ -63,16 +75,16 @@ const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
             장바구니
             <StyledCartsCount>{cartsCount}</StyledCartsCount>
           </span>
-        </Link>
+        </StyledHeaderText>
       </StyledHeaderModalList>
       <StyledHLine $mBlock="0" />
       <StyledHeaderModalList>
-        <Link to="/mypage">
+        <StyledHeaderText onClick={() => handleSignInModal('/mypage')}>
           <StyledIconDiv>
             <LuUser />
           </StyledIconDiv>
           마이페이지
-        </Link>
+        </StyledHeaderText>
       </StyledHeaderModalList>
     </StyledHeaderModal>
   );

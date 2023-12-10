@@ -19,12 +19,14 @@ import AccountModal from '@/components/layout/modal/accountModal';
 import { StyledText, StyledTitle } from '@/style/payment/paymentStyle';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import RegionList from '../template/main/region';
+import InformSignInModal from './modal/InformSignInModal';
 
 const Header = () => {
   const headerModalRef = useRef<HTMLDivElement>(null);
   const [isHeaderModalOpen, setIsHeaderModalOpen] = useState(false);
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
   const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
+  const [isInformSignInModalOpen, setIsInformSignInModalOpen] = useState(false);
   const regionModalRef = useRef<HTMLDivElement>(null);
 
   const [showMapModal, setShowMapModal] = useState(false);
@@ -46,6 +48,12 @@ const Header = () => {
 
   return (
     <StyledHeaderContainer aria-expanded={isRegionModalOpen}>
+      {isInformSignInModalOpen && (
+        <InformSignInModal
+          setIsAccountModalOpen={setIsAccountModalOpen}
+          setIsInformSignInModalOpen={setIsInformSignInModalOpen}
+        />
+      )}
       {isAccountModalOpen && (
         <AccountModal setIsAccountModalOpen={setIsAccountModalOpen} />
       )}
@@ -81,7 +89,10 @@ const Header = () => {
           />
         </StyledHeaderModalButton>
         {isHeaderModalOpen && (
-          <HeaderModal setIsAccountModalOpen={setIsAccountModalOpen} />
+          <HeaderModal
+            setIsAccountModalOpen={setIsAccountModalOpen}
+            setIsInformSignInModalOpen={setIsInformSignInModalOpen}
+          />
         )}
       </StyledHeaderGroup>
     </StyledHeaderContainer>

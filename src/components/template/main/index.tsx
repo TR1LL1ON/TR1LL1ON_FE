@@ -17,7 +17,7 @@ const MainContainer = () => {
   const categoryRef = useRef<string | null>(null);
 
   const setCartsData = useSetRecoilState(cartsDataState);
-  const { data, isLoading } = useQuery({
+  const { refetch } = useQuery({
     queryKey: ['CartsData'],
     queryFn: () => {
       if (getCookie('accessToken')) {
@@ -94,9 +94,15 @@ const MainContainer = () => {
   }, []);
 
   useEffect(() => {
-    const cartsData = data ?? [];
-    setCartsData(cartsData);
-  }, [isLoading]);
+    const fetchData = async (): Promise<void> => {
+      const res = await refetch();
+      const cartsData = res.data ?? [];
+
+      setCartsData(cartsData);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
