@@ -43,7 +43,6 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
         const res = await getAllProducts();
         const productsData = res.data;
         setProductsData(productsData);
-        console.log('Map', productsData);
       } catch (error) {
         console.error('조회 실패:', error);
       }
