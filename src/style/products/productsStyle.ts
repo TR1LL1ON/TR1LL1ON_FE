@@ -223,6 +223,8 @@ export const StyledItem = styled.div`
   align-items: center;
   flex-shrink: 0;
   width: 100%;
+  max-height: 13rem;
+  overflow: hidden;
   & svg {
     font-size: ${(props) => props.theme.fontSizes.xl};
     margin-right: 1rem;

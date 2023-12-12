@@ -33,13 +33,13 @@ import { calculateCancellation } from '@/util/calculateCancellation';
 
 interface RoomCardProps {
   roomData: Room;
-  ProductReview: ProductReview[] | undefined;
+  productReview: ProductReview[] | undefined;
   name: string;
   infoData: AccommodationData;
 }
 const RoomCard: React.FC<RoomCardProps> = ({
   roomData,
-  ProductReview,
+  productReview,
   name,
   infoData,
 }) => {
@@ -89,7 +89,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   roomData={roomData}
                   infoData={infoData}
                   imageUrls={imageUrls}
-                  ProductReview={ProductReview}
+                  productReview={productReview}
                   name={name}
                 />
               )}

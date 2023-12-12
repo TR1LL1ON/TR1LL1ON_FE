@@ -45,10 +45,10 @@ export const roomsIconMapping: { [key: string]: JSX.Element } = {
   hasCable: <LuSatelliteDish />,
   hasHairDryer: <PiHeadlightsBold />,
   hasInternet: <LuWifi />,
-  hasPC: <PiDesktopBold />,
+  hasPc: <PiDesktopBold />,
   hasRefrigerator: <LuRefrigerator />,
   hasSofa: <LuSofa />,
-  hasTV: <LuTv />,
+  hasTv: <LuTv />,
   hasTable: <MdOutlineTableBar />,
   hasToiletries: <PiHandSoapBold />,
 };
@@ -56,8 +56,8 @@ export const roomsIconMapping: { [key: string]: JSX.Element } = {
 export const roomsTextMapping: { [key: string]: string } = {
   hasBath: '욕조',
   hasAirConditioner: '에어컨',
-  hasTV: 'TV',
-  hasPC: 'PC',
+  hasTv: 'TV',
+  hasPc: 'PC',
   hasCable: '케이블 TV',
   hasHairDryer: '헤어드라이어',
   hasInternet: '인터넷',
