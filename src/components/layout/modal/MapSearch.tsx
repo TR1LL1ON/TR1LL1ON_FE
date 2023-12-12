@@ -9,6 +9,7 @@ interface Product {
   accommodationId: string;
   latitude: number;
   longitude: number;
+  name: string;
 }
 
 const containerStyle = {
@@ -23,8 +24,8 @@ const myStyles = [
   },
 ];
 const OPTIONS = {
-  minZoom: 4,
-  maxZoom: 11,
+  minZoom: 7,
+  maxZoom: 16,
   disableDefaultUI: true,
   styles: myStyles,
 };
@@ -79,7 +80,7 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
           mapContainerStyle={containerStyle}
           center={{ lat, lng }}
           onLoad={onLoad}
-          zoom={16}
+          zoom={12}
           onUnmount={onUnmount}
           options={OPTIONS}>
           {productsData.map((product) => (

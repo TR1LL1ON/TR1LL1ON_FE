@@ -36,21 +36,31 @@ const Header = () => {
 
   // 위치정보 받아오기 -
   useEffect(() => {
+    let isMounted = true;
+
     const fetchCurrentLocation = async () => {
       try {
         const position = await getGeolocation();
-        setCurrPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-        console.log('position', position);
+
+        if (isMounted) {
+          setCurrPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+          console.log('position', position);
+        }
       } catch (error) {
-        console.error('위치 정보를 받아오지 못했습니다');
+        if (isMounted) {
+          console.error('위치 정보를 받아오지 못했습니다');
+        }
       }
     };
 
     fetchCurrentLocation();
-  }, []);
+    return () => {
+      isMounted = false;
+    };
+  }, [setCurrPosition]);
   const handleMapModal = () => {
     setShowMapModal(true);
   };
