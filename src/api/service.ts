@@ -75,7 +75,7 @@ export const postLogout = async () => {
   return res;
 };
 
-//getProducts 통합
+//getProducts 통합 - 기본 20개
 export const getProducts = async (
   options: {
     checkIn?: string;
@@ -114,6 +114,12 @@ export const getProducts = async (
   }
 
   const res = await client.get(endpoint, { params });
+  return res;
+};
+
+// 전체 숙소 조회
+export const getAllProducts = async () => {
+  const res = await client.get(`products/map`);
   return res;
 };
 

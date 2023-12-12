@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
 import { StyledH2Text } from '@/style/products/productsStyle';
 import { MapProps } from '@/components/template/products/Map';
-import { getProducts } from '@/api/service';
+import { getAllProducts } from '@/api/service';
 import { useNavigate } from 'react-router-dom';
 
 interface Product {
@@ -24,7 +24,7 @@ const myStyles = [
 ];
 const OPTIONS = {
   minZoom: 4,
-  maxZoom: 18,
+  maxZoom: 11,
   disableDefaultUI: true,
   styles: myStyles,
 };
@@ -35,14 +35,12 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
   closeMapModal,
 }) => {
   const [productsData, setProductsData] = useState<Product[]>([]);
-  // const [selectedMarker, setSelectedMarker] = useState<Product | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await getProducts();
-
+        const res = await getAllProducts();
         const productsData = res.data;
         setProductsData(productsData);
         console.log('Map', productsData);
@@ -59,7 +57,7 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_KEY,
   });
 
-  const [, setMap] = React.useState(null);
+  const [_, setMap] = React.useState(null);
 
   const onLoad = React.useCallback(function callback(map: any) {
     const bounds = new window.google.maps.LatLngBounds({ lat, lng });
@@ -96,20 +94,7 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
                 const url = `/products/${product.accommodationId}`;
                 navigate(url);
                 closeMapModal();
-              }}
-              // onClick={() => setSelectedMarker(product)}
-            >
-              {/* {selectedMarker &&
-                selectedMarker.accommodationId === product.accommodationId && (
-                  <InfoWindowF
-                    onCloseClick={() => setSelectedMarker(null)} // 닫기 버튼 클릭 시 선택 해제
-                  >
-                    <div>
-                      <h3>hello</h3>
-                    </div>
-                  </InfoWindowF>
-                )} */}
-            </MarkerF>
+              }}></MarkerF>
           ))}
         </GoogleMap>
       ) : (
