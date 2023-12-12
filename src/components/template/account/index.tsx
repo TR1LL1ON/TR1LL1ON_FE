@@ -6,12 +6,10 @@ import Overlay from '@/components/template/account/Overlay';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
 interface IAccountContainerProps {
-  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAccountModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AccountContainer = ({
-  setIsAccountModalOpen,
-}: IAccountContainerProps) => {
+const AccountContainer = ({ setShowAccountModal }: IAccountContainerProps) => {
   const accountModalRef = useRef<HTMLDivElement | null>(null);
   const [isSignUp, setIsSignUp] = useState(false);
 
@@ -19,15 +17,12 @@ const AccountContainer = ({
     setIsSignUp(!isSignUp);
   };
 
-  useClickOutside(accountModalRef, () => setIsAccountModalOpen(false));
+  useClickOutside(accountModalRef, () => setShowAccountModal(false));
 
   return (
     <S.StyledContainer ref={accountModalRef}>
       <SignUp isSignUp={isSignUp} handleToggle={handleToggle} />
-      <SignIn
-        isSignUp={isSignUp}
-        setIsAccountModalOpen={setIsAccountModalOpen}
-      />
+      <SignIn isSignUp={isSignUp} setShowAccountModal={setShowAccountModal} />
       <Overlay isSignUp={isSignUp} handleToggle={handleToggle} />
     </S.StyledContainer>
   );

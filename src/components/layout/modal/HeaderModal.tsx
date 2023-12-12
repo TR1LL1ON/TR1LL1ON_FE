@@ -13,15 +13,16 @@ import { LuShoppingCart, LuLogIn, LuLogOut, LuUser } from 'react-icons/lu';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 interface IHeaderModalProps {
-  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsInformSignInModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAccountModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowInformSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const HeaderModal = ({
-  setIsAccountModalOpen,
-  setIsInformSignInModalOpen,
+  setShowAccountModal,
+  setShowInformSignInModal,
 }: IHeaderModalProps) => {
   const navigate = useNavigate();
   const [cartsData, setCartsData] = useRecoilState(cartsDataState);
@@ -35,24 +36,23 @@ const HeaderModal = ({
       toast.success('Trillion 로그아웃');
       navigate('/');
     },
-    onError: (error) => {
-      if (error.message.includes('500')) {
-        toast.error('서버 오류 발생');
-      }
-    },
   });
 
   const handleAccountModal = (): void => {
-    setIsAccountModalOpen(true);
+    setShowAccountModal(true);
   };
 
-  const handleSignInModal = (link: string): void => {
+  const handleSignInNavigation = (link: string): void => {
     if (!isSignIn) {
-      setIsInformSignInModalOpen(true);
+      setShowInformSignInModal(true);
     } else {
       navigate(link);
     }
   };
+
+  useEffect(() => {
+    if (!isSignIn) setCartsData([]);
+  }, []);
 
   return (
     <StyledHeaderModal>
@@ -67,7 +67,7 @@ const HeaderModal = ({
       </StyledHeaderModalList>
       <StyledHLine $mBlock="0" />
       <StyledHeaderModalList>
-        <StyledHeaderText onClick={() => handleSignInModal('/cart')}>
+        <StyledHeaderText onClick={() => handleSignInNavigation('/cart')}>
           <StyledIconDiv>
             <LuShoppingCart />
           </StyledIconDiv>
@@ -79,7 +79,7 @@ const HeaderModal = ({
       </StyledHeaderModalList>
       <StyledHLine $mBlock="0" />
       <StyledHeaderModalList>
-        <StyledHeaderText onClick={() => handleSignInModal('/mypage')}>
+        <StyledHeaderText onClick={() => handleSignInNavigation('/mypage')}>
           <StyledIconDiv>
             <LuUser />
           </StyledIconDiv>

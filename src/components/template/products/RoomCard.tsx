@@ -22,7 +22,7 @@ import {
   guestCountState,
   cartsDataState,
 } from '@/states/atom';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   ProductReview,
   Room,
@@ -34,6 +34,9 @@ import CartModal from '@/components/layout/modal/CartModal';
 import { calculateCancellation } from '@/util/calculateCancellation';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getCarts, postCart } from '@/api/service';
+import InformSignInModal from '@/components/layout/modal/InformSignInModal';
+import AccountModal from '@/components/layout/modal/accountModal';
+import { getCookie } from '@/util/util';
 
 interface RoomCardProps {
   roomData: Room;
@@ -47,13 +50,28 @@ const RoomCard: React.FC<RoomCardProps> = ({
   name,
   infoData,
 }) => {
+  const navigate = useNavigate();
+  const isSignIn = getCookie('accessToken');
   const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
   const setCartsData = useSetRecoilState(cartsDataState);
+  const [showInformSignInModal, setShowInformSignInModal] = useState(false);
+  const [showAccountModal, setShowAccountModal] = useState(false);
+  const [showCartModal, setShowCartModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+
+  const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
+  const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
   const cartsDataQuery = useQuery({
     queryKey: ['CartsData'],
-    queryFn: () => getCarts(),
+    queryFn: () => {
+      if (isSignIn) {
+        return getCarts();
+      } else {
+        return null;
+      }
+    },
   });
   const addCartMutation = useMutation({
     mutationFn: (cart: AddCart) => postCart(cart),
@@ -81,18 +99,30 @@ const RoomCard: React.FC<RoomCardProps> = ({
     addCartMutation.mutate(cart);
   };
 
-  const [showCartModal, setShowCartModal] = useState(false);
-  const [showDetailModal, setShowDetailModal] = useState(false);
-
-  const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
-  const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
-
   const handleDetailModal = () => {
     setShowDetailModal(true);
   };
 
+  const handleSignInNavigation = (link: string): void => {
+    if (!isSignIn) {
+      setShowInformSignInModal(true);
+    } else {
+      handleAddCart();
+      navigate(link);
+    }
+  };
+
   return (
     <StyledWrap>
+      {showInformSignInModal && (
+        <InformSignInModal
+          setShowAccountModal={setShowAccountModal}
+          setShowInformSignInModal={setShowInformSignInModal}
+        />
+      )}
+      {showAccountModal && (
+        <AccountModal setShowAccountModal={setShowAccountModal} />
+      )}
       {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
       <StyledFlexRowGroup $gap="1rem">
         <StyledImgItem style={{ overflow: 'hidden' }}>
@@ -117,7 +147,9 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   ProductReview={ProductReview}
                   name={name}
                   handleAddCart={handleAddCart}
+                  handleSignInNavigation={handleSignInNavigation}
                   setShowCartModal={setShowCartModal}
+                  setShowInformSignInModal={setShowInformSignInModal}
                 />
               )}
             </StyledFlexContainer>
@@ -146,15 +178,18 @@ const RoomCard: React.FC<RoomCardProps> = ({
               <CartBtn
                 handleAddCart={handleAddCart}
                 setShowCartModal={setShowCartModal}
+                setShowInformSignInModal={setShowInformSignInModal}
               />
-              <Link to={`/payment?productId=${roomData.roomId}`}>
-                <StyledReservationBtn
-                  onClick={handleAddCart}
-                  $full={false}
-                  $variant="primary">
-                  예약하기
-                </StyledReservationBtn>
-              </Link>
+              <StyledReservationBtn
+                onClick={() =>
+                  handleSignInNavigation(
+                    `/payment?productId=${roomData.roomId}`,
+                  )
+                }
+                $full={false}
+                $variant="primary">
+                예약하기
+              </StyledReservationBtn>
             </StyledFlexContainer>
           </StyledFlexContainer>
         </StyledTextItem>

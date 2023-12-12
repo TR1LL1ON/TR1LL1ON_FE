@@ -18,10 +18,10 @@ import { cartsDataState } from '@/states/atom';
 
 interface ISignInProps {
   isSignUp: boolean;
-  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAccountModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
+const SignIn = ({ isSignUp, setShowAccountModal }: ISignInProps) => {
   const {
     register,
     handleSubmit,
@@ -41,7 +41,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
       setCartsData(cartsData);
 
       toast.success('Trillion 로그인');
-      setIsAccountModalOpen(false);
+      setShowAccountModal(false);
     },
     onError: (error) => {
       if (error.message.includes('401')) {

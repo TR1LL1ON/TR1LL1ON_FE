@@ -1,30 +1,29 @@
+import { useRef } from 'react';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import {
   StyledButton,
   StyledFlexContainer,
 } from '@/style/payment/paymentStyle';
-import { useRef } from 'react';
-
 import styled, { keyframes } from 'styled-components';
 
 interface IInformSignInModalProps {
-  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsInformSignInModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAccountModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowInformSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const InformSignInModal = ({
-  setIsAccountModalOpen,
-  setIsInformSignInModalOpen,
+  setShowAccountModal,
+  setShowInformSignInModal,
 }: IInformSignInModalProps) => {
   const informSignInModalRef = useRef<HTMLDivElement | null>(null);
 
   const handleClose = (): void => {
-    setIsInformSignInModalOpen(false);
+    setShowInformSignInModal(false);
   };
 
   const handleAccountModal = (): void => {
     handleClose();
-    setIsAccountModalOpen(true);
+    setShowAccountModal(true);
   };
 
   useClickOutside(informSignInModalRef, handleClose);
@@ -38,7 +37,9 @@ const InformSignInModal = ({
         </StyledTitle>
         <StyledText style={{ paddingTop: '2.5rem' }}>
           아직 회원이 아니신가요? &nbsp;
-          <StyledSignUpBtn>회원가입하기</StyledSignUpBtn>
+          <StyledSignUpBtn onClick={handleAccountModal}>
+            회원가입하기
+          </StyledSignUpBtn>
         </StyledText>
         <StyledSignInBtn
           $variant="primary"

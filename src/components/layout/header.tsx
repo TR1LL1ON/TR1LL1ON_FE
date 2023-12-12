@@ -24,9 +24,9 @@ import InformSignInModal from './modal/InformSignInModal';
 const Header = () => {
   const headerModalRef = useRef<HTMLDivElement>(null);
   const [isHeaderModalOpen, setIsHeaderModalOpen] = useState(false);
-  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
   const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
-  const [isInformSignInModalOpen, setIsInformSignInModalOpen] = useState(false);
+  const [showAccountModal, setShowAccountModal] = useState(false);
+  const [showInformSignInModal, setShowInformSignInModal] = useState(false);
   const regionModalRef = useRef<HTMLDivElement>(null);
 
   const [showMapModal, setShowMapModal] = useState(false);
@@ -48,14 +48,14 @@ const Header = () => {
 
   return (
     <StyledHeaderContainer aria-expanded={isRegionModalOpen}>
-      {isInformSignInModalOpen && (
+      {showInformSignInModal && (
         <InformSignInModal
-          setIsAccountModalOpen={setIsAccountModalOpen}
-          setIsInformSignInModalOpen={setIsInformSignInModalOpen}
+          setShowAccountModal={setShowAccountModal}
+          setShowInformSignInModal={setShowInformSignInModal}
         />
       )}
-      {isAccountModalOpen && (
-        <AccountModal setIsAccountModalOpen={setIsAccountModalOpen} />
+      {showAccountModal && (
+        <AccountModal setShowAccountModal={setShowAccountModal} />
       )}
       <StyledTitle>
         <Link to="/">TR1LL1ON</Link>
@@ -90,8 +90,8 @@ const Header = () => {
         </StyledHeaderModalButton>
         {isHeaderModalOpen && (
           <HeaderModal
-            setIsAccountModalOpen={setIsAccountModalOpen}
-            setIsInformSignInModalOpen={setIsInformSignInModalOpen}
+            setShowAccountModal={setShowAccountModal}
+            setShowInformSignInModal={setShowInformSignInModal}
           />
         )}
       </StyledHeaderGroup>

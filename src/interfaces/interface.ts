@@ -18,7 +18,9 @@ export interface ModalProps {
   orderDetailData?: ReservationDetail;
   infoData?: AccommodationData;
   handleAddCart: () => void;
+  handleSignInNavigation: (link: string) => void;
   setShowCartModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowInformSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface GuestCount {

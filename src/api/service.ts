@@ -39,7 +39,8 @@ client.interceptors.response.use(
     //   alert('로그인이 필요합니다.');
     //   window.location.href = '/';
     // }
-    if (error.response.state === 500) {
+    if (error.response.status === 500) {
+      alert('세션이 만료되었습니다. 다시 로그인 후 시도해 주세요.');
       removeCookie();
       window.location.href = '/';
     }

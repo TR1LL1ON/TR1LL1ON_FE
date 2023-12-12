@@ -1,4 +1,5 @@
 import { reservationState, guestCountState } from '@/states/atom';
+import { getCookie } from '@/util/util';
 import { LuShoppingCart } from 'react-icons/lu';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
@@ -6,19 +7,31 @@ import styled from 'styled-components';
 interface ICartBtnProps {
   handleAddCart: () => void;
   setShowCartModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowInformSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CartBtn = ({ handleAddCart, setShowCartModal }: ICartBtnProps) => {
+const CartBtn = ({
+  handleAddCart,
+  setShowCartModal,
+  setShowInformSignInModal,
+}: ICartBtnProps) => {
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
+  const isSignIn = getCookie('accessToken');
+
+  const handleSignInOrAddCart = (): void => {
+    if (!isSignIn) {
+      setShowInformSignInModal(true);
+    } else {
+      handleAddCart();
+      setShowCartModal(true);
+    }
+  };
 
   return (
     <StyledCartIcon
       disabled={!checkIn || !checkOut || !guestCount.totals ? true : false}
-      onClick={() => {
-        handleAddCart();
-        setShowCartModal(true);
-      }}>
+      onClick={handleSignInOrAddCart}>
       <LuShoppingCart />
     </StyledCartIcon>
   );

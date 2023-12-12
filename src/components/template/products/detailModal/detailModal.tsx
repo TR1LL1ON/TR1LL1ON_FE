@@ -17,7 +17,6 @@ import Carousel from './carousel';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { LuUser } from 'react-icons/lu';
 import CartBtn from '@/components/layout/Button/cartBtn';
-import { Link } from 'react-router-dom';
 import ModalReview from './modalReview';
 import {
   productsIconMapping,
@@ -38,7 +37,9 @@ const DetailModal: React.FC<ModalProps> = ({
   ProductReview,
   name,
   handleAddCart,
+  handleSignInNavigation,
   setShowCartModal,
+  setShowInformSignInModal,
 }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
   const closeModal = () => {
@@ -68,7 +69,6 @@ const DetailModal: React.FC<ModalProps> = ({
     return <div>로딩중</div>;
   }
 
-  console.log(checkIn);
   return (
     <StyledModal onClick={closeModal}>
       <StyledModalContent
@@ -238,18 +238,19 @@ const DetailModal: React.FC<ModalProps> = ({
             <CartBtn
               handleAddCart={handleAddCart}
               setShowCartModal={setShowCartModal}
+              setShowInformSignInModal={setShowInformSignInModal}
             />
-            <Link to={`/payment?productId=${roomData.roomId}`}>
-              <StyledButton
-                onClick={handleAddCart}
-                $variant="primary"
-                style={{
-                  width: '15rem',
-                  margin: '0.5rem',
-                }}>
-                예약하기
-              </StyledButton>
-            </Link>
+            <StyledButton
+              onClick={() =>
+                handleSignInNavigation(`/payment?productId=${roomData.roomId}`)
+              }
+              $variant="primary"
+              style={{
+                width: '15rem',
+                margin: '0.5rem',
+              }}>
+              예약하기
+            </StyledButton>
           </StyledFlexContainer>
         </StyledModalFooter>
       </StyledModalContent>
