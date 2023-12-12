@@ -2,6 +2,7 @@ import {
   StyledWrap,
   StyledH2Text,
   StyledTextBox,
+  StyledBold,
 } from '@/style/products/productsStyle';
 import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
@@ -18,7 +19,6 @@ interface ReviewProps {
 const Review = ({ productReview, name }: ReviewProps) => {
   // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
   const { displayedReview, showAllReview } = useDisplayedReview(productReview);
-
   //숙소 리뷰 평균 평점
   const averageScore = calculateAverageScore(productReview);
   const formattedAverageScore = averageScore.toFixed(1);
@@ -42,7 +42,10 @@ const Review = ({ productReview, name }: ReviewProps) => {
           displayedReview.map((review) => (
             <StyleReviewItem $mt="0" $mb="0" key={uuidv4()}>
               <p>
-                <StyledStar>{reviewStar(review.score)}</StyledStar>
+                <p>
+                  <StyledStar>{reviewStar(review.score)}</StyledStar>
+                  <StyledBold>{review.userDetails.userName}</StyledBold>
+                </p>
                 <span>{review.reviewDate}</span>
               </p>
               <p>{review.content}</p>
@@ -75,17 +78,17 @@ export const StyleReviewItem = styled(StyledTextBox)<{
   font-size: ${(props) => props.$fontSize || props.theme.fontSizes.md};
   font-weight: ${(props) =>
     props.$fontWeight || props.theme.fontWeights.regular};
-  margin-top: ${(props) => props.$mb || '1rem'};
+  margin-top: ${(props) => props.$mt || '1rem'};
   margin-bottom: ${(props) => props.$mb || '1rem'};
   border: 1px solid ${({ theme }) => theme.colors.gray};
   text-align: ${(props) => props.$textAlign};
 
   width: 100%;
   border-radius: 1rem;
-  & > p {
+  & p {
     display: flex;
     justify-content: space-between;
-    padding: 0 1rem;
+    align-items: center;
   }
 `;
 export const StyledReviewButton = styled.button`
@@ -104,4 +107,6 @@ export const StyledReviewButton = styled.button`
 
 export const StyledStar = styled.span`
   font-size: ${(props) => props.theme.fontSizes.lg};
+  margin-top: 0.4rem;
+  margin-right: 1rem;
 `;

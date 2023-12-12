@@ -9,6 +9,7 @@ import {
 } from '../Review';
 import useDisplayedReview from '@/hooks/useDisplayedReview';
 import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
+import { StyledBold } from '@/style/products/productsStyle';
 
 interface ModalReviewProps {
   productReview: ProductReview[] | undefined;
@@ -23,8 +24,9 @@ const ModalReview = ({
   roomName,
   roomId,
 }: ModalReviewProps) => {
+  console.log(productReview);
   const filteredReview = productReview?.filter(
-    (review) => review.productId === roomId,
+    (review) => review.productDetails.productId === roomId,
   );
   // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
   const { displayedReview, showAllReview } = useDisplayedReview(filteredReview);
@@ -36,7 +38,7 @@ const ModalReview = ({
   return (
     <>
       <StyledSubTitle $mt="3rem">
-        {name} {''} {roomName} 후기 ★ {formattedAverageScore}
+        {name} {roomName} 후기 ★ {formattedAverageScore}
       </StyledSubTitle>
       <StyleReviewContainer
         $justifyContent="flex-stat"
@@ -46,7 +48,10 @@ const ModalReview = ({
           displayedReview.map((review) => (
             <StyleReviewItem key={uuidv4()}>
               <p>
-                <StyledStar> {reviewStar(review.score)}</StyledStar>
+                <p>
+                  <StyledStar> {reviewStar(review.score)}</StyledStar>
+                  <StyledBold> {review.userDetails.userName}</StyledBold>
+                </p>
                 <span>{review.reviewDate}</span>
               </p>
               <p>{review.content}</p>

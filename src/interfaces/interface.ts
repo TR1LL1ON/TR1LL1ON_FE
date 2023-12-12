@@ -53,12 +53,22 @@ export interface Review {
 
 // 객실 리뷰
 export interface ProductReview {
-  reviewId: number;
-  reviewDate: string;
-  score: number;
-  userId: number;
-  productId: number;
   content: string;
+  productDetails: productDetails;
+  reviewDate: string;
+  reviewId: number;
+  score: number;
+  userDetails: userDetails;
+}
+
+export interface productDetails {
+  productId: number;
+  productImage: string;
+  productName: string;
+}
+export interface userDetails {
+  userId: number;
+  userName: string;
 }
 
 export interface SignupRequestBody {
