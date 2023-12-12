@@ -10,25 +10,27 @@ import {
   StyledHLine,
   StyledButton,
 } from '@/style/payment/paymentStyle';
-import { ReservationDetail } from '@/interfaces/interface';
+import {
+  ReservationDetail,
+  OrderDetailsAccordionProps,
+} from '@/interfaces/interface';
 import ReviewWriteModal from './reviewWriteModal';
-
-interface OrderDetailsAccordionProps {
-  isOpen: boolean;
-  orderID: number;
-}
 
 const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   isOpen,
   orderID,
 }) => {
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: reservationData,
+    isLoading: isReservationLoading,
+    isError: isReservationError,
+  } = useQuery({
     queryKey: ['ReservationDetailData', orderID],
     queryFn: () => getUserDetail(orderID as number),
     enabled: orderID !== undefined,
   });
 
-  const orderDetailData = data?.data.orderItemList;
+  const orderDetailData = reservationData?.data.orderItemList;
 
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(
     null,
@@ -38,11 +40,11 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
     setSelectedItemIndex(index);
   };
 
-  if (isLoading) {
+  if (isReservationLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (isReservationError) {
     return <div>상세내역 불러오기 실패</div>;
   }
 
@@ -82,8 +84,12 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
                   <StyledText $fontWeight={700}>
                     {item.orderItemDetail.accommodationName}
                   </StyledText>
-                  <StyledButton onClick={() => handleReviewWriteModal(index)}>
-                    리뷰작성
+                  <StyledButton
+                    onClick={() => handleReviewWriteModal(index)}
+                    style={{
+                      color: item.reviewWritten ? '#1948c4' : '#de2f5f',
+                    }}>
+                    {item.reviewWritten ? '리뷰수정' : '리뷰작성'}
                   </StyledButton>
                 </StyledFlexContainer>
                 <StyledText $fontSize="0.75rem">

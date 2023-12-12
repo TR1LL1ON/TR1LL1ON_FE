@@ -9,6 +9,7 @@ import AllFacility from './AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
 import { useRef, useCallback } from 'react';
 
+
 interface ProductsContainerProps {
   accommodationID: string;
 }
@@ -50,7 +51,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   return (
     <>
       <StyledImageContainer
-        backgroundImage={accommodationData.image[0].imageUrl}
+        backgroundImage={accommodationData?.image[0].imageUrl}
       />
       <AccommodationInfo
         infoData={accommodationData}
