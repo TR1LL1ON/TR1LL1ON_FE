@@ -32,7 +32,7 @@ const Header = () => {
 
   const [showMapModal, setShowMapModal] = useState(false);
 
-  const [_, setCurrPosition] = useRecoilState(currPositionState);
+  const [currPosition, setCurrPosition] = useRecoilState(currPositionState);
 
   // 위치정보 받아오기 -
   useEffect(() => {
@@ -47,7 +47,6 @@ const Header = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
-          console.log('position', position);
         }
       } catch (error) {
         if (isMounted) {
@@ -62,7 +61,11 @@ const Header = () => {
     };
   }, [setCurrPosition]);
   const handleMapModal = () => {
-    setShowMapModal(true);
+    if (currPosition.lat === 0 && currPosition.lng === 0) {
+      alert('위치 기반 검색을 위해 브라우저에서 위치 정보를 허용해주세요.');
+    } else {
+      setShowMapModal(true);
+    }
   };
 
   useClickOutside(headerModalRef, () => {

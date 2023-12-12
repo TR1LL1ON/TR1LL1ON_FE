@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
 import { StyledH2Text } from '@/style/products/productsStyle';
 import { MapProps } from '@/components/template/products/Map';
 import { getAllProducts } from '@/api/service';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+// import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface Product {
   accommodationId: string;
@@ -35,22 +37,19 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
   lng,
   closeMapModal,
 }) => {
-  const [productsData, setProductsData] = useState<Product[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const res = await getAllProducts();
-        const productsData = res.data;
-        setProductsData(productsData);
-      } catch (error) {
-        console.error('조회 실패:', error);
-      }
-    }
-
-    fetchProducts();
-  }, []);
+  const {
+    data: productsData,
+    // isLoading,
+    // error,
+  } = useQuery<Product[]>({
+    queryKey: ['data'],
+    queryFn: async () => {
+      const response = await getAllProducts();
+      return response.data;
+    },
+  });
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -70,6 +69,8 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
     setMap(null);
   }, []);
 
+  // if (!productsData || isLoading) return <LoadingSpinner />;
+
   return (
     <div style={{ marginBottom: '2.5rem' }}>
       <StyledH2Text $mt="0rem" $mb="2rem">
@@ -83,7 +84,7 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
           zoom={12}
           onUnmount={onUnmount}
           options={OPTIONS}>
-          {productsData.map((product) => (
+          {productsData?.map((product) => (
             <MarkerF
               key={product.accommodationId}
               position={{

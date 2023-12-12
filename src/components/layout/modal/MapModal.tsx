@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import MapSearch from './MapSearch';
 import { useRecoilValue } from 'recoil';
 import { currPositionState } from '@/states/atom';
-import { useEffect } from 'react';
 
 interface MapModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,13 +11,6 @@ const MapModal: React.FC<MapModalProps> = ({ setShowModal }) => {
   const closeModal = () => {
     setShowModal(false);
   };
-  console.log('modal', currPosition);
-  useEffect(() => {
-    if (currPosition.lat === 0 && currPosition.lng === 0) {
-      alert('위치 기반 검색을 위해 브라우저에서 위치 정보를 허용해주세요.');
-      setShowModal(false);
-    }
-  }, []);
 
   return (
     <StyledModal onClick={closeModal}>
