@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import { ProductReview } from '@/interfaces/interface';
 
-const useDisplayedReview = (ProductReview: ProductReview[] | undefined) => {
+const useDisplayedReview = (productReview: ProductReview[] | undefined) => {
   const [displayedReview, setDisplayedReview] = useState<ProductReview[]>([]);
 
   useEffect(() => {
-    if (ProductReview) {
-      setDisplayedReview(ProductReview.slice(0, 3));
+    if (Array.isArray(productReview)) {
+      setDisplayedReview(productReview.slice(0, 3));
     }
-  }, []);
+  }, [productReview]);
 
   const showAllReview = () => {
-    if (ProductReview) {
-      setDisplayedReview(ProductReview);
+    if (Array.isArray(productReview)) {
+      setDisplayedReview(productReview);
     }
   };
 

@@ -13,7 +13,7 @@ export interface ModalProps {
   roomData?: Room;
   imageUrls?: string[];
   orderID?: number;
-  ProductReview?: ProductReview[] | undefined;
+  productReview?: ProductReview[] | undefined;
   name?: string;
   orderDetailData?: ReservationDetail;
   infoData?: AccommodationData;
@@ -69,12 +69,22 @@ export interface ReviewMutationParams {
 
 // 객실 리뷰
 export interface ProductReview {
-  reviewId: number;
-  reviewDate: string;
-  score: number;
-  userId: number;
-  productId: number;
   content: string;
+  productDetails: productDetails;
+  reviewDate: string;
+  reviewId: number;
+  score: number;
+  userDetails: userDetails;
+}
+
+export interface productDetails {
+  productId: number;
+  productImage: string;
+  productName: string;
+}
+export interface userDetails {
+  userId: number;
+  userName: string;
 }
 
 export interface SignupRequestBody {
@@ -102,10 +112,10 @@ export interface RoomFacility {
   hasCable: boolean;
   hasHairDryer: boolean;
   hasInternet: boolean;
-  hasPC: boolean;
+  hasPc: boolean;
   hasRefrigerator: boolean;
   hasSofa: boolean;
-  hasTV: boolean;
+  hasTv: boolean;
   hasTable: boolean;
   hasToiletries: boolean;
 }
