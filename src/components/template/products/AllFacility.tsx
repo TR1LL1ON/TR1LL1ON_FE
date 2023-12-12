@@ -67,7 +67,7 @@ const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
         </ItemContainer>
         <ButtonContainer>
           <StyledBorderBtn $variant="primary" onClick={handleShowModal}>
-            객실 이용 안내 보기
+            객실 이용 안내
           </StyledBorderBtn>
 
           {showModal && (

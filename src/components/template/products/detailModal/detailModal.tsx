@@ -34,7 +34,7 @@ const DetailModal: React.FC<ModalProps> = ({
   infoData,
   roomData,
   imageUrls,
-  ProductReview,
+  productReview,
   name,
   handleAddCart,
   handleSignInNavigation,
@@ -162,8 +162,9 @@ const DetailModal: React.FC<ModalProps> = ({
             </StyledFlexContainer>
           </StyledModalFlexContainer>
           <ModalReview
-            ProductReview={ProductReview}
+            productReview={productReview}
             name={name}
+            roomName={roomData.roomName}
             roomId={roomData.roomId}
           />
           <StyledSubTitle $mt="3rem" $mb="0.5rem">
