@@ -25,7 +25,7 @@ export const reviewStar = (score: number) => {
 };
 
 export const calculateAverageScore = (reviews: ProductReview[] | undefined) => {
-  if (!reviews || reviews.length === 0) {
+  if (!Array.isArray(reviews) || reviews.length === 0) {
     return 0;
   }
   const totalScore = reviews.reduce((acc, review) => acc + review.score, 0);
