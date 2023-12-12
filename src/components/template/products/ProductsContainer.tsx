@@ -42,7 +42,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   return (
     <>
       <StyledImageContainer
-        backgroundImage={accommodationData.image[0].imageUrl}
+        backgroundImage={accommodationData?.image[0].imageUrl}
       />
       <AccommodationInfo
         infoData={accommodationData}
