@@ -80,7 +80,7 @@ const AccommodationInfo = ({
   //리뷰 평점
   const averageScore = calculateAverageScore(productReview);
   const formattedAverageScore = averageScore.toFixed(1);
-
+  console.log(productReview?.length);
   return (
     <StyledWrap>
       <StyledTextBox>
@@ -102,7 +102,7 @@ const AccommodationInfo = ({
           $color="#444"
           $borderBottom="none"
           onClick={scrollToReview}>
-          ★{formattedAverageScore} 후기 {productReview?.length}개
+          ★{formattedAverageScore} 후기 {productReview?.length ?? 0}개
         </StyledOnClick>
       </StyledTextBox>
       <StyledSpacer />
