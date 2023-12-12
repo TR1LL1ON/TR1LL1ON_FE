@@ -23,6 +23,10 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
     setIsOpen(!isOpen);
   };
 
+  if (!data) {
+    return <div>No data available</div>;
+  }
+
   return (
     <div style={{ padding: '0' }}>
       <StyledReservationContainer
@@ -50,9 +54,9 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
           <StyledSubTitle $mb="0.5rem">{`총 ${data?.accommodation.productNames.length}건의 객실예약`}</StyledSubTitle>
 
           <StyledFlexContainer style={{ width: '100%' }}>
-            <StyledText $fontWeight={700}>{`${
-              data?.orderCreateDate.split('T')[0]
-            }`}</StyledText>
+            <StyledText $fontWeight={700}>{`${data?.orderCreateDate.split(
+              'T',
+            )[0]}`}</StyledText>
           </StyledFlexContainer>
           <StyledFlexContainer style={{ width: '100%' }}>
             <StyledText $fontSize="0.75rem">{`${data.payment}`}</StyledText>
