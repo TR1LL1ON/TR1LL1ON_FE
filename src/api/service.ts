@@ -214,8 +214,12 @@ export const deleteReviews = async (reviewID: string) => {
 //숙소 리뷰 조회
 export const getProductsReview = async (
   accommodationID: string,
+  page: number,
+  size: number,
 ): Promise<ProductReviewResponse> => {
-  const res = await client.get(`reviews/${accommodationID}`);
+  const res = await client.get(
+    `reviews/${accommodationID}?page=${page}&size=${size}`,
+  );
   return res.data;
 };
 

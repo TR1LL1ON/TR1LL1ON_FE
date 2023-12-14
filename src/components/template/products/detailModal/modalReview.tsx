@@ -1,11 +1,6 @@
 import { ProductReviewResponse } from '@/interfaces/interface';
 import { StyledSubTitle } from '@/style/payment/paymentStyle';
-import {
-  StyleReviewContainer,
-  StyleReviewItem,
-  StyledReviewButton,
-  StyledStar,
-} from '../Review';
+import { StyleReviewContainer, StyleReviewItem, StyledStar } from '../Review';
 import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
 import { StyledBold } from '@/style/products/productsStyle';
 
@@ -37,6 +32,7 @@ const ModalReview = ({
       <StyledSubTitle $mt="3rem">
         {name} {roomName} 후기 ★ {formattedAverageScore}
       </StyledSubTitle>
+      객실 후기 {filteredReview.length}개
       <StyleReviewContainer
         $justifyContent="flex-stat"
         $alignItems="center"
@@ -61,10 +57,6 @@ const ModalReview = ({
           </StyleReviewItem>
         )}
       </StyleReviewContainer>
-
-      <StyledReviewButton>
-        객실 후기 {filteredReview.length}개 모두 보기
-      </StyledReviewButton>
     </>
   );
 };

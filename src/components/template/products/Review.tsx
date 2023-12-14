@@ -8,17 +8,24 @@ import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { ProductReviewResponse } from '@/interfaces/interface';
 import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
-// import { useState } from 'react';
 
 interface ReviewProps {
   productReview: ProductReviewResponse | undefined;
   name: string;
+  onPageChange: (newPage: number) => void;
+  currentPage: number;
 }
 
-const Review = ({ productReview, name }: ReviewProps) => {
+const Review = ({
+  productReview,
+  name,
+  onPageChange,
+  currentPage,
+}: ReviewProps) => {
   // 해당 숙소 리뷰 데이터
   const reviews = productReview?.content || [];
   const totalElements = productReview?.totalElements || 0;
+  const totalPages = productReview?.totalPages || 0;
   const noReviewMessage = ` ${name}에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊`;
   console.log(reviews);
   console.log(productReview);
@@ -27,11 +34,18 @@ const Review = ({ productReview, name }: ReviewProps) => {
   const averageScore = calculateAverageScore(reviews);
   const formattedAverageScore = averageScore.toFixed(1);
 
+  const handlePageChange = (pageNumber: number) => {
+    onPageChange(pageNumber - 1);
+  };
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
   return (
     <StyledWrap>
-      <StyledH2Text $mt="1rem" $mb="2rem">
-        '{name}' 방문 후기 ★{formattedAverageScore}
+      <StyledH2Text $mt="1rem" $mb="0rem">
+        '{name}' 의 방문 후기 ★ {formattedAverageScore}
       </StyledH2Text>
+      <StyledTextBox> 총 {productReview?.totalElements}개의 후기</StyledTextBox>
+
       <StyleReviewContainer
         $justifyContent="flex-start"
         $alignItems="center"
@@ -42,8 +56,8 @@ const Review = ({ productReview, name }: ReviewProps) => {
             <StyleReviewItem $mt="0" $mb="0" key={review.reviewId}>
               <p>
                 <span>
-                  <StyledStar>{reviewStar(review.score)}</StyledStar>
                   <StyledBold>{review.userDetails.userName}</StyledBold>
+                  <StyledStar>{reviewStar(review.score)}</StyledStar>
                 </span>
                 <span>{review.reviewDate}</span>
               </p>
@@ -56,14 +70,17 @@ const Review = ({ productReview, name }: ReviewProps) => {
           </StyleReviewItem>
         )}
       </StyleReviewContainer>
-      <StyledReviewButton>
-        후기 {productReview?.totalElements}개 모두 보기
-      </StyledReviewButton>
-      {/*       {productReview && productReview.length > 3 && (
-        <StyledReviewButton onClick={showAllReview}>
-          후기 {productReview.length}개 모두 보기
-        </StyledReviewButton>
-      )} */}
+      <StyledPagination>
+        {pageNumbers.map((number) => (
+          <StyledPageBtn
+            className={currentPage === number - 1 ? 'active' : ''}
+            key={number}
+            onClick={() => handlePageChange(number)}
+            style={{ margin: '0 5px' }}>
+            {number}
+          </StyledPageBtn>
+        ))}
+      </StyledPagination>
     </StyledWrap>
   );
 };
@@ -87,7 +104,6 @@ export const StyleReviewItem = styled(StyledTextBox)<{
   margin-bottom: ${(props) => props.$mb || '1rem'};
   border: 1px solid ${({ theme }) => theme.colors.gray};
   text-align: ${(props) => props.$textAlign};
-
   width: 100%;
   border-radius: 1rem;
   & p {
@@ -96,22 +112,32 @@ export const StyleReviewItem = styled(StyledTextBox)<{
     align-items: center;
   }
 `;
-export const StyledReviewButton = styled.button`
-  cursor: pointer;
-  border: 1px solid ${({ theme }) => theme.colors.gray};
-  width: 100%;
-  padding: 0.7rem;
-  color: #444;
-  font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: ${(props) => props.theme.fontWeights.bold};
-  border-radius: 0.5rem;
-  &:hover {
-    background-color: #eeeeee;
-  }
-`;
 
 export const StyledStar = styled.span`
-  font-size: ${(props) => props.theme.fontSizes.lg};
+  font-size: ${(props) => props.theme.fontSizes.md};
   margin-top: 0.4rem;
-  margin-right: 1rem;
+  margin-left: 1rem;
+`;
+const StyledPagination = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledPageBtn = styled.button`
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  border: none;
+  background-color: #f0f0f0;
+  padding: 0 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d0d0d0;
+  }
+
+  &.active {
+    background-color: #de2f5f;
+    color: white;
+  }
 `;
