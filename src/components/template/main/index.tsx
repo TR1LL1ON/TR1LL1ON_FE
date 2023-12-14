@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
-import { getCarts, getProducts } from '@/api/service';
+import { getProducts } from '@/api/service';
 import { useLocation } from 'react-router-dom';
 import { getGeolocation } from '@/util/geolocation';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { cartsDataState, currPositionState } from '@/states/atom';
-import { useQuery } from '@tanstack/react-query';
-import { getCookie } from '@/util/util';
+import { useRecoilState } from 'recoil';
+import { currPositionState } from '@/states/atom';
 
 const MainContainer = () => {
   const [productCards, setProductCards] = useState<React.ReactNode[]>([]);
@@ -15,17 +13,6 @@ const MainContainer = () => {
 
   const location = useLocation();
   const categoryRef = useRef<string | null>(null);
-
-  const setCartsData = useSetRecoilState(cartsDataState);
-  const { refetch } = useQuery({
-    queryKey: ['CartsData'],
-    queryFn: () => {
-      if (getCookie('accessToken')) {
-        return getCarts();
-      }
-      return null;
-    },
-  });
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -91,17 +78,6 @@ const MainContainer = () => {
     };
 
     fetchCurrentLocation(); // 함수 호출
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const res = await refetch();
-      const cartsData = res.data ?? [];
-
-      setCartsData(cartsData);
-    };
-
-    fetchData();
   }, []);
 
   return (

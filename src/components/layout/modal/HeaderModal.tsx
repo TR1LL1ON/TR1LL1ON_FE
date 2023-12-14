@@ -6,13 +6,13 @@ import {
 } from '../../../style/header/headerStyle';
 import { StyledHLine } from '../../../style/payment/paymentStyle';
 import { useNavigate } from 'react-router-dom';
-import { postLogout } from '@/api/service';
+import { getCarts, postLogout } from '@/api/service';
 import { useRecoilState } from 'recoil';
 import { cartsDataState } from '@/states/atom';
 import { LuShoppingCart, LuLogIn, LuLogOut, LuUser } from 'react-icons/lu';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 interface IHeaderModalProps {
@@ -28,6 +28,13 @@ const HeaderModal = ({
   const [cartsData, setCartsData] = useRecoilState(cartsDataState);
   const cartsCount = cartsData.length;
   const isSignIn = getCookie('accessToken');
+  const { data, isFetching } = useQuery({
+    queryKey: ['CartsData'],
+    queryFn: () => {
+      if (isSignIn) return getCarts();
+      else return null;
+    },
+  });
   const { mutate } = useMutation({
     mutationFn: () => postLogout(),
     onSuccess: () => {
@@ -37,6 +44,7 @@ const HeaderModal = ({
       navigate('/');
     },
   });
+  const formatData = data ?? [];
 
   const handleAccountModal = (): void => {
     setShowAccountModal(true);
@@ -52,7 +60,10 @@ const HeaderModal = ({
 
   useEffect(() => {
     if (!isSignIn) setCartsData([]);
-  }, []);
+    else {
+      setCartsData(formatData);
+    }
+  }, [isFetching]);
 
   return (
     <StyledHeaderModal>

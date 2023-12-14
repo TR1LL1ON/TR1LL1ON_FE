@@ -16,12 +16,8 @@ import {
 import { StyledFlexContainer, StyledText } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-  reservationState,
-  guestCountState,
-  cartsDataState,
-} from '@/states/atom';
+import { useRecoilValue } from 'recoil';
+import { reservationState, guestCountState } from '@/states/atom';
 import { useNavigate } from 'react-router-dom';
 import {
   ProductReview,
@@ -32,8 +28,8 @@ import {
 import Carousel from './detailModal/carousel';
 import CartModal from '@/components/layout/modal/CartModal';
 import { calculateCancellation } from '@/util/calculateCancellation';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { getCarts, postCart } from '@/api/service';
+import { useMutation } from '@tanstack/react-query';
+import { postCart } from '@/api/service';
 import InformSignInModal from '@/components/layout/modal/InformSignInModal';
 import AccountModal from '@/components/layout/modal/accountModal';
 import { getCookie } from '@/util/util';
@@ -55,7 +51,6 @@ const RoomCard: React.FC<RoomCardProps> = ({
   const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
-  const setCartsData = useSetRecoilState(cartsDataState);
   const [showInformSignInModal, setShowInformSignInModal] = useState(false);
   const [showAccountModal, setShowAccountModal] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
@@ -63,23 +58,9 @@ const RoomCard: React.FC<RoomCardProps> = ({
 
   const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
   const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
-  const cartsDataQuery = useQuery({
-    queryKey: ['CartsData'],
-    queryFn: () => {
-      if (isSignIn) {
-        return getCarts();
-      } else {
-        return null;
-      }
-    },
-  });
+
   const addCartMutation = useMutation({
     mutationFn: (cart: AddCart) => postCart(cart),
-    onSuccess: async () => {
-      const res = await cartsDataQuery.refetch();
-      const getCartsData = res.data ?? [];
-      setCartsData(getCartsData);
-    },
     onError: (error) => {
       if (error.message.includes('404')) {
         alert('유효하지 않은 상품입니다.');
