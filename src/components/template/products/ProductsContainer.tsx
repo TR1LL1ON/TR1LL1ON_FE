@@ -1,6 +1,10 @@
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
-import { AccommodationData, ProductReview, Room } from '@/interfaces/interface';
+import {
+  AccommodationData,
+  ProductReviewResponse,
+  Room,
+} from '@/interfaces/interface';
 import Review from './Review';
 import { getAccommodation, getProductsReview } from '@/api/service';
 import Map from './Map';
@@ -8,7 +12,6 @@ import { useQuery } from '@tanstack/react-query';
 import AllFacility from './AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
 import { useRef, useCallback } from 'react';
-
 
 interface ProductsContainerProps {
   accommodationID: string;
@@ -25,14 +28,12 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
-  const { data: productReview, isLoading: isLoadingReview } = useQuery<
-    ProductReview[]
-  >({
-    queryKey: ['productReview', accommodationID],
-    queryFn: () => getProductsReview(accommodationID),
-    enabled: !!accommodationID,
-  });
-
+  const { data: productReview, isLoading: isLoadingReview } =
+    useQuery<ProductReviewResponse>({
+      queryKey: ['productReview', accommodationID],
+      queryFn: () => getProductsReview(accommodationID),
+      enabled: !!accommodationID,
+    });
   //리뷰 스크롤 이벤트
   const reviewRef = useRef<HTMLDivElement>(null);
 

@@ -23,7 +23,11 @@ import {
   cartsDataState,
 } from '@/states/atom';
 import { Link } from 'react-router-dom';
-import { ProductReview, Room, AccommodationData } from '@/interfaces/interface';
+import {
+  Room,
+  AccommodationData,
+  ProductReviewResponse,
+} from '@/interfaces/interface';
 
 import Carousel from './detailModal/carousel';
 import useAddCart from '@/hooks/useAddCart';
@@ -33,7 +37,7 @@ import { calculateCancellation } from '@/util/calculateCancellation';
 
 interface RoomCardProps {
   roomData: Room;
-  productReview: ProductReview[] | undefined;
+  productReview: ProductReviewResponse | undefined;
   name: string;
   infoData: AccommodationData;
 }

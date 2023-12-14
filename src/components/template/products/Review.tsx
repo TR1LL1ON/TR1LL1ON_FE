@@ -6,24 +6,26 @@ import {
 } from '@/style/products/productsStyle';
 import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
-import { ProductReview } from '@/interfaces/interface';
-import { v4 as uuidv4 } from 'uuid';
-import useDisplayedReview from '@/hooks/useDisplayedReview';
+import { ProductReviewResponse } from '@/interfaces/interface';
 import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
 
 interface ReviewProps {
-  productReview: ProductReview[] | undefined;
+  productReview: ProductReviewResponse | undefined;
   name: string;
 }
 
 const Review = ({ productReview, name }: ReviewProps) => {
-  // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
-  const { displayedReview, showAllReview } = useDisplayedReview(productReview);
-  //숙소 리뷰 평균 평점
-  const averageScore = calculateAverageScore(productReview);
+  // 해당 숙소 리뷰 데이터
+  const reviews = productReview?.content || [];
+  const totalElements = productReview?.totalElements || 0;
+  const noReviewMessage = ` ${name}에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊`;
+  console.log(reviews);
+  console.log(productReview);
+
+  // 평균 평점 계산
+  const averageScore = calculateAverageScore(reviews);
   const formattedAverageScore = averageScore.toFixed(1);
 
-  const noReviewMessage = ` ${name}에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊`;
   return (
     <StyledWrap>
       <StyledH2Text $mt="1rem" $mb="2rem">
@@ -34,13 +36,9 @@ const Review = ({ productReview, name }: ReviewProps) => {
         $alignItems="center"
         $flexDirection="column"
         $gap="1rem">
-        {!displayedReview || displayedReview.length === 0 ? (
-          <StyleReviewItem $mt="0" $mb="0" $padding="1.2rem 1rem">
-            {noReviewMessage}
-          </StyleReviewItem>
-        ) : (
-          displayedReview.map((review) => (
-            <StyleReviewItem $mt="0" $mb="0" key={uuidv4()}>
+        {totalElements > 0 ? (
+          reviews.map((review) => (
+            <StyleReviewItem $mt="0" $mb="0" key={review.reviewId}>
               <p>
                 <p>
                   <StyledStar>{reviewStar(review.score)}</StyledStar>
@@ -51,14 +49,20 @@ const Review = ({ productReview, name }: ReviewProps) => {
               <p>{review.content}</p>
             </StyleReviewItem>
           ))
+        ) : (
+          <StyleReviewItem $mt="0" $mb="0" $padding="1.2rem 1rem">
+            {noReviewMessage}
+          </StyleReviewItem>
         )}
       </StyleReviewContainer>
-
-      {productReview && productReview.length > 3 && (
+      <StyledReviewButton>
+        후기 {productReview?.totalElements}개 모두 보기
+      </StyledReviewButton>
+      {/*       {productReview && productReview.length > 3 && (
         <StyledReviewButton onClick={showAllReview}>
           후기 {productReview.length}개 모두 보기
         </StyledReviewButton>
-      )}
+      )} */}
     </StyledWrap>
   );
 };

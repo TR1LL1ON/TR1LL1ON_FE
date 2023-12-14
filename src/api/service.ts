@@ -2,8 +2,8 @@ import axios from 'axios';
 import {
   OrderRequest,
   AccommodationData,
-  ProductReview,
   Cart,
+  ProductReviewResponse,
 } from '../interfaces/interface';
 import { getCookie, removeCookie } from '@/util/util';
 
@@ -214,7 +214,7 @@ export const deleteReviews = async (reviewID: string) => {
 //숙소 리뷰 조회
 export const getProductsReview = async (
   accommodationID: string,
-): Promise<ProductReview[]> => {
+): Promise<ProductReviewResponse> => {
   const res = await client.get(`reviews/${accommodationID}`);
   return res.data;
 };
