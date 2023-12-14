@@ -24,6 +24,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
   };
 
   if (!data) {
+    // 스켈레톤 추가
     return <div>No data available</div>;
   }
 

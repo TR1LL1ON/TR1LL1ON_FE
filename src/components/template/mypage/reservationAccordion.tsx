@@ -28,6 +28,7 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
     queryKey: ['ReservationDetailData', orderID],
     queryFn: () => getUserDetail(orderID as number),
     enabled: orderID !== undefined,
+    staleTime: 60000,
   });
 
   const orderDetailData = reservationData?.data.orderItemList;

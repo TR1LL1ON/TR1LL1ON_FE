@@ -34,6 +34,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
     queryKey: ['accommodation'],
     queryFn: () => getReviews(),
     enabled: !!orderDetailData?.reviewWritten,
+    staleTime: 60000,
   });
 
   useEffect(() => {
