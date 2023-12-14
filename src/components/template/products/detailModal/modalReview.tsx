@@ -45,10 +45,10 @@ const ModalReview = ({
           filteredReview.map((review) => (
             <StyleReviewItem key={review.reviewId}>
               <p>
-                <p>
+                <span>
                   <StyledStar> {reviewStar(review.score)}</StyledStar>
                   <StyledBold> {review.userDetails.userName}</StyledBold>
-                </p>
+                </span>
                 <span>{review.reviewDate}</span>
               </p>
               <p>{review.content}</p>

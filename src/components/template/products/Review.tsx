@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { ProductReviewResponse } from '@/interfaces/interface';
 import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
+// import { useState } from 'react';
 
 interface ReviewProps {
   productReview: ProductReviewResponse | undefined;
@@ -40,10 +41,10 @@ const Review = ({ productReview, name }: ReviewProps) => {
           reviews.map((review) => (
             <StyleReviewItem $mt="0" $mb="0" key={review.reviewId}>
               <p>
-                <p>
+                <span>
                   <StyledStar>{reviewStar(review.score)}</StyledStar>
                   <StyledBold>{review.userDetails.userName}</StyledBold>
-                </p>
+                </span>
                 <span>{review.reviewDate}</span>
               </p>
               <p>{review.content}</p>
