@@ -7,10 +7,16 @@ export const StyledGridContainer = styled.div`
 
   @media screen and (max-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
+    margin: 0 1rem;
   }
 
   @media screen and (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
+    margin: 0 1rem;
+  }
+  @media screen and (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
+    margin: 0 1rem;
   }
 `;
 

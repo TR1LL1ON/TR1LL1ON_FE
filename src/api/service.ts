@@ -75,7 +75,7 @@ export const postLogout = async () => {
   return res;
 };
 
-//getProducts 통합
+//getProducts 통합 - 기본 20개
 export const getProducts = async (
   options: {
     checkIn?: string;
@@ -84,18 +84,25 @@ export const getProducts = async (
     categoryCode?: string;
     RegionCode?: string;
     accommodationData?: AccommodationData;
+    pageSize?: number;
+    maxId?: string;
   } = {},
 ) => {
-  const params = { ...options };
+  const { pageSize, maxId, ...params } = options;
 
-  let endpoint = 'products';
+  let endpoint = '/products';
+
+  if (pageSize && maxId) {
+    endpoint += `?pageSize=${pageSize}&maxId=${maxId}`;
+  } else if (maxId) {
+    endpoint += `?maxId=${maxId}`;
+  }
 
   if (options.categoryCode || options.RegionCode) {
-    endpoint += '?';
+    endpoint += '&';
 
     if (options.categoryCode) {
       endpoint += `category=${options.categoryCode}`;
-      delete params.categoryCode;
     }
 
     if (options.RegionCode) {
@@ -103,11 +110,16 @@ export const getProducts = async (
         endpoint += '&';
       }
       endpoint += `region=${options.RegionCode}`;
-      delete params.RegionCode;
     }
   }
 
   const res = await client.get(endpoint, { params });
+  return res;
+};
+
+// 전체 숙소 조회
+export const getAllProducts = async () => {
+  const res = await client.get(`products/map`);
   return res;
 };
 
