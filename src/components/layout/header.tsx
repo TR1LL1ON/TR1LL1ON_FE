@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   StyledHeaderButton,
@@ -19,6 +19,9 @@ import AccountModal from '@/components/layout/modal/accountModal';
 import { StyledText, StyledTitle } from '@/style/payment/paymentStyle';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import RegionList from '../template/main/region';
+import { useRecoilState } from 'recoil';
+import { currPositionState } from '@/states/atom';
+import { getGeolocation } from '@/util/geolocation';
 import InformSignInModal from './modal/InformSignInModal';
 
 const Header = () => {
@@ -30,8 +33,41 @@ const Header = () => {
   const regionModalRef = useRef<HTMLDivElement>(null);
 
   const [showMapModal, setShowMapModal] = useState(false);
+
+  const [currPosition, setCurrPosition] = useRecoilState(currPositionState);
+
+  // 위치정보 받아오기 -
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchCurrentLocation = async () => {
+      try {
+        const position = await getGeolocation();
+
+        if (isMounted) {
+          setCurrPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error('위치 정보를 받아오지 못했습니다');
+        }
+      }
+    };
+
+    fetchCurrentLocation();
+    return () => {
+      isMounted = false;
+    };
+  }, [setCurrPosition]);
   const handleMapModal = () => {
-    setShowMapModal(true);
+    if (currPosition.lat === 0 && currPosition.lng === 0) {
+      alert('위치 기반 검색을 위해 브라우저에서 위치 정보를 허용해주세요.');
+    } else {
+      setShowMapModal(true);
+    }
   };
 
   useClickOutside(headerModalRef, () => {
@@ -57,7 +93,7 @@ const Header = () => {
       {showAccountModal && (
         <AccountModal setShowAccountModal={setShowAccountModal} />
       )}
-      <StyledTitle>
+      <StyledTitle style={{ fontWeight: '900' }}>
         <Link to="/">TR1LL1ON</Link>
       </StyledTitle>
       <StyledHeaderGroup>

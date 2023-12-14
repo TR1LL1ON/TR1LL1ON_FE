@@ -1,104 +1,131 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { StyledGridContainer } from '@/style/main/productCardStyle';
 import { ProductCard } from './ProductCard';
 import { getProducts } from '@/api/service';
 import { useLocation } from 'react-router-dom';
-import { getGeolocation } from '@/util/geolocation';
-import { useRecoilState } from 'recoil';
-import { currPositionState } from '@/states/atom';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import InfiniteScroll from 'react-infinite-scroller';
+
+interface Product {
+  accommodationId: number;
+  address: string;
+  imageUrl: string;
+  name: string;
+  score: number;
+  price: number;
+}
 
 const MainContainer = () => {
-  const [productCards, setProductCards] = useState<React.ReactNode[]>([]);
-  const [showNoResults, setShowNoResults] = useState(false); //
-
   const location = useLocation();
   const categoryRef = useRef<string | null>(null);
+  const queryParams = new URLSearchParams(location.search);
+  const newCategory = queryParams.get('category');
+  categoryRef.current = newCategory;
+  const areaCode = queryParams.get('areacode');
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const newCategory = queryParams.get('category');
-    categoryRef.current = newCategory;
-
-    const areacode = queryParams.get('areacode');
-
-    async function fetchProducts() {
-      try {
-        let res;
-        if (categoryRef.current || areacode) {
-          // 통합된 getProducts 함수 사용
-          res = await getProducts({
-            categoryCode: categoryRef.current || undefined,
-            RegionCode: areacode || undefined,
-          });
-        } else {
-          res = await getProducts();
-        }
-
-        const productsData = res.data;
-
-        if (productsData.length === 0) {
-          setShowNoResults(true);
-          setProductCards([]);
-        } else {
-          setShowNoResults(false);
-          const cards = productsData.map((product: any) => (
-            <ProductCard
-              key={product.accommodationId}
-              address={product.address}
-              accommodationID={product.accommodationId}
-              imgUrl={product.imageUrl}
-              name={product.name}
-              score={product.score}
-              price={product.price}
-            />
-          ));
-          setProductCards(cards);
-        }
-      } catch (error) {
-        console.error('조회 실패:', error);
-      }
-    }
-    fetchProducts();
-  }, [location.search]);
-
-  //위치정보 받아오기
-  const [_, setCurrPosition] = useRecoilState(currPositionState);
-
-  useEffect(() => {
-    const fetchCurrentLocation = async () => {
-      try {
-        const position = await getGeolocation();
-        setCurrPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      } catch (error) {
-        console.error('위치 정보를 받아오지 못했습니다');
-      }
+  const fetchProducts = async ({ pageParam = 0 }) => {
+    const options = {
+      categoryCode: categoryRef.current || undefined,
+      RegionCode: areaCode || undefined,
+      maxId: pageParam.toString(),
+      pageSize: 20,
     };
 
-    fetchCurrentLocation(); // 함수 호출
-  }, []);
+    try {
+      const res = await getProducts(options);
+      console.log(res.data);
+      return {
+        data: res.data,
+      };
+    } catch (error) {
+      throw new Error('Error fetching products');
+    }
+  };
+
+  const {
+    data: productsData,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: ['products', categoryRef.current, areaCode],
+    queryFn: fetchProducts,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      const lastData = lastPage.data[lastPage.data.length - 1];
+      return lastData ? lastData.accommodationId : null;
+    },
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
+
+  if (
+    !productsData ||
+    productsData.pages.every((page) => page.data.length === 0)
+  ) {
+    return (
+      <div
+        style={{
+          textAlign: 'center',
+          fontWeight: 'bold',
+          fontSize: '24px',
+          color: '#666',
+          paddingTop: '100px',
+          paddingBottom: '100px',
+        }}>
+        검색 결과가 없습니다.
+      </div>
+    );
+  }
 
   return (
-    <>
-      {showNoResults ? (
-        <div
-          style={{
-            width: '100%',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            fontSize: '32px',
-            color: '#bbb',
-            marginTop: '40px',
-          }}>
-          검색 결과가 없습니다.
+    <InfiniteScroll
+      pageStart={0}
+      loadMore={() => fetchNextPage()}
+      hasMore={hasNextPage}
+      loader={
+        <div className="loader" key={0}>
+          Loading ...
         </div>
-      ) : (
-        <StyledGridContainer>{productCards} </StyledGridContainer>
-      )}
-    </>
+      }>
+      <StyledGridContainer style={{ minHeight: '800px' }}>
+        {productsData &&
+          productsData.pages.map((page) =>
+            page.data.map((product: Product) => (
+              <ProductCard
+                key={product.accommodationId}
+                address={product.address}
+                accommodationID={product.accommodationId}
+                imgUrl={product.imageUrl}
+                name={product.name}
+                score={product.score}
+                price={product.price}
+              />
+            )),
+          )}
+        {!hasNextPage && (
+          <div
+            style={{
+              width: '100%',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: '24px',
+              color: '#666',
+              paddingTop: '100px',
+              paddingBottom: '100px',
+            }}>
+            검색 결과의 끝
+          </div>
+        )}
+      </StyledGridContainer>
+    </InfiniteScroll>
   );
 };
-
 export default MainContainer;

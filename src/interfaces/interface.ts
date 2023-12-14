@@ -23,6 +23,11 @@ export interface ModalProps {
   setShowInformSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+export interface OrderDetailsAccordionProps {
+  isOpen: boolean;
+  orderID: number;
+}
+
 export interface GuestCount {
   adults: number;
   children: number;
@@ -43,16 +48,27 @@ export interface OrderRequest {
   payment: 'CARD' | 'KAKAOPAY' | 'NAVERPAY' | 'CASH';
 }
 
-export interface ReviewData {
-  review: Review[];
-  order_id: number; // 주문 id
-  accomodation_id: number; // 숙소 id
-}
-
-export interface Review {
-  order_item_id: number;
+export interface ReviewDetail {
+  reviewId: string;
+  reviewDate: string;
   score: number;
   content: string;
+  orderItemId: number;
+  accommodationDetails: {
+    accommodationId: number;
+    accommodationName: string;
+  };
+  productDetails: {
+    productId: number;
+    productImage: string;
+    productName: string;
+  };
+}
+
+export interface ReviewMutationParams {
+  reviewId?: string;
+  content: string;
+  score: number;
 }
 
 // 객실 리뷰
@@ -170,11 +186,13 @@ export interface AddCart {
 }
 
 export interface Reservation {
-  accommodationImages: string[];
-  accommodationNames: string[];
-  productNames: string[];
-  orderId: number;
+  accommodation: {
+    accommodationImages: string[];
+    accommodationNames: string[];
+    productNames: string[];
+  };
   orderCreateDate: string;
+  orderId: number;
   payment: string;
   totalPrice: number;
 }

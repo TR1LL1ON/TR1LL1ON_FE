@@ -1,3 +1,5 @@
+import { ReviewDetail } from './../interfaces/interface';
+
 export const setCookie = (accessToken: string) => {
   try {
     document.cookie = `accessToken=${accessToken}; max-age=1800 ;path=/;secure`;
@@ -48,4 +50,18 @@ export const formatDateToMonthDay = (
   return `${month.toString().padStart(2, '0')}.${day
     .toString()
     .padStart(2, '0')}`;
+};
+
+export const findMyReview = (
+  data: ReviewDetail[],
+  orderItemId: number,
+): { content: string; score: number; reviewId: string } | null => {
+  const review = data.find((review) => review.orderItemId === orderItemId);
+  return review
+    ? {
+        content: review.content,
+        score: review.score,
+        reviewId: review.reviewId,
+      }
+    : null;
 };
