@@ -2,7 +2,6 @@ import axios from 'axios';
 import {
   OrderRequest,
   AccommodationData,
-  ReviewData,
   ProductReview,
   Cart,
 } from '../interfaces/interface';
@@ -194,9 +193,14 @@ export const postReviews = async (
 };
 
 // 리뷰수정
-export const putReviews = async (reviewID: string, ReviewData: ReviewData) => {
+export const putReviews = async (
+  reviewID: string,
+  content: string,
+  score: number,
+) => {
   const res = await client.put(`reviews/${reviewID}`, {
-    ReviewData,
+    content: content,
+    score: score,
   });
   return res;
 };

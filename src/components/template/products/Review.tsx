@@ -2,43 +2,32 @@ import {
   StyledWrap,
   StyledH2Text,
   StyledTextBox,
+  StyledBold,
 } from '@/style/products/productsStyle';
 import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { ProductReview } from '@/interfaces/interface';
 import { v4 as uuidv4 } from 'uuid';
-import { FaStar } from 'react-icons/fa';
 import useDisplayedReview from '@/hooks/useDisplayedReview';
+import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
 
 interface ReviewProps {
-  ProductReview: ProductReview[] | undefined;
+  productReview: ProductReview[] | undefined;
   name: string;
 }
 
-export const reviewStar = (score: number) => {
-  const totalStars = 5;
-  let stars = [];
-
-  for (let i = 1; i <= totalStars; i++) {
-    stars.push(
-      <FaStar key={i} style={{ color: i <= score ? '#ffc107' : '#e4e5e9' }} />,
-    );
-  }
-
-  return stars;
-};
-
-export const noReviewMessage =
-  '이 숙박 시설에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊';
-
-const Review = ({ ProductReview, name }: ReviewProps) => {
+const Review = ({ productReview, name }: ReviewProps) => {
   // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
-  const { displayedReview, showAllReview } = useDisplayedReview(ProductReview);
+  const { displayedReview, showAllReview } = useDisplayedReview(productReview);
+  //숙소 리뷰 평균 평점
+  const averageScore = calculateAverageScore(productReview);
+  const formattedAverageScore = averageScore.toFixed(1);
 
+  const noReviewMessage = ` ${name}에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊`;
   return (
     <StyledWrap>
       <StyledH2Text $mt="1rem" $mb="2rem">
-        '{name}' 방문 리뷰
+        '{name}' 방문 후기 ★{formattedAverageScore}
       </StyledH2Text>
       <StyleReviewContainer
         $justifyContent="flex-start"
@@ -53,7 +42,10 @@ const Review = ({ ProductReview, name }: ReviewProps) => {
           displayedReview.map((review) => (
             <StyleReviewItem $mt="0" $mb="0" key={uuidv4()}>
               <p>
-                <span>{reviewStar(review.score)}</span>
+                <p>
+                  <StyledStar>{reviewStar(review.score)}</StyledStar>
+                  <StyledBold>{review.userDetails.userName}</StyledBold>
+                </p>
                 <span>{review.reviewDate}</span>
               </p>
               <p>{review.content}</p>
@@ -62,9 +54,9 @@ const Review = ({ ProductReview, name }: ReviewProps) => {
         )}
       </StyleReviewContainer>
 
-      {ProductReview && ProductReview.length > 3 && (
+      {productReview && productReview.length > 3 && (
         <StyledReviewButton onClick={showAllReview}>
-          후기 전체보기
+          후기 {productReview.length}개 모두 보기
         </StyledReviewButton>
       )}
     </StyledWrap>
@@ -86,17 +78,17 @@ export const StyleReviewItem = styled(StyledTextBox)<{
   font-size: ${(props) => props.$fontSize || props.theme.fontSizes.md};
   font-weight: ${(props) =>
     props.$fontWeight || props.theme.fontWeights.regular};
-  margin-top: ${(props) => props.$mb || '1rem'};
+  margin-top: ${(props) => props.$mt || '1rem'};
   margin-bottom: ${(props) => props.$mb || '1rem'};
   border: 1px solid ${({ theme }) => theme.colors.gray};
   text-align: ${(props) => props.$textAlign};
 
   width: 100%;
   border-radius: 1rem;
-  & > p {
+  & p {
     display: flex;
     justify-content: space-between;
-    padding: 0 1rem;
+    align-items: center;
   }
 `;
 export const StyledReviewButton = styled.button`
@@ -111,4 +103,10 @@ export const StyledReviewButton = styled.button`
   &:hover {
     background-color: #eeeeee;
   }
+`;
+
+export const StyledStar = styled.span`
+  font-size: ${(props) => props.theme.fontSizes.lg};
+  margin-top: 0.4rem;
+  margin-right: 1rem;
 `;

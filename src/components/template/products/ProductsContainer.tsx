@@ -7,6 +7,7 @@ import Map from './Map';
 import { useQuery } from '@tanstack/react-query';
 import AllFacility from './AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
+import { useRef, useCallback } from 'react';
 
 
 interface ProductsContainerProps {
@@ -24,13 +25,20 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
-  const { data: ProductReview, isLoading: isLoadingReview } = useQuery<
+  const { data: productReview, isLoading: isLoadingReview } = useQuery<
     ProductReview[]
   >({
-    queryKey: ['ProductReview', accommodationID],
+    queryKey: ['productReview', accommodationID],
     queryFn: () => getProductsReview(accommodationID),
     enabled: !!accommodationID,
   });
+
+  //리뷰 스크롤 이벤트
+  const reviewRef = useRef<HTMLDivElement>(null);
+
+  const scrollToReview = useCallback(() => {
+    reviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -43,17 +51,19 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   return (
     <>
       <StyledImageContainer
-        backgroundImage={accommodationData.image[0].imageUrl}
+        backgroundImage={accommodationData?.image[0].imageUrl}
       />
       <AccommodationInfo
         infoData={accommodationData}
         productsFacility={accommodationData.facility}
+        productReview={productReview}
+        scrollToReview={scrollToReview}
       />
       {roomData.map((room) => (
         <RoomCard
           key={room.roomId}
           roomData={room}
-          ProductReview={ProductReview}
+          productReview={productReview}
           name={accommodationData.name}
           infoData={accommodationData}
         />
@@ -67,8 +77,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         lat={Number(accommodationData.latitude)}
         lng={Number(accommodationData.longitude)}
       />
-      {!isLoadingReview && ProductReview && (
-        <Review ProductReview={ProductReview} name={accommodationData.name} />
+      {!isLoadingReview && productReview && (
+        <div ref={reviewRef}>
+          <Review productReview={productReview} name={accommodationData.name} />
+        </div>
       )}
     </>
   );

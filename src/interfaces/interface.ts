@@ -13,10 +13,15 @@ export interface ModalProps {
   roomData?: Room;
   imageUrls?: string[];
   orderID?: number;
-  ProductReview?: ProductReview[] | undefined;
+  productReview?: ProductReview[] | undefined;
   name?: string;
   orderDetailData?: ReservationDetail;
   infoData?: AccommodationData;
+}
+
+export interface OrderDetailsAccordionProps {
+  isOpen: boolean;
+  orderID: number;
 }
 
 export interface GuestCount {
@@ -39,26 +44,47 @@ export interface OrderRequest {
   payment: 'CARD' | 'KAKAOPAY' | 'NAVERPAY' | 'CASH';
 }
 
-export interface ReviewData {
-  review: Review[];
-  order_id: number; // 주문 id
-  accomodation_id: number; // 숙소 id
-}
-
-export interface Review {
-  order_item_id: number;
+export interface ReviewDetail {
+  reviewId: string;
+  reviewDate: string;
   score: number;
   content: string;
+  orderItemId: number;
+  accommodationDetails: {
+    accommodationId: number;
+    accommodationName: string;
+  };
+  productDetails: {
+    productId: number;
+    productImage: string;
+    productName: string;
+  };
+}
+
+export interface ReviewMutationParams {
+  reviewId?: string;
+  content: string;
+  score: number;
 }
 
 // 객실 리뷰
 export interface ProductReview {
-  reviewId: number;
-  reviewDate: string;
-  score: number;
-  userId: number;
-  productId: number;
   content: string;
+  productDetails: productDetails;
+  reviewDate: string;
+  reviewId: number;
+  score: number;
+  userDetails: userDetails;
+}
+
+export interface productDetails {
+  productId: number;
+  productImage: string;
+  productName: string;
+}
+export interface userDetails {
+  userId: number;
+  userName: string;
 }
 
 export interface SignupRequestBody {
@@ -86,10 +112,10 @@ export interface RoomFacility {
   hasCable: boolean;
   hasHairDryer: boolean;
   hasInternet: boolean;
-  hasPC: boolean;
+  hasPc: boolean;
   hasRefrigerator: boolean;
   hasSofa: boolean;
-  hasTV: boolean;
+  hasTv: boolean;
   hasTable: boolean;
   hasToiletries: boolean;
 }
@@ -148,11 +174,13 @@ export interface Cart {
 }
 
 export interface Reservation {
-  accommodationImages: string[];
-  accommodationNames: string[];
-  productNames: string[];
-  orderId: number;
+  accommodation: {
+    accommodationImages: string[];
+    accommodationNames: string[];
+    productNames: string[];
+  };
   orderCreateDate: string;
+  orderId: number;
   payment: string;
   totalPrice: number;
 }

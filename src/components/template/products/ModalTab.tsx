@@ -32,7 +32,7 @@ const ModalTab = ({
           <StyledFilterTab
             onClick={() => handleTabClick('facility')}
             active={activeTab === 'facility'}>
-            편의시설
+            전체 편의시설
           </StyledFilterTab>
         </StyledTabContainer>
         {activeTab === 'notice' && <NoticeModal />}
