@@ -10,7 +10,11 @@ import {
   putReviews,
   deleteReviews,
 } from '@/api/service';
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import {
+  useSuspenseQuery,
+  useQueryClient,
+  useMutation,
+} from '@tanstack/react-query';
 import { AxiosResponse, AxiosError } from 'axios';
 import { findMyReview } from '@/util/util';
 
@@ -30,7 +34,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
   const [score, setScore] = useState(0);
   const [hover, setHover] = useState(0);
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ['accommodation'],
     queryFn: () => getReviews(),
     staleTime: 60000,
@@ -49,7 +53,6 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
       }
     }
   }, [data, orderDetailData]);
-  console.log(orderDetailData?.orderItemId);
 
   const reviewMutate = useMutation<
     AxiosResponse,
@@ -58,7 +61,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
   >({
     mutationFn: (reviewParams) => {
       // 리뷰 수정
-
+      console.log(reviewParams);
       if (reviewParams.reviewId) {
         return putReviews(
           reviewParams.reviewId,

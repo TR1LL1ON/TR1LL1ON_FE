@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { getUserDetail } from '@/api/service';
 import {
   StyledSubTitle,
@@ -20,7 +20,7 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   isOpen,
   orderID,
 }) => {
-  const { data: reservationData } = useQuery({
+  const { data: reservationData } = useSuspenseQuery({
     queryKey: ['ReservationDetailData', orderID],
     queryFn: () => getUserDetail(orderID as number),
     staleTime: 60000,
