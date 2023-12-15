@@ -22,12 +22,14 @@ import RegionList from '../template/main/region';
 import { useRecoilState } from 'recoil';
 import { currPositionState } from '@/states/atom';
 import { getGeolocation } from '@/util/geolocation';
+import InformSignInModal from './modal/InformSignInModal';
 
 const Header = () => {
   const headerModalRef = useRef<HTMLDivElement>(null);
   const [isHeaderModalOpen, setIsHeaderModalOpen] = useState(false);
-  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
   const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
+  const [showAccountModal, setShowAccountModal] = useState(false);
+  const [showInformSignInModal, setShowInformSignInModal] = useState(false);
   const regionModalRef = useRef<HTMLDivElement>(null);
 
   const [showMapModal, setShowMapModal] = useState(false);
@@ -82,8 +84,14 @@ const Header = () => {
 
   return (
     <StyledHeaderContainer aria-expanded={isRegionModalOpen}>
-      {isAccountModalOpen && (
-        <AccountModal setIsAccountModalOpen={setIsAccountModalOpen} />
+      {showInformSignInModal && (
+        <InformSignInModal
+          setShowAccountModal={setShowAccountModal}
+          setShowInformSignInModal={setShowInformSignInModal}
+        />
+      )}
+      {showAccountModal && (
+        <AccountModal setShowAccountModal={setShowAccountModal} />
       )}
       <StyledTitle style={{ fontWeight: '900' }}>
         <Link to="/">TR1LL1ON</Link>
@@ -117,7 +125,10 @@ const Header = () => {
           />
         </StyledHeaderModalButton>
         {isHeaderModalOpen && (
-          <HeaderModal setIsAccountModalOpen={setIsAccountModalOpen} />
+          <HeaderModal
+            setShowAccountModal={setShowAccountModal}
+            setShowInformSignInModal={setShowInformSignInModal}
+          />
         )}
       </StyledHeaderGroup>
     </StyledHeaderContainer>

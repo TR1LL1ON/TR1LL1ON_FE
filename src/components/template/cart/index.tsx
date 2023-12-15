@@ -15,7 +15,8 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { cartsDataState } from '@/states/atom';
-import useGetCarts from '@/hooks/useGetCarts';
+import { getCarts } from '@/api/service';
+import { useQuery } from '@tanstack/react-query';
 
 export interface IFormValue {
   name: string;
@@ -28,8 +29,11 @@ const CartContainer = () => {
   const navigate = useNavigate();
   const [cartsData, setCartsData] = useRecoilState(cartsDataState);
   const [checkedCartsData, setCheckedCartsData] = useState<Cart[]>([]);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const handleGetCarts = useGetCarts();
+
+  const cartsDataQuery = useQuery({
+    queryKey: ['CartsData'],
+    queryFn: () => getCarts(),
+  });
 
   const accommodationCosts = checkedCartsData.map((cart) => {
     const checkIn = new Date(cart.checkIn);
@@ -57,21 +61,15 @@ const CartContainer = () => {
   };
 
   const fetchData = async (): Promise<void> => {
-    try {
-      const res = await handleGetCarts();
+    const res = await cartsDataQuery.refetch();
 
-      setCartsData(res);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoaded(true);
-    }
+    const getCartsData = res.data ?? [];
+    setCartsData(getCartsData);
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
-
+  }, [cartsDataQuery.isLoading]);
   return (
     <StyledWrapper
       style={{
@@ -80,7 +78,7 @@ const CartContainer = () => {
           'Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif',
       }}>
       <StyledTitle $mt="1.5rem">장바구니</StyledTitle>
-      {isLoaded ? (
+      {!cartsDataQuery.isLoading ? (
         cartsData.length !== 0 ? (
           <>
             <CartListController
