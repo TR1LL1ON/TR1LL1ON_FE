@@ -1,20 +1,35 @@
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
-import { AccommodationData, ProductReview, Room } from '@/interfaces/interface';
+import { AccommodationData, Room } from '@/interfaces/interface';
 import Review from './Review';
 import { getAccommodation, getProductsReview } from '@/api/service';
 import Map from './Map';
 import { useQuery } from '@tanstack/react-query';
 import AllFacility from './AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
-import { useRef, useCallback } from 'react';
-
+import { useRef, useCallback, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 interface ProductsContainerProps {
   accommodationID: string;
 }
 
 const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
+  const [reviewCurrentPage, setReviewCurrentPage] = useState(0);
+  const handleReviewPageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    setReviewCurrentPage(newPage);
+  };
+  const location = useLocation();
+  const { formattedScore } = location.state || {};
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const pageSize = 4;
+
+  const fetchReviews = async (page: number, size: number) => {
+    return await getProductsReview(accommodationID, page, size);
+  };
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['accommodation', accommodationID],
 
@@ -25,11 +40,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
-  const { data: productReview, isLoading: isLoadingReview } = useQuery<
-    ProductReview[]
-  >({
-    queryKey: ['productReview', accommodationID],
-    queryFn: () => getProductsReview(accommodationID),
+  const { data: productReview, isLoading: isLoadingReview } = useQuery({
+    queryKey: ['productReview', accommodationID, currentPage],
+    queryFn: () => fetchReviews(currentPage, pageSize),
+    // keepPreviousData: true,
     enabled: !!accommodationID,
   });
 
@@ -47,7 +61,6 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   if (isError) {
     return <div>Error fetching data</div>;
   }
-
   return (
     <>
       <StyledImageContainer
@@ -56,14 +69,14 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
       <AccommodationInfo
         infoData={accommodationData}
         productsFacility={accommodationData.facility}
-        productReview={productReview}
+        productReview={productReview?.totalElements}
         scrollToReview={scrollToReview}
+        score={formattedScore}
       />
       {roomData.map((room) => (
         <RoomCard
           key={room.roomId}
           roomData={room}
-          productReview={productReview}
           name={accommodationData.name}
           infoData={accommodationData}
         />
@@ -79,7 +92,13 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
       />
       {!isLoadingReview && productReview && (
         <div ref={reviewRef}>
-          <Review productReview={productReview} name={accommodationData.name} />
+          <Review
+            productReview={productReview}
+            name={accommodationData.name}
+            currentPage={reviewCurrentPage}
+            onPageChange={handleReviewPageChange}
+            score={formattedScore}
+          />
         </div>
       )}
     </>

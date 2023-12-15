@@ -2,9 +2,9 @@ import axios from 'axios';
 import {
   OrderRequest,
   AccommodationData,
-  ProductReview,
   Cart,
   AddCart,
+  ProductReviewResponse,
 } from '../interfaces/interface';
 import { getCookie, removeCookie } from '@/util/util';
 
@@ -201,8 +201,26 @@ export const deleteReviews = async (reviewID: string) => {
 //숙소 리뷰 조회
 export const getProductsReview = async (
   accommodationID: string,
-): Promise<ProductReview[]> => {
-  const res = await client.get(`reviews/${accommodationID}`);
+  page: number,
+  size: number,
+): Promise<ProductReviewResponse> => {
+  const res = await client.get(
+    `reviews/${accommodationID}?page=${page}&size=${size}`,
+  );
+  return res.data;
+};
+
+//객실 리뷰 조회
+export const getRoomReview = async (
+  productId: number,
+  page: number,
+  size: number,
+) => {
+  console.log('Request parameters:', { productId, page, size });
+
+  const res = await client.get(
+    `/reviews/products/${productId}?page=${page}&size=${size}`,
+  );
   return res.data;
 };
 

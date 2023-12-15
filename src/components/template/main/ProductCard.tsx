@@ -27,9 +27,9 @@ export const ProductCard = ({
   score: number;
 }) => {
   const navigate = useNavigate();
-
+  const formattedScore = score.toFixed(1);
   const handleCardClick = () => {
-    navigate(`/products/${accommodationID}`);
+    navigate(`/products/${accommodationID}`, { state: { formattedScore } });
   };
 
   const words = address.split(' ');
@@ -44,7 +44,7 @@ export const ProductCard = ({
         <StyledLabel>{shortenedAddress}</StyledLabel>
         <StyledProductTitle>{name}</StyledProductTitle>
         <StyledProductPrice>
-          <StyledScore>★ {score}</StyledScore>
+          <StyledScore>★ {formattedScore}</StyledScore>
           <StyledSalePrice>{price.toLocaleString()}원</StyledSalePrice>
         </StyledProductPrice>
       </StyledCardTextWrap>
