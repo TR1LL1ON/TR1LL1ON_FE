@@ -17,7 +17,6 @@ import { postOrders } from '@/api/service';
 import { Order } from '@/interfaces/interface';
 import useFilteredReservation from '@/hooks/useFilteredReservation';
 import type { Cart } from '@/interfaces/interface';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -31,11 +30,11 @@ type SortedOrder = Pick<
 const PaymentContainer = () => {
   const [agreement, setAgreement] = useState(false);
   const [orderData, setOrderData] = useRecoilState(orderState);
-  const { filteredRooms, isLoading } = useFilteredReservation();
+  const { filteredRooms } = useFilteredReservation();
   const navigation = useNavigate();
 
   const orderList: SortedOrder[] =
-    filteredRooms?.map((room) => ({
+    filteredRooms.map((room) => ({
       productId: room.productId,
       personNumber: room.personNumber,
       checkIn: room.checkIn,
@@ -69,8 +68,6 @@ const PaymentContainer = () => {
     mutate();
   };
 
-  if (!filteredRooms || isLoading) return <LoadingSpinner />;
-
   return (
     <>
       <StyledTitle $mt="4rem" $px="5rem">
@@ -78,13 +75,13 @@ const PaymentContainer = () => {
       </StyledTitle>
       <StyledGridContainer $px="5rem">
         <StyledWrapper>
-          <PaymentReservations />
+          <PaymentReservations filteredRooms={filteredRooms} />
           <StyledHLine />
           <PaymentOptions />
           <StyledHLine />
           <PaymentTerms setAgreement={setAgreement} />
           <StyledSpacer />
-          <PaymentDetail />
+          <PaymentDetail filteredRooms={filteredRooms} />
           <StyledSpacer $height="1rem" />
           <StyledButton
             style={{ backgroundColor: !agreement ? '#ebebeb' : '' }}
@@ -96,7 +93,7 @@ const PaymentContainer = () => {
         </StyledWrapper>
 
         <StyledWrapper>
-          <PaymentRoomList reservationData={filteredRooms} />
+          <PaymentRoomList filteredRooms={filteredRooms} />
         </StyledWrapper>
       </StyledGridContainer>
     </>

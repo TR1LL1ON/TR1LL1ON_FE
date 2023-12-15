@@ -1,15 +1,14 @@
-import useFilteredReservation from '@/hooks/useFilteredReservation';
 import {
   StyledFlexContainer,
   StyledHLine,
   StyledSubTitle,
   StyledText,
 } from '@/style/payment/paymentStyle';
-import { calculateNights } from './PaymentReservations';
+import { Cart } from '@/interfaces/interface';
+import { calculateNights } from './utils';
 
-const PaymentDetail = () => {
-  const { filteredRooms } = useFilteredReservation();
-  const totalPrice = filteredRooms?.reduce(
+const PaymentDetail = ({ filteredRooms }: { filteredRooms: Cart[] }) => {
+  const totalPrice = filteredRooms.reduce(
     (acc, cur) => acc + cur.price * calculateNights(cur.checkIn, cur.checkOut),
     0,
   );
@@ -17,7 +16,7 @@ const PaymentDetail = () => {
   return (
     <>
       <StyledSubTitle>요금 세부정보</StyledSubTitle>
-      {filteredRooms?.map((room) => (
+      {filteredRooms.map((room) => (
         <StyledFlexContainer
           key={`${room.productId}-${room.accommodationCategory}`}>
           <StyledText>

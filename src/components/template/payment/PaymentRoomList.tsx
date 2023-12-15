@@ -5,12 +5,8 @@ import {
 import PaymentRoomItem from './PaymentRoomItem';
 import { Cart } from '@/interfaces/interface';
 
-interface Props {
-  reservationData: Cart[] | undefined;
-}
-
-const PaymentRoomList = ({ reservationData }: Props) => {
-  if (reservationData?.length === 0) {
+const PaymentRoomList = ({ filteredRooms }: { filteredRooms: Cart[] }) => {
+  if (filteredRooms?.length === 0) {
     return <div>예약 정보가 없습니다.</div>;
   }
 
@@ -21,7 +17,7 @@ const PaymentRoomList = ({ reservationData }: Props) => {
         $flexDirection="column"
         $alignItems="flex-start"
         $gap="1rem">
-        {reservationData?.map((reservation, index) => (
+        {filteredRooms?.map((reservation, index) => (
           <PaymentRoomItem
             key={`${index}-${reservation.accommodationName}`}
             productData={reservation}
