@@ -3,14 +3,20 @@ import ReservationCard from './reservationCard';
 import { getUser } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Suspense } from 'react';
 import { SkeletonCard } from './skeletonCard';
+import DelayedFallback from './delayedFallback';
+
+interface StyledReservationListProps {
+  isFadingOut: boolean;
+}
 
 const itemsPerPage = 3;
 
 const ReservationList = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
   const { data: reservationData = [] } = useQuery({
     queryKey: ['ReservationData'],
@@ -27,8 +33,16 @@ const ReservationList = () => {
     pageNumbers.push(i);
   }
 
+  const handlerPageChange = (pageNumber: number) => {
+    setIsFadingOut(true);
+    setTimeout(() => {
+      setCurrentPage(pageNumber);
+      setIsFadingOut(false);
+    }, 300);
+  };
+
   return (
-    <>
+    <StyledReservationList isFadingOut={isFadingOut}>
       <StyledSubTitle
         $mt="2rem"
         style={{ paddingInline: '5rem', fontSize: '1.2rem' }}>
@@ -47,8 +61,12 @@ const ReservationList = () => {
             key={order.orderId}
             style={{
               boxSizing: 'border-box',
+              minHeight: '200px',
             }}>
-            <Suspense fallback={<SkeletonCard />}>
+            <Suspense
+              fallback={
+                <DelayedFallback delay={200} fallback={<SkeletonCard />} />
+              }>
               <ReservationCard data={order} />
             </Suspense>
           </div>
@@ -59,13 +77,13 @@ const ReservationList = () => {
             <PageButton
               key={number}
               className={number === currentPage ? 'active' : ''}
-              onClick={() => setCurrentPage(number)}>
+              onClick={() => handlerPageChange(number)}>
               {number}
             </PageButton>
           ))}
         </PaginationContainer>
       </StyledWrapper>
-    </>
+    </StyledReservationList>
   );
 };
 
@@ -94,4 +112,22 @@ const PageButton = styled.button`
     background-color: #de2f5f;
     color: white;
   }
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const fadeOut = keyframes`
+  from { opacity: 1; }
+  to { opacity: 0; }
+`;
+
+const StyledReservationList = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['isFadingOut'].includes(prop),
+})<StyledReservationListProps>`
+  // 스타일 정의
+  animation: ${(props) => (props.isFadingOut ? fadeOut : fadeIn)} 300ms
+    ease-in-out;
 `;
