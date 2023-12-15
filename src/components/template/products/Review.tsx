@@ -7,13 +7,14 @@ import {
 import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { ProductReviewResponse } from '@/interfaces/interface';
-import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
+import { reviewStar } from '@/util/reviewUtilities';
 
 interface ReviewProps {
   productReview: ProductReviewResponse | undefined;
   name: string;
   onPageChange: (newPage: number) => void;
   currentPage: number;
+  score: number;
 }
 
 const Review = ({
@@ -21,6 +22,7 @@ const Review = ({
   name,
   onPageChange,
   currentPage,
+  score,
 }: ReviewProps) => {
   // 해당 숙소 리뷰 데이터
   const reviews = productReview?.content || [];
@@ -30,10 +32,6 @@ const Review = ({
   console.log(reviews);
   console.log(productReview);
 
-  // 평균 평점 계산
-  const averageScore = calculateAverageScore(reviews);
-  const formattedAverageScore = averageScore.toFixed(1);
-
   const handlePageChange = (pageNumber: number) => {
     onPageChange(pageNumber - 1);
   };
@@ -42,7 +40,7 @@ const Review = ({
   return (
     <StyledWrap>
       <StyledH2Text $mt="1rem" $mb="0rem">
-        '{name}' 의 방문 후기 ★ {formattedAverageScore}
+        '{name}' 의 방문 후기 ★ {score}
       </StyledH2Text>
       <StyledTextBox> 총 {productReview?.totalElements}개의 후기</StyledTextBox>
 

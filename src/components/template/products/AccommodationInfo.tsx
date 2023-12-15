@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import {
   AccommodationData,
   AccommodationFacility,
-  ProductReviewResponse,
 } from '@/interfaces/interface';
 import { GoHeart, GoShareAndroid } from 'react-icons/go';
 import { useRecoilValue, useRecoilState } from 'recoil';
@@ -29,19 +28,20 @@ import GuestModal from './GuestModal/guestModal';
 import { reservationState } from '@/states/atom';
 import ProductsFacilityList from './ProductsFacilityList';
 import { formatDate } from '@/util/util';
-import { calculateAverageScore } from '@/util/reviewUtilities';
 
 interface AccommodationProp {
   infoData: AccommodationData;
   productsFacility: AccommodationFacility;
-  productReview: ProductReviewResponse | undefined;
+  productReview: number | undefined;
   scrollToReview: () => void;
+  score: number;
 }
 const AccommodationInfo = ({
   infoData,
   productsFacility,
   productReview,
   scrollToReview,
+  score,
 }: AccommodationProp) => {
   const location = useLocation();
   const baseUrl = window.location.origin;
@@ -76,11 +76,6 @@ const AccommodationInfo = ({
     }));
   }, []);
   const [nights, setNights] = useState(1);
-
-  //리뷰 평점
-  const reviews = productReview?.content || [];
-  const averageScore = calculateAverageScore(reviews);
-  const formattedAverageScore = averageScore.toFixed(1);
   return (
     <StyledWrap>
       <StyledTextBox>
@@ -102,7 +97,7 @@ const AccommodationInfo = ({
           $color="#444"
           $borderBottom="none"
           onClick={scrollToReview}>
-          ★{formattedAverageScore} 후기 {productReview?.totalElements ?? 0}개
+          ★{score} 후기 {productReview ?? 0}개
         </StyledOnClick>
       </StyledTextBox>
       <StyledSpacer />

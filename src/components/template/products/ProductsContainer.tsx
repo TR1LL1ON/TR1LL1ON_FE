@@ -1,10 +1,6 @@
 import AccommodationInfo from './AccommodationInfo';
 import RoomCard from './RoomCard';
-import {
-  AccommodationData,
-  ProductReviewResponse,
-  Room,
-} from '@/interfaces/interface';
+import { AccommodationData, Room } from '@/interfaces/interface';
 import Review from './Review';
 import { getAccommodation, getProductsReview } from '@/api/service';
 import Map from './Map';
@@ -12,12 +8,16 @@ import { useQuery } from '@tanstack/react-query';
 import AllFacility from './AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
 import { useRef, useCallback, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 interface ProductsContainerProps {
   accommodationID: string;
 }
 
 const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
+  const location = useLocation();
+  const { formattedScore } = location.state || {};
+
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 4;
 
@@ -38,7 +38,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const { data: productReview, isLoading: isLoadingReview } = useQuery({
     queryKey: ['productReview', accommodationID, currentPage],
     queryFn: () => fetchReviews(currentPage, pageSize),
-    keepPreviousData: true,
+    // keepPreviousData: true,
     enabled: !!accommodationID,
   });
   // 리뷰 페이지 변경 함수
@@ -59,7 +59,6 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   if (isError) {
     return <div>Error fetching data</div>;
   }
-
   return (
     <>
       <StyledImageContainer
@@ -68,8 +67,9 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
       <AccommodationInfo
         infoData={accommodationData}
         productsFacility={accommodationData.facility}
-        productReview={productReview}
+        productReview={productReview?.totalElements}
         scrollToReview={scrollToReview}
+        score={formattedScore}
       />
       {roomData.map((room) => (
         <RoomCard
@@ -96,6 +96,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
             name={accommodationData.name}
             currentPage={currentPage}
             onPageChange={handlePageChange}
+            score={formattedScore}
           />
         </div>
       )}
