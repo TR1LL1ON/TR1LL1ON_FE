@@ -7,7 +7,6 @@ import {
 } from '@/style/payment/paymentStyle';
 import styled from 'styled-components';
 import { useState } from 'react';
-
 import { Reservation } from '@/interfaces/interface';
 import ReservationAccordion from './reservationAccordion';
 import { FaChevronDown } from 'react-icons/fa';
