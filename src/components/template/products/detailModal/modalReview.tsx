@@ -28,7 +28,15 @@ const ModalReview = ({ name, roomName, roomId }: ModalReviewProps) => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading reviews</div>;
 
-  const reviews = data || [];
+  // const reviews = data || [];
+  //날짜 최신순
+  const reviews = data
+    ? [...data].sort(
+        (a, b) =>
+          new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime(),
+      )
+    : [];
+
   const averageScore = calculateAverageScore(reviews);
   const formattedAverageScore = averageScore.toFixed(1);
 
