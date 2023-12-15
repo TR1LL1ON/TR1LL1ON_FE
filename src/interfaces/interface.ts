@@ -236,7 +236,7 @@ export interface ReservationDetail {
   personNumber: number;
   price: number;
   productId: number;
-  reviewWritten: boolean;
+  reviewStatus: 'WRITTEN' | 'NOT_WRITABLE' | 'DELETED';
 }
 
 export interface Position {

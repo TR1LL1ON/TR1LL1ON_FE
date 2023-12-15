@@ -4,6 +4,7 @@ import {
   AccommodationData,
   Cart,
   AddCart,
+  Reservation,
   ProductReviewResponse,
 } from '../interfaces/interface';
 import { getCookie, removeCookie } from '@/util/util';
@@ -243,14 +244,14 @@ export const deleteLikes = async (accommodationID: string) => {
 };
 
 // 전제 주문목록 조회(마이페이지)
-export const getUser = async () => {
-  const res = await client.get(`user`);
-  return res;
+export const getUser = async (): Promise<Reservation[]> => {
+  const res = await client.get<Reservation[]>(`users`);
+  return res.data;
 };
 
 // 전제 주문목록 상세조회(마이페이지)
 export const getUserDetail = async (orderID: number) => {
-  const res = await client.get(`user/details/${orderID}`);
+  const res = await client.get(`users/details/${orderID}`);
   return res;
 };
 export interface SummaryData {

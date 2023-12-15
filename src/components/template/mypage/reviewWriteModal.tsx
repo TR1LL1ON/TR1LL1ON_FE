@@ -10,7 +10,11 @@ import {
   putReviews,
   deleteReviews,
 } from '@/api/service';
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import {
+  useSuspenseQuery,
+  useQueryClient,
+  useMutation,
+} from '@tanstack/react-query';
 import { AxiosResponse, AxiosError } from 'axios';
 import { findMyReview } from '@/util/util';
 
@@ -30,15 +34,18 @@ const ReviewWriteModal = ({
   const [score, setScore] = useState(0);
   const [hover, setHover] = useState(0);
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ['accommodation'],
     queryFn: () => getReviews(),
-    enabled: !!orderDetailData?.reviewWritten,
+    staleTime: 60000,
   });
 
   useEffect(() => {
     if (data?.data && orderDetailData?.orderItemId) {
-      const myReview = findMyReview(data.data, orderDetailData.orderItemId);
+      const myReview = findMyReview(
+        data.data.content,
+        orderDetailData.orderItemId,
+      );
       if (myReview) {
         setReviewText(myReview.content);
         setScore(myReview.score);
@@ -68,9 +75,7 @@ const ReviewWriteModal = ({
           reviewParams.score,
           reviewParams.content,
         );
-      }
-      // 조건에 해당하지 않는 경우 오류 발생
-      else {
+      } else {
         throw new Error(
           'orderDetailData를 찾을 수 없거나, reviewId가 제공되지 않았습니다.',
         );
@@ -86,6 +91,9 @@ const ReviewWriteModal = ({
       );
       queryClient.invalidateQueries({
         queryKey: ['ReservationDetailData'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['accommodation'],
       });
       setShowModal(false);
     },
@@ -109,6 +117,7 @@ const ReviewWriteModal = ({
       queryClient.invalidateQueries({
         queryKey: ['ReservationDetailData'],
       });
+
       setShowModal(false);
     },
     onError: (error) => {
@@ -129,7 +138,11 @@ const ReviewWriteModal = ({
         $height="25rem">
         <StyledModalBody>
           <StyledTitle $mt="0">
-            {orderDetailData?.reviewWritten ? '리뷰수정' : '리뷰작성'}
+            {orderDetailData?.reviewStatus === 'WRITTEN'
+              ? '리뷰수정'
+              : orderDetailData?.reviewStatus === 'NOT_WRITABLE'
+                ? '리뷰작성'
+                : ''}
           </StyledTitle>
           <StyledFlexContainer $justifyContent="">
             <div>
@@ -174,7 +187,7 @@ const ReviewWriteModal = ({
                 {score}
               </span>
             </div>
-            {orderDetailData?.reviewWritten && (
+            {orderDetailData?.reviewStatus === 'WRITTEN' && (
               <StyledButton onClick={deleteReview}>리뷰삭제</StyledButton>
             )}
           </StyledFlexContainer>
@@ -208,7 +221,11 @@ const ReviewWriteModal = ({
                 })
               }
               style={{ width: '40%' }}>
-              {orderDetailData?.reviewWritten ? '수정하기' : '등록하기'}
+              {orderDetailData?.reviewStatus === 'WRITTEN'
+                ? '수정하기'
+                : orderDetailData?.reviewStatus === 'NOT_WRITABLE'
+                  ? '등록하기'
+                  : ''}
             </StyledButton>
           </StyledFlexContainer>
         </StyledModalBody>
