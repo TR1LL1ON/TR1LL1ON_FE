@@ -3,6 +3,7 @@ import {
   OrderRequest,
   AccommodationData,
   Cart,
+  AddCart,
   ProductReviewResponse,
 } from '../interfaces/interface';
 import { getCookie, removeCookie } from '@/util/util';
@@ -222,6 +223,7 @@ export const getRoomReview = async (
   );
   return res.data;
 };
+
 // 숙소 찜 조회
 export const getLikes = async () => {
   const res = await client.get(`likes`);
