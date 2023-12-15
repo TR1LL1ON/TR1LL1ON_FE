@@ -40,11 +40,11 @@ const WishCard = () => {
 
 export default WishCard;
 
-const StyledWishThumbnail = styled(StyledThumbnail)`
+export const StyledWishThumbnail = styled(StyledThumbnail)`
   position: relative;
 `;
 
-const StyledHeartIcon = styled.svg`
+export const StyledHeartIcon = styled.svg`
   fill: red;
   height: 24px;
   width: 24px;
@@ -54,4 +54,5 @@ const StyledHeartIcon = styled.svg`
   position: absolute;
   top: 8px;
   right: 8px;
+  filter: drop-shadow(1px 1px 2px rgb(0 0 0 / 0.4));
 `;
