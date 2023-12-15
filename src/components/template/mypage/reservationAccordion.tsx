@@ -22,7 +22,7 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
 }) => {
   const { data: reservationData } = useSuspenseQuery({
     queryKey: ['ReservationDetailData', orderID],
-    queryFn: () => getUserDetail(orderID as number),
+    queryFn: () => getUserDetail(orderID),
     staleTime: 60000,
   });
 

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Suspense } from 'react';
 import { SkeletonCard } from './skeletonCard';
 
-const itemsPerPage = 3; // 예를 들어, 페이지당 5개의 아이템
+const itemsPerPage = 3;
 
 const ReservationList = () => {
   const [currentPage, setCurrentPage] = useState(1);
