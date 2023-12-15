@@ -14,10 +14,10 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { AxiosResponse, AxiosError } from 'axios';
 import { findMyReview } from '@/util/util';
 
-const ReviewWriteModal: React.FC<ModalProps> = ({
+const ReviewWriteModal = ({
   setShowModal,
   orderDetailData,
-}) => {
+}: Pick<ModalProps, 'setShowModal' | 'orderDetailData'>) => {
   const queryClient = useQueryClient();
 
   const closeModal = (event: React.MouseEvent<HTMLElement>) => {

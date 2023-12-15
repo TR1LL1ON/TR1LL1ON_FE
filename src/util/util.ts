@@ -2,7 +2,7 @@ import { ReviewDetail } from './../interfaces/interface';
 
 export const setCookie = (accessToken: string) => {
   try {
-    document.cookie = `accessToken=${accessToken};max-age=3600;path=/;secure`;
+    document.cookie = `accessToken=${accessToken}; max-age=1800 ;path=/;secure`;
   } catch (err) {
     console.log(err);
     alert('쿠키 설정에 실패했습니다.');

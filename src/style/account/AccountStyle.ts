@@ -6,7 +6,7 @@ interface IIsSignUp {
 }
 
 interface IStyledInputProps {
-  error: FieldError | undefined;
+  $error: FieldError | undefined;
   $inputValue: string;
 }
 
@@ -187,7 +187,7 @@ export const StyledForm = styled.form`
 export const StyledInput = styled.div<IStyledInputProps>`
   width: 100%;
   margin: 8px 0;
-  color: ${({ error }) => (error ? 'red' : 'green')};
+  color: ${({ $error }) => ($error ? 'red' : 'green')};
 
   position: relative;
 
@@ -195,8 +195,8 @@ export const StyledInput = styled.div<IStyledInputProps>`
     width: 100%;
     padding: 12px 15px;
     border: 1px solid
-      ${({ $inputValue, error }) =>
-        $inputValue || error ? (error ? 'red' : 'green') : '#b0b0b0'};
+      ${({ $inputValue, $error }) =>
+        $inputValue || $error ? ($error ? 'red' : 'green') : '#b0b0b0'};
     border-radius: 10px;
     outline: none;
   }

@@ -1,4 +1,4 @@
-import { deleteCarts } from '@/api/service';
+import { deleteCart } from '@/api/service';
 import { Cart } from '@/interfaces/interface';
 import { cartsDataState } from '@/states/atom';
 import { StyledDeleteButton } from '@/style/cart/cartStyle';
@@ -8,6 +8,7 @@ import {
   StyledText,
 } from '@/style/payment/paymentStyle';
 import { useRecoilValue } from 'recoil';
+import { AxiosError } from 'axios';
 
 interface ICartListControllerProps {
   checkedCartsData: Cart[];
@@ -36,15 +37,17 @@ const CartListController = ({
   const handleCheckedCartDelete = async (): Promise<void> => {
     try {
       const deletePromise = checkedCartsData.map(async (cart) => {
-        await deleteCarts(cart.cartItemId);
+        await deleteCart(cart.cartItemId);
       });
 
       await Promise.all(deletePromise);
 
       fetchData();
       setCheckedCartsData([]);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.status === 404) {
+        alert('장바구니에 담겨 있지 않은 상품입니다.');
+      }
     }
   };
 

@@ -127,20 +127,6 @@ export const StyledHeaderModalList = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
-  a {
-    color: rgb(68, 68, 68);
-    width: 100%;
-    padding: 12px 14px;
-
-    display: flex;
-    align-items: center;
-    gap: 4px;
-
-    &:hover {
-      background-color: #ebebeb;
-    }
-  }
 `;
 
 export const StyledHeaderText = styled.span`
