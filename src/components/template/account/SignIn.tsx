@@ -34,7 +34,7 @@ const SignIn = ({ isSignUp, setShowAccountModal }: ISignInProps) => {
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       postLogin(email, password),
     onSuccess: async (data) => {
-      const getToken = data.data.accessToken;
+      const getToken = data.data.tokenInfo.accessToken;
       setCookie(getToken);
 
       const cartsData = await getCarts();
