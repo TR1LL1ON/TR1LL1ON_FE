@@ -19,10 +19,8 @@ const PaymentConfirm = () => {
   const location = useLocation();
   const cardData = useRecoilValue(cardState);
   const orderData: OrderRequest = location.state;
-  console.log(orderData);
 
   const paymentType = orderData.payment;
-  console.log(paymentType);
 
   // korean time
   const date = new Date();
