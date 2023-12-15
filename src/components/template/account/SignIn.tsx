@@ -4,22 +4,24 @@ import {
   StyledTitle,
   StyledButton,
 } from '@/style/payment/paymentStyle';
-
 import * as S from '@/style/account/AccountStyle';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import { IFormValue } from '../cart';
-import { postLogin } from '@/api/service';
+import { getCarts, postLogin } from '@/api/service';
 import { setCookie } from '@/util/util';
 import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
+import { useSetRecoilState } from 'recoil';
+import { cartsDataState } from '@/states/atom';
 
 interface ISignInProps {
   isSignUp: boolean;
-  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAccountModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
+const SignIn = ({ isSignUp, setShowAccountModal }: ISignInProps) => {
   const {
     register,
     handleSubmit,
@@ -27,34 +29,39 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
   } = useForm<Pick<IFormValue, 'email' | 'password'>>({ mode: 'onChange' });
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  const handleLogin = async () => {
-    try {
-      const res = await postLogin(email, password);
-      const getToken = res.data.accessToken;
+  const setCartsData = useSetRecoilState(cartsDataState);
+  const { mutate } = useMutation({
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      postLogin(email, password),
+    onSuccess: async (data) => {
+      const getToken = data.data.tokenInfo.accessToken;
       setCookie(getToken);
 
+      const cartsData = await getCarts();
+      setCartsData(cartsData);
+
       toast.success('Trillion 로그인');
-      setIsAccountModalOpen(false);
-    } catch (err: any) {
-      if (err.response.status === 401) {
+      setShowAccountModal(false);
+    },
+    onError: (error) => {
+      if (error.message.includes('401')) {
         toast.error('이메일 주소 또는 비밀번호가 틀립니다.');
         setEmail('');
         setPassword('');
       }
-    }
-  };
+    },
+  });
 
   return (
     <S.StyledSignInContainer $isSignUp={isSignUp}>
-      <S.StyledForm onSubmit={handleSubmit(handleLogin)}>
+      <S.StyledForm onSubmit={handleSubmit(() => mutate({ email, password }))}>
         <StyledTitle>로그인</StyledTitle>
         <StyledFlexContainer
           $flexDirection="column"
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
           <StyledInputLabel htmlFor="login_email">이메일</StyledInputLabel>
-          <S.StyledInput error={errors.email} $inputValue={email}>
+          <S.StyledInput $error={errors.email} $inputValue={email}>
             <input
               id="login_email"
               type="email"
@@ -93,7 +100,7 @@ const SignIn = ({ isSignUp, setIsAccountModalOpen }: ISignInProps) => {
           $alignItems="flex-start"
           style={{ width: '100%', marginBottom: '10px' }}>
           <StyledInputLabel htmlFor="login_password">비밀번호</StyledInputLabel>
-          <S.StyledInput error={errors.password} $inputValue={password}>
+          <S.StyledInput $error={errors.password} $inputValue={password}>
             <input
               id="login_password"
               type="password"

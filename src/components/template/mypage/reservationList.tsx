@@ -2,7 +2,7 @@ import { StyledSubTitle, StyledWrapper } from '@/style/payment/paymentStyle';
 import ReservationCard from './reservationCard';
 import { getUser } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Suspense } from 'react';
 import { SkeletonCard } from './skeletonCard';
@@ -26,27 +26,6 @@ const ReservationList = () => {
   for (let i = 1; i <= Math.ceil(reservationData.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
-
-  const [isPending, startTransition] = useTransition();
-  const [timeoutReached, setTimeoutReached] = useState<boolean>(false);
-
-  const handlePageChange = (newPage: number) => {
-    setTimeoutReached(false); // 타임아웃 상태 초기화
-    let timeoutId: NodeJS.Timeout;
-
-    startTransition(() => {
-      setCurrentPage(newPage);
-
-      // 3초 타이머 설정
-      timeoutId = setTimeout(() => {
-        setTimeoutReached(true); // 3초 후에 상태 변경
-      }, 3000);
-    });
-
-    return () => {
-      clearTimeout(timeoutId); // 컴포넌트 정리 시 타이머 제거
-    };
-  };
 
   return (
     <>
@@ -80,7 +59,7 @@ const ReservationList = () => {
             <PageButton
               key={number}
               className={number === currentPage ? 'active' : ''}
-              onClick={() => handlePageChange(number)}>
+              onClick={() => setCurrentPage(number)}>
               {number}
             </PageButton>
           ))}

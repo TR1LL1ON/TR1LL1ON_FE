@@ -16,20 +16,23 @@ import {
 import { StyledFlexContainer, StyledText } from '@/style/payment/paymentStyle';
 import CartBtn from '@/components/layout/Button/cartBtn';
 import DetailModal from './detailModal/detailModal';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { reservationState, guestCountState } from '@/states/atom';
+import { useNavigate } from 'react-router-dom';
 import {
-  reservationState,
-  guestCountState,
-  cartsDataState,
-} from '@/states/atom';
-import { Link } from 'react-router-dom';
-import { ProductReview, Room, AccommodationData } from '@/interfaces/interface';
-
+  ProductReview,
+  Room,
+  AccommodationData,
+  AddCart,
+} from '@/interfaces/interface';
 import Carousel from './detailModal/carousel';
-import useAddCart from '@/hooks/useAddCart';
 import CartModal from '@/components/layout/modal/CartModal';
-import useGetCarts from '@/hooks/useGetCarts';
 import { calculateCancellation } from '@/util/calculateCancellation';
+import { useMutation } from '@tanstack/react-query';
+import { postCart } from '@/api/service';
+import InformSignInModal from '@/components/layout/modal/InformSignInModal';
+import AccountModal from '@/components/layout/modal/accountModal';
+import { getCookie } from '@/util/util';
 
 interface RoomCardProps {
   roomData: Room;
@@ -43,31 +46,64 @@ const RoomCard: React.FC<RoomCardProps> = ({
   name,
   infoData,
 }) => {
+  const navigate = useNavigate();
+  const isSignIn = getCookie('accessToken');
   const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
-  const setCartsData = useSetRecoilState(cartsDataState);
-  const handleAddCart = useAddCart(
-    checkIn,
-    checkOut,
-    guestCount.totals,
-    roomData.averPrice,
-    roomData.roomId,
-  );
-
+  const [showInformSignInModal, setShowInformSignInModal] = useState(false);
+  const [showAccountModal, setShowAccountModal] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const handleGetCarts = useGetCarts();
 
   const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
   const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
+
+  const addCartMutation = useMutation({
+    mutationFn: (cart: AddCart) => postCart(cart),
+    onError: (error) => {
+      if (error.message.includes('404')) {
+        alert('유효하지 않은 상품입니다.');
+      }
+    },
+  });
+
+  const cart = {
+    checkIn,
+    checkOut,
+    personNumber: guestCount.totals,
+    price: roomData.averPrice,
+    productId: roomData.roomId,
+  };
+
+  const handleAddCart = () => {
+    addCartMutation.mutate(cart);
+  };
 
   const handleDetailModal = () => {
     setShowDetailModal(true);
   };
 
+  const handleSignInNavigation = (link: string): void => {
+    if (!isSignIn) {
+      setShowInformSignInModal(true);
+    } else {
+      handleAddCart();
+      navigate(link);
+    }
+  };
+
   return (
     <StyledWrap>
+      {showInformSignInModal && (
+        <InformSignInModal
+          setShowAccountModal={setShowAccountModal}
+          setShowInformSignInModal={setShowInformSignInModal}
+        />
+      )}
+      {showAccountModal && (
+        <AccountModal setShowAccountModal={setShowAccountModal} />
+      )}
       {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
       <StyledFlexRowGroup $gap="1rem">
         <StyledImgItem style={{ overflow: 'hidden' }}>
@@ -91,6 +127,10 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   imageUrls={imageUrls}
                   productReview={productReview}
                   name={name}
+                  handleAddCart={handleAddCart}
+                  handleSignInNavigation={handleSignInNavigation}
+                  setShowCartModal={setShowCartModal}
+                  setShowInformSignInModal={setShowInformSignInModal}
                 />
               )}
             </StyledFlexContainer>
@@ -119,25 +159,18 @@ const RoomCard: React.FC<RoomCardProps> = ({
               <CartBtn
                 handleAddCart={handleAddCart}
                 setShowCartModal={setShowCartModal}
+                setShowInformSignInModal={setShowInformSignInModal}
               />
-              <Link to={`/payment?productId=${roomData.roomId}`}>
-                <StyledReservationBtn
-                  onClick={() => {
-                    handleAddCart()
-                      .then(async () => {
-                        console.log('카드 담기 성공');
-                        const res = await handleGetCarts();
-                        setCartsData(res);
-                      })
-                      .catch((error) => {
-                        console.log(error, '카드 담기 에러');
-                      });
-                  }}
-                  $full={false}
-                  $variant="primary">
-                  예약하기
-                </StyledReservationBtn>
-              </Link>
+              <StyledReservationBtn
+                onClick={() =>
+                  handleSignInNavigation(
+                    `/payment?productId=${roomData.roomId}`,
+                  )
+                }
+                $full={false}
+                $variant="primary">
+                예약하기
+              </StyledReservationBtn>
             </StyledFlexContainer>
           </StyledFlexContainer>
         </StyledTextItem>

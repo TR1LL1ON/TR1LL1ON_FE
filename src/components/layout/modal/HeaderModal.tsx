@@ -5,44 +5,71 @@ import {
   StyledHeaderText,
 } from '../../../style/header/headerStyle';
 import { StyledHLine } from '../../../style/payment/paymentStyle';
-import { Link, useNavigate } from 'react-router-dom';
-import { postLogout } from '@/api/service';
-import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { getCarts, postLogout } from '@/api/service';
+import { useRecoilState } from 'recoil';
 import { cartsDataState } from '@/states/atom';
 import { LuShoppingCart, LuLogIn, LuLogOut, LuUser } from 'react-icons/lu';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 interface IHeaderModalProps {
-  setIsAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAccountModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowInformSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
+const HeaderModal = ({
+  setShowAccountModal,
+  setShowInformSignInModal,
+}: IHeaderModalProps) => {
   const navigate = useNavigate();
-  const cartsData = useRecoilValue(cartsDataState);
+  const [cartsData, setCartsData] = useRecoilState(cartsDataState);
   const cartsCount = cartsData.length;
   const isSignIn = getCookie('accessToken');
-
-  const handleAccountModal = (): void => {
-    setIsAccountModalOpen(true);
-  };
-
-  const handleSignOut = async (): Promise<void> => {
-    try {
-      await postLogout();
+  const { data, isFetching } = useQuery({
+    queryKey: ['CartsData'],
+    queryFn: () => {
+      if (isSignIn) return getCarts();
+      else return null;
+    },
+  });
+  const { mutate } = useMutation({
+    mutationFn: () => postLogout(),
+    onSuccess: () => {
       removeCookie();
+      setCartsData([]);
       toast.success('Trillion 로그아웃');
       navigate('/');
-    } catch (err) {
-      console.log(err);
+    },
+  });
+  const formatData = data ?? [];
+
+  const handleAccountModal = (): void => {
+    setShowAccountModal(true);
+  };
+
+  const handleSignInNavigation = (link: string): void => {
+    if (!isSignIn) {
+      setShowInformSignInModal(true);
+    } else {
+      navigate(link);
     }
   };
+
+  useEffect(() => {
+    if (!isSignIn) setCartsData([]);
+    else {
+      setCartsData(formatData);
+    }
+  }, [isFetching]);
 
   return (
     <StyledHeaderModal>
       <StyledHeaderModalList>
         <StyledHeaderText
-          onClick={!isSignIn ? handleAccountModal : handleSignOut}>
+          onClick={!isSignIn ? handleAccountModal : () => mutate()}>
           <StyledIconDiv>
             {!isSignIn ? <LuLogIn /> : <LuLogOut />}
           </StyledIconDiv>
@@ -51,7 +78,7 @@ const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
       </StyledHeaderModalList>
       <StyledHLine $mBlock="0" />
       <StyledHeaderModalList>
-        <Link to="/cart">
+        <StyledHeaderText onClick={() => handleSignInNavigation('/cart')}>
           <StyledIconDiv>
             <LuShoppingCart />
           </StyledIconDiv>
@@ -59,16 +86,16 @@ const HeaderModal = ({ setIsAccountModalOpen }: IHeaderModalProps) => {
             장바구니
             <StyledCartsCount>{cartsCount}</StyledCartsCount>
           </span>
-        </Link>
+        </StyledHeaderText>
       </StyledHeaderModalList>
       <StyledHLine $mBlock="0" />
       <StyledHeaderModalList>
-        <Link to="/mypage">
+        <StyledHeaderText onClick={() => handleSignInNavigation('/mypage')}>
           <StyledIconDiv>
             <LuUser />
           </StyledIconDiv>
           마이페이지
-        </Link>
+        </StyledHeaderText>
       </StyledHeaderModalList>
     </StyledHeaderModal>
   );
