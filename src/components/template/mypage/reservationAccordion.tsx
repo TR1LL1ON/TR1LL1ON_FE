@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { getUserDetail } from '@/api/service';
 import {
   StyledSubTitle,
@@ -20,14 +20,9 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   isOpen,
   orderID,
 }) => {
-  const {
-    data: reservationData,
-    isLoading: isReservationLoading,
-    isError: isReservationError,
-  } = useQuery({
+  const { data: reservationData } = useSuspenseQuery({
     queryKey: ['ReservationDetailData', orderID],
     queryFn: () => getUserDetail(orderID as number),
-    enabled: orderID !== undefined,
     staleTime: 60000,
   });
 
@@ -40,14 +35,6 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   const handleReviewWriteModal = (index: number) => {
     setSelectedItemIndex(index);
   };
-
-  if (isReservationLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isReservationError) {
-    return <div>상세내역 불러오기 실패</div>;
-  }
 
   return (
     <AccordionContainer>

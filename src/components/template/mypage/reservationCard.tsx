@@ -23,11 +23,6 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
     setIsOpen(!isOpen);
   };
 
-  if (!data) {
-    // 스켈레톤 추가
-    return <div>No data available</div>;
-  }
-
   return (
     <div style={{ padding: '0' }}>
       <StyledReservationContainer
@@ -50,7 +45,9 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
           style={{ width: '100%', height: '100%' }}
           $flexDirection="column"
           $alignItems="flex-start">
-          <StyledTitle $mb="0">{`${data?.accommodation.accommodationNames[0]} 등 ${data?.accommodation.accommodationNames.length}개 숙소 `}</StyledTitle>
+          <StyledTitle
+            $mb="0"
+            $mt="0">{`${data?.accommodation.accommodationNames[0]} 등 ${data?.accommodation.accommodationNames.length}개 숙소 `}</StyledTitle>
 
           <StyledSubTitle $mb="0.5rem">{`총 ${data?.accommodation.productNames.length}건의 객실예약`}</StyledSubTitle>
 

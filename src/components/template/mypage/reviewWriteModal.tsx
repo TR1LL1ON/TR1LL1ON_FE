@@ -10,7 +10,11 @@ import {
   putReviews,
   deleteReviews,
 } from '@/api/service';
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import {
+  useSuspenseQuery,
+  useQueryClient,
+  useMutation,
+} from '@tanstack/react-query';
 import { AxiosResponse, AxiosError } from 'axios';
 import { findMyReview } from '@/util/util';
 
@@ -30,10 +34,9 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
   const [score, setScore] = useState(0);
   const [hover, setHover] = useState(0);
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ['accommodation'],
     queryFn: () => getReviews(),
-    enabled: !!orderDetailData?.reviewWritten,
     staleTime: 60000,
   });
 
