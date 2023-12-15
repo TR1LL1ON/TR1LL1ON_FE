@@ -19,12 +19,8 @@ import DetailModal from './detailModal/detailModal';
 import { useRecoilValue } from 'recoil';
 import { reservationState, guestCountState } from '@/states/atom';
 import { useNavigate } from 'react-router-dom';
-import {
-  ProductReview,
-  Room,
-  AccommodationData,
-  AddCart,
-} from '@/interfaces/interface';
+import { Room, AccommodationData, AddCart } from '@/interfaces/interface';
+
 import Carousel from './detailModal/carousel';
 import CartModal from '@/components/layout/modal/CartModal';
 import { calculateCancellation } from '@/util/calculateCancellation';
@@ -36,16 +32,10 @@ import { getCookie } from '@/util/util';
 
 interface RoomCardProps {
   roomData: Room;
-  productReview: ProductReview[] | undefined;
   name: string;
   infoData: AccommodationData;
 }
-const RoomCard: React.FC<RoomCardProps> = ({
-  roomData,
-  productReview,
-  name,
-  infoData,
-}) => {
+const RoomCard: React.FC<RoomCardProps> = ({ roomData, name, infoData }) => {
   const navigate = useNavigate();
   const isSignIn = getCookie('accessToken');
   const imageUrls = roomData.image.map((item) => item.imageUrl);
@@ -125,7 +115,6 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   roomData={roomData}
                   infoData={infoData}
                   imageUrls={imageUrls}
-                  productReview={productReview}
                   name={name}
                   handleAddCart={handleAddCart}
                   handleSignInNavigation={handleSignInNavigation}

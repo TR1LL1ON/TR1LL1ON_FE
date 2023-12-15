@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import 'react-dates/initialize';
 import { DateRangePicker, FocusedInputShape } from 'react-dates';
@@ -6,7 +6,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import { Moment } from 'moment';
 import 'moment/locale/ko';
 import { StyledButton } from '@/style/common/commonStyle';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { reservationState } from '@/states/atom';
 
 export interface DateRange {
@@ -21,7 +21,7 @@ interface DatePickerProps {
 const DatePicker: React.FC<DatePickerProps> = ({ setNights, onCloseModal }) => {
   const [startDate, setStartDate] = useState<Moment | null>(null);
   const [endDate, setEndDate] = useState<Moment | null>(null);
-  const [, setReservation] = useRecoilState(reservationState);
+  const setReservation = useSetRecoilState(reservationState);
 
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
     null,
@@ -83,7 +83,6 @@ const DatePicker: React.FC<DatePickerProps> = ({ setNights, onCloseModal }) => {
         hideKeyboardShortcutsPanel
         keepOpenOnDateSelect
         noBorder
-        onClose={() => {}}
       />
       <SmStyledButton $variant="primary" onClick={handleSave}>
         저장
