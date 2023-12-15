@@ -13,7 +13,6 @@ export interface ModalProps {
   roomData?: Room;
   imageUrls?: string[];
   orderID?: number;
-  productReview?: ProductReviewResponse | undefined;
   name?: string;
   orderDetailData?: ReservationDetail;
   infoData?: AccommodationData;

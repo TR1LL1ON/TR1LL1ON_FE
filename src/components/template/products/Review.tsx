@@ -29,8 +29,6 @@ const Review = ({
   const totalElements = productReview?.totalElements || 0;
   const totalPages = productReview?.totalPages || 0;
   const noReviewMessage = ` ${name}에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊`;
-  console.log(reviews);
-  console.log(productReview);
 
   const handlePageChange = (pageNumber: number) => {
     onPageChange(pageNumber - 1);
@@ -74,7 +72,7 @@ const Review = ({
             className={currentPage === number - 1 ? 'active' : ''}
             key={number}
             onClick={() => handlePageChange(number)}
-            style={{ margin: '0 5px' }}>
+            style={{ margin: '10px 5px' }}>
             {number}
           </StyledPageBtn>
         ))}
@@ -112,16 +110,15 @@ export const StyleReviewItem = styled(StyledTextBox)<{
 `;
 
 export const StyledStar = styled.span`
-  font-size: ${(props) => props.theme.fontSizes.md};
-  margin-top: 0.4rem;
+  font-size: ${(props) => props.theme.fontSizes.sm};
   margin-left: 1rem;
 `;
-const StyledPagination = styled.div`
+export const StyledPagination = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const StyledPageBtn = styled.button`
+export const StyledPageBtn = styled.button`
   font-size: ${(props) => props.theme.fontSizes.sm};
   border: none;
   background-color: #f0f0f0;

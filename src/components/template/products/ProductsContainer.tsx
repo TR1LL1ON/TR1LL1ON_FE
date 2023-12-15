@@ -15,6 +15,11 @@ interface ProductsContainerProps {
 }
 
 const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
+  const [reviewCurrentPage, setReviewCurrentPage] = useState(0);
+  const handleReviewPageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    setReviewCurrentPage(newPage);
+  };
   const location = useLocation();
   const { formattedScore } = location.state || {};
 
@@ -41,10 +46,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     // keepPreviousData: true,
     enabled: !!accommodationID,
   });
-  // 리뷰 페이지 변경 함수
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+
   //리뷰 스크롤 이벤트
   const reviewRef = useRef<HTMLDivElement>(null);
 
@@ -75,7 +77,6 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         <RoomCard
           key={room.roomId}
           roomData={room}
-          productReview={productReview}
           name={accommodationData.name}
           infoData={accommodationData}
         />
@@ -94,8 +95,8 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
           <Review
             productReview={productReview}
             name={accommodationData.name}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
+            currentPage={reviewCurrentPage}
+            onPageChange={handleReviewPageChange}
             score={formattedScore}
           />
         </div>

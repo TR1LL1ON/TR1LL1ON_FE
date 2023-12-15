@@ -40,7 +40,6 @@ const DetailModal: React.FC<ModalProps> = ({
   infoData,
   roomData,
   imageUrls,
-  productReview,
   name,
 }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
@@ -176,8 +175,7 @@ const DetailModal: React.FC<ModalProps> = ({
             </StyledFlexContainer>
           </StyledModalFlexContainer>
           <ModalReview
-            productReview={productReview}
-            name={name}
+            name={name ?? '숙소'}
             roomName={roomData.roomName}
             roomId={roomData.roomId}
           />
@@ -356,7 +354,7 @@ export const StyledModalContent = styled.div<{
   width: ${(props) => props.$width || 'auto'};
   height: ${(props) => props.$heigh || 'auto'};
   max-height: 80vh;
-  overflow-y: auto;
+  // overflow-y: auto;
 `;
 
 const CarouselWrapper = styled.div`

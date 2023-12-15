@@ -223,6 +223,19 @@ export const getProductsReview = async (
   return res.data;
 };
 
+//객실 리뷰 조회
+export const getRoomReview = async (
+  productId: number,
+  page: number,
+  size: number,
+) => {
+  console.log('Request parameters:', { productId, page, size });
+
+  const res = await client.get(
+    `/reviews/products/${productId}?page=${page}&size=${size}`,
+  );
+  return res.data;
+};
 // 숙소 찜 조회
 export const getLikes = async () => {
   const res = await client.get(`likes`);

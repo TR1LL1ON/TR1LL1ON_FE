@@ -1,49 +1,54 @@
-import { ProductReviewResponse } from '@/interfaces/interface';
-import { StyledSubTitle } from '@/style/payment/paymentStyle';
-import { StyleReviewContainer, StyleReviewItem, StyledStar } from '../Review';
+import { StyledSubTitle, StyledText } from '@/style/payment/paymentStyle';
+import {
+  StyleReviewContainer,
+  StyleReviewItem,
+  StyledPageBtn,
+  StyledPagination,
+  StyledStar,
+} from '../Review';
 import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
 import { StyledBold } from '@/style/products/productsStyle';
+import { useState } from 'react';
+import useRoomReviews from '@/hooks/useRoomReviews';
 
 interface ModalReviewProps {
-  productReview: ProductReviewResponse | undefined;
-  name: string | undefined;
+  name: string;
   roomName: string;
   roomId: number;
 }
 
-const ModalReview = ({
-  productReview,
-  name,
-  roomName,
-  roomId,
-}: ModalReviewProps) => {
-  // 객실 리뷰만 필터링
-  const filteredReview =
-    productReview?.content.filter(
-      (review) => review.productDetails.productId === roomId,
-    ) || [];
+const ModalReview = ({ name, roomName, roomId }: ModalReviewProps) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const pageSize = 4;
+  const { data, isLoading, isError } = useRoomReviews(
+    roomId,
+    currentPage,
+    pageSize,
+  );
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading reviews</div>;
 
-  // 객실 리뷰 평균 평점
-  const averageScore = calculateAverageScore(filteredReview);
+  const reviews = data || [];
+  const averageScore = calculateAverageScore(reviews);
   const formattedAverageScore = averageScore.toFixed(1);
 
   return (
     <>
-      <StyledSubTitle $mt="3rem">
+      <StyledSubTitle $mt="2rem" $mb=".5rem">
         {name} {roomName} 후기 ★ {formattedAverageScore}
       </StyledSubTitle>
-      객실 후기 {filteredReview.length}개
+      <StyledText>&nbsp; 총 {reviews.length}개의 후기</StyledText>
       <StyleReviewContainer
         $justifyContent="flex-stat"
         $alignItems="center"
         $flexDirection="column">
-        {filteredReview.length > 0 ? (
-          filteredReview.map((review) => (
-            <StyleReviewItem key={review.reviewId}>
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <StyleReviewItem $mb="0" key={review.reviewId}>
               <p>
                 <span>
-                  <StyledStar> {reviewStar(review.score)}</StyledStar>
                   <StyledBold> {review.userDetails.userName}</StyledBold>
+                  <StyledStar> {reviewStar(review.score)}</StyledStar>
                 </span>
                 <span>{review.reviewDate}</span>
               </p>
@@ -56,6 +61,21 @@ const ModalReview = ({
             방문 후 리뷰를 남겨주세요 😊
           </StyleReviewItem>
         )}
+
+        <StyledPagination>
+          {Array.from(
+            { length: Math.ceil(reviews.length / pageSize) },
+            (_, i) => (
+              <StyledPageBtn
+                className={currentPage === i ? 'active' : ''}
+                key={i}
+                onClick={() => setCurrentPage(i)}
+                style={{ margin: '10px 5px' }}>
+                {i + 1}
+              </StyledPageBtn>
+            ),
+          )}
+        </StyledPagination>
       </StyleReviewContainer>
     </>
   );

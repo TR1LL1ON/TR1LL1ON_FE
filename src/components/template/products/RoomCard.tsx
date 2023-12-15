@@ -23,11 +23,7 @@ import {
   cartsDataState,
 } from '@/states/atom';
 import { Link } from 'react-router-dom';
-import {
-  Room,
-  AccommodationData,
-  ProductReviewResponse,
-} from '@/interfaces/interface';
+import { Room, AccommodationData } from '@/interfaces/interface';
 
 import Carousel from './detailModal/carousel';
 import useAddCart from '@/hooks/useAddCart';
@@ -37,16 +33,10 @@ import { calculateCancellation } from '@/util/calculateCancellation';
 
 interface RoomCardProps {
   roomData: Room;
-  productReview: ProductReviewResponse | undefined;
   name: string;
   infoData: AccommodationData;
 }
-const RoomCard: React.FC<RoomCardProps> = ({
-  roomData,
-  productReview,
-  name,
-  infoData,
-}) => {
+const RoomCard: React.FC<RoomCardProps> = ({ roomData, name, infoData }) => {
   const imageUrls = roomData.image.map((item) => item.imageUrl);
   const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
@@ -93,7 +83,6 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   roomData={roomData}
                   infoData={infoData}
                   imageUrls={imageUrls}
-                  productReview={productReview}
                   name={name}
                 />
               )}
