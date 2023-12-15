@@ -61,7 +61,6 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
   >({
     mutationFn: (reviewParams) => {
       // 리뷰 수정
-      console.log(reviewParams);
       if (reviewParams.reviewId) {
         return putReviews(
           reviewParams.reviewId,
@@ -76,9 +75,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
           reviewParams.score,
           reviewParams.content,
         );
-      }
-      // 조건에 해당하지 않는 경우 오류 발생
-      else {
+      } else {
         throw new Error(
           'orderDetailData를 찾을 수 없거나, reviewId가 제공되지 않았습니다.',
         );
@@ -94,6 +91,9 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
       );
       queryClient.invalidateQueries({
         queryKey: ['ReservationDetailData'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['accommodation'],
       });
       setShowModal(false);
     },
@@ -117,6 +117,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
       queryClient.invalidateQueries({
         queryKey: ['ReservationDetailData'],
       });
+
       setShowModal(false);
     },
     onError: (error) => {
@@ -137,7 +138,11 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
         $height="25rem">
         <StyledModalBody>
           <StyledTitle $mt="0">
-            {orderDetailData?.reviewWritten ? '리뷰수정' : '리뷰작성'}
+            {orderDetailData?.reviewStatus === 'WRITTEN'
+              ? '리뷰수정'
+              : orderDetailData?.reviewStatus === 'NOT_WRITABLE'
+                ? '리뷰작성'
+                : ''}
           </StyledTitle>
           <StyledFlexContainer $justifyContent="">
             <div>
@@ -182,7 +187,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
                 {score}
               </span>
             </div>
-            {orderDetailData?.reviewWritten && (
+            {orderDetailData?.reviewStatus === 'WRITTEN' && (
               <StyledButton onClick={deleteReview}>리뷰삭제</StyledButton>
             )}
           </StyledFlexContainer>
@@ -216,7 +221,11 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
                 })
               }
               style={{ width: '40%' }}>
-              {orderDetailData?.reviewWritten ? '수정하기' : '등록하기'}
+              {orderDetailData?.reviewStatus === 'WRITTEN'
+                ? '수정하기'
+                : orderDetailData?.reviewStatus === 'NOT_WRITABLE'
+                  ? '등록하기'
+                  : ''}
             </StyledButton>
           </StyledFlexContainer>
         </StyledModalBody>

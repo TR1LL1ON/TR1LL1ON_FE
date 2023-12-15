@@ -75,9 +75,18 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
                   <StyledButton
                     onClick={() => handleReviewWriteModal(index)}
                     style={{
-                      color: item.reviewWritten ? '#1948c4' : '#de2f5f',
+                      color:
+                        item.reviewStatus === 'WRITTEN'
+                          ? '#1948c4'
+                          : item.reviewStatus === 'NOT_WRITABLE'
+                            ? '#de2f5f'
+                            : '#222',
                     }}>
-                    {item.reviewWritten ? '리뷰수정' : '리뷰작성'}
+                    {item.reviewStatus === 'WRITTEN'
+                      ? '리뷰수정'
+                      : item.reviewStatus === 'NOT_WRITABLE'
+                        ? '리뷰작성'
+                        : ''}
                   </StyledButton>
                 </StyledFlexContainer>
                 <StyledText $fontSize="0.75rem">
