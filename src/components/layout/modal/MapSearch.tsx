@@ -5,6 +5,7 @@ import { MapProps } from '@/components/template/products/Map';
 import { getAllProducts } from '@/api/service';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import LoadingSpinner from '@/components/LoadingSpinner';
 // import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface Product {
@@ -41,10 +42,10 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
 
   const {
     data: productsData,
-    // isLoading,
-    // error,
+    isLoading,
+    isError,
   } = useQuery<Product[]>({
-    queryKey: ['data'],
+    queryKey: ['product'],
     queryFn: async () => {
       const response = await getAllProducts();
       return response.data;
@@ -69,7 +70,10 @@ const MapSearch: React.FC<MapProps & { closeMapModal: () => void }> = ({
     setMap(null);
   }, []);
 
-  // if (!productsData || isLoading) return <LoadingSpinner />;
+  if (!productsData || isLoading) return <LoadingSpinner />;
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
 
   return (
     <div style={{ marginBottom: '2.5rem' }}>

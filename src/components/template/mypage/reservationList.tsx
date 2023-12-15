@@ -1,37 +1,30 @@
 import { StyledSubTitle, StyledWrapper } from '@/style/payment/paymentStyle';
 import ReservationCard from './reservationCard';
-import { Reservation } from '@/interfaces/interface';
 import { getUser } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
-const itemsPerPage = 3; // 예를 들어, 페이지당 5개의 아이템
+import { Suspense } from 'react';
+import { SkeletonCard } from './skeletonCard';
+
+const itemsPerPage = 3;
 
 const ReservationList = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data: reservationData = [] } = useQuery({
     queryKey: ['ReservationData'],
     queryFn: () => getUser(),
+    staleTime: 60000,
   });
-
-  const ReservationData: Reservation[] = data?.data || [];
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = ReservationData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = reservationData.slice(indexOfFirstItem, indexOfLastItem);
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(ReservationData.length / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(reservationData.length / itemsPerPage); i++) {
     pageNumbers.push(i);
-  }
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching data</div>;
   }
 
   return (
@@ -54,11 +47,13 @@ const ReservationList = () => {
             key={order.orderId}
             style={{
               boxSizing: 'border-box',
-              padding: '1rem',
             }}>
-            <ReservationCard data={order} />
+            <Suspense fallback={<SkeletonCard />}>
+              <ReservationCard data={order} />
+            </Suspense>
           </div>
         ))}
+
         <PaginationContainer>
           {pageNumbers.map((number) => (
             <PageButton

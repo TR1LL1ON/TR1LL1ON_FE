@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { getUserDetail } from '@/api/service';
 import {
   StyledSubTitle,
@@ -20,14 +20,10 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   isOpen,
   orderID,
 }) => {
-  const {
-    data: reservationData,
-    isLoading: isReservationLoading,
-    isError: isReservationError,
-  } = useQuery({
+  const { data: reservationData } = useSuspenseQuery({
     queryKey: ['ReservationDetailData', orderID],
-    queryFn: () => getUserDetail(orderID as number),
-    enabled: orderID !== undefined,
+    queryFn: () => getUserDetail(orderID),
+    staleTime: 60000,
   });
 
   const orderDetailData = reservationData?.data.orderItemList;
@@ -39,14 +35,6 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
   const handleReviewWriteModal = (index: number) => {
     setSelectedItemIndex(index);
   };
-
-  if (isReservationLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isReservationError) {
-    return <div>상세내역 불러오기 실패</div>;
-  }
 
   return (
     <AccordionContainer>
@@ -87,9 +75,18 @@ const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
                   <StyledButton
                     onClick={() => handleReviewWriteModal(index)}
                     style={{
-                      color: item.reviewWritten ? '#1948c4' : '#de2f5f',
+                      color:
+                        item.reviewStatus === 'WRITTEN'
+                          ? '#1948c4'
+                          : item.reviewStatus === 'NOT_WRITABLE'
+                            ? '#de2f5f'
+                            : '#222',
                     }}>
-                    {item.reviewWritten ? '리뷰수정' : '리뷰작성'}
+                    {item.reviewStatus === 'WRITTEN'
+                      ? '리뷰수정'
+                      : item.reviewStatus === 'NOT_WRITABLE'
+                        ? '리뷰작성'
+                        : ''}
                   </StyledButton>
                 </StyledFlexContainer>
                 <StyledText $fontSize="0.75rem">

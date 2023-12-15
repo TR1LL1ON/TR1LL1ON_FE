@@ -2,9 +2,10 @@ import axios from 'axios';
 import {
   OrderRequest,
   AccommodationData,
-  ProductReview,
   Cart,
   AddCart,
+  Reservation,
+  ProductReviewResponse,
 } from '../interfaces/interface';
 import { getCookie, removeCookie } from '@/util/util';
 
@@ -201,8 +202,26 @@ export const deleteReviews = async (reviewID: string) => {
 //숙소 리뷰 조회
 export const getProductsReview = async (
   accommodationID: string,
-): Promise<ProductReview[]> => {
-  const res = await client.get(`reviews/${accommodationID}`);
+  page: number,
+  size: number,
+): Promise<ProductReviewResponse> => {
+  const res = await client.get(
+    `reviews/${accommodationID}?page=${page}&size=${size}`,
+  );
+  return res.data;
+};
+
+//객실 리뷰 조회
+export const getRoomReview = async (
+  productId: number,
+  page: number,
+  size: number,
+) => {
+  console.log('Request parameters:', { productId, page, size });
+
+  const res = await client.get(
+    `/reviews/products/${productId}?page=${page}&size=${size}`,
+  );
   return res.data;
 };
 
@@ -225,14 +244,14 @@ export const deleteLikes = async (accommodationID: string) => {
 };
 
 // 전제 주문목록 조회(마이페이지)
-export const getUser = async () => {
-  const res = await client.get(`user`);
-  return res;
+export const getUser = async (): Promise<Reservation[]> => {
+  const res = await client.get<Reservation[]>(`users`);
+  return res.data;
 };
 
 // 전제 주문목록 상세조회(마이페이지)
 export const getUserDetail = async (orderID: number) => {
-  const res = await client.get(`user/details/${orderID}`);
+  const res = await client.get(`users/details/${orderID}`);
   return res;
 };
 export interface SummaryData {

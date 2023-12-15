@@ -7,7 +7,6 @@ import {
 } from '@/style/payment/paymentStyle';
 import styled from 'styled-components';
 import { useState } from 'react';
-
 import { Reservation } from '@/interfaces/interface';
 import ReservationAccordion from './reservationAccordion';
 import { FaChevronDown } from 'react-icons/fa';
@@ -22,10 +21,6 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
-
-  if (!data) {
-    return <div>No data available</div>;
-  }
 
   return (
     <div style={{ padding: '0' }}>
@@ -49,7 +44,9 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
           style={{ width: '100%', height: '100%' }}
           $flexDirection="column"
           $alignItems="flex-start">
-          <StyledTitle $mb="0">{`${data?.accommodation.accommodationNames[0]} 등 ${data?.accommodation.accommodationNames.length}개 숙소 `}</StyledTitle>
+          <StyledTitle
+            $mb="0"
+            $mt="0">{`${data?.accommodation.accommodationNames[0]} 등 ${data?.accommodation.accommodationNames.length}개 숙소 `}</StyledTitle>
 
           <StyledSubTitle $mb="0.5rem">{`총 ${data?.accommodation.productNames.length}건의 객실예약`}</StyledSubTitle>
 
