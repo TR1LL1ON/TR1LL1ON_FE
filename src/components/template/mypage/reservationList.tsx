@@ -42,7 +42,7 @@ const ReservationList = () => {
   };
 
   return (
-    <StyledReservationList isFadingOut={isFadingOut}>
+    <>
       <StyledSubTitle
         $mt="2rem"
         style={{ paddingInline: '5rem', fontSize: '1.2rem' }}>
@@ -56,22 +56,23 @@ const ReservationList = () => {
           overflowY: 'auto',
           height: '100vh',
         }}>
-        {currentItems.map((order) => (
-          <div
-            key={order.orderId}
-            style={{
-              boxSizing: 'border-box',
-              minHeight: '200px',
-            }}>
-            <Suspense
-              fallback={
-                <DelayedFallback delay={200} fallback={<SkeletonCard />} />
-              }>
-              <ReservationCard data={order} />
-            </Suspense>
-          </div>
-        ))}
-
+        <StyledReservationList isFadingOut={isFadingOut}>
+          {currentItems.map((order) => (
+            <div
+              key={order.orderId}
+              style={{
+                boxSizing: 'border-box',
+                minHeight: '200px',
+              }}>
+              <Suspense
+                fallback={
+                  <DelayedFallback delay={200} fallback={<SkeletonCard />} />
+                }>
+                <ReservationCard data={order} />
+              </Suspense>
+            </div>
+          ))}
+        </StyledReservationList>
         <PaginationContainer>
           {pageNumbers.map((number) => (
             <PageButton
@@ -83,7 +84,7 @@ const ReservationList = () => {
           ))}
         </PaginationContainer>
       </StyledWrapper>
-    </StyledReservationList>
+    </>
   );
 };
 
@@ -127,7 +128,6 @@ const fadeOut = keyframes`
 const StyledReservationList = styled.div.withConfig({
   shouldForwardProp: (prop) => !['isFadingOut'].includes(prop),
 })<StyledReservationListProps>`
-  // 스타일 정의
-  animation: ${(props) => (props.isFadingOut ? fadeOut : fadeIn)} 300ms
+  animation: ${(props) => (props.isFadingOut ? fadeOut : fadeIn)} 500ms
     ease-in-out;
 `;
