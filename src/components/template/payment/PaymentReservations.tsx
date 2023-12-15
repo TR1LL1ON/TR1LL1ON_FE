@@ -1,5 +1,4 @@
-import useFilteredReservation from '@/hooks/useFilteredReservation';
-
+import { Cart } from '@/interfaces/interface';
 import {
   StyledFlexContainer,
   StyledLabel,
@@ -8,19 +7,10 @@ import {
   StyledText,
   StyledWrapper,
 } from '@/style/payment/paymentStyle';
+import { calculateNights } from './utils';
 
-export const calculateNights = (checkIn: string, checkOut: string) => {
-  const checkInDate = new Date(checkIn);
-  const checkOutDate = new Date(checkOut);
-  const diff = checkOutDate.getTime() - checkInDate.getTime();
-  const nights = diff / (1000 * 60 * 60 * 24);
-  return nights;
-};
-
-const PaymentReservations = () => {
-  const { filteredRooms } = useFilteredReservation();
-
-  if (filteredRooms?.length === 0) {
+const PaymentReservations = ({ filteredRooms }: { filteredRooms: Cart[] }) => {
+  if (filteredRooms.length === 0) {
     return <div>예약 정보가 없습니다.</div>;
   }
 
@@ -32,7 +22,7 @@ const PaymentReservations = () => {
         $flexDirection="column"
         $alignItems="start"
         $gap="0.5rem">
-        {filteredRooms?.map((room, index) => (
+        {filteredRooms.map((room, index) => (
           <StyledWrapper key={`${room.productId}-${index}`}>
             <StyledFlexContainer $flexDirection="column" $alignItems="start">
               <StyledText $fontWeight={600}>
@@ -48,7 +38,7 @@ const PaymentReservations = () => {
       <StyledSpacer $height="1rem" />
 
       <StyledLabel>게스트</StyledLabel>
-      {filteredRooms?.map((room, index) => (
+      {filteredRooms.map((room, index) => (
         <StyledFlexContainer key={`${room.productId}-${index}`}>
           <StyledWrapper>
             <StyledText>{room.personNumber} 명</StyledText>
