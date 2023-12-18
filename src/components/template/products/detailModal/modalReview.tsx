@@ -3,7 +3,12 @@ import {
   StyledSubTitle,
   StyledText,
 } from '@/style/payment/paymentStyle';
-import { StyleReviewContainer, StyleReviewItem, StyledStar } from '../Review';
+import {
+  StyleReviewContainer,
+  StyleReviewItem,
+  StyledStar,
+} from '@/style/products/reviewStyle';
+
 import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
 import { StyledBold } from '@/style/products/productsStyle';
 import React, { useEffect, useState } from 'react';

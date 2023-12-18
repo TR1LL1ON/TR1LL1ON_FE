@@ -1,4 +1,4 @@
-import { StyledPageBtn, StyledPagination } from './Review';
+import { StyledPageBtn, StyledPagination } from '@/style/products/reviewStyle';
 
 interface PaginationProps {
   totalItems: number;
