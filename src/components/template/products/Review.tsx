@@ -15,6 +15,8 @@ interface ReviewProps {
   onPageChange: (newPage: number) => void;
   currentPage: number;
   score: number;
+  sort: string;
+  handleSortChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const Review = ({
@@ -23,8 +25,9 @@ const Review = ({
   onPageChange,
   currentPage,
   score,
+  sort,
+  handleSortChange,
 }: ReviewProps) => {
-  // 해당 숙소 리뷰 데이터
   const reviews = productReview?.content || [];
   const totalElements = productReview?.totalElements || 0;
   const totalPages = productReview?.totalPages || 0;
@@ -40,7 +43,19 @@ const Review = ({
       <StyledH2Text $mt="1rem" $mb="0rem">
         '{name}' 의 방문 후기 ★ {score}
       </StyledH2Text>
-      <StyledTextBox> 총 {productReview?.totalElements}개의 후기</StyledTextBox>
+      <StyledFlexContainer>
+        <StyledTextBox>
+          총 {productReview?.totalElements}개의 후기
+        </StyledTextBox>
+        <StyledTextBox>
+          <select value={sort} onChange={handleSortChange}>
+            <option value="reviewDate,DESC">최신순</option>
+            <option value="reviewDate,ASC">오래된순</option>
+            <option value="score,DESC">평점 높은순</option>
+            <option value="score,ASC">평점 낮은순</option>
+          </select>
+        </StyledTextBox>
+      </StyledFlexContainer>
 
       <StyleReviewContainer
         $justifyContent="flex-start"

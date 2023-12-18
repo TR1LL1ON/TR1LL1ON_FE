@@ -199,28 +199,24 @@ export const deleteReviews = async (reviewID: string) => {
 };
 
 //숙소 리뷰 조회
+
 export const getProductsReview = async (
   accommodationID: string,
   page: number,
   size: number,
+  sort: string,
 ): Promise<ProductReviewResponse> => {
   const res = await client.get(
-    `reviews/${accommodationID}?page=${page}&size=${size}`,
+    `reviews/${accommodationID}?page=${page}&size=${size}&sort=${sort}`,
   );
   return res.data;
 };
 
 //객실 리뷰 조회
-export const getRoomReview = async (
-  productId: number,
-  page: number,
-  size: number,
-) => {
-  console.log('Request parameters:', { productId, page, size });
+export const getRoomReview = async (productId: number) => {
+  console.log('Request parameters:', { productId });
 
-  const res = await client.get(
-    `/reviews/products/${productId}?page=${page}&size=${size}`,
-  );
+  const res = await client.get(`/reviews/products/${productId}`);
   return res.data;
 };
 

@@ -22,13 +22,10 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   };
   const location = useLocation();
   const { formattedScore } = location.state || {};
+  const [sort, setSort] = useState('reviewDate,DESC');
 
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 4;
-
-  const fetchReviews = async (page: number, size: number) => {
-    return await getProductsReview(accommodationID, page, size);
-  };
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['accommodation', accommodationID],
@@ -41,13 +38,20 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   const accommodationData: AccommodationData = data?.data;
 
   const { data: productReview, isLoading: isLoadingReview } = useQuery({
-    queryKey: ['productReview', accommodationID, currentPage],
-    queryFn: () => fetchReviews(currentPage, pageSize),
-    // keepPreviousData: true,
+    queryKey: ['productReview', accommodationID, currentPage, sort],
+    queryFn: () => fetchReviews(currentPage, pageSize, sort),
     enabled: !!accommodationID,
   });
 
-  //리뷰 스크롤 이벤트
+  const fetchReviews = async (page: number, size: number, sort: string) => {
+    return await getProductsReview(accommodationID, page, size, sort);
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(e.target.value);
+  };
+
+  //리뷰 스크롤 이동
   const reviewRef = useRef<HTMLDivElement>(null);
 
   const scrollToReview = useCallback(() => {
@@ -98,6 +102,8 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
             currentPage={reviewCurrentPage}
             onPageChange={handleReviewPageChange}
             score={formattedScore}
+            sort={sort}
+            handleSortChange={handleSortChange}
           />
         </div>
       )}
