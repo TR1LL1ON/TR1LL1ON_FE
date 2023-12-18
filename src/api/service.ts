@@ -214,8 +214,6 @@ export const getProductsReview = async (
 
 //객실 리뷰 조회
 export const getRoomReview = async (productId: number) => {
-  console.log('Request parameters:', { productId });
-
   const res = await client.get(`/reviews/products/${productId}`);
   return res.data;
 };
