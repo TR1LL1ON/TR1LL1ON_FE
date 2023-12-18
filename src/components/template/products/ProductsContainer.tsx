@@ -5,7 +5,7 @@ import Review from './Review';
 import { getAccommodation, getProductsReview } from '@/api/service';
 import Map from './Map';
 import { useQuery } from '@tanstack/react-query';
-import AllFacility from './AllFacility';
+import AllFacility from './Facility/AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
 import { useRef, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';

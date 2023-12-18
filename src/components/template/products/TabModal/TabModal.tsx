@@ -1,21 +1,21 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import ModalContainer from '@/components/layout/modal/ModalContainer';
+import { AccommodationFacility, RoomFacility } from '@/interfaces/interface';
 import NoticeModal from './NoticeModal';
 import FacilityModal from './FacilityModal';
-import { AccommodationFacility, RoomFacility } from '@/interfaces/interface';
 
-interface ModalTabsProps {
+interface TabModalProps {
   onClose: () => void;
   productsFacility: AccommodationFacility;
   roomsFacility: Array<keyof RoomFacility>;
 }
 
-const ModalTab = ({
+const TabModal = ({
   onClose,
   productsFacility,
   roomsFacility,
-}: ModalTabsProps) => {
+}: TabModalProps) => {
   const [activeTab, setActiveTab] = useState('notice');
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
@@ -47,7 +47,7 @@ const ModalTab = ({
   );
 };
 
-export default ModalTab;
+export default TabModal;
 interface StyledFilterTabProps {
   active: boolean;
   onClick: (e: React.MouseEvent) => void;

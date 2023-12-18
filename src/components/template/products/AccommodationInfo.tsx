@@ -26,7 +26,7 @@ import {
 import CalenderModal from '@/components/layout/modal/calenderModal';
 import GuestModal from './GuestModal/guestModal';
 import { reservationState } from '@/states/atom';
-import ProductsFacilityList from './ProductsFacilityList';
+import ProductsFacilityList from './Facility/ProductsFacilityList';
 import { formatDate } from '@/util/util';
 
 interface AccommodationProp {

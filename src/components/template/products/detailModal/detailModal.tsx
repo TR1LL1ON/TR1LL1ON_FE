@@ -23,7 +23,7 @@ import {
   productsTextMapping,
   roomsIconMapping,
   roomsTextMapping,
-} from '../iconAndTextMapping';
+} from '../Facility/iconAndTextMapping';
 import { useRecoilValue } from 'recoil';
 import { reservationState } from '@/states/atom';
 import { formatDateToMonthDay } from '@/util/util';

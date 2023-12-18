@@ -8,12 +8,13 @@ import {
 } from '@/style/products/productsStyle';
 import ProductsFacilityList from './ProductsFacilityList';
 import RoomsFacilityList from './RoomsFacilityList';
+
 import {
   AccommodationFacility,
   Room,
   RoomFacility,
 } from '@/interfaces/interface';
-import ModalTab from './ModalTab';
+import TabModal from '../TabModal/TabModal';
 
 interface AllFacilityProps {
   productsFacility: AccommodationFacility;
@@ -71,7 +72,7 @@ const AllFacility = ({ productsFacility, roomsFacility }: AllFacilityProps) => {
           </StyledBorderBtn>
 
           {showModal && (
-            <ModalTab
+            <TabModal
               onClose={() => setShowModal(false)}
               productsFacility={productsFacility}
               roomsFacility={uniqueFacilities}
