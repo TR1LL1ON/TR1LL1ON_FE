@@ -8,12 +8,13 @@ import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { ProductReviewResponse } from '@/interfaces/interface';
 import { reviewStar } from '@/util/reviewUtilities';
+import Pagination from './Pagination';
 
 interface ReviewProps {
   productReview: ProductReviewResponse | undefined;
   name: string;
-  onPageChange: (newPage: number) => void;
   currentPage: number;
+  setCurrentPage: (page: number) => void;
   score: number;
   sort: string;
   handleSortChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -22,21 +23,15 @@ interface ReviewProps {
 const Review = ({
   productReview,
   name,
-  onPageChange,
   currentPage,
+  setCurrentPage,
   score,
   sort,
   handleSortChange,
 }: ReviewProps) => {
   const reviews = productReview?.content || [];
   const totalElements = productReview?.totalElements || 0;
-  const totalPages = productReview?.totalPages || 0;
   const noReviewMessage = ` ${name}에 대한 리뷰가 없습니다. 방문 후 리뷰를 남겨주세요 😊`;
-
-  const handlePageChange = (pageNumber: number) => {
-    onPageChange(pageNumber - 1);
-  };
-  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <StyledWrap>
@@ -81,17 +76,12 @@ const Review = ({
           </StyleReviewItem>
         )}
       </StyleReviewContainer>
-      <StyledPagination>
-        {pageNumbers.map((number) => (
-          <StyledPageBtn
-            className={currentPage === number - 1 ? 'active' : ''}
-            key={number}
-            onClick={() => handlePageChange(number)}
-            style={{ margin: '10px 5px' }}>
-            {number}
-          </StyledPageBtn>
-        ))}
-      </StyledPagination>
+      <Pagination
+        totalItems={totalElements}
+        itemsPerPage={4}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </StyledWrap>
   );
 };

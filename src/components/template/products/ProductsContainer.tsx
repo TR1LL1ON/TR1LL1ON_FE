@@ -15,17 +15,15 @@ interface ProductsContainerProps {
 }
 
 const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
-  const [reviewCurrentPage, setReviewCurrentPage] = useState(0);
-  const handleReviewPageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    setReviewCurrentPage(newPage);
-  };
   const location = useLocation();
   const { formattedScore } = location.state || {};
   const [sort, setSort] = useState('reviewDate,DESC');
-
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 4;
+
+  const fetchReviews = async (page: number, size: number, sort: string) => {
+    return await getProductsReview(accommodationID, page, size, sort);
+  };
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['accommodation', accommodationID],
@@ -33,7 +31,6 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     queryFn: () => getAccommodation(accommodationID),
     enabled: !!accommodationID,
   });
-
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
@@ -43,12 +40,9 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     enabled: !!accommodationID,
   });
 
-  const fetchReviews = async (page: number, size: number, sort: string) => {
-    return await getProductsReview(accommodationID, page, size, sort);
-  };
-
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSort(e.target.value);
+    setCurrentPage(0);
   };
 
   //리뷰 스크롤 이동
@@ -99,8 +93,8 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
           <Review
             productReview={productReview}
             name={accommodationData.name}
-            currentPage={reviewCurrentPage}
-            onPageChange={handleReviewPageChange}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
             score={formattedScore}
             sort={sort}
             handleSortChange={handleSortChange}
