@@ -16,6 +16,7 @@ import useRoomReviews from '@/hooks/useRoomReviews';
 import Pagination from '../Pagination';
 import sortReviews from '@/util/sortReviews';
 import { ProductReview } from '@/interfaces/interface';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface ModalReviewProps {
   name: string;
@@ -39,7 +40,7 @@ const ModalReview = ({ name, roomName, roomId }: ModalReviewProps) => {
   const averageScore = data ? calculateAverageScore(data) : 0;
   const formattedAverageScore = averageScore.toFixed(1);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error loading reviews</div>;
 
   const pageSize = 3;

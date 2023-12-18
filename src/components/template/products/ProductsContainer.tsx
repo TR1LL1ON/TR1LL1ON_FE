@@ -9,6 +9,7 @@ import AllFacility from './Facility/AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
 import { useRef, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface ProductsContainerProps {
   accommodationID: string;
@@ -53,7 +54,8 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    // return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (isError) {
