@@ -49,7 +49,6 @@ export const StyledModalWrapper = styled.div`
 `;
 
 export const StyledModalContent = styled.div`
-  max-width: 1200px;
   position: fixed;
   height: auto;
   top: 50%;
@@ -72,6 +71,12 @@ export const StyledModalContent = styled.div`
   & img {
     width: 100%;
     border-radius: 0.5rem;
+  }
+  @media screen and (max-width: 700px) {
+    width: 95%;
+  }
+  @media screen and (max-width: 300px) {
+    width: 100%;
   }
 `;
 export const StyledCloseButton = styled.div`

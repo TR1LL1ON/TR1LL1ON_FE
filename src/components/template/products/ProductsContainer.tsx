@@ -6,7 +6,10 @@ import { getAccommodation, getProductsReview } from '@/api/service';
 import Map from './Map';
 import { useQuery } from '@tanstack/react-query';
 import AllFacility from './Facility/AllFacility';
-import { StyledImageContainer } from '@/style/products/productsStyle';
+import {
+  StyledImageContainer,
+  StyledProductsContainer,
+} from '@/style/products/productsStyle';
 import { useRef, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -54,7 +57,6 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   }, []);
 
   if (isLoading) {
-    // return <div>Loading...</div>;
     return <LoadingSpinner />;
   }
 
@@ -62,7 +64,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     return <div>Error fetching data</div>;
   }
   return (
-    <>
+    <StyledProductsContainer>
       <StyledImageContainer
         backgroundImage={accommodationData?.image[0].imageUrl}
       />
@@ -103,7 +105,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
           />
         </div>
       )}
-    </>
+    </StyledProductsContainer>
   );
 };
 

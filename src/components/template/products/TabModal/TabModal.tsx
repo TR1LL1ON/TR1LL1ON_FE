@@ -48,18 +48,10 @@ const TabModal = ({
 };
 
 export default TabModal;
-interface StyledFilterTabProps {
-  active: boolean;
-  onClick: (e: React.MouseEvent) => void;
-  children: React.ReactNode;
-}
-const StyledFilterTab = ({ active, ...props }: StyledFilterTabProps) => (
-  <StyledTab active={active} {...props}></StyledTab>
-);
 
 const StyledModalWrap = styled.div`
-  width: 500px;
   height: 80vh;
+  width: 100%;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -70,8 +62,7 @@ const StyledTabContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
 `;
-
-const StyledTab = styled.button<{ active: boolean }>`
+const StyledFilterTab = styled.button<{ active: boolean }>`
   padding: 10px;
   border: none;
   cursor: pointer;
