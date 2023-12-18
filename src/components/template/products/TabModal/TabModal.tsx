@@ -51,10 +51,13 @@ export default TabModal;
 
 const StyledModalWrap = styled.div`
   height: 80vh;
-  width: 100%;
+  width: 450px;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
+  }
+  @media screen and (max-width: 500px) {
+    width: 95%;
   }
 `;
 const StyledTabContainer = styled.div`
