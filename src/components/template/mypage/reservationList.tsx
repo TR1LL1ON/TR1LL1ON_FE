@@ -128,6 +128,6 @@ const fadeOut = keyframes`
 const StyledReservationList = styled.div.withConfig({
   shouldForwardProp: (prop) => !['isFadingOut'].includes(prop),
 })<StyledReservationListProps>`
-  animation: ${(props) => (props.isFadingOut ? fadeOut : fadeIn)} 500ms
+  animation: ${(props) => (props.isFadingOut ? fadeOut : fadeIn)} 300ms
     ease-in-out;
 `;
