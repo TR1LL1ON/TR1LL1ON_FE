@@ -5,6 +5,7 @@ import { getProducts } from '@/api/service';
 import { useLocation } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroller';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface Product {
   accommodationId: number;
@@ -59,7 +60,7 @@ const MainContainer = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (isError) {
