@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import React, {Suspense} from 'react';
-
-const DatePicker = React.lazy(() => import('./DatePicker'));
+import DatePicker from './DatePicker';
 
 interface CalenderModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,9 +26,7 @@ const CalenderModal: React.FC<CalenderModalProps> = ({
         ) : (
           <StyledModalTitle>날짜 선택</StyledModalTitle>
         )}
-        <Suspense fallback={<div>로딩중</div>}>
-          <DatePicker setNights={setNights} onCloseModal={closeModal} />
-        </Suspense>
+        <DatePicker setNights={setNights} onCloseModal={closeModal} />
       </StyledModalContent>
     </StyledModal>
   );
