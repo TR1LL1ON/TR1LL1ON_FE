@@ -8,7 +8,9 @@ import AllFacility from './AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
 import { useRef, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Map from './Map';
+import React, { Suspense } from 'react';
+import LoadingSpinner from '@/components/LoadingSpinner';
+const Map = React.lazy(() => import('./Map'));
 
 interface ProductsContainerProps {
   accommodationID: string;
@@ -55,7 +57,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (isError) {
@@ -85,10 +87,12 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         productsFacility={accommodationData.facility}
         roomsFacility={roomData}
       />
-      <Map
-        lat={Number(accommodationData.latitude)}
-        lng={Number(accommodationData.longitude)}
-      />
+      <Suspense fallback={<LoadingSpinner />}>
+        <Map
+          lat={Number(accommodationData.latitude)}
+          lng={Number(accommodationData.longitude)}
+        />
+      </Suspense>
       {!isLoadingReview && productReview && (
         <div ref={reviewRef}>
           <Review

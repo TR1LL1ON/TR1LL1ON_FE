@@ -10,6 +10,7 @@ import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
 import { StyledBold } from '@/style/products/productsStyle';
 import { useState } from 'react';
 import useRoomReviews from '@/hooks/useRoomReviews';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface ModalReviewProps {
   name: string;
@@ -25,7 +26,7 @@ const ModalReview = ({ name, roomName, roomId }: ModalReviewProps) => {
     currentPage,
     pageSize,
   );
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error loading reviews</div>;
 
   // const reviews = data || [];
