@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import MapSearch from './MapSearch';
 import { useRecoilValue } from 'recoil';
 import { currPositionState } from '@/states/atom';
+import MapSearch from './MapSearch';
 
 interface MapModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
