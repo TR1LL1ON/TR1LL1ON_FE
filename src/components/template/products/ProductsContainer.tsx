@@ -3,12 +3,14 @@ import RoomCard from './RoomCard';
 import { AccommodationData, Room } from '@/interfaces/interface';
 import Review from './Review';
 import { getAccommodation, getProductsReview } from '@/api/service';
-import Map from './Map';
 import { useQuery } from '@tanstack/react-query';
 import AllFacility from './AllFacility';
 import { StyledImageContainer } from '@/style/products/productsStyle';
 import { useRef, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
+import React, { Suspense } from 'react';
+const Map = React.lazy(() => import('./Map'));
 
 interface ProductsContainerProps {
   accommodationID: string;
@@ -85,11 +87,12 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
         productsFacility={accommodationData.facility}
         roomsFacility={roomData}
       />
-
-      <Map
-        lat={Number(accommodationData.latitude)}
-        lng={Number(accommodationData.longitude)}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Map
+          lat={Number(accommodationData.latitude)}
+          lng={Number(accommodationData.longitude)}
+        />
+      </Suspense>
       {!isLoadingReview && productReview && (
         <div ref={reviewRef}>
           <Review
