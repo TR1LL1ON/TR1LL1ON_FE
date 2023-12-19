@@ -3,7 +3,7 @@ import { ModalProps, ReviewMutationParams } from '@/interfaces/interface';
 import { StyledButton } from '@/style/payment/paymentStyle';
 import { StyledTitle, StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   postReviews,
   getReviews,
@@ -29,7 +29,7 @@ const ReviewWriteModal = ({
     setShowModal(false);
   };
 
-  const [reviewText, setReviewText] = useState('');
+  const reviewTextRef = useRef<HTMLTextAreaElement>(null);
   const [reviewId, setReviewId] = useState('');
   const [score, setScore] = useState(0);
   const [hover, setHover] = useState(0);
@@ -46,8 +46,8 @@ const ReviewWriteModal = ({
         data.data.content,
         orderDetailData.orderItemId,
       );
-      if (myReview) {
-        setReviewText(myReview.content);
+      if (myReview && reviewTextRef.current) {
+        reviewTextRef.current.value = myReview.content;
         setScore(myReview.score);
         setReviewId(myReview.reviewId.toString());
       }
@@ -192,8 +192,7 @@ const ReviewWriteModal = ({
             )}
           </StyledFlexContainer>
           <StyledTextArea
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
+            ref={reviewTextRef}
             placeholder="리뷰를 입력해주세요."
             style={{ marginTop: '1rem' }}
           />
@@ -213,13 +212,16 @@ const ReviewWriteModal = ({
             </StyledButton>
             <StyledButton
               $variant="primary"
-              onClick={() =>
+              onClick={() => {
+                const reviewContent = reviewTextRef.current
+                  ? reviewTextRef.current.value
+                  : '';
                 submitReview({
                   reviewId: reviewId, // 이 값이 undefined이면 새 리뷰를 제출
-                  content: reviewText,
+                  content: reviewContent,
                   score: score,
-                })
-              }
+                });
+              }}
               style={{ width: '40%' }}>
               {orderDetailData?.reviewStatus === 'WRITTEN'
                 ? '수정하기'
@@ -256,7 +258,7 @@ export const StyledModal = styled.div`
 
 export const StyledModalContent = styled.div<{
   $width?: string;
-  $height?: string; // Fixed the typo in height
+  $height?: string;
 }>`
   position: relative;
   display: flex;
@@ -265,7 +267,7 @@ export const StyledModalContent = styled.div<{
   border-radius: 5px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
   width: ${(props) => props.$width || 'auto'};
-  height: ${(props) => props.$height || 'auto'}; // Fixed the typo in height
+  height: ${(props) => props.$height || 'auto'};
   max-height: 80vh;
   overflow-y: auto;
 `;

@@ -16,109 +16,108 @@ import {
 } from '@/interfaces/interface';
 import ReviewWriteModal from './reviewWriteModal';
 
-const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = ({
-  isOpen,
-  orderID,
-}) => {
-  const { data: reservationData } = useSuspenseQuery({
-    queryKey: ['ReservationDetailData', orderID],
-    queryFn: () => getUserDetail(orderID),
-    staleTime: 60000,
-  });
+const ReservationAccordion: React.FC<OrderDetailsAccordionProps> = React.memo(
+  ({ isOpen, orderID }) => {
+    const { data: reservationData } = useSuspenseQuery({
+      queryKey: ['ReservationDetailData', orderID],
+      queryFn: () => getUserDetail(orderID),
+      staleTime: 60000,
+    });
 
-  const orderDetailData = reservationData?.data.orderItemList;
+    const orderDetailData = reservationData?.data.orderItemList;
 
-  const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(
-    null,
-  );
+    const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(
+      null,
+    );
 
-  const handleReviewWriteModal = (index: number) => {
-    setSelectedItemIndex(index);
-  };
+    const handleReviewWriteModal = (index: number) => {
+      setSelectedItemIndex(index);
+    };
 
-  return (
-    <AccordionContainer>
-      <AccordionContent className={isOpen ? 'active' : ''}>
-        <StyledSubTitle>상세조회</StyledSubTitle>
+    return (
+      <AccordionContainer>
+        <AccordionContent className={isOpen ? 'active' : ''}>
+          <StyledSubTitle>상세조회</StyledSubTitle>
 
-        {orderDetailData.map((item: ReservationDetail, index: number) => (
-          <div key={item.orderItemId}>
-            <StyledFlexContainer
-              style={{
-                width: '100%',
-                padding: '15px 0',
-              }}
-              $alignItems="flex-start"
-              $gap="0.75rem">
-              <StyledImageContainer $w="auto" style={{ overflow: 'unset' }}>
-                <img
-                  src={`${item.orderItemDetail.productImage}`}
-                  style={{
-                    width: '124px',
-                    height: '100%',
-                    objectFit: 'cover',
-                    borderRadius: '0.5rem',
-                  }}
-                />
-              </StyledImageContainer>
+          {orderDetailData.map((item: ReservationDetail, index: number) => (
+            <div key={item.orderItemId}>
               <StyledFlexContainer
-                style={{ width: '100%', height: '100%' }}
-                $flexDirection="column"
-                $alignItems="flex-start">
-                <StyledText $fontSize="0.75rem" $opacity={0.7}>
-                  호텔
-                </StyledText>
-                <StyledFlexContainer style={{ width: '100%' }}>
-                  <StyledText $fontWeight={700}>
-                    {item.orderItemDetail.accommodationName}
-                  </StyledText>
-                  <StyledButton
-                    onClick={() => handleReviewWriteModal(index)}
+                style={{
+                  width: '100%',
+                  padding: '15px 0',
+                }}
+                $alignItems="flex-start"
+                $gap="0.75rem">
+                <StyledImageContainer $w="auto" style={{ overflow: 'unset' }}>
+                  <img
+                    src={`${item.orderItemDetail.productImage}`}
                     style={{
-                      color:
-                        item.reviewStatus === 'WRITTEN'
-                          ? '#1948c4'
-                          : item.reviewStatus === 'NOT_WRITABLE'
-                            ? '#de2f5f'
-                            : '#222',
-                    }}>
-                    {item.reviewStatus === 'WRITTEN'
-                      ? '리뷰수정'
-                      : item.reviewStatus === 'NOT_WRITABLE'
-                        ? '리뷰작성'
-                        : ''}
-                  </StyledButton>
-                </StyledFlexContainer>
-                <StyledText $fontSize="0.75rem">
-                  {item.orderItemDetail.accommodationAddress}
-                </StyledText>
-                <StyledText $fontSize="0.75rem">
-                  {item.orderItemDetail.productName} | {item.personNumber}인
-                </StyledText>
-
-                <StyledFlexContainer style={{ width: '100%' }}>
+                      width: '124px',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '0.5rem',
+                    }}
+                  />
+                </StyledImageContainer>
+                <StyledFlexContainer
+                  style={{ width: '100%', height: '100%' }}
+                  $flexDirection="column"
+                  $alignItems="flex-start">
+                  <StyledText $fontSize="0.75rem" $opacity={0.7}>
+                    호텔
+                  </StyledText>
+                  <StyledFlexContainer style={{ width: '100%' }}>
+                    <StyledText $fontWeight={700}>
+                      {item.orderItemDetail.accommodationName}
+                    </StyledText>
+                    <StyledButton
+                      onClick={() => handleReviewWriteModal(index)}
+                      style={{
+                        color:
+                          item.reviewStatus === 'WRITTEN'
+                            ? '#1948c4'
+                            : item.reviewStatus === 'NOT_WRITABLE'
+                              ? '#de2f5f'
+                              : '#222',
+                      }}>
+                      {item.reviewStatus === 'WRITTEN'
+                        ? '리뷰수정'
+                        : item.reviewStatus === 'NOT_WRITABLE'
+                          ? '리뷰작성'
+                          : ''}
+                    </StyledButton>
+                  </StyledFlexContainer>
                   <StyledText $fontSize="0.75rem">
-                    {item.checkIn} ~ {item.checkOut}
+                    {item.orderItemDetail.accommodationAddress}
                   </StyledText>
-                  <StyledText $fontSize="1rem" $fontWeight={700}>
-                    {item.price.toLocaleString()}원
+                  <StyledText $fontSize="0.75rem">
+                    {item.orderItemDetail.productName} | {item.personNumber}인
                   </StyledText>
+
+                  <StyledFlexContainer style={{ width: '100%' }}>
+                    <StyledText $fontSize="0.75rem">
+                      {item.checkIn} ~ {item.checkOut}
+                    </StyledText>
+                    <StyledText $fontSize="1rem" $fontWeight={700}>
+                      {item.price.toLocaleString()}원
+                    </StyledText>
+                  </StyledFlexContainer>
                 </StyledFlexContainer>
               </StyledFlexContainer>
-            </StyledFlexContainer>
-            {selectedItemIndex === index && (
-              <ReviewWriteModal
-                setShowModal={() => setSelectedItemIndex(null)}
-                orderDetailData={orderDetailData[index]}
-              />
-            )}
-            <StyledHLine />
-          </div>
-        ))}
-      </AccordionContent>
-    </AccordionContainer>
-  );
-};
+              {selectedItemIndex === index && (
+                <ReviewWriteModal
+                  setShowModal={() => setSelectedItemIndex(null)}
+                  orderDetailData={orderDetailData[index]}
+                />
+              )}
+              <StyledHLine />
+            </div>
+          ))}
+        </AccordionContent>
+      </AccordionContainer>
+    );
+  },
+);
 
 export default ReservationAccordion;
 
