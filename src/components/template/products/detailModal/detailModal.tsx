@@ -23,7 +23,7 @@ import {
   productsTextMapping,
   roomsIconMapping,
   roomsTextMapping,
-} from '../iconAndTextMapping';
+} from '../Facility/iconAndTextMapping';
 import { useRecoilValue } from 'recoil';
 import { reservationState } from '@/states/atom';
 import { formatDateToMonthDay } from '@/util/util';
@@ -330,10 +330,12 @@ export const StyledModalContent = styled.div<{
   background: #fff;
   border-radius: 5px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-  width: ${(props) => props.$width || 'auto'};
+  max-width: ${(props) => props.$width || 'auto'};
   height: ${(props) => props.$heigh || 'auto'};
   max-height: 80vh;
-  // overflow-y: auto;
+  @media screen and (min-width: 570px) and (max-width: 700px) {
+    width: 95%;
+  }
 `;
 
 const CarouselWrapper = styled.div`

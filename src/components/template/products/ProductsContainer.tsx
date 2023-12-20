@@ -4,8 +4,11 @@ import { AccommodationData, Room } from '@/interfaces/interface';
 import Review from './Review';
 import { getAccommodation, getProductsReview } from '@/api/service';
 import { useQuery } from '@tanstack/react-query';
-import AllFacility from './AllFacility';
-import { StyledImageContainer } from '@/style/products/productsStyle';
+import AllFacility from './Facility/AllFacility';
+import {
+  StyledImageContainer,
+  StyledProductsContainer,
+} from '@/style/products/productsStyle';
 import { useRef, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import React, { Suspense } from 'react';
@@ -18,19 +21,14 @@ interface ProductsContainerProps {
 }
 
 const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
-  const [reviewCurrentPage, setReviewCurrentPage] = useState(0);
-  const handleReviewPageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    setReviewCurrentPage(newPage);
-  };
   const location = useLocation();
   const { formattedScore } = location.state || {};
-
+  const [sort, setSort] = useState('reviewDate,DESC');
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 4;
 
-  const fetchReviews = async (page: number, size: number) => {
-    return await getProductsReview(accommodationID, page, size);
+  const fetchReviews = async (page: number, size: number, sort: string) => {
+    return await getProductsReview(accommodationID, page, size, sort);
   };
 
   const { data, isLoading, isError } = useQuery({
@@ -39,18 +37,21 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     queryFn: () => getAccommodation(accommodationID),
     enabled: !!accommodationID,
   });
-
   const roomData: Room[] = data?.data.rooms || [];
   const accommodationData: AccommodationData = data?.data;
 
   const { data: productReview, isLoading: isLoadingReview } = useQuery({
-    queryKey: ['productReview', accommodationID, currentPage],
-    queryFn: () => fetchReviews(currentPage, pageSize),
-    // keepPreviousData: true,
+    queryKey: ['productReview', accommodationID, currentPage, sort],
+    queryFn: () => fetchReviews(currentPage, pageSize, sort),
     enabled: !!accommodationID,
   });
 
-  //리뷰 스크롤 이벤트
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(e.target.value);
+    setCurrentPage(0);
+  };
+
+  //리뷰 스크롤 이동
   const reviewRef = useRef<HTMLDivElement>(null);
 
   const scrollToReview = useCallback(() => {
@@ -65,7 +66,7 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
     return <div>Error fetching data</div>;
   }
   return (
-    <>
+    <StyledProductsContainer>
       <StyledImageContainer
         backgroundImage={accommodationData?.image[0].imageUrl}
       />
@@ -101,13 +102,15 @@ const ProductsContainer = ({ accommodationID }: ProductsContainerProps) => {
           <Review
             productReview={productReview}
             name={accommodationData.name}
-            currentPage={reviewCurrentPage}
-            onPageChange={handleReviewPageChange}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
             score={formattedScore}
+            sort={sort}
+            handleSortChange={handleSortChange}
           />
         </div>
       )}
-    </>
+    </StyledProductsContainer>
   );
 };
 
