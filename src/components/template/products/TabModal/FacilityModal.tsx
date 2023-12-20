@@ -1,6 +1,6 @@
 import { StyledH2Text } from '@/style/products/productsStyle';
-import ProductsFacilityList from './ProductsFacilityList';
-import RoomsFacilityList from './RoomsFacilityList';
+import ProductsFacilityList from '../Facility/ProductsFacilityList';
+import RoomsFacilityList from '../Facility/RoomsFacilityList';
 import styled from 'styled-components';
 import { AccommodationFacility } from '@/interfaces/interface';
 
