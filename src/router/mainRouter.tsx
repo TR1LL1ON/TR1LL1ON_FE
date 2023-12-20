@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Cart from '@/pages/cart/cart';
-import Products from '@/pages/products/products';
 import Main from '@/pages/main/main';
 import Mypage from '@/pages/mypage/mypage';
 import Payment from '@/pages/payment/payment';
 import NotFound from '@/components/template/notFound';
 import PrivateRoute from '@/components/layout/PrivateRoute';
 import PaymentConfirm from '@/components/template/payment/paymentConfirm';
+import React, { Suspense } from 'react';
+import LoadingSpinner from '@/components/LoadingSpinner';
+
+const Products = React.lazy(() => import('@/pages/products/products'));
 
 function Dashboard() {
   return (
@@ -29,7 +32,16 @@ const MainRouter = () => {
       <Routes>
         <Route path="/" element={<Dashboard />}>
           <Route index element={<Main />} />
-          <Route path="/products/:accomodationID" element={<Products />} />
+
+          <Route
+            path="/products/:accomodationID"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <Products />
+              </Suspense>
+            }
+          />
+
           <Route element={<PrivateRoute />}>
             <Route path="/cart" element={<Cart />} />
             <Route

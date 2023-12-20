@@ -26,12 +26,12 @@ const TabModal = ({
         <StyledTabContainer>
           <StyledFilterTab
             onClick={() => handleTabClick('notice')}
-            active={activeTab === 'notice'}>
+            active={activeTab === 'notice' ? 'true' : 'false'}>
             객실 이용 안내
           </StyledFilterTab>
           <StyledFilterTab
             onClick={() => handleTabClick('facility')}
-            active={activeTab === 'facility'}>
+            active={activeTab === 'facility' ? 'true' : 'false'}>
             전체 편의시설
           </StyledFilterTab>
         </StyledTabContainer>
@@ -65,13 +65,15 @@ const StyledTabContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
 `;
-const StyledFilterTab = styled.button<{ active: boolean }>`
+const StyledFilterTab = styled.button<{ active: 'true' | 'false' }>`
   padding: 10px;
   border: none;
   cursor: pointer;
-  font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
-  color: ${(props) => (props.active ? props.theme.colors.primary : 'black')};
-  text-decoration: ${(props) => (props.active ? 'underline' : 'none')};
+  font-weight: ${(props) => (props.active === 'true' ? 'bold' : 'normal')};
+  color: ${(props) =>
+    props.active === 'true' ? props.theme.colors.primary : 'black'};
+  text-decoration: ${(props) =>
+    props.active === 'true' ? 'underline' : 'none'};
   z-index: 2;
   background: transparent;
   margin-bottom: 1rem;
