@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import { StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { StyledButton } from '@/style/common/commonStyle';
 
+export const StyledProductsContainer = styled.section`
+  max-width: 1200px;
+  width: 90%;
+  margin: 2rem auto;
+`;
 export const StyledWrap = styled.article`
   position: relative;
   font-size: ${(props) => props.theme.fontSizes.md};
@@ -212,27 +217,6 @@ export const StyledGridContainer = styled.div<{ $px?: string }>`
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   padding-inline: ${(props) => props.$px || '0'};
-`;
-
-export const StyledItem = styled.div`
-  padding: 1rem 2rem;
-  text-align: left;
-  color: ${(props) => props.theme.colors.darkGray};
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  flex-shrink: 0;
-  width: 100%;
-  max-height: 13rem;
-  overflow: hidden;
-  & svg {
-    font-size: ${(props) => props.theme.fontSizes.xl};
-    margin-right: 1rem;
-  }
-  & .mapping {
-    width: 33.3%;
-    line-height: 4rem;
-  }
 `;
 
 export const StyledImageContainer = styled.div<{ backgroundImage: string }>`
