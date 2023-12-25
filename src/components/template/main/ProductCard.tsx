@@ -45,7 +45,9 @@ export const ProductCard = ({
         <StyledProductTitle>{name}</StyledProductTitle>
         <StyledProductPrice>
           <StyledScore>★ {formattedScore}</StyledScore>
-          <StyledSalePrice>{price.toLocaleString()}원</StyledSalePrice>
+          <StyledSalePrice>
+            {price !== null ? price.toLocaleString() : '0'}원
+          </StyledSalePrice>
         </StyledProductPrice>
       </StyledCardTextWrap>
     </StyledProductCard>
