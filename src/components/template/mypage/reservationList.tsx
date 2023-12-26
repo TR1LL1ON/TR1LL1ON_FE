@@ -7,6 +7,7 @@ import styled, { keyframes } from 'styled-components';
 import { Suspense } from 'react';
 import { SkeletonCard } from './skeletonCard';
 import DelayedFallback from './delayedFallback';
+import { errors } from 'msw/lib/types/context';
 
 interface StyledReservationListProps {
   isFadingOut: boolean;
