@@ -59,6 +59,9 @@ export default guestAgeGroup;
 const StyledGuestRow = styled(StyledFlexContainer)`
   border-bottom: 1px solid #ccc;
   width: 100%;
+  @media screen and (max-width: 330px) {
+    gap: 1rem;
+  }
 `;
 const StyledTextBox = styled(StyledFlexContainer)`
   font-size: 1rem;
@@ -66,7 +69,6 @@ const StyledTextBox = styled(StyledFlexContainer)`
 `;
 
 const StyledTextGray = styled(StyledText)`
-  // color: ${(props) => props.theme.colors.darkGray};
   font-weight: 500;
   font-size: ${(props) => props.theme.fontSizes.sm};
 `;

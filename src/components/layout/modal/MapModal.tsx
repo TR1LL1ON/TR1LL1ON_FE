@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import MapSearch from './MapSearch';
 import { useRecoilValue } from 'recoil';
 import { currPositionState } from '@/states/atom';
+import React, { Suspense } from 'react';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
+const MapSearch = React.lazy(() => import('./MapSearch'));
 interface MapModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -18,11 +20,13 @@ const MapModal: React.FC<MapModalProps> = ({ setShowModal }) => {
         onClick={(e) => e.stopPropagation()}
         $width="60rem"
         $height="42rem">
-        <MapSearch
-          lat={currPosition.lat}
-          lng={currPosition.lng}
-          closeMapModal={closeModal}
-        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <MapSearch
+            lat={currPosition.lat}
+            lng={currPosition.lng}
+            closeMapModal={closeModal}
+          />
+        </Suspense>
       </StyledModalContent>
     </StyledModal>
   );

@@ -3,21 +3,25 @@ import { ModalProps, ReviewMutationParams } from '@/interfaces/interface';
 import { StyledButton } from '@/style/payment/paymentStyle';
 import { StyledTitle, StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   postReviews,
   getReviews,
   putReviews,
   deleteReviews,
 } from '@/api/service';
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import {
+  useSuspenseQuery,
+  useQueryClient,
+  useMutation,
+} from '@tanstack/react-query';
 import { AxiosResponse, AxiosError } from 'axios';
 import { findMyReview } from '@/util/util';
 
-const ReviewWriteModal: React.FC<ModalProps> = ({
+const ReviewWriteModal = ({
   setShowModal,
   orderDetailData,
-}) => {
+}: Pick<ModalProps, 'setShowModal' | 'orderDetailData'>) => {
   const queryClient = useQueryClient();
 
   const closeModal = (event: React.MouseEvent<HTMLElement>) => {
@@ -25,22 +29,25 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
     setShowModal(false);
   };
 
-  const [reviewText, setReviewText] = useState('');
+  const reviewTextRef = useRef<HTMLTextAreaElement>(null);
   const [reviewId, setReviewId] = useState('');
   const [score, setScore] = useState(0);
   const [hover, setHover] = useState(0);
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ['accommodation'],
     queryFn: () => getReviews(),
-    enabled: !!orderDetailData?.reviewWritten,
+    staleTime: 60000,
   });
 
   useEffect(() => {
     if (data?.data && orderDetailData?.orderItemId) {
-      const myReview = findMyReview(data.data, orderDetailData.orderItemId);
-      if (myReview) {
-        setReviewText(myReview.content);
+      const myReview = findMyReview(
+        data.data.content,
+        orderDetailData.orderItemId,
+      );
+      if (myReview && reviewTextRef.current) {
+        reviewTextRef.current.value = myReview.content;
         setScore(myReview.score);
         setReviewId(myReview.reviewId.toString());
       }
@@ -68,9 +75,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
           reviewParams.score,
           reviewParams.content,
         );
-      }
-      // 조건에 해당하지 않는 경우 오류 발생
-      else {
+      } else {
         throw new Error(
           'orderDetailData를 찾을 수 없거나, reviewId가 제공되지 않았습니다.',
         );
@@ -86,6 +91,9 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
       );
       queryClient.invalidateQueries({
         queryKey: ['ReservationDetailData'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['accommodation'],
       });
       setShowModal(false);
     },
@@ -109,6 +117,7 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
       queryClient.invalidateQueries({
         queryKey: ['ReservationDetailData'],
       });
+
       setShowModal(false);
     },
     onError: (error) => {
@@ -129,7 +138,11 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
         $height="25rem">
         <StyledModalBody>
           <StyledTitle $mt="0">
-            {orderDetailData?.reviewWritten ? '리뷰수정' : '리뷰작성'}
+            {orderDetailData?.reviewStatus === 'WRITTEN'
+              ? '리뷰수정'
+              : orderDetailData?.reviewStatus === 'NOT_WRITABLE'
+                ? '리뷰작성'
+                : ''}
           </StyledTitle>
           <StyledFlexContainer $justifyContent="">
             <div>
@@ -174,13 +187,12 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
                 {score}
               </span>
             </div>
-            {orderDetailData?.reviewWritten && (
+            {orderDetailData?.reviewStatus === 'WRITTEN' && (
               <StyledButton onClick={deleteReview}>리뷰삭제</StyledButton>
             )}
           </StyledFlexContainer>
           <StyledTextArea
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
+            ref={reviewTextRef}
             placeholder="리뷰를 입력해주세요."
             style={{ marginTop: '1rem' }}
           />
@@ -200,15 +212,22 @@ const ReviewWriteModal: React.FC<ModalProps> = ({
             </StyledButton>
             <StyledButton
               $variant="primary"
-              onClick={() =>
+              onClick={() => {
+                const reviewContent = reviewTextRef.current
+                  ? reviewTextRef.current.value
+                  : '';
                 submitReview({
                   reviewId: reviewId, // 이 값이 undefined이면 새 리뷰를 제출
-                  content: reviewText,
+                  content: reviewContent,
                   score: score,
-                })
-              }
+                });
+              }}
               style={{ width: '40%' }}>
-              {orderDetailData?.reviewWritten ? '수정하기' : '등록하기'}
+              {orderDetailData?.reviewStatus === 'WRITTEN'
+                ? '수정하기'
+                : orderDetailData?.reviewStatus === 'NOT_WRITABLE'
+                  ? '등록하기'
+                  : ''}
             </StyledButton>
           </StyledFlexContainer>
         </StyledModalBody>
@@ -239,7 +258,7 @@ export const StyledModal = styled.div`
 
 export const StyledModalContent = styled.div<{
   $width?: string;
-  $height?: string; // Fixed the typo in height
+  $height?: string;
 }>`
   position: relative;
   display: flex;
@@ -248,7 +267,7 @@ export const StyledModalContent = styled.div<{
   border-radius: 5px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
   width: ${(props) => props.$width || 'auto'};
-  height: ${(props) => props.$height || 'auto'}; // Fixed the typo in height
+  height: ${(props) => props.$height || 'auto'};
   max-height: 80vh;
   overflow-y: auto;
 `;

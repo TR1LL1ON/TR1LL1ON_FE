@@ -1,74 +1,109 @@
-import { ProductReview } from '@/interfaces/interface';
-import { StyledSubTitle } from '@/style/payment/paymentStyle';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  StyledFlexContainer,
+  StyledSubTitle,
+  StyledText,
+} from '@/style/payment/paymentStyle';
 import {
   StyleReviewContainer,
   StyleReviewItem,
-  StyledReviewButton,
   StyledStar,
-} from '../Review';
-import useDisplayedReview from '@/hooks/useDisplayedReview';
+} from '@/style/products/reviewStyle';
+
 import { calculateAverageScore, reviewStar } from '@/util/reviewUtilities';
 import { StyledBold } from '@/style/products/productsStyle';
+import React, { useEffect, useState } from 'react';
+import useRoomReviews from '@/hooks/useRoomReviews';
+import Pagination from '../Pagination';
+import sortReviews from '@/util/sortReviews';
+import { ProductReview } from '@/interfaces/interface';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface ModalReviewProps {
-  productReview: ProductReview[] | undefined;
-  name: string | undefined;
+  name: string;
   roomName: string;
   roomId: number;
 }
 
-const ModalReview = ({
-  productReview,
-  name,
-  roomName,
-  roomId,
-}: ModalReviewProps) => {
-  console.log(productReview);
-  const filteredReview = productReview?.filter(
-    (review) => review.productDetails.productId === roomId,
-  );
-  // 표시 할 리뷰 개수 / 전체보기 버튼 관리 hook
-  const { displayedReview, showAllReview } = useDisplayedReview(filteredReview);
+const ModalReview = ({ name, roomName, roomId }: ModalReviewProps) => {
+  const [sort, setSort] = useState('reviewDate,DESC');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [sortedReviews, setSortedReviews] = useState<ProductReview[]>([]);
 
-  // 객실 리뷰 평균 평점
-  const averageScore = calculateAverageScore(filteredReview);
+  const { data, isLoading, isError } = useRoomReviews(roomId);
+
+  useEffect(() => {
+    if (isLoading || isError) return;
+    const reviews = data || [];
+    setSortedReviews(sortReviews(reviews, sort));
+  }, [data, isLoading, isError, sort]);
+
+  const averageScore = data ? calculateAverageScore(data) : 0;
   const formattedAverageScore = averageScore.toFixed(1);
+
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <div>Error loading reviews</div>;
+
+  const pageSize = 3;
+  const startIndex = currentPage * pageSize;
+  const endIndex = startIndex + pageSize;
+  const visibleReviews = sortedReviews.slice(startIndex, endIndex);
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(e.target.value);
+    setCurrentPage(0);
+  };
 
   return (
     <>
-      <StyledSubTitle $mt="3rem">
+      <StyledSubTitle $mt="2rem" $mb=".5rem">
         {name} {roomName} 후기 ★ {formattedAverageScore}
       </StyledSubTitle>
+      <StyledFlexContainer>
+        <StyledText>&nbsp; 총 {data?.length || 0}개의 후기</StyledText>
+        <StyledText>
+          <select value={sort} onChange={handleSortChange}>
+            <option value="reviewDate,DESC">최신순</option>
+            <option value="reviewDate,ASC">오래된순</option>
+            <option value="score,DESC">평점 높은순</option>
+            <option value="score,ASC">평점 낮은순</option>
+          </select>
+        </StyledText>
+      </StyledFlexContainer>
       <StyleReviewContainer
         $justifyContent="flex-stat"
         $alignItems="center"
         $flexDirection="column">
-        {displayedReview.length > 0 ? (
-          displayedReview.map((review) => (
-            <StyleReviewItem key={uuidv4()}>
+        {visibleReviews.length > 0 ? (
+          visibleReviews.map((review) => (
+            <StyleReviewItem $mb="0" key={review.reviewId}>
               <p>
-                <p>
-                  <StyledStar> {reviewStar(review.score)}</StyledStar>
+                <span>
                   <StyledBold> {review.userDetails.userName}</StyledBold>
-                </p>
+                  <StyledStar> {reviewStar(review.score)}</StyledStar>
+                </span>
                 <span>{review.reviewDate}</span>
               </p>
               <p>{review.content}</p>
             </StyleReviewItem>
           ))
         ) : (
-          <StyleReviewItem $mt="0" $mb="0" $padding=".5rem" $textAlign="center">
+          <StyleReviewItem
+            $mt="1rem"
+            $mb="0"
+            $padding=".5rem"
+            $textAlign="center">
             {name} {roomName}에 대한 리뷰가 없습니다. <br />
             방문 후 리뷰를 남겨주세요 😊
           </StyleReviewItem>
         )}
+
+        <Pagination
+          totalItems={sortedReviews.length}
+          itemsPerPage={pageSize}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </StyleReviewContainer>
-      {filteredReview && filteredReview.length > 3 && (
-        <StyledReviewButton onClick={showAllReview}>
-          객실 후기 {filteredReview.length}개 모두 보기
-        </StyledReviewButton>
-      )}
     </>
   );
 };

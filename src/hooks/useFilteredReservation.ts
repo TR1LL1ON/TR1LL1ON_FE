@@ -1,5 +1,5 @@
 import { getCarts } from '@/api/service';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 
 const useFilteredReservation = () => {
@@ -7,22 +7,20 @@ const useFilteredReservation = () => {
   const params = new URLSearchParams(location.search);
   const productIds = params.getAll('productId').map((e) => Number(e)) ?? [];
 
-  const {
-    data: rooms,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: rooms, error } = useSuspenseQuery({
     queryKey: ['reservations', productIds],
-    queryFn: () => getCarts(),
+    queryFn: getCarts,
   });
 
   console.log(rooms);
 
-  const filteredRooms = rooms?.filter((room) =>
+  if (error) throw error;
+
+  const filteredRooms = rooms.filter((room) =>
     productIds.includes(room.productId),
   );
 
-  return { filteredRooms, isLoading, error };
+  return { filteredRooms };
 };
 
 export default useFilteredReservation;

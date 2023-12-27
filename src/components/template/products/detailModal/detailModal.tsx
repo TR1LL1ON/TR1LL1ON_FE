@@ -17,21 +17,15 @@ import Carousel from './carousel';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { LuUser } from 'react-icons/lu';
 import CartBtn from '@/components/layout/Button/cartBtn';
-
-import { Link } from 'react-router-dom';
 import ModalReview from './modalReview';
-
 import {
   productsIconMapping,
   productsTextMapping,
   roomsIconMapping,
   roomsTextMapping,
-} from '../iconAndTextMapping';
-import { useState } from 'react';
-import useAddCart from '@/hooks/useAddCart';
+} from '../Facility/iconAndTextMapping';
 import { useRecoilValue } from 'recoil';
-import { guestCountState, reservationState } from '@/states/atom';
-import CartModal from '@/components/layout/modal/CartModal';
+import { reservationState } from '@/states/atom';
 import { formatDateToMonthDay } from '@/util/util';
 import { calculateCancellation } from '@/util/calculateCancellation';
 
@@ -40,28 +34,20 @@ const DetailModal: React.FC<ModalProps> = ({
   infoData,
   roomData,
   imageUrls,
-  productReview,
   name,
+  handleAddCart,
+  handleSignInNavigation,
+  setShowCartModal,
+  setShowInformSignInModal,
 }) => {
   // 모달 밖 영역 클릭 시 모달 닫기
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const [showCartModal, setShowCartModal] = useState(false);
-  const guestCount = useRecoilValue(guestCountState);
   const { checkIn, checkOut } = useRecoilValue(reservationState);
-
   const { cancellationStatus, isCancelable } = calculateCancellation(checkIn);
   const textColor = isCancelable ? 'green' : 'red'; // 취소 가능하면 녹색, 불가능하면 빨간색
-
-  const handleAddCart = useAddCart(
-    checkIn,
-    checkOut,
-    guestCount.totals,
-    roomData?.averPrice ?? 0,
-    roomData?.roomId ?? 0,
-  );
 
   function getTrueFacilities(
     facilities: AccommodationFacility | RoomFacility | undefined,
@@ -84,7 +70,6 @@ const DetailModal: React.FC<ModalProps> = ({
 
   return (
     <StyledModal onClick={closeModal}>
-      {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
       <StyledModalContent
         onClick={(e) => e.stopPropagation()}
         $width="40rem"
@@ -176,8 +161,7 @@ const DetailModal: React.FC<ModalProps> = ({
             </StyledFlexContainer>
           </StyledModalFlexContainer>
           <ModalReview
-            productReview={productReview}
-            name={name}
+            name={name ?? '숙소'}
             roomName={roomData.roomName}
             roomId={roomData.roomId}
           />
@@ -253,26 +237,19 @@ const DetailModal: React.FC<ModalProps> = ({
             <CartBtn
               handleAddCart={handleAddCart}
               setShowCartModal={setShowCartModal}
+              setShowInformSignInModal={setShowInformSignInModal}
             />
-            <Link to={`/payment?productId=${roomData.roomId}`}>
-              <StyledButton
-                onClick={() => {
-                  handleAddCart()
-                    .then(() => {
-                      console.log('카드 담기 성공');
-                    })
-                    .catch((error) => {
-                      console.log(error, '카드 담기 에러');
-                    });
-                }}
-                $variant="primary"
-                style={{
-                  width: '15rem',
-                  margin: '0.5rem',
-                }}>
-                예약하기
-              </StyledButton>
-            </Link>
+            <StyledButton
+              onClick={() =>
+                handleSignInNavigation(`/payment?productId=${roomData.roomId}`)
+              }
+              $variant="primary"
+              style={{
+                width: '15rem',
+                margin: '0.5rem',
+              }}>
+              예약하기
+            </StyledButton>
           </StyledFlexContainer>
         </StyledModalFooter>
       </StyledModalContent>
@@ -353,10 +330,12 @@ export const StyledModalContent = styled.div<{
   background: #fff;
   border-radius: 5px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-  width: ${(props) => props.$width || 'auto'};
+  max-width: ${(props) => props.$width || 'auto'};
   height: ${(props) => props.$heigh || 'auto'};
   max-height: 80vh;
-  overflow-y: auto;
+  @media screen and (min-width: 570px) and (max-width: 700px) {
+    width: 95%;
+  }
 `;
 
 const CarouselWrapper = styled.div`

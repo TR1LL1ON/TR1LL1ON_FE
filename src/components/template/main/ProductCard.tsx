@@ -30,9 +30,9 @@ export const ProductCard = ({
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const navigate = useNavigate();
-
+  const formattedScore = score.toFixed(1);
   const handleCardClick = () => {
-    navigate(`/products/${accommodationID}`);
+    navigate(`/products/${accommodationID}`, { state: { formattedScore } });
   };
 
   const words = address.split(' ');
@@ -62,8 +62,10 @@ export const ProductCard = ({
         <StyledLabel>{shortenedAddress}</StyledLabel>
         <StyledProductTitle>{name}</StyledProductTitle>
         <StyledProductPrice>
-          <StyledScore>★ {score}</StyledScore>
-          <StyledSalePrice>{price.toLocaleString()}원</StyledSalePrice>
+          <StyledScore>★ {formattedScore}</StyledScore>
+          <StyledSalePrice>
+            {price !== null ? price.toLocaleString() : '0'}원
+          </StyledSalePrice>
         </StyledProductPrice>
       </StyledCardTextWrap>
     </StyledProductCard>

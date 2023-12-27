@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import DatePicker from './DatePicker';
+import React, { Suspense } from 'react';
+import LoadingSpinner from '@/components/LoadingSpinner';
+
+const DatePicker = React.lazy(() => import('./DatePicker'));
 
 interface CalenderModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,7 +29,9 @@ const CalenderModal: React.FC<CalenderModalProps> = ({
         ) : (
           <StyledModalTitle>날짜 선택</StyledModalTitle>
         )}
-        <DatePicker setNights={setNights} onCloseModal={closeModal} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <DatePicker setNights={setNights} onCloseModal={closeModal} />
+        </Suspense>
       </StyledModalContent>
     </StyledModal>
   );

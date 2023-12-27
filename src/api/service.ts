@@ -2,8 +2,10 @@ import axios from 'axios';
 import {
   OrderRequest,
   AccommodationData,
-  ProductReview,
   Cart,
+  AddCart,
+  Reservation,
+  ProductReviewResponse,
 } from '../interfaces/interface';
 import { getCookie, removeCookie } from '@/util/util';
 
@@ -33,11 +35,12 @@ client.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
-      alert('로그인이 필요합니다.');
-      window.location.href = '/';
-    }
-    if (error.response.state === 500) {
+    // if (error.response.status === 401) {
+    //   alert('로그인이 필요합니다.');
+    //   window.location.href = '/';
+    // }
+    if (error.response.status === 500) {
+      alert('세션이 만료되었습니다. 다시 로그인 후 시도해 주세요.');
       removeCookie();
       window.location.href = '/';
     }
@@ -51,27 +54,25 @@ export const postSignUp = async (
   name: string,
   password: string,
 ) => {
-  const res = await client.post('auth/signup', {
-    email: email,
-    name: name,
-    password: password,
+  await client.post('auth/signup', {
+    email,
+    name,
+    password,
   });
-  return res;
 };
 
 // 로그인
 export const postLogin = async (email: string, password: string) => {
   const res = await client.post('auth/login', {
-    email: email,
-    password: password,
+    email,
+    password,
   });
   return res;
 };
 
 // 로그아웃
 export const postLogout = async () => {
-  const res = await client.post('auth/logout');
-  return res;
+  await client.post('auth/logout');
 };
 
 // 숙소 리스트 조회 (전체, 카테고리, 지역)
@@ -150,26 +151,13 @@ export const getCarts = async () => {
 };
 
 // 장바구니 상품 추가
-export const postCarts = async (
-  checkIn: string | undefined,
-  checkOut: string | undefined,
-  personNumber: number,
-  price: number,
-  productID: number,
-) => {
-  const res = await client.post(`carts/${productID}`, {
-    checkIn,
-    checkOut,
-    personNumber,
-    price,
-  });
-  return res;
+export const postCart = async ({ productId, ...payload }: AddCart) => {
+  await client.post(`carts/${productId}`, payload);
 };
 
 // 장바구니 상품 삭제
-export const deleteCarts = async (cartID: number) => {
-  const res = await client.delete(`carts/${cartID}`);
-  return res;
+export const deleteCart = async (cartID: number) => {
+  await client.delete(`carts/${cartID}`);
 };
 
 // 내 리뷰 조회
@@ -212,10 +200,22 @@ export const deleteReviews = async (reviewID: string) => {
 };
 
 //숙소 리뷰 조회
+
 export const getProductsReview = async (
   accommodationID: string,
-): Promise<ProductReview[]> => {
-  const res = await client.get(`reviews/${accommodationID}`);
+  page: number,
+  size: number,
+  sort: string,
+): Promise<ProductReviewResponse> => {
+  const res = await client.get(
+    `reviews/${accommodationID}?page=${page}&size=${size}&sort=${sort}`,
+  );
+  return res.data;
+};
+
+//객실 리뷰 조회
+export const getRoomReview = async (productId: number) => {
+  const res = await client.get(`/reviews/products/${productId}`);
   return res.data;
 };
 
@@ -243,14 +243,14 @@ export const deleteLikes = async (accommodationID: string) => {
 };
 
 // 전제 주문목록 조회(마이페이지)
-export const getUser = async () => {
-  const res = await client.get(`user`);
-  return res;
+export const getUser = async (): Promise<Reservation[]> => {
+  const res = await client.get<Reservation[]>(`users`);
+  return res.data;
 };
 
 // 전제 주문목록 상세조회(마이페이지)
 export const getUserDetail = async (orderID: number) => {
-  const res = await client.get(`user/details/${orderID}`);
+  const res = await client.get(`users/details/${orderID}`);
   return res;
 };
 export interface SummaryData {
