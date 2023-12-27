@@ -75,7 +75,7 @@ export const postLogout = async () => {
   await client.post('auth/logout');
 };
 
-//getProducts 통합 - 기본 20개
+// 숙소 리스트 조회 (전체, 카테고리, 지역)
 export const getProducts = async (
   options: {
     checkIn?: string;
@@ -117,7 +117,7 @@ export const getProducts = async (
   return res;
 };
 
-// 전체 숙소 조회
+// 전체 숙소 리스트 조회 - 지도 렌더
 export const getAllProducts = async () => {
   const res = await client.get(`products/map`);
   return res;
@@ -225,6 +225,11 @@ export const getLikes = async () => {
   return res;
 };
 
+// // 숙소 찜 토글
+// export const toggleLikes = async (accommodationID: string) => {
+//   const res = await client.post(`likes/${accommodationID}`);
+//   return res;
+// };
 // 숙소 찜 누르기
 export const postLikes = async (accommodationID: string) => {
   const res = await client.post(`likes/${accommodationID}`);

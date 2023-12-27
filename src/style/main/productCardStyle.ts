@@ -32,6 +32,7 @@ export const StyledThumbnail = styled.div`
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 1rem;
+  position: relative;
 `;
 
 export const StyledImage = styled.img<{ src: string }>`
