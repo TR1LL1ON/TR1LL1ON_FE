@@ -4,19 +4,11 @@ import { StyledButton } from '@/style/payment/paymentStyle';
 import { StyledTitle, StyledFlexContainer } from '@/style/payment/paymentStyle';
 import { FaStar } from 'react-icons/fa';
 import { useState, useEffect, useRef } from 'react';
-import {
-  postReviews,
-  getReviews,
-  putReviews,
-  deleteReviews,
-} from '@/api/service';
-import {
-  useSuspenseQuery,
-  useQueryClient,
-  useMutation,
-} from '@tanstack/react-query';
+import { postReviews, putReviews, deleteReviews } from '@/api/service';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { AxiosResponse, AxiosError } from 'axios';
 import { findMyReview } from '@/util/util';
+import { useGetReview } from '@/hooks/useGetReview';
 
 const ReviewWriteModal = ({
   setShowModal,
@@ -34,18 +26,11 @@ const ReviewWriteModal = ({
   const [score, setScore] = useState(0);
   const [hover, setHover] = useState(0);
 
-  const { data } = useSuspenseQuery({
-    queryKey: ['accommodation'],
-    queryFn: () => getReviews(),
-    staleTime: 60000,
-  });
+  const data = useGetReview();
 
   useEffect(() => {
-    if (data?.data && orderDetailData?.orderItemId) {
-      const myReview = findMyReview(
-        data.data.content,
-        orderDetailData.orderItemId,
-      );
+    if (data && orderDetailData?.orderItemId) {
+      const myReview = findMyReview(data.content, orderDetailData.orderItemId);
       if (myReview && reviewTextRef.current) {
         reviewTextRef.current.value = myReview.content;
         setScore(myReview.score);

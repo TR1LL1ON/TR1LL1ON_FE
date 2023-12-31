@@ -74,7 +74,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ data }) => {
 
 export default ReservationCard;
 
-const StyledReservationContainer = styled(StyledFlexContainer)`
+export const StyledReservationContainer = styled(StyledFlexContainer)`
   &:hover {
     background-color: #eeeeee;
   }

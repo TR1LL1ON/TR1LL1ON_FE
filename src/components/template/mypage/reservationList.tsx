@@ -46,7 +46,7 @@ const ReservationList = () => {
       <StyledSubTitle
         $mt="2rem"
         style={{ paddingInline: '5rem', fontSize: '1.2rem' }}>
-        예약내역
+        총 {reservationData?.length}건의 예약내역
       </StyledSubTitle>
       <StyledWrapper
         style={{
@@ -90,13 +90,13 @@ const ReservationList = () => {
 
 export default ReservationList;
 
-const PaginationContainer = styled.div`
+export const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   padding: 1rem;
 `;
 
-const PageButton = styled.button`
+export const PageButton = styled.button`
   border: none;
   background-color: #f0f0f0;
   margin: 0 5px;
@@ -115,17 +115,17 @@ const PageButton = styled.button`
   }
 `;
 
-const fadeIn = keyframes`
+export const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
 `;
 
-const fadeOut = keyframes`
+export const fadeOut = keyframes`
   from { opacity: 1; }
   to { opacity: 0; }
 `;
 
-const StyledReservationList = styled.div.withConfig({
+export const StyledReservationList = styled.div.withConfig({
   shouldForwardProp: (prop) => !['isFadingOut'].includes(prop),
 })<StyledReservationListProps>`
   animation: ${(props) => (props.isFadingOut ? fadeOut : fadeIn)} 300ms
